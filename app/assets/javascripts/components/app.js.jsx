@@ -3,10 +3,15 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var App = React.createClass({
 
+  renderNav: function() {
+    return <Nav {...this.props} />;
+  },
   render: function() {
+    var cn = "logged-out"
+
     return (
-      <div id="main">
-        <Nav />
+      <div id="main" className={cn}>
+        {this.renderNav()}
         <RouteHandler {...this.props}/>
       </div>
     );

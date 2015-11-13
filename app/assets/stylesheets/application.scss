@@ -1,2 +1,55 @@
+/*
+ *= require_self
+ */
+
+// fonts and colors
+@import "partials/*";
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+@import "nav";
+
+@import "logged_out";
+
+body {
+  font-family: "Avenir-Medium";
+  color: $darker-grey;
+}
+
+#main {
+  padding-top: 80px;
+  background: #03387a;
+  height: 100vh;
+
+  &.logged-out {
+    background: -moz-linear-gradient(180deg, #03387a 0%, #3c88d1 100%);
+    background: -webkit-linear-gradient(180deg, #03387a 0%,#3c88d1 100%);
+    background: linear-gradient(180deg, #03387a 0%,#3c88d1 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03387a', endColorstr='#3c88d1',GradientType=1 );
+  }
+}
+
+.btn {
+  height: 40px;
+  min-width: 100px;
+
+  &.primary {
+    color: rgba(153, 153, 153, 0.69);
+    border: 1px solid #cccccc;
+    background: -moz-linear-gradient(180deg, #ffffff 0%, #dddddd 100%);
+    background: -webkit-linear-gradient(180deg, #ffffff 0%,#dddddd 100%);
+    background: linear-gradient(180deg, #ffffff 0%,#dddddd 100%);
+
+    &:hover {
+      color: $white;
+      border: 1px solid $primary-border;
+      box-shadow: 0px 1px 0px 0px #144980;
+      background: -moz-linear-gradient(180deg, #176fd0 0%, #1562b3 100%);
+      background: -webkit-linear-gradient(180deg, #176fd0 0%,#1562b3 100%);
+      background: linear-gradient(180deg, #176fd0 0%,#1562b3 100%);
+    }
+  }
+}
+
+

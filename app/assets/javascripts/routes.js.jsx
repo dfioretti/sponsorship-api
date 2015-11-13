@@ -3,9 +3,9 @@ var Route = ReactRouter.Route,
 
 this.AppRoutes = (
   <Route handler={App}>
-    <Route name='sign_in' handler={SignIn} path='/sign_in' />
-    <Route name='sign_up' handler={SignUp} path='/sign_up' />
+    <Route name='account_login' handler={AccountLogin} path='/account_login' />
+    <Route name='create_account' handler={CreateAccount} path='/create_account' />
     <Route name='password_recovery' handler={PasswordRecovery} path='/password_recovery' />
-    <DefaultRoute handler={SignIn} />
+    <DefaultRoute handler={AccountLogin} />
   </Route>
 );
