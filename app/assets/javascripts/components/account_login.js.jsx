@@ -11,7 +11,14 @@ var AccountLogin = React.createClass({
       remember_me: ReactDOM.findDOMNode(this.refs.remember).value
     };
 
-    Dispatcher.post(APIEndpoints.LOGIN, params)
+    $.auth.emailSignIn(params)
+      .then(function(user) {
+        console.log(user);
+      }.bind(this))
+      .fail(function(resp) {
+        var message = resp.data.errors.join(', ');
+        PubSub.publish('alert.update', {message: message, alertType: "danger"});
+      }.bind(this));
   },
   render: function() {
     return (

@@ -5,5 +5,5 @@ class User < ActiveRecord::Base
           :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  validates_confirmation_of :password
+  validates_presence_of :name
 end

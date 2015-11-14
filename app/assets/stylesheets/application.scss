@@ -30,6 +30,16 @@ body {
   }
 }
 
+.alert {
+  opacity: 0.69;
+  padding: 10px 20px;
+  border-radius: 0px;
+
+  button.close {
+    right: 0px;
+  }
+}
+
 .btn {
   height: 40px;
   min-width: 100px;

@@ -14,13 +14,6 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  # (TODO) Needs API to check logged in and sessions.
-  # Possibly should be storing sessions.
-
-  def signed_in?
-    true
-  end
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up).push(:name)
     devise_parameter_sanitizer.for(:account_update).push(:name, :image)

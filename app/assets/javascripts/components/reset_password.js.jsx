@@ -1,21 +1,19 @@
 var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
-var CreateAccount = React.createClass({
-
-  createUser: function(e) {
+var ResetPassword = React.createClass({
+  reset: function(e) {
     e.preventDefault();
 
     var params = {
-      name: ReactDOM.findDOMNode(this.refs.name).value,
-      email: ReactDOM.findDOMNode(this.refs.email).value,
       password: ReactDOM.findDOMNode(this.refs.password).value,
       password_confirmation: ReactDOM.findDOMNode(this.refs.confirmation).value
     };
 
-    $.auth.emailSignUp(params)
+    $.auth.updatePassword(params)
       .then(function(user) {
-        console.log(user);
+        var message = user.data.message;
+        PubSub.publish('alert.update', {message: message, alertType: "info"});
       }.bind(this))
       .fail(function(resp) {
         var message = resp.data.errors.full_messages.join(', ');
@@ -29,15 +27,7 @@ var CreateAccount = React.createClass({
           <div className="image-top">
             <img src=""/>
           </div>
-          <form onSubmit={this.createUser}>
-            <div className="form-group">
-              <span className="text-icon email"></span>
-              <input type="text" className="form-control" ref="name" placeholder="Analyst Name" />
-            </div>
-            <div className="form-group">
-              <span className="text-icon email"></span>
-              <input type="text" className="form-control" ref="email" placeholder="Email Address" />
-            </div>
+          <form onSubmit={this.reset}>
             <div className="form-group">
               <span className="text-icon password"></span>
               <input type="password" className="form-control" ref="password" placeholder="Password" />
@@ -47,7 +37,7 @@ var CreateAccount = React.createClass({
               <input type="password" className="form-control" ref="confirmation" placeholder="Retype Password" />
             </div>
             <div className="form-group">
-              <button className="pull-right btn primary" type="submit">Create</button>
+              <button className="pull-right btn primary" type="submit">Update</button>
             </div>
           </form>
         </div>

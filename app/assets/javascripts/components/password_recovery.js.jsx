@@ -6,10 +6,19 @@ var PasswordRecovery = React.createClass({
     e.preventDefault();
 
     var params = {
-      email: ReactDOM.findDOMNode(this.refs.email).value
+      email: ReactDOM.findDOMNode(this.refs.email).value,
+      redirect_url: APIEndpoints.PASSWORD_RESET
     };
 
-    Dispatcher.post(APIEndpoints.PASSWORD, params)
+    $.auth.requestPasswordReset(params)
+      .then(function(user) {
+        var message = user.message
+        PubSub.publish('alert.update', {message: message, alertType: "info"});
+      }.bind(this))
+      .fail(function(resp) {
+        var message = resp.data.errors.join(', ');
+        PubSub.publish('alert.update', {message: message, alertType: "danger"});
+      }.bind(this));
   },
   render: function() {
     return (

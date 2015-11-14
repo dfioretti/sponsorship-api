@@ -1,8 +1,11 @@
 //= require jquery
 //= require jquery_ujs
+//= require jquery-deparam
+//= require jquery.cookie
+//= require pubsub
+//= require jtoker
+
 //= require bootstrap-sprockets
-//= require EventEmitter.min
-//= require Immutable.min
 //= require turbolinks
 
 //= require react
