@@ -5,7 +5,7 @@
     apiUrl: "/api/v1",
 
     passwordResetSuccessUrl: function() {
-      return "http://localhost:3000/reset_password";
+      return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
     }
   });
 </script>

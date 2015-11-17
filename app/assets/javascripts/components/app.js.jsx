@@ -24,7 +24,9 @@ var App = React.createClass({
       }.bind(this))
       .fail(function(resp) {
         this.setState({loaded: true});
-        this.transitionTo('/account_login');
+        if (LoggedOutPaths.indexOf(window.location.pathname) == -1) {
+          this.transitionTo('/account_login');
+        }
       }.bind(this));
   },
   renderAlerts: function() {
