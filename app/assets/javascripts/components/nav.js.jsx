@@ -18,6 +18,38 @@ var Nav = React.createClass({
   signOut: function() {
     $.auth.signOut();
   },
+  renderMenu: function() {
+    var menu;
+    if (typeof(this.state.name) !== 'undefined') {
+      menu = (
+        <li>
+          <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div className="nav-user-image">
+              <span className="user-icon"></span>
+            </div>
+            <div className="nav-user-name">
+              {this.state.name}
+            </div>
+          </a>
+          <ul className="dropdown-menu" aria-labelledby="user-dropdown">
+            <li><a onClick={this.signOut}>Sign out</a></li>
+          </ul>
+        </li>
+      )
+    } else {
+      menu = (
+        <li>
+          <div className="nav-user-image">
+            <span className="user-icon"></span>
+          </div>
+          <div className="nav-user-name">
+            {this.state.name}
+          </div>
+        </li>
+      )
+    }
+    return menu;
+  },
   render: function() {
     return (
       <nav id="navbar" className="nav navbar-default navbar-fixed-top">
@@ -32,21 +64,8 @@ var Nav = React.createClass({
         <div className="navbar-collapse collapse">
           <div className="nav navbar-nav navbar-left nav-brand">Teneo</div>
           <ul className="nav navbar-nav navbar-right nav-user">
-            <li>
-              <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <div className="nav-user-image">
-                  <span className="user-icon"></span>
-                </div>
-                <div className="nav-user-name">
-                  {this.state.name}
-                </div>
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="user-dropdown">
-                <li><a onClick={this.signOut}>Sign out</a></li>
-              </ul>
-            </li>
+            {this.renderMenu()}
           </ul>
-
         </div>
       </nav>
     );

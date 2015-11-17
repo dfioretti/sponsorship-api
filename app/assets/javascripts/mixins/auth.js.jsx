@@ -1,9 +1,14 @@
 var Auth = {
-  statics: {
-    willTransitionTo: function (transition, component) {
-      if ($.isEmptyObject($.auth.user)) {
-        transition.redirect('/account_login');
-      }
-    }
+  getInitialState: function() {
+    return {loaded: false}
   },
+  componentDidMount: function() {
+    $.auth.validateToken()
+      .then(function(user) {
+        this.setState({loaded: true});
+      }.bind(this))
+      .fail(function(resp) {
+        this.transitionTo('/account_login');
+      }.bind(this));
+  }
 }
