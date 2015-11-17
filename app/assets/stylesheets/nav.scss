@@ -20,13 +20,23 @@
   }
 
   .nav-user {
-    > * {
-      float: right;
+    li a {
+      padding-top: 0px;
 
-      &:last-child {
-        margin-right: 10px;
+      &:focus, &:hover, &:active {
+        background-color: transparent;
+      }
+
+      > * {
+        float: right;
       }
     }
+
+    .nav-user-name {
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
     .nav-user-image {
       width: 50px;
       height: 50px;
@@ -36,6 +46,11 @@
       background-repeat: no-repeat;
       background-position: center center;
       background-image: image-url("login/icon-user-white.svg");
+    }
+
+    .dropdown-menu {
+      border-radius: 3px;
+      margin-top: 20px;
     }
   }
 }

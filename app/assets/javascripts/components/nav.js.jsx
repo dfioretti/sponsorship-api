@@ -15,6 +15,9 @@ var Nav = React.createClass({
     PubSub.unsubscribe(this.state.st);
     PubSub.unsubscribe(this.state.ut);
   },
+  signOut: function() {
+    $.auth.signOut();
+  },
   render: function() {
     return (
       <nav id="navbar" className="nav navbar-default navbar-fixed-top">
@@ -28,12 +31,22 @@ var Nav = React.createClass({
         <div className="nav-center">{this.props.title}</div>
         <div className="navbar-collapse collapse">
           <div className="nav navbar-nav navbar-left nav-brand">Teneo</div>
-          <div className="nav navbar-nav navbar-right nav-user">
-            <div className="nav-user-image">
-              <span className="user-icon"></span>
-            </div>
-            {this.state.name}
-          </div>
+          <ul className="nav navbar-nav navbar-right nav-user">
+            <li>
+              <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div className="nav-user-image">
+                  <span className="user-icon"></span>
+                </div>
+                <div className="nav-user-name">
+                  {this.state.name}
+                </div>
+              </a>
+              <ul className="dropdown-menu" aria-labelledby="user-dropdown">
+                <li><a onClick={this.signOut}>Sign out</a></li>
+              </ul>
+            </li>
+          </ul>
+
         </div>
       </nav>
     );
