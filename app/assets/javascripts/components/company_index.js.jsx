@@ -5,7 +5,7 @@ var CompanyIndex = React.createClass({
   mixins: [ Navigation ],
   render: function() {
     return (
-      <div className="centered large company-index">
+      <div className="centered company-index">
         <div className="top">
           <p className="top-title">Choose Company</p>
         </div>
