@@ -7,6 +7,7 @@ this.AppRoutes = (
     <Route name='create_account' handler={CreateAccount} path='/create_account' />
     <Route name='password_recovery' handler={PasswordRecovery} path='/password_recovery' />
     <Route name='reset_password' handler={ResetPassword} path='/reset_password' />
-    <DefaultRoute handler={AccountLogin} />
+    <Route name='choose_company' handler={CompanyIndex} path='/choose_company'/>
+    <DefaultRoute handler={CompanyIndex}/>
   </Route>
 );

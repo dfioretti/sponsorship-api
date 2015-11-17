@@ -20,13 +20,22 @@
   }
 
   .nav-user {
-    width: 50px;
-    height: 50px;
-    margin-top: -5px;
-    border-radius: 50%;
-    background-color: $darker-grey;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-image: image-url("login/icon-user-white.svg");
+    > * {
+      float: right;
+
+      &:last-child {
+        margin-right: 10px;
+      }
+    }
+    .nav-user-image {
+      width: 50px;
+      height: 50px;
+      margin-top: -5px;
+      border-radius: 50%;
+      background-color: $darker-grey;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-image: image-url("login/icon-user-white.svg");
+    }
   }
 }
