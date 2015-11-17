@@ -15,7 +15,7 @@ var CreateAccount = React.createClass({
 
     $.auth.emailSignUp(params)
       .then(function(user) {
-        console.log(user);
+        // console.log(user);
       }.bind(this))
       .fail(function(resp) {
         var message = resp.data.errors.full_messages.join(', ');

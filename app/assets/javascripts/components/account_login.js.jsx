@@ -13,7 +13,7 @@ var AccountLogin = React.createClass({
 
     $.auth.emailSignIn(params)
       .then(function(user) {
-        console.log(user);
+        // console.log(user);
       }.bind(this))
       .fail(function(resp) {
         var message = resp.data.errors.join(', ');
