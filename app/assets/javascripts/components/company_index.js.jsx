@@ -3,6 +3,35 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var CompanyIndex = React.createClass({
   mixins: [ Navigation ],
+  setCompany: function(e) {
+    CompaniesStore.setCompany(e.id);
+    this.transitionTo('/dashboard/' + e.id);
+  },
+  renderList: function() {
+      var list = $.map(CompaniesStore.getState().companies, function(company){
+        var ratio = company.score/5;
+        var color = '#' + pickHex('ff0000', 'ffd300', ratio);
+        var barStyle = {backgroundColor: color, width: 100 * ratio}
+        var colorStyle = {color: color}
+        return (
+          <tr className="company-cell" key={company.id} onClick={this.setCompany.bind(this, company)}>
+            <td>{company.name}</td>
+            <td>
+              <div className="bkg-bar">
+                <div className="fill-bar" style={barStyle}></div>
+              </div>
+              {company.risk}
+            </td>
+            <td style={colorStyle}>{company.score}</td>
+          </tr>
+        );
+      }.bind(this));
+    return (
+      <tbody>
+        {list}
+      </tbody>
+    );
+  },
   render: function() {
     return (
       <div className="centered company-index">
@@ -18,13 +47,7 @@ var CompanyIndex = React.createClass({
                 <th><a href="#">Gov. Score<span className="caret"></span></a></th>
               </tr>
             </thead>
-            <tbody>
-              <tr className="company-cell">
-                <td>Ford Motor Company (F)</td>
-                <td><div></div>High</td>
-                <td>3.6</td>
-              </tr>
-            </tbody>
+            {this.renderList()}
           </table>
         </div>
       </div>

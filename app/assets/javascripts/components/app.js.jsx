@@ -16,6 +16,7 @@ var App = React.createClass({
     }.bind(this));
     PubSub.subscribe('auth.signOut.success', function(ev, user) {
       this.transitionTo('/account_login');
+      CompaniesStore.setCurrent();
     }.bind(this));
 
     $.auth.validateToken()

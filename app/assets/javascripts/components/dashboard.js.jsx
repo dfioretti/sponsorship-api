@@ -2,8 +2,10 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var Dashboard = React.createClass({
-  mixins: [ Auth ],
+  componentWillMount: function() {
+    CompaniesStore.setCurrent(this.props.params.id);
+  },
   render: function() {
-    return <div />;
+    return <div>Dashboard</div>;
   }
 });

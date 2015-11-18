@@ -4,6 +4,8 @@
 //= require jquery.cookie
 //= require pubsub
 //= require jtoker
+//= require EventEmitter.min
+//= require Immutable.min
 
 //= require bootstrap-sprockets
 //= require turbolinks
@@ -14,3 +16,16 @@
 //= require react_router_ujs
 
 //= require components
+
+var pickHex = function(color1, color2, ratio) {
+  var hex = function(x) {
+      x = x.toString(16);
+      return (x.length == 1) ? '0' + x : x;
+  };
+
+  var r = Math.ceil(parseInt(color1.substring(0,2), 16) * ratio + parseInt(color2.substring(0,2), 16) * (1-ratio));
+  var g = Math.ceil(parseInt(color1.substring(2,4), 16) * ratio + parseInt(color2.substring(2,4), 16) * (1-ratio));
+  var b = Math.ceil(parseInt(color1.substring(4,6), 16) * ratio + parseInt(color2.substring(4,6), 16) * (1-ratio));
+
+  return hex(r) + hex(g) + hex(b);
+}
