@@ -12,6 +12,7 @@
 
 @import "logged_out";
 @import "company_index";
+@import "dashboard";
 
 body {
   font-family: "Avenir-Medium";
@@ -20,7 +21,7 @@ body {
 
 #main {
   padding-top: 80px;
-  background: #03387a;
+  background: $dark-blue;
   height: 100vh;
 
   &.logged-out {

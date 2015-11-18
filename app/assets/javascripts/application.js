@@ -1,7 +1,9 @@
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require jquery-deparam
 //= require jquery.cookie
+//= require jquery.shapeshift.min
 //= require pubsub
 //= require jtoker
 //= require EventEmitter.min

@@ -1,0 +1,77 @@
+.dashboard {
+  height: 100%;
+
+  .sidebar {
+    width: 250px;
+    height: calc(100% - 80px);
+    background-color: $dark-grey;
+    position: absolute;
+
+    .top {
+
+    }
+
+    .toggle-list {
+
+    }
+
+    .print {
+
+    }
+  }
+
+  .modules-box {
+    position: relative;
+    height: 100%;
+    margin-left: 250px;
+    background-color: $dark-blue;
+    overflow: scroll;
+
+    .modules-container {
+      position: relative;
+      height: 100%;
+      width: 1280px;
+
+      .dashboard-module {
+        position: absolute;
+        width: 400px;
+        height: 320px;
+        background-color: $blue;
+        border-radius: 3px;
+
+        &.tall {
+          height: 660px;
+        }
+
+        .top {
+          height: 50px;
+          padding-top: 17px;
+          padding-bottom: 11px;
+          border-bottom: 1px solid $dark-blue;
+
+          .drag-handle {
+            width: 16px;
+            height: 16px;
+            float: left;
+            margin-left: 20px;
+            cursor: pointer;
+            background-image: image-url("dashboard/icon-move.svg");
+          }
+
+          .top-title {
+            font-size: 14px;
+            color: $white;
+            text-align: center;
+
+          }
+        }
+      }
+
+      .ss-placeholder-child {
+          background: transparent;
+          border: 2px dashed $blue;
+          position: absolute;
+      }
+    }
+  }
+}
