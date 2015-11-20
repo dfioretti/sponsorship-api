@@ -3,6 +3,9 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var CompanyIndex = React.createClass({
   mixins: [ Navigation ],
+  componentWillMount: function() {
+    this.props.setTitle('');
+  },
   setCompany: function(e) {
     CompaniesStore.setCurrent(e.id);
     this.transitionTo('/dashboard/' + e.id);

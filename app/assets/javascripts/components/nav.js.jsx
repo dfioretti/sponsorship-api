@@ -55,6 +55,33 @@ var Nav = React.createClass({
     }
     return menu;
   },
+  renderTitle: function() {
+    if (this.props.title == 'dashboard') {
+      var companyName = CompaniesStore.getState().current.name,
+      companies = $.map(CompaniesStore.getState().companies, function(company) {
+        var link = '/dashboard/' + company.id;
+        return (
+          <li key={company.id}><Link to={link}>{company.name}</Link></li>
+        );
+      });
+
+      return (
+        <div>
+          <a href="#" className="company-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {companyName} <span className="caret"></span>
+          </a>
+          <ul className="dropdown-menu">
+            {companies}
+          </ul>
+        </div>
+      );
+    } else {
+
+      return (
+        <p>{this.props.title}</p>
+      );
+    }
+  },
   render: function() {
     return (
       <nav id="navbar" className="nav navbar-default navbar-fixed-top">
@@ -65,7 +92,7 @@ var Nav = React.createClass({
             <span className="icon-bar"></span>
           </button>
         </div>
-        <div className="nav-center">{this.props.title}</div>
+        <div className="nav-center">{this.renderTitle()}</div>
         <div className="navbar-collapse collapse">
           <div className="nav navbar-nav navbar-left nav-brand">Teneo</div>
           <ul className="nav navbar-nav navbar-right nav-user">

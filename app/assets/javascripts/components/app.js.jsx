@@ -30,18 +30,21 @@ var App = React.createClass({
         }
       }.bind(this));
   },
+  setTitle: function(title) {
+    this.setState({title: title});
+  },
   renderAlerts: function() {
     return <Alerts />;
   },
   renderNav: function() {
-    return <Nav {...this.props} />;
+    return <Nav {...this.props} title={this.state.title}/>;
   },
   render: function() {
     var cn = "logged-out",
       main;
 
     if (this.state.loaded) {
-      main = <RouteHandler {...this.props}/>
+      main = <RouteHandler {...this.props} setTitle={this.setTitle}/>
     } else {
       main = <div>Loading...</div>
     }

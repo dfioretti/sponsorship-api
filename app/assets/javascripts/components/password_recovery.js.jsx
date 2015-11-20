@@ -2,6 +2,9 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var PasswordRecovery = React.createClass({
+  componentWillMount: function() {
+    this.props.setTitle('Password Recovery');
+  },
   recoverPassword: function(e) {
     e.preventDefault();
 

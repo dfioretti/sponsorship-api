@@ -2,6 +2,9 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var ResetPassword = React.createClass({
+  componentWillMount: function() {
+    this.props.setTitle('Reset Password');
+  },
   reset: function(e) {
     e.preventDefault();
 

@@ -2,7 +2,9 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var CreateAccount = React.createClass({
-
+  componentWillMount: function() {
+    this.props.setTitle('Create Account');
+  },
   createUser: function(e) {
     e.preventDefault();
 

@@ -6,9 +6,13 @@ var Dashboard = React.createClass({
     return {loaded: false};
   },
   componentWillMount: function() {
+    this.props.setTitle('dashboard');
+
     CompaniesStore.setCurrent(this.props.params.id);
+
     DashboardsStore.getCurrent(this.props.params.id).then(function(){
       this.setState({dashboardState: DashboardsStore.getState().current, loaded: true});
+
       $('.modules-container').shapeshift({
         selector: ".dashboard-module",
         handle: ".drag-handle",
@@ -25,7 +29,19 @@ var Dashboard = React.createClass({
       }.bind(this));
     }.bind(this));
   },
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.params.id !== this.props.params.id) {
+      this.props.setTitle('dashboard');
+
+      CompaniesStore.setCurrent(newProps.params.id);
+      DashboardsStore.getCurrent(newProps.params.id).then(function() {
+        this.handleChange();
+        $('.modules-container').trigger('ss-rearrange');
+      }.bind(this));
+    }
+  },
   handleChange: function() {
+    console.log("HANDLE CHANGE");
     this.setState({dashboardState: DashboardsStore.getState().current});
   },
   handleToggle: function(values, e) {
