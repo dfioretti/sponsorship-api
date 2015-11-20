@@ -84,30 +84,32 @@ var Dashboard = React.createClass({
     if (state == "off")
       hidden = true;
 
+    var company = CompaniesStore.getState().current;
+
     switch (name) {
       case 'risk_assessment':
-        el = <RiskAssessment hidden={hidden} key={name}/>
+        el = <RiskAssessment company={company} hidden={hidden} key={name}/>
         break;
       case 'notes':
-        el = <Notes hidden={hidden} key={name}/>
+        el = <Notes company={company} hidden={hidden} key={name}/>
         break;
       case 'risk_indicators':
-        el = <RiskIndicators hidden={hidden} key={name}/>
+        el = <RiskIndicators company={company} hidden={hidden} key={name}/>
         break;
       case 'historical_precedent':
-        el = <HistoricalPrecedent hidden={hidden} key={name}/>
+        el = <HistoricalPrecedent company={company} hidden={hidden} key={name}/>
         break;
       case 'likely_attackers':
-        el = <LikelyAttackers hidden={hidden} key={name}/>
+        el = <LikelyAttackers company={company} hidden={hidden} key={name}/>
         break;
       case 'social_sentiment':
-        el = <SocialSentiment hidden={hidden} key={name}/>
+        el = <SocialSentiment company={company} hidden={hidden} key={name}/>
         break;
       case 'key_social_posts':
-        el = <KeySocialPosts hidden={hidden} key={name}/>
+        el = <KeySocialPosts company={company} hidden={hidden} key={name}/>
         break;
       case 'general_financials':
-        el = <GeneralFinanacials hidden={hidden} key={name}/>
+        el = <GeneralFinanacials company={company} hidden={hidden} key={name}/>
         break;
     }
     return el
