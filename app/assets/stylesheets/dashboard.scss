@@ -68,88 +68,107 @@
       width: 210px;
       margin: 0 auto;
       border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+    }
 
-      ul.toggle-list {
-        margin-top: 30px;
-        padding-left: 0px;
-        list-style: none;
+    .print-report {
+      width: 210px;
+      margin: 0 auto;
 
-        li {
-          height: 21px;
-          margin-bottom: 13px;
-          color: $white;
+      ul {
+        margin-top: 13px;
+      }
+
+      .gear {
+        width: 20px;
+        height: 21px;
+        background-size: 20px 21px;
+        background-repeat: no-repeat;
+        float: right;
+        background-image: image-url("dashboard/Icon-Settings@2x.png");
+        cursor: pointer;
+      }
+    }
+
+    ul, ul.toggle-list {
+      margin-top: 30px;
+      padding-left: 0px;
+      list-style: none;
+
+      li {
+        height: 21px;
+        margin-bottom: 13px;
+        color: $white;
+        opacity: 0.4;
+        font-size: 12px;
+        font-family: 'Avenir-Book';
+        text-transform: capitalize;
+
+        .toggle {
+          width: 36px;
+          height: 18px;
+          float: right;
+          border-radius: 9px;
           opacity: 0.4;
-          font-size: 12px;
-          font-family: 'Avenir-Book';
-          text-transform: capitalize;
+          background-color: $white;
+          cursor: pointer;
 
-          .toggle {
-            width: 36px;
-            height: 18px;
-            float: right;
-            border-radius: 9px;
-            opacity: 0.4;
-            background-color: $white;
-            cursor: pointer;
-
-            .handle {
-              height: 14px;
-              width: 14px;
-              border-radius: 7px;
-              background-color: $dark-grey;
-              margin-top: 2px;
-              margin-left: 20px;
-            }
-
-            &.off {
-              opacity: 0.1;
-
-              .handle {
-                margin-left: 2px;
-              }
-            }
+          .handle {
+            height: 14px;
+            width: 14px;
+            border-radius: 7px;
+            background-color: $dark-grey;
+            margin-top: 2px;
+            margin-left: 20px;
           }
 
-          .icon {
-            height: 21px;
-            padding-top: 4px;
-            padding-left: 32px;
-            background-size: 20px 20px;
-            background-repeat: no-repeat;
-            background-position: left;
+          &.off {
+            opacity: 0.1;
 
-            &.general_financials {
-              background-image: image-url("dashboard/icon-general-financials.svg");
+            .handle {
+              margin-left: 2px;
             }
-            &.historical_precedent {
-              background-image: image-url("dashboard/icon-historical-precedent.svg");
-            }
-            &.key_social_posts {
-              background-image: image-url("dashboard/icon-key-social-posts.svg");
-            }
-            &.likely_attackers {
-              background-image: image-url("dashboard/icon-likely-attackers.svg");
-            }
-            &.notes {
-              background-image: image-url("dashboard/icon-notes.svg");
-            }
-            &.risk_assessment {
-              background-image: image-url("dashboard/icon-risk-assessment.svg");
-            }
-            &.risk_indicators {
-              background-image: image-url("dashboard/icon-risk-indicators.svg");
-            }
-            &.social_sentiment {
-              background-image: image-url("dashboard/icon-social-sentiment.svg");
-            }
+          }
+        }
+
+        .icon {
+          height: 21px;
+          padding-top: 4px;
+          padding-left: 32px;
+          background-size: 20px 20px;
+          background-repeat: no-repeat;
+          background-position: left;
+
+          &.general_financials {
+            background-image: image-url("dashboard/icon-general-financials.svg");
+          }
+          &.historical_precedent {
+            background-image: image-url("dashboard/icon-historical-precedent.svg");
+          }
+          &.key_social_posts {
+            background-image: image-url("dashboard/icon-key-social-posts.svg");
+          }
+          &.likely_attackers {
+            background-image: image-url("dashboard/icon-likely-attackers.svg");
+          }
+          &.notes {
+            background-image: image-url("dashboard/icon-notes.svg");
+          }
+          &.risk_assessment {
+            background-image: image-url("dashboard/icon-risk-assessment.svg");
+          }
+          &.risk_indicators {
+            background-image: image-url("dashboard/icon-risk-indicators.svg");
+          }
+          &.social_sentiment {
+            background-image: image-url("dashboard/icon-social-sentiment.svg");
+          }
+          &.print-report {
+            background-image: image-url("dashboard/Icon-Print@2x.png");
           }
         }
       }
     }
 
-    .print {
-
-    }
   }
 
   .modules-box {

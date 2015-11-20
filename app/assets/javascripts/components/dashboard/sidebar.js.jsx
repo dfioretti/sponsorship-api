@@ -52,6 +52,14 @@ var Sidebar = React.createClass({
         <div className="module-toggle-container">
           {this.renderToggles()}
         </div>
+        <div className="print-report">
+          <ul>
+            <li>
+              <div className="gear"></div>
+              <div className="icon print-report">Print Report</div>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
