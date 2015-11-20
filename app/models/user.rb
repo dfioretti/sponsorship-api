@@ -5,5 +5,8 @@ class User < ActiveRecord::Base
           :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :dashboards
+
   validates_presence_of :name
+
 end

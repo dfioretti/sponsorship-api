@@ -31,3 +31,8 @@ var pickHex = function(color1, color2, ratio) {
 
   return hex(r) + hex(g) + hex(b);
 }
+
+var riskColor = function(ratio) {
+  var color = '#' + pickHex('ff0000', 'ffd300', ratio);
+  return color;
+}

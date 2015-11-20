@@ -10,7 +10,7 @@ var CompanyIndex = React.createClass({
   renderList: function() {
       var list = $.map(CompaniesStore.getState().companies, function(company){
         var ratio = company.score/5;
-        var color = '#' + pickHex('ff0000', 'ffd300', ratio);
+        var color = riskColor(ratio);
         var barStyle = {backgroundColor: color, width: 100 * ratio}
         var colorStyle = {color: color}
         return (

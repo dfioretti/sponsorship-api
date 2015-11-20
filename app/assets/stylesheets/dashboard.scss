@@ -8,11 +8,143 @@
     position: absolute;
 
     .top {
+      height: 98px;
+      padding: 41px 20px 36px;
+      background-color: $darkest-grey;
 
+      > * {
+        display: inline-block;
+      }
+
+      .top-title {
+        text-transform: uppercase;
+        color: $white;
+        font-size: 12px;
+      }
+
+      .bkg-bar {
+        background-color: $dark-grey;
+        width: 80px;
+        height: 8px;
+        border-radius: 8px;
+        margin-left: 15px;
+        display: inline-block;
+
+        .custom-tooltip {
+          padding-top: 12px;
+          width: 65px;
+          height: 50px;
+          border-radius: 3px;
+          text-align: center;
+          font-family: 'Oswald';
+          font-weight: 300;
+          font-size: 18px;
+          color: $white;
+          position: absolute;
+          top: -20px;
+          z-index: 99999;
+          display: none;
+
+          background-color: red;
+        }
+
+        .custom-tooltip-arrow {
+          width: 0;
+          height: 0;
+          margin-left: 11px;
+          border-left: 20px solid transparent;
+          border-right: 20px solid transparent;
+          border-top: 20px solid red;
+        }
+
+        .fill-bar {
+          height: 8px;
+          border-radius: 8px;
+        }
+      }
     }
 
-    .toggle-list {
+    .module-toggle-container {
+      width: 210px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(28, 28, 28, 0.4);
 
+      ul.toggle-list {
+        margin-top: 30px;
+        padding-left: 0px;
+        list-style: none;
+
+        li {
+          height: 21px;
+          margin-bottom: 13px;
+          color: $white;
+          opacity: 0.4;
+          font-size: 12px;
+          font-family: 'Avenir-Book';
+          text-transform: capitalize;
+
+          .toggle {
+            width: 36px;
+            height: 18px;
+            float: right;
+            border-radius: 9px;
+            opacity: 0.4;
+            background-color: $white;
+            cursor: pointer;
+
+            .handle {
+              height: 14px;
+              width: 14px;
+              border-radius: 7px;
+              background-color: $dark-grey;
+              margin-top: 2px;
+              margin-left: 20px;
+            }
+
+            &.off {
+              opacity: 0.1;
+
+              .handle {
+                margin-left: 2px;
+              }
+            }
+          }
+
+          .icon {
+            height: 21px;
+            padding-top: 4px;
+            padding-left: 32px;
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: left;
+
+            &.general_financials {
+              background-image: image-url("dashboard/icon-general-financials.svg");
+            }
+            &.historical_precedent {
+              background-image: image-url("dashboard/icon-historical-precedent.svg");
+            }
+            &.key_social_posts {
+              background-image: image-url("dashboard/icon-key-social-posts.svg");
+            }
+            &.likely_attackers {
+              background-image: image-url("dashboard/icon-likely-attackers.svg");
+            }
+            &.notes {
+              background-image: image-url("dashboard/icon-notes.svg");
+            }
+            &.risk_assessment {
+              background-image: image-url("dashboard/icon-risk-assessment.svg");
+            }
+            &.risk_indicators {
+              background-image: image-url("dashboard/icon-risk-indicators.svg");
+            }
+            &.social_sentiment {
+              background-image: image-url("dashboard/icon-social-sentiment.svg");
+            }
+          }
+        }
+      }
     }
 
     .print {
@@ -38,6 +170,7 @@
         height: 320px;
         background-color: $blue;
         border-radius: 3px;
+        margin-bottom: 20px;
 
         &.tall {
           height: 660px;
@@ -61,6 +194,7 @@
           .top-title {
             font-size: 14px;
             color: $white;
+            width: 382px;
             text-align: center;
 
           }
