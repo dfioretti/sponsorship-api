@@ -6,14 +6,19 @@ var Nav = React.createClass({
     var st = PubSub.subscribe('auth.validation.success', function(ev, user) {
       this.setState({name: user.name, image: user.image});
     }.bind(this));
+    var rt = PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
+      var user = user.data;
+      this.setState({name: user.name, image: user.image});
+    }.bind(this));
     var ut = PubSub.subscribe('auth.signOut.success', function(ev, user) {
       this.setState({name: null, image: null});
     }.bind(this));
-    this.setState({st: st, ut: ut});
+    this.setState({st: st, ut: ut, rt: rt});
   },
   componentWillUnmount: function() {
     PubSub.unsubscribe(this.state.st);
     PubSub.unsubscribe(this.state.ut);
+    PubSub.unsubscribe(this.state.rt);
   },
   signOut: function() {
     $.auth.signOut();

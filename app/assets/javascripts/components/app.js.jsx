@@ -11,7 +11,7 @@ var App = React.createClass({
     PubSub.subscribe('auth.signIn.success', function(ev, user) {
       this.transitionTo('/choose_company');
     }.bind(this));
-    PubSub.subscribe('auth.signUp.success', function(ev, user) {
+    PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
       this.transitionTo('/choose_company');
     }.bind(this));
     PubSub.subscribe('auth.signOut.success', function(ev, user) {

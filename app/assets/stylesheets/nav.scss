@@ -51,6 +51,16 @@
     .dropdown-menu {
       border-radius: 3px;
       margin-top: 20px;
+
+      li {
+        a {
+          cursor: pointer;
+
+          &:hover {
+            background-color: $light-grey;
+          }
+        }
+      }
     }
   }
 }
