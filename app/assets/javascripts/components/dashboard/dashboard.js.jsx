@@ -41,7 +41,6 @@ var Dashboard = React.createClass({
     }
   },
   handleChange: function() {
-    console.log("HANDLE CHANGE");
     this.setState({dashboardState: DashboardsStore.getState().current});
   },
   handleToggle: function(values, e) {

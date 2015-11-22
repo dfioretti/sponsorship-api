@@ -17,8 +17,10 @@ class CompaniesStore extends EventEmitter
       @current = Immutable.fromJS({})
 
   find: (cid) ->
-    @companies.find (company) ->
-      company.get("id").toString() == cid
+    c = @companies.find (company) ->
+      company.get("id").toString() == cid.toString()
+
+    c.toJS();
 
   list: ->
     p = $.Deferred()

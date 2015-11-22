@@ -217,8 +217,80 @@
             color: $white;
             width: 382px;
             text-align: center;
-
           }
+        }
+
+        ul.probability-list {
+          list-style: none;
+          padding-left: 20px;
+          padding-right: 20px;
+
+          li {
+            padding-left: 10px;
+            padding-top: 23px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid $dark-blue;
+
+            .li-tooltip-button {
+              width: 20px;
+              height: 20px;
+              position: relative;
+              margin-right: 13px;
+              float: left;
+              background-size: 20px 20px;
+              background-repeat: no-repeat;
+              background-image: image-url("dashboard/icon-view.svg");
+
+              .li-tooltip {
+                position: absolute;
+                left: -45px;
+                bottom: 20px;
+                width: 115px;
+                padding: 10px 8px 12px;
+                background-color: $white;
+                color: #9b9b9b;
+                font-size: 12px;
+                font-family: "Avenir-Book";
+                border-radius: 3px;
+                border: 1px solid $light-grey;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+                display: none;
+
+                .li-tooltip-arrow {
+                  position: absolute;
+                  width: 0;
+                  height: 0;
+                  margin-left: 26px;
+                  border-left: 20px solid transparent;
+                  border-right: 20px solid transparent;
+                  border-top: 20px solid $white;
+                }
+              }
+            }
+
+            .li-right-text {
+              float: right;
+            }
+
+            .li-probability-bkg {
+              float: right;
+              width: 100px;
+              height: 4px;
+              margin-top: 8px;
+              margin-left: 10px;
+              border-radius: 2px;
+              background-color: $dark-blue;
+
+              .li-probability-bar {
+                height: 4px;
+                border-radius: 2px;
+              }
+            }
+          }
+        }
+
+        .text-list {
+
         }
       }
 
@@ -269,17 +341,76 @@
           border-radius: 12px;
           border: 9px solid rgba(255, 255, 255, 1);
           box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.22), inset 0px 1px 2px 0px rgba(0, 0, 0, 0.22);
-
-          // background-color: black;
         }
       }
     }
   }
+
+  .legend {
+    padding: 14px 0px 12px;
+    border-bottom: 1px solid $dark-blue;
+    font-size: 10px;
+    text-align: center;
+
+    .legend-item {
+      display: inline-block;
+      margin-right: 10px;
+
+      .legend-point {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        float: left;
+        margin-top: 3px;
+        margin-right: 5px;
+
+        &.legend-color-1 {
+          background-color: #e63500;
+        }
+        &.legend-color-2 {
+          background-color: #ff6a00;
+        }
+        &.legend-color-3 {
+          background-color: #ffb700;
+        }
+      }
+    }
+  }
+
   &#notes {
 
   }
   &#risk_indicators {
+    .main {
+      .filters {
+        margin: 0 20px;
+        border-bottom: 1px solid $dark-blue;
+        padding: 10px 0;
+        text-align: center;
 
+        .filter {
+          height: 30px;
+          width: 150px;
+          padding-top: 7px;
+          border-radius: 15px;
+          background-color: #124c93;
+          font-family: "Avenir-Book";
+          font-size: 12px;
+          text-align: center;
+          cursor: pointer;
+          display: inline-block;
+          opacity: 0.4;
+
+          &:first-child {
+            margin-right: 10px;
+          }
+
+          &:hover {
+            opacity: 1.0;
+          }
+        }
+      }
+    }
   }
   &#historical_precedent {
 

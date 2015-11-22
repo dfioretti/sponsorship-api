@@ -1,7 +1,4 @@
 var Sidebar = React.createClass({
-  componentDidMount: function() {
-    $('[data-toggle="tooltip"]').tooltip();
-  },
   showTooltip: function() {
     $('.custom-tooltip').show();
   },
