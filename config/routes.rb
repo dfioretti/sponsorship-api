@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :dashboards, only: [:show, :update]
+      resources :notes, only: [:index, :create]
+      resources :companies, only: [:index]
     end
   end
 

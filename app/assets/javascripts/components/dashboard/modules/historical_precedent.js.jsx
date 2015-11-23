@@ -34,7 +34,7 @@ var HistoricalPrecedent = React.createClass({
       return <ProbabilityListItem key={i} title={company} probability={probability} rightText={date.getFullYear()} />
     });
     return (
-      <ul className="probability-list historical-precedent-list">
+      <ul className="probability-list historical-precedent-list short">
         {list}
       </ul>
     );

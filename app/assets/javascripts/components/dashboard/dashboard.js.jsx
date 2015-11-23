@@ -10,6 +10,8 @@ var Dashboard = React.createClass({
 
     CompaniesStore.setCurrent(this.props.params.id);
 
+    NotesStore.setCompanyId(this.props.params.id);
+
     DashboardsStore.getCurrent(this.props.params.id).then(function(){
       this.setState({dashboardState: DashboardsStore.getState().current, loaded: true});
 

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :dashboards
+  has_many :notes
 
   validates_presence_of :name
 

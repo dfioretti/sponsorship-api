@@ -12,7 +12,7 @@ class Api::V1::DashboardsController < ApplicationController
     if dashboard.update dashboard_params
       render json: dashboard
     else
-      render json: {errors: @dashboard.errors.full_messages}, status: :bad_request
+      render json: {errors: dashboard.errors.full_messages}, status: :bad_request
     end
   end
 

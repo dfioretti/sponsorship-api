@@ -25,10 +25,14 @@ class CompaniesStore extends EventEmitter
   list: ->
     p = $.Deferred()
 
-    # THIS IS TEMPORARY MOCKS
-    # $.getJSON "/api/v1/", (data) =>
-      # p.resolve data.collaborators
-    p.resolve MockCompanies
+    $.ajax
+      type: "GET"
+      contentType: "application/json"
+      url: "/api/v1/companies"
+      success: (data) =>
+        p.resolve data.companies
+      error: (data) ->
+        console.log(data)
 
     p
 

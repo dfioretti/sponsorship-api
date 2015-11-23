@@ -2,7 +2,7 @@ var RiskAssessment = React.createClass({
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var company = this.props.company;
-    var pos = (292 * company.score / 5) - 8;
+    var pos = (292 * company.risk / 5) - 8;
     var buttonStyle = {left: pos};
     return (
       <div id="risk_assessment" className="dashboard-module" style={hiddenStyle}>

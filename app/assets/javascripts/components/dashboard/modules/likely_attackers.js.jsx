@@ -33,7 +33,7 @@ var LikelyAttackers = React.createClass({
       return <ProbabilityListItem key={i} title={attacker} probability={probability} />
     });
     return (
-      <ul className="probability-list likely-attackers-list">
+      <ul className="probability-list likely-attackers-list short">
         {list}
       </ul>
     );
