@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :dashboards, only: [:show, :update]
       resources :notes, only: [:index, :create]
       resources :companies, only: [:index]
+      get '/sign_upload' => 's3#sign_upload'
     end
   end
 

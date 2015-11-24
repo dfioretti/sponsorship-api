@@ -40,7 +40,7 @@ class NotesStore extends EventEmitter
       data: JSON.stringify({note: args})
       contentType: "application/json"
       success: (data) =>
-        @notes = @notes.push Immutable.fromJS(data)
+        @notes = @notes.unshift Immutable.fromJS(data)
         p.resolve data
       error: (data) ->
         console.log(data)

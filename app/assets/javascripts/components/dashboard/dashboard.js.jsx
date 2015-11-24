@@ -36,6 +36,7 @@ var Dashboard = React.createClass({
       this.props.setTitle('dashboard');
 
       CompaniesStore.setCurrent(newProps.params.id);
+      NotesStore.setCompanyId(newProps.params.id);
       DashboardsStore.getCurrent(newProps.params.id).then(function() {
         this.handleChange();
         $('.modules-container').trigger('ss-rearrange');

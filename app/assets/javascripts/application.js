@@ -8,6 +8,8 @@
 //= require jtoker
 //= require EventEmitter.min
 //= require Immutable.min
+//= require s3upload
+//= require uuid
 
 //= require bootstrap-sprockets
 //= require turbolinks
@@ -35,4 +37,14 @@ var pickHex = function(color1, color2, ratio) {
 var riskColor = function(ratio) {
   var color = '#' + pickHex('ff0000', 'ffd300', ratio);
   return color;
+}
+
+var riskLabel = function(risk) {
+  var label = "Low";
+  if (risk > 0.666) {
+    label = "High";
+  } else if (risk > 0.333) {
+    label = "Medium";
+  }
+  return label;
 }

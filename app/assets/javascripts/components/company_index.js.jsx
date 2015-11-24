@@ -23,7 +23,7 @@ var CompanyIndex = React.createClass({
               <div className="bkg-bar">
                 <div className="fill-bar" style={barStyle}></div>
               </div>
-              {company.risk}
+              {riskLabel(company.risk)}
             </td>
             <td style={colorStyle}>{company.score}</td>
           </tr>

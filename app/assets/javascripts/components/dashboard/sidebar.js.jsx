@@ -27,7 +27,7 @@ var Sidebar = React.createClass({
   },
   render: function() {
     var company = CompaniesStore.getState().current;
-    var ratio = company.risk/5;
+    var ratio = company.risk/1;
     var color = riskColor(ratio);
     var barStyle = {backgroundColor: color, width: 80 * ratio}
     var left = 93 + ratio * 80;
@@ -41,7 +41,7 @@ var Sidebar = React.createClass({
           <div className="bkg-bar" onMouseOver={this.showTooltip}>
             <div className="fill-bar" style={barStyle}></div>
             <div className="custom-tooltip" style={tooltipStyle}>
-              {company.risk}
+              {riskLabel(company.risk)}
               <div className="custom-tooltip-arrow" style={arrowStyle}></div>
             </div>
           </div>
