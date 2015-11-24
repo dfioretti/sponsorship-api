@@ -26,7 +26,6 @@ var Notes = React.createClass({
           s3_sign_put_url: '/api/v1/sign_upload',
           s3_object_name: ENV+'/'+uuid.v4()+'/'+name,
           onProgress: function(percent, message) {
-            console.log('Upload progress: ', percent, message);
             $('.loader-bar').width(percent * 4);
           },
           onFinishS3Put: function(public_url) {

@@ -12,20 +12,20 @@ var CompanyIndex = React.createClass({
   },
   renderList: function() {
       var list = $.map(CompaniesStore.getState().companies, function(company){
-        var ratio = company.score/5;
+        var ratio = company.risk/1;
         var color = riskColor(ratio);
         var barStyle = {backgroundColor: color, width: 100 * ratio}
         var colorStyle = {color: color}
         return (
           <tr className="company-cell" key={company.id} onClick={this.setCompany.bind(this, company)}>
-            <td>{company.name}</td>
+            <td>{company.name} ({company.ticker})</td>
             <td>
               <div className="bkg-bar">
                 <div className="fill-bar" style={barStyle}></div>
               </div>
               {riskLabel(company.risk)}
             </td>
-            <td style={colorStyle}>{company.score}</td>
+            <td style={colorStyle}>{company.risk}</td>
           </tr>
         );
       }.bind(this));
