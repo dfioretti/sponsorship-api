@@ -28,10 +28,13 @@ var HistoricalPrecedent = React.createClass({
     ]
 
     var list = $.map(precedent, function(item, i) {
-      var company = CompaniesStore.find(item.company_id.toString()).name;
-      var probability = item.similarity;
-      var date = new Date(item.date);
-      return <ProbabilityListItem key={i} title={company} probability={probability} rightText={date.getFullYear()} />
+      var company = CompaniesStore.find(item.company_id.toString());
+      if (typeof(company) != 'undefined') {
+        var name = company.name;
+        var probability = item.similarity;
+        var date = new Date(item.date);
+        return <ProbabilityListItem key={i} title={name} probability={probability} rightText={date.getFullYear()} />
+      }
     });
     return (
       <ul className="probability-list historical-precedent-list short">

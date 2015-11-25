@@ -21,7 +21,8 @@ class CompaniesStore extends EventEmitter
     c = @companies.find (company) ->
       company.get("id").toString() == cid.toString()
 
-    c.toJS();
+    if typeof(c) != 'undefined'
+      c.toJS();
 
   list: ->
     p = $.Deferred()
