@@ -51,7 +51,7 @@ var Notes = React.createClass({
   renderNotesList: function() {
     var notes = $.map(this.state.notes, function(note) {
       return (
-        <TextListItem key={note.id} user={note.user} body={note.body} date={note.created_at} attachement={note.attachement} />
+        <TextListItem key={note.id} user={note.user} body={note.body} date={note.created_at} attachment={note.attachment} />
       );
     });
     return (

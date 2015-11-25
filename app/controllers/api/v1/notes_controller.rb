@@ -7,7 +7,6 @@ class Api::V1::NotesController < ApplicationController
   def create
     note = current_user.notes.build note_params
 
-    Logger.new(STDOUT).info note
     if note.save
       render json: note.to_json(include: :user)
     else

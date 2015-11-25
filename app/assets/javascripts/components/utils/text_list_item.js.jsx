@@ -17,11 +17,12 @@ var TextListItem = React.createClass({
   renderAttachment: function() {
     var attachment;
     if (this.props.attachment) {
-      console.log("ADD ATTACHMENT");
+      var n = this.props.attachment.lastIndexOf('/');
+      var name = this.props.attachment.substring(n + 1);
       attachment = (
         <div className="li-attachment">
-          <div className="li-attachment-download"></div>
-          <div className="li-attachment-name"></div>
+          <a className="li-attachment-download" href={this.props.attachment} target="_blank"></a>
+          <div className="li-attachment-name">{name}</div>
         </div>
       );
     }

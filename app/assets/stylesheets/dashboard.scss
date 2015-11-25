@@ -270,7 +270,34 @@
             }
 
             .li-attachment {
+              height: 40px;
+              margin-top: 10px;
 
+              .li-attachment-download {
+                float: left;
+                height: 40px;
+                width: 40px;
+                margin-right: 5px;
+                display: inline-block;
+                background-color: #124c93;
+                border-radius: 3px;
+                cursor: pointer;
+                background-image: image-url("dashboard/icon-attach.svg");
+                background-size: 16px 16px;
+                background-repeat: no-repeat;
+                background-position: center center;
+
+                &:hover {
+                  background-color: $dark-blue;
+                }
+              }
+
+              .li-attachment-name {
+                line-height: 40px;
+                font-family: "Avenir-Book";
+                font-size: 12px;
+                color: $light-grey;
+              }
             }
           }
         }
