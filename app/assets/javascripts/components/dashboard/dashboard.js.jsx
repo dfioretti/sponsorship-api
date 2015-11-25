@@ -30,6 +30,10 @@ var Dashboard = React.createClass({
         this.updateDashboardState(this.getDashboardState());
       }.bind(this));
     }.bind(this));
+
+    CompaniesStore.on("update", function() {
+      CompaniesStore.setCurrent(this.props.params.id);
+    });
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.params.id !== this.props.params.id) {

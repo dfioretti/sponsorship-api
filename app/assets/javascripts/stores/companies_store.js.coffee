@@ -3,18 +3,19 @@ class CompaniesStore extends EventEmitter
     @ready = false
     @current = Immutable.fromJS({})
     @list().then (companies) =>
-      @ready = true
       @companies = Immutable.fromJS(companies)
+      @ready = true
       @emit "update"
 
   getState: (cid) ->
     {companies: @companies.toJS(), ready: @ready, current: @current.toJS()}
 
   setCurrent: (cid) ->
-    if cid
-      @current = Immutable.fromJS(@find(cid))
-    else
-      @current = Immutable.fromJS({})
+    if @ready
+      if cid
+        @current = Immutable.fromJS(@find(cid))
+      else
+        @current = Immutable.fromJS({})
 
   find: (cid) ->
     c = @companies.find (company) ->
