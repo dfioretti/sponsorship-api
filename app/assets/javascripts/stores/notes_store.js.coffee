@@ -17,6 +17,13 @@ class NotesStore extends EventEmitter
         @notes = Immutable.fromJS(notes)
         @emit "update"
 
+  poll: (cid) ->
+    @companyId = cid
+    @ready = false
+    @list().then (notes) =>
+      @ready = true
+      @notes = Immutable.fromJS(notes)
+
   list: () ->
     p = $.Deferred()
     $.ajax

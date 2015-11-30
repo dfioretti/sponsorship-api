@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'omniauth'
 gem 'pg'
+gem 'puma'
 gem 'rails', '4.2.4'
 gem 'react-rails', '~> 1.4.0'
 gem 'react-router-rails', github: 'dkan/react-router-rails'
@@ -17,7 +18,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'therubyracer', platforms: :ruby
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
-gem 'unicorn'
 
 group :production do
   gem 'rails_12factor'

@@ -2,6 +2,17 @@ var Notes = React.createClass({
   getInitialState: function() {
     return {notes: NotesStore.getState().notes};
   },
+  componentWillMount: function() {
+    var s = this;
+    (function poll(){
+      setTimeout(function(){
+        NotesStore.poll(s.props.company.id).then(function(notes){
+          s.setState({notes: NotesStore.getState().notes});
+          poll();
+        });
+      }, 10000);
+    })();
+  },
   componentWillReceiveProps: function(newProps) {
     this.setState({notes: NotesStore.getState().notes});
   },
