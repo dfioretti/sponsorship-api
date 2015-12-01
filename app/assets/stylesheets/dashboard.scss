@@ -191,7 +191,8 @@
       .dashboard-module {
         color: $white;
         position: absolute;
-        overflow: hidden;
+        overflow-y: hidden;
+        overflow-x: visible;
         width: 400px;
         height: 320px;
         background-color: $blue;
@@ -228,11 +229,9 @@
 
         ul.text-list {
           height: 440px;
-          overflow: scroll;
+          // overflow: auto;
           list-style: none;
-          margin: 14px 20px 0;
-          padding-left: 0px;
-          padding-right: 0px;
+          margin: 13px 20px 0px;
 
           li {
             padding: 15px 5px;
@@ -308,9 +307,10 @@
 
         ul.probability-list {
           list-style: none;
-          padding-left: 20px;
-          padding-right: 20px;
-          overflow: scroll;
+          margin-left: 20px;
+          margin-right: 20px;
+          // overflow-y: scroll;
+          // overflow-x: visible;
 
           &.short {
             height: 230px;
@@ -397,6 +397,7 @@
 }
 
 .dashboard-module {
+
   &#risk_assessment {
     .main {
       text-align: center;

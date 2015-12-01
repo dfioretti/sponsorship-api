@@ -28,7 +28,6 @@ var PasswordRecovery = React.createClass({
       <div className="centered">
         <div className="form-container">
           <div className="image-top">
-            <img src=""/>
           </div>
           <form onSubmit={this.recoverPassword}>
             <div className="form-group">

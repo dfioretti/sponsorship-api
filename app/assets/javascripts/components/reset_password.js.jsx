@@ -28,7 +28,6 @@ var ResetPassword = React.createClass({
       <div className="centered">
         <div className="form-container">
           <div className="image-top">
-            <img src=""/>
           </div>
           <form onSubmit={this.reset}>
             <div className="form-group">

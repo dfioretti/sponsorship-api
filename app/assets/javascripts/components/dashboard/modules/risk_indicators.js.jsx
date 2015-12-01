@@ -1,4 +1,7 @@
 var RiskIndicators = React.createClass({
+  componentDidMount: function() {
+    $('.risk-indicator-list').jScrollPane();
+  },
   renderList: function() {
     var indicators = [
       {

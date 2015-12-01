@@ -28,7 +28,6 @@ var AccountLogin = React.createClass({
       <div className="centered">
         <div className="form-container">
           <div className="image-top">
-            <img src=""/>
           </div>
           <form onSubmit={this.login}>
             <div className="form-group">

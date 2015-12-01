@@ -1,4 +1,7 @@
 var LikelyAttackers = React.createClass({
+  componentDidMount: function() {
+    $('.likely-attackers-list').jScrollPane();
+  },
   renderList: function() {
     var attackers = [
       {

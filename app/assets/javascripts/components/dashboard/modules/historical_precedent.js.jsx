@@ -1,4 +1,7 @@
 var HistoricalPrecedent = React.createClass({
+  componentDidMount: function() {
+    $('.historical-precedent-list').jScrollPane();
+  },
   renderList: function() {
     var precedent = [
       {

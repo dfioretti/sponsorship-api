@@ -10,7 +10,7 @@ var ProbabilityListItem = React.createClass({
     if (this.props.tooltip) {
       var link = '/dashboard/' + this.props.companyId + '/detail';
       tooltip = (
-        <Link to={link} className="li-tooltip-button" onMouseOver={this.showTooltip} >
+        <Link to={link} className="li-tooltip-button" onMouseOver={this.showTooltip} onMouseLeave={this.hideTooltip}>
           <div className="li-tooltip">
             {this.props.tooltip}
             <div className="li-tooltip-arrow"></div>

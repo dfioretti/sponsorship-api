@@ -3,6 +3,7 @@ var DetailChart = React.createClass({
     return {graphId: uuid.v4()}
   },
   componentDidMount: function() {
+    // DUMMY DATA
     var chart = new Chartist.Line('.ct-chart-'+this.state.graphId, {
       series: [{
         name: 'main',

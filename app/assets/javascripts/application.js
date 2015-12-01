@@ -4,6 +4,9 @@
 //= require jquery-deparam
 //= require jquery.cookie
 //= require jquery.shapeshift.min
+//= require jquery.scrollstop.min
+//= require jquery.mousewheel
+//= require jscrollpane
 //= require pubsub
 //= require jtoker
 //= require EventEmitter.min

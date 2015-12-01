@@ -8,11 +8,14 @@ var Notes = React.createClass({
       var timeoutId = setTimeout(function(){
         NotesStore.poll(s.props.company.id).then(function(notes){
           s.setState({notes: NotesStore.getState().notes});
+          $('.notes-list').data('jsp').reinitialise();
+          $('.notes-list').data('jsp').addHoverFunc();
           poll();
         });
       }, 10000);
       s.setState({timeoutId: timeoutId})
     })();
+    $('.notes-list').jScrollPane();
   },
   componentWillReceiveProps: function(newProps) {
     this.setState({notes: NotesStore.getState().notes});
