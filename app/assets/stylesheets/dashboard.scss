@@ -191,8 +191,7 @@
       .dashboard-module {
         color: $white;
         position: absolute;
-        overflow-y: hidden;
-        overflow-x: visible;
+        overflow: hidden;
         width: 400px;
         height: 320px;
         background-color: $blue;
@@ -229,7 +228,7 @@
 
         ul.text-list {
           height: 440px;
-          // overflow: auto;
+          overflow: auto;
           list-style: none;
           margin: 13px 20px 0px;
 
@@ -309,8 +308,7 @@
           list-style: none;
           margin-left: 20px;
           margin-right: 20px;
-          // overflow-y: scroll;
-          // overflow-x: visible;
+          overflow: scroll;
 
           &.short {
             height: 230px;
@@ -332,32 +330,6 @@
               background-repeat: no-repeat;
               background-image: image-url("dashboard/icon-view.svg");
               cursor: pointer;
-
-              .li-tooltip {
-                position: absolute;
-                left: -45px;
-                bottom: 20px;
-                width: 115px;
-                padding: 10px 8px 12px;
-                background-color: $white;
-                color: #9b9b9b;
-                font-size: 12px;
-                font-family: "Avenir-Book";
-                border-radius: 3px;
-                border: 1px solid $light-grey;
-                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
-                display: none;
-
-                .li-tooltip-arrow {
-                  position: absolute;
-                  width: 0;
-                  height: 0;
-                  margin-left: 26px;
-                  border-left: 20px solid transparent;
-                  border-right: 20px solid transparent;
-                  border-top: 20px solid $white;
-                }
-              }
             }
 
             .li-right-text {
@@ -392,6 +364,29 @@
           border: 2px dashed $blue;
           position: absolute;
       }
+    }
+  }
+
+  .li-tooltip {
+    position: absolute;
+    width: 115px;
+    padding: 10px 8px 12px;
+    background-color: $white;
+    color: #9b9b9b;
+    font-size: 12px;
+    font-family: "Avenir-Book";
+    border-radius: 3px;
+    border: 1px solid $light-grey;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+
+    .li-tooltip-arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin-left: 26px;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid $white;
     }
   }
 }

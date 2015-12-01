@@ -1,6 +1,18 @@
 var ProbabilityListItem = React.createClass({
   showTooltip: function(e) {
-    $(e.target).children().show();
+    var tooltip = $('.li-tooltip');
+    var top = $(e.target).offset().top - 50,
+    left = $(e.target).offset().left - 45;
+
+    if (tooltip.length < 1) {
+      $('.dashboard').append(
+        '<div class="li-tooltip" style="top:'+top+'px;left:'+left+'px;">' +
+          'Click to see chart<div class="li-tooltip-arrow"></div>' +
+        '</div>'
+      );
+    }
+    tooltip.css({top: top, left: left});
+    tooltip.show();
   },
   hideTooltip: function(e) {
     $('.li-tooltip').hide();
@@ -11,10 +23,6 @@ var ProbabilityListItem = React.createClass({
       var link = '/dashboard/' + this.props.companyId + '/detail';
       tooltip = (
         <Link to={link} className="li-tooltip-button" onMouseOver={this.showTooltip} onMouseLeave={this.hideTooltip}>
-          <div className="li-tooltip">
-            {this.props.tooltip}
-            <div className="li-tooltip-arrow"></div>
-          </div>
         </Link>
       );
     }
