@@ -9,6 +9,7 @@ this.AppRoutes = (
     <Route name='reset_password' handler={ResetPassword} path='/reset_password' />
     <Route name='choose_company' handler={CompanyIndex} path='/choose_company'/>
     <Route name='dashboard' handler={Dashboard} path='/dashboard/:id'/>
+    <Route name='company_detail' handler={CompanyDetail} path='/dashboard/:id/detail'/>
     <DefaultRoute handler={CompanyIndex}/>
   </Route>
 );

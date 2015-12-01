@@ -2,19 +2,23 @@ var Notes = React.createClass({
   getInitialState: function() {
     return {notes: NotesStore.getState().notes};
   },
-  componentWillMount: function() {
+  componentDidMount: function() {
     var s = this;
     (function poll(){
-      setTimeout(function(){
+      var timeoutId = setTimeout(function(){
         NotesStore.poll(s.props.company.id).then(function(notes){
           s.setState({notes: NotesStore.getState().notes});
           poll();
         });
       }, 10000);
+      s.setState({timeoutId: timeoutId})
     })();
   },
   componentWillReceiveProps: function(newProps) {
     this.setState({notes: NotesStore.getState().notes});
+  },
+  componentWillUnmount: function() {
+    clearTimeout(this.state.timeoutId);
   },
   clearForm: function() {
     ReactDOM.findDOMNode(this.refs.form).reset();

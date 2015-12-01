@@ -19,8 +19,8 @@ var RiskIndicators = React.createClass({
       var tooltip = "Click to see chart"
       var dataType = item.data_type_display_name;
       var probability = item.importance;
-      return <ProbabilityListItem key={i} tooltip={tooltip} title={dataType} probability={probability} />
-    });
+      return <ProbabilityListItem key={i} tooltip={tooltip} title={dataType} probability={probability} companyId={this.props.company.id} />
+    }.bind(this));
     return (
       <ul className="probability-list risk-indicator-list">
         {list}

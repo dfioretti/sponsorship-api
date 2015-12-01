@@ -10,6 +10,8 @@
 //= require Immutable.min
 //= require s3upload
 //= require uuid
+//= require moment.min
+//= require chartist.min
 
 //= require bootstrap-sprockets
 //= require turbolinks

@@ -1,0 +1,196 @@
+$subnav-height: 80px;
+
+.ct-series .ct-line {
+  stroke: $dark-blue;
+  stroke-width: 1px;
+}
+
+.ct-series-a .ct-line {
+  stroke: rgba(80,227,194,1);
+}
+
+.ct-grids {
+  line.ct-horizontal, line.ct-vertical {
+    stroke: rgba(0, 0, 0, 0.5);
+    stroke-dasharray: 0px;
+  }
+
+  line.ct-horizontal ~ line.ct-horizontal, line.ct-vertical ~ line.ct-vertical {
+    stroke: rgba(0, 0, 0, 0.2);
+    stroke-width: 1px;
+    stroke-dasharray: 2px;
+  }
+}
+
+.ct-label {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Avenir-Medium";
+  font-size: 12px;
+}
+
+.chart-legend {
+  position: absolute;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 10px;
+  right: 34px;
+  top: 28px;
+
+  > div {
+    position: relative;
+  }
+
+  .company-legend .legend-color {
+    background-color: rgba(80,227,194,1);
+  }
+
+  .other-legend .legend-color {
+    background-color: $dark-blue;
+  }
+
+  .legend-color {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    position: absolute;
+    top: 3px;
+    left: -9px;
+  }
+}
+
+.company-detail {
+  height: 100%;
+
+  .sidebar .top {
+    height: 77px;
+    padding: 32px 20px 28px;
+  }
+
+  .details-subnav {
+    height: $subnav-height;
+    margin-left: 250px;
+    background-color: $white;
+    border-bottom: 1px solid $light-grey;
+    padding: 25px 20px;
+
+    .details-left-nav {
+      float: left;
+
+      > * {
+        display: inline-block;
+      }
+
+      .back-icon {
+        width: 20px;
+        height: 20px;
+        background-color: $darker-grey;
+      }
+
+      .to-dashboard {
+        font-size: 24px;
+        color: $darker-grey;
+        margin-left: 15px;
+        margin-right: 20px;
+      }
+
+      .filter {
+        position: absolute;
+        width: 113px;
+      }
+    }
+
+    .details-right-nav {
+      float: right;
+    }
+
+    .filters {
+
+    }
+  }
+
+  .charts-box {
+    position: relative;
+    height: calc(100% - #{$subnav-height});
+    margin-left: 250px;
+    background-color: #FAFBFD;
+    overflow: scroll;
+
+    .charts-container {
+      position: relative;
+      height: 100%;
+      width: 1280px;
+
+      .ss-placeholder-child {
+        background: transparent;
+        border: 2px dashed $light-grey;
+        background-color: rgba(255, 255, 255, 0.5);
+        position: absolute;
+      }
+
+      .detail-module {
+        width: 610px;
+        height: 380px;
+        position: absolute;
+        overflow: hidden;
+        background-color: $white;
+        border-radius: 3px;
+        box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+
+        &.ss-dragged-child {
+          border: 1px solid $dark-blue;
+        }
+
+        .top {
+          height: 50px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid $light-grey;
+
+          .drag-handle {
+            margin-top: 6px;
+            margin-left: 20px;
+            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            float: left;
+            cursor: pointer;
+            mask-image: image-url("dashboard/icon-move.svg");
+            -webkit-mask-image: image-url("dashboard/icon-move.svg");
+            background-color: #738694;
+          }
+
+          .top-title {
+            line-height: 30px;
+            font-size: 14px;
+            color: #738694;
+          }
+
+          .filters {
+            float: right;
+            margin-right: 20px;
+
+            .filter {
+              width: auto;
+              padding-right: 15px;
+              padding-left: 15px;
+            }
+          }
+        }
+
+        .main {
+          position: relative;
+          height: calc(100% - 50px);
+          padding-top: 20px;
+          padding-right: 20px;
+          padding-left: 6px;
+          padding-bottom: 10px;
+
+          .graph {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}

@@ -33,6 +33,25 @@ var Sidebar = React.createClass({
     var left = 93 + ratio * 80;
     var tooltipStyle = {left: left, backgroundColor: color}
     var arrowStyle = {borderTop: "20px solid " + color}
+    var toggles;
+
+    if (!this.props.minimal) {
+      toggles = (
+        <div>
+          <div className="module-toggle-container">
+            {this.renderToggles()}
+          </div>
+          <div className="print-report">
+            <ul>
+              <li>
+                <div className="gear"></div>
+                <div className="icon print-report">Print Report</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div className="sidebar">
@@ -46,17 +65,7 @@ var Sidebar = React.createClass({
             </div>
           </div>
         </div>
-        <div className="module-toggle-container">
-          {this.renderToggles()}
-        </div>
-        <div className="print-report">
-          <ul>
-            <li>
-              <div className="gear"></div>
-              <div className="icon print-report">Print Report</div>
-            </li>
-          </ul>
-        </div>
+        {toggles}
       </div>
     );
   }

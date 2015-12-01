@@ -8,11 +8,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@import "chartist.min";
+
 @import "nav";
 
 @import "logged_out";
 @import "company_index";
 @import "dashboard";
+@import "company_detail";
 
 body {
   font-family: "Avenir-Medium";

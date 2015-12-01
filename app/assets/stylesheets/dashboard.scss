@@ -1,70 +1,74 @@
+.sidebar {
+  width: 250px;
+  height: calc(100% - 80px);
+  background-color: $dark-grey;
+  position: absolute;
+  border-right: 1px solid #1c1c1c;
+
+  .top {
+    height: 98px;
+    padding: 41px 20px 36px;
+    background-color: $darkest-grey;
+
+    > * {
+      display: inline-block;
+    }
+
+    .top-title {
+      text-transform: uppercase;
+      color: $white;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+    }
+
+    .bkg-bar {
+      background-color: $dark-grey;
+      width: 80px;
+      height: 8px;
+      border-radius: 8px;
+      margin-left: 15px;
+      display: inline-block;
+
+      .custom-tooltip {
+        padding-top: 12px;
+        width: 65px;
+        height: 50px;
+        border-radius: 3px;
+        text-align: center;
+        font-family: 'Oswald';
+        font-weight: 300;
+        font-size: 18px;
+        color: $white;
+        position: absolute;
+        top: -20px;
+        z-index: 99999;
+        display: none;
+
+        background-color: red;
+      }
+
+      .custom-tooltip-arrow {
+        width: 0;
+        height: 0;
+        margin-left: 11px;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid red;
+      }
+
+      .fill-bar {
+        width: 0px;
+        height: 8px;
+        border-radius: 8px;
+      }
+    }
+  }
+}
+
 .dashboard {
   height: 100%;
 
   .sidebar {
-    width: 250px;
-    height: calc(100% - 80px);
-    background-color: $dark-grey;
-    position: absolute;
-
-    .top {
-      height: 98px;
-      padding: 41px 20px 36px;
-      background-color: $darkest-grey;
-
-      > * {
-        display: inline-block;
-      }
-
-      .top-title {
-        text-transform: uppercase;
-        color: $white;
-        font-size: 12px;
-      }
-
-      .bkg-bar {
-        background-color: $dark-grey;
-        width: 80px;
-        height: 8px;
-        border-radius: 8px;
-        margin-left: 15px;
-        display: inline-block;
-
-        .custom-tooltip {
-          padding-top: 12px;
-          width: 65px;
-          height: 50px;
-          border-radius: 3px;
-          text-align: center;
-          font-family: 'Oswald';
-          font-weight: 300;
-          font-size: 18px;
-          color: $white;
-          position: absolute;
-          top: -20px;
-          z-index: 99999;
-          display: none;
-
-          background-color: red;
-        }
-
-        .custom-tooltip-arrow {
-          width: 0;
-          height: 0;
-          margin-left: 11px;
-          border-left: 20px solid transparent;
-          border-right: 20px solid transparent;
-          border-top: 20px solid red;
-        }
-
-        .fill-bar {
-          width: 0px;
-          height: 8px;
-          border-radius: 8px;
-        }
-      }
-    }
-
     .module-toggle-container {
       width: 210px;
       margin: 0 auto;
@@ -327,6 +331,7 @@
               background-size: 20px 20px;
               background-repeat: no-repeat;
               background-image: image-url("dashboard/icon-view.svg");
+              cursor: pointer;
 
               .li-tooltip {
                 position: absolute;
@@ -567,32 +572,10 @@
   &#risk_indicators {
     .main {
       .filters {
-        margin: 0 20px;
         border-bottom: 1px solid $dark-blue;
+        margin: 0 20px;
         padding: 10px 0;
         text-align: center;
-
-        .filter {
-          height: 30px;
-          width: 150px;
-          padding-top: 7px;
-          border-radius: 15px;
-          background-color: #124c93;
-          font-family: "Avenir-Book";
-          font-size: 12px;
-          text-align: center;
-          cursor: pointer;
-          display: inline-block;
-          opacity: 0.4;
-
-          &:first-child {
-            margin-right: 10px;
-          }
-
-          &:hover {
-            opacity: 1.0;
-          }
-        }
       }
     }
   }
@@ -610,5 +593,28 @@
   }
   &#general_financials {
 
+  }
+}
+
+.filter {
+  color: white;
+  height: 30px;
+  width: 150px;
+  padding-top: 7px;
+  border-radius: 15px;
+  background-color: #124c93;
+  font-family: "Avenir-Book";
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  opacity: 0.4;
+
+  &:first-child {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    opacity: 1.0;
   }
 }
