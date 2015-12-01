@@ -30,7 +30,7 @@ var Sidebar = React.createClass({
     var ratio = company.risk/1;
     var color = riskColor(ratio);
     var barStyle = {backgroundColor: color, width: 80 * ratio}
-    var left = 93 + ratio * 80;
+    var left = 113 + ratio * 80;
     var tooltipStyle = {left: left, backgroundColor: color}
     var arrowStyle = {borderTop: "20px solid " + color}
     var toggles;

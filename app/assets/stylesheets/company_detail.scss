@@ -63,6 +63,10 @@ $subnav-height: 80px;
   .sidebar .top {
     height: 77px;
     padding: 32px 20px 28px;
+
+    .custom-tooltip {
+      top: -25px;
+    }
   }
 
   .details-subnav {
