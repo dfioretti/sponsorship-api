@@ -1288,7 +1288,7 @@
              * also scrollstart / scrollstop
              * @James Padolsey : http://james.padolsey.com/javascript/special-scroll-events-for-jquery/
              */
-            // $(elem).bind('mouseenter.jsp',function() {
+            $(elem)//.bind('mouseenter.jsp',function() {
             //   console.log($(elem));
             //   // show the scrollbar
             //   $vBar.stop( true, true ).jspmouseenter();
@@ -1304,18 +1304,19 @@
             //   }, instance.extPluginOpts.hovertimeout_t );
 
 
-            // }).bind('mouseleave.jsp',function() {
+            // })
+            .bind('mouseleave.jsp',function() {
 
-            //   // hide the scrollbar
-            //   if( !instance.extPluginOpts.useTimeout )
-            //     $vBar.stop( true, true ).jspmouseleave( instance.extPluginOpts.mouseLeaveFadeSpeed || 0 );
-            //   else {
-            //   clearTimeout( instance.elementtimeout );
-            //   if( !instance.isScrolling )
-            //       $vBar.stop( true, true ).jspmouseleave( instance.extPluginOpts.mouseLeaveFadeSpeed || 0 );
-            //   }
+              // hide the scrollbar
+              if( !instance.extPluginOpts.useTimeout )
+                $vBar.stop( true, true ).jspmouseleave( instance.extPluginOpts.mouseLeaveFadeSpeed || 0 );
+              else {
+              clearTimeout( instance.elementtimeout );
+              if( !instance.isScrolling )
+                  $vBar.stop( true, true ).jspmouseleave( instance.extPluginOpts.mouseLeaveFadeSpeed || 0 );
+              }
 
-            // });
+            });
             if( this.extPluginOpts.useTimeout && $(elem).innerHeight() < contentHeight) {
               $(elem).on('scrollstart', function() {
                 // when scrolling show the scrollbar
