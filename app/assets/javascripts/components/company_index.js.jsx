@@ -16,7 +16,6 @@ var CompanyIndex = React.createClass({
   order: function(value) {
     switch (value) {
       case 0:
-        console.log("order by ticker");
         var order = 0;
         if (this.state.orderBy.field == "name" && this.state.orderBy.order == 0) {
           order = 1;
@@ -24,7 +23,6 @@ var CompanyIndex = React.createClass({
         this.setState({orderBy: {field: "name", order: order}});
         break;
       case 1:
-        console.log("order by risk");
         var order = 0;
         if (this.state.orderBy.field == "risk" && this.state.orderBy.order == 0) {
           order = 1;
@@ -32,7 +30,6 @@ var CompanyIndex = React.createClass({
         this.setState({orderBy: {field: "risk", order: order}});
         break;
       case 2:
-        console.log("order by gov score");
         var order = 0;
         if (this.state.orderBy.field == "risk" && this.state.orderBy.order == 0) {
           order = 1;
