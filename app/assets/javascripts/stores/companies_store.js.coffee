@@ -2,7 +2,7 @@ class CompaniesStore extends EventEmitter
   constructor: ->
     @ready = false
     @current = Immutable.fromJS({})
-    @companies = Immutable.fromJS({})
+    @companies = Immutable.fromJS([])
     @list().then (companies) =>
       @companies = Immutable.fromJS(companies)
       @ready = true
