@@ -1,9 +1,12 @@
 var RiskAssessment = React.createClass({
+  componentDidMount: function() {
+    var pos = (292 * this.props.company.risk / 1) - 8;
+    $('.slider-button').animate({left: pos}, 1000);
+  },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var company = this.props.company;
-    var pos = (292 * company.risk / 1) - 8;
-    var buttonStyle = {left: pos};
+
     return (
       <div id="risk_assessment" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
@@ -14,7 +17,7 @@ var RiskAssessment = React.createClass({
           <div className="risk">{riskLabel(company.risk)}</div>
           <div className="subheader">Risk Score</div>
           <div className="slider-bar">
-            <div className="slider-button" style={buttonStyle}></div>
+            <div className="slider-button"></div>
           </div>
         </div>
       </div>

@@ -1,4 +1,8 @@
 var ProbabilityListItem = React.createClass({
+  componentDidMount: function() {
+    var bar = ReactDOM.findDOMNode(this.refs.bar);
+    $(bar).animate({width: this.props.probability * 100}, 1000);
+  },
   showTooltip: function(e) {
     var tooltip = $('.li-tooltip');
     var top = $(e.target).offset().top - 50,
@@ -40,10 +44,10 @@ var ProbabilityListItem = React.createClass({
   renderProbability: function() {
     var probabilityBar;
     if (this.props.probability) {
-      var probabilityStyle = {backgroundColor: riskColor(this.props.probability), width: this.props.probability * 100};
+      var probabilityStyle = {backgroundColor: riskColor(this.props.probability)};
       probabilityBar = (
         <div className="li-probability-bkg">
-          <div className="li-probability-bar" style={probabilityStyle}></div>
+          <div className="li-probability-bar" ref="bar" style={probabilityStyle}></div>
         </div>
       );
     }
