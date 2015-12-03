@@ -618,24 +618,6 @@
   transition: all .1s ease;
   -webkit-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
-
-  &.below {
-    transform: translate(-50%, 0);
-  }
-
-  &.below:before {
-    border: solid;
-    border-color: #111 transparent;
-    border-color: rgba(0, 0, 0, .8) transparent;
-    border-width: 0 8px 8px 8px;
-    bottom: 1em;
-    content: "";
-    display: block;
-    left: 50%;
-    position: absolute;
-    z-index: 99;
-    transform: translate(-50%, -100%);
-  }
 }
 
 .filter {

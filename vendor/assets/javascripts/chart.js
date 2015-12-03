@@ -1972,26 +1972,26 @@
 
         if (this.isHorizontal()) {
           // A horizontal axis is more constrained by the height.
-          var maxLabelHeight = this.maxHeight - this.minSize.height;
-          var longestLabelWidth = helpers.longestText(this.ctx, labelFont, this.ticks);
+          // var maxLabelHeight = this.maxHeight - this.minSize.height;
+          // var longestLabelWidth = helpers.longestText(this.ctx, labelFont, this.ticks);
 
-          // TODO - improve this calculation
-          var labelHeight = (Math.sin(helpers.toRadians(this.labelRotation)) * longestLabelWidth) + 1.5 * this.options.ticks.fontSize;
+          // // TODO - improve this calculation
+          // var labelHeight = (Math.sin(helpers.toRadians(this.labelRotation)) * longestLabelWidth) + 1.5 * this.options.ticks.fontSize;
 
-          this.minSize.height = Math.min(this.maxHeight, this.minSize.height + labelHeight);
+          // this.minSize.height = Math.min(this.maxHeight, this.minSize.height + labelHeight);
 
-          labelFont = helpers.fontString(this.options.ticks.fontSize, this.options.ticks.fontStyle, this.options.ticks.fontFamily);
-          this.ctx.font = labelFont;
+          // labelFont = helpers.fontString(this.options.ticks.fontSize, this.options.ticks.fontStyle, this.options.ticks.fontFamily);
+          // this.ctx.font = labelFont;
 
-          var firstLabelWidth = this.ctx.measureText(this.ticks[0]).width;
-          var lastLabelWidth = this.ctx.measureText(this.ticks[this.ticks.length - 1]).width;
+          // var firstLabelWidth = this.ctx.measureText(this.ticks[0]).width;
+          // var lastLabelWidth = this.ctx.measureText(this.ticks[this.ticks.length - 1]).width;
 
-          // Ensure that our ticks are always inside the canvas. When rotated, ticks are right aligned which means that the right padding is dominated
-          // by the font height
-          var cosRotation = Math.cos(helpers.toRadians(this.labelRotation));
-          var sinRotation = Math.sin(helpers.toRadians(this.labelRotation));
-          this.paddingLeft = this.labelRotation !== 0 ? (cosRotation * firstLabelWidth) + 3 : firstLabelWidth / 2 + 3; // add 3 px to move away from canvas edges
-          this.paddingRight = this.labelRotation !== 0 ? (sinRotation * (this.options.ticks.fontSize / 2)) + 3 : lastLabelWidth / 2 + 3; // when rotated
+          // // Ensure that our ticks are always inside the canvas. When rotated, ticks are right aligned which means that the right padding is dominated
+          // // by the font height
+          // var cosRotation = Math.cos(helpers.toRadians(this.labelRotation));
+          // var sinRotation = Math.sin(helpers.toRadians(this.labelRotation));
+          // this.paddingLeft = this.labelRotation !== 0 ? (cosRotation * firstLabelWidth) + 3 : firstLabelWidth / 2 + 3; // add 3 px to move away from canvas edges
+          // this.paddingRight = this.labelRotation !== 0 ? (sinRotation * (this.options.ticks.fontSize / 2)) + 3 : lastLabelWidth / 2 + 3; // when rotated
         } else {
           // A vertical axis is more constrained by the width. Labels are the dominant factor here, so get that length first
           var maxLabelWidth = this.maxWidth - this.minSize.width;
