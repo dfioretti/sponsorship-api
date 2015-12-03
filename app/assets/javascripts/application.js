@@ -14,6 +14,7 @@
 //= require s3upload
 //= require uuid
 //= require moment.min
+//= require chart
 //= require chartist.min
 
 //= require bootstrap-sprockets

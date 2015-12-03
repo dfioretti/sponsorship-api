@@ -582,13 +582,59 @@
 
   }
   &#social_sentiment {
+    .main {
+      padding-top: 40px;
+      padding-right: 40px;
+      padding-left: 28px;
+      padding-bottom: 30px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
 
+      div:last-child {
+        margin-top: 10px;
+      }
+    }
   }
   &#key_social_posts {
 
   }
   &#general_financials {
 
+  }
+}
+
+#chartjs-tooltip {
+  padding: 10px 14px;
+  border: 1px solid $light-grey;
+  opacity: 1;
+  position: absolute;
+  background: $white;
+  color: #9b9b9b;
+  font-family: "Avenir-Book";
+  font-size: 12px;
+  border-radius: 3px;
+  pointer-events: none;
+  -webkit-transition: all .1s ease;
+  transition: all .1s ease;
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+
+  &.below {
+    transform: translate(-50%, 0);
+  }
+
+  &.below:before {
+    border: solid;
+    border-color: #111 transparent;
+    border-color: rgba(0, 0, 0, .8) transparent;
+    border-width: 0 8px 8px 8px;
+    bottom: 1em;
+    content: "";
+    display: block;
+    left: 50%;
+    position: absolute;
+    z-index: 99;
+    transform: translate(-50%, -100%);
   }
 }
 
