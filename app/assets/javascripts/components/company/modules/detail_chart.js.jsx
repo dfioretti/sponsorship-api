@@ -53,6 +53,17 @@ var DetailChart = React.createClass({
       fullWidth: true,
       chartPadding: 0
     });
+    chart.on('draw', function(data) {
+      if(data.type === 'line') {
+        data.element.animate({
+          'stroke-dashoffset': {
+            dur: 2000,
+            from: 1000,
+            to: 0
+          }
+        });
+      }
+    });
   },
   renderLegend: function() {
     return (
