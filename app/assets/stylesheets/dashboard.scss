@@ -320,6 +320,10 @@
             padding-bottom: 18px;
             border-bottom: 1px solid $dark-blue;
 
+            &:last-child {
+              border-bottom: none;
+            }
+
             .li-tooltip-button {
               width: 20px;
               height: 20px;
@@ -599,7 +603,63 @@
 
   }
   &#general_financials {
+    .main {
+      ul.general-financials-list {
+        height: 270px;
+        margin-right: 0px;
+        margin-left: 0px;
 
+        li.stock {
+          width: 400px;
+          padding: 10px 20px 16px;
+
+          .left {
+            .ticker {
+              font-family: "Oswald";
+              font-size: 42px;
+            }
+
+            .time {
+              font-family: "Avenir-Book";
+              font-size: 14px;
+            }
+          }
+          .right {
+            float: right;
+            text-align: right;
+
+            .price {
+              font-family: "Oswald";
+              font-size: 42px;
+
+              .change-icon {
+                width: 20px;
+                height: 20px;
+                background-image: image-url("dashboard/icon-change.svg");
+                display: inline-block;
+                margin-right: 10px;
+                margin-bottom: 6px;
+
+                &.down {
+                  transform: rotate(180);
+                }
+              }
+            }
+
+            .change {
+              font-family: "Avenir-Book";
+              font-size: 14px;
+              letter-spacing: 2px;
+            }
+          }
+        }
+
+        li.probability-list-item {
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+      }
+    }
   }
 }
 

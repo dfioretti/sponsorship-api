@@ -85,19 +85,19 @@ var Notes = React.createClass({
         <div className="top">
           <div className="drag-handle"></div>
           <div className="top-title">Notes</div>
-          <div className="main">
-            {this.renderNotesList()}
-            <div className="new-note">
-              <form id="note-form" ref="form" onSubmit={this.save}>
-                <textarea placeholder="New note here..." ref="body"></textarea>
-                <div className="attachment">
-                  <input type="file" className="file-input" id="note-file" ref="file" />
-                </div>
-                <button type="submit" className="note-submit">Submit</button>
-              </form>
-            </div>
-            <div className="loader-bar"></div>
+        </div>
+        <div className="main">
+          {this.renderNotesList()}
+          <div className="new-note">
+            <form id="note-form" ref="form" onSubmit={this.save}>
+              <textarea placeholder="New note here..." ref="body"></textarea>
+              <div className="attachment">
+                <input type="file" className="file-input" id="note-file" ref="file" />
+              </div>
+              <button type="submit" className="note-submit">Submit</button>
+            </form>
           </div>
+          <div className="loader-bar"></div>
         </div>
       </div>
     );
