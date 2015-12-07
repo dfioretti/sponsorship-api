@@ -43,11 +43,20 @@ var CompanyIndex = React.createClass({
     if (this.state.orderBy) {
       companies.sort(function(c1, c2){
         var order;
+        var field1 = c1[this.state.orderBy.field];
+        var field2 = c2[this.state.orderBy.field];
+
+        if (typeof(field1) === 'string') {
+          field1 = field1.toUpperCase();
+        }
+        if (typeof(field2) === 'string') {
+          field1 = field1.toUpperCase();
+        }
 
         if (this.state.orderBy.order == 0) {
-          order = c1[this.state.orderBy.field] > c2[this.state.orderBy.field]
+          order = field1 > field2 ? 1 : -1
         } else {
-          order = c1[this.state.orderBy.field] < c2[this.state.orderBy.field]
+          order = field1 < field2 ? 1 : -1
         }
 
         return order;
@@ -68,7 +77,7 @@ var CompanyIndex = React.createClass({
             </div>
             {riskLabel(company.risk)}
           </td>
-          <td style={colorStyle}>{company.risk}</td>
+          <td style={colorStyle}>{parseFloat(company.risk).toFixed(2)}</td>
         </tr>
       );
     }.bind(this));
