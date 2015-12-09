@@ -2,6 +2,9 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var Nav = React.createClass({
+  getInitialState: function() {
+    return {loaded: false};
+  },
   componentWillMount: function() {
     var st = PubSub.subscribe('auth.validation.success', function(ev, user) {
       this.setState({name: user.name, image: user.image});
@@ -14,6 +17,14 @@ var Nav = React.createClass({
       this.setState({name: null, image: null});
     }.bind(this));
     this.setState({st: st, ut: ut, rt: rt});
+
+    CompaniesStore.on("update", function() {
+      this.setState({loaded: true});
+    }.bind(this));
+
+    if (CompaniesStore.getState().ready) {
+      this.setState({loaded: true});
+    }
   },
   componentWillUnmount: function() {
     PubSub.unsubscribe(this.state.st);
@@ -57,13 +68,16 @@ var Nav = React.createClass({
   },
   renderTitle: function() {
     if (this.props.title == 'dashboard') {
-      var companyName = CompaniesStore.getState().current.name,
-      companies = $.map(CompaniesStore.getState().companies, function(company) {
-        var link = '/dashboard/' + company.id;
-        return (
-          <li key={company.id}><Link to={link}>{company.name}</Link></li>
-        );
-      });
+      var companyName, companies;
+      if (this.state.loaded) {
+        companyName = CompaniesStore.getState().current.name,
+        companies = $.map(CompaniesStore.getState().companies, function(company) {
+          var link = '/dashboard/' + company.id;
+          return (
+            <li key={company.id}><Link to={link}>{company.name}</Link></li>
+          );
+        });
+      }
 
       return (
         <div>
@@ -76,7 +90,6 @@ var Nav = React.createClass({
         </div>
       );
     } else {
-
       return (
         <p>{this.props.title}</p>
       );

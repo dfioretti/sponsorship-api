@@ -15,33 +15,21 @@ var Dashboard = React.createClass({
     DashboardsStore.getCurrent(this.props.params.id).then(function(){
       this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
 
-      $('.modules-container').shapeshift({
-        selector: ".dashboard-module",
-        handle: ".drag-handle",
-        align: "left",
-        autoHeight: false,
-        gutterX: 20,
-        gutterY: 20,
-        paddingX: 20,
-        paddingY: 20
-      });
-
-      $('.modules-container').on('ss-drop-complete', function(e, selected) {
-        this.updateDashboardState(this.getDashboardState());
-      }.bind(this));
+      if (this.state.dashboardLoaded && this.state.companyLoaded) {
+        this.setupGrid();
+      }
     }.bind(this));
 
     if (CompaniesStore.getState().ready) {
-      console.log('ready');
-      console.log(CompaniesStore.getState().current);
       this.setState({companyLoaded: true});
     }
 
     CompaniesStore.on("update", function() {
-      console.log("UPDATE");
-      console.log(CompaniesStore.getState());
       CompaniesStore.setCurrent(this.props.params.id);
       this.setState({companyLoaded: true});
+      if (this.state.dashboardLoaded && this.state.companyLoaded) {
+        this.setupGrid();
+      }
     }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
@@ -55,6 +43,22 @@ var Dashboard = React.createClass({
         $('.modules-container').trigger('ss-rearrange');
       }.bind(this));
     }
+  },
+  setupGrid: function() {
+    $('.modules-container').shapeshift({
+      selector: ".dashboard-module",
+      handle: ".drag-handle",
+      align: "left",
+      autoHeight: false,
+      gutterX: 20,
+      gutterY: 20,
+      paddingX: 20,
+      paddingY: 20
+    });
+
+    $('.modules-container').on('ss-drop-complete', function(e, selected) {
+      this.updateDashboardState(this.getDashboardState());
+    }.bind(this));
   },
   handleChange: function() {
     this.setState({dashboardState: DashboardsStore.getState().current});
