@@ -87,7 +87,8 @@ $subnav-height: 80px;
       .back-icon {
         width: 20px;
         height: 20px;
-        background-color: $darker-grey;
+        background-size: 20px 20px;
+        background-image: image-url("dashboard/Icon-DetailBack.svg");
       }
 
       .to-dashboard {
@@ -129,6 +130,9 @@ $subnav-height: 80px;
         border: 2px dashed $light-grey;
         background-color: rgba(255, 255, 255, 0.5);
         position: absolute;
+        background-image: image-url("dashboard/Icon-DragPlaceholder.svg");
+        background-repeat: no-repeat;
+        background-position: center center;
       }
 
       .detail-module {

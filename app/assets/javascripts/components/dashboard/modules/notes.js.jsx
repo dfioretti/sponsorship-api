@@ -1,6 +1,6 @@
 var Notes = React.createClass({
   getInitialState: function() {
-    return {notes: NotesStore.getState().notes};
+    return {scrollLoaded: false, notes: NotesStore.getState().notes};
   },
   componentDidMount: function() {
     var s = this;
@@ -8,17 +8,28 @@ var Notes = React.createClass({
       var timeoutId = setTimeout(function(){
         NotesStore.poll(s.props.company.id).then(function(notes){
           s.setState({notes: NotesStore.getState().notes});
-          $('.notes-list').data('jsp').reinitialise();
-          $('.notes-list').data('jsp').addHoverFunc();
+          if (typeof($('.notes-list').data('jsp')) != 'undefined') {
+            $('.notes-list').data('jsp').reinitialise();
+            $('.notes-list').data('jsp').addHoverFunc();
+          }
           poll();
         });
       }, 10000);
       s.setState({timeoutId: timeoutId})
     })();
-    $('.notes-list').jScrollPane();
+
+    if (!this.state.scrollLoaded && !this.props.hidden) {
+      $('.notes-list').jScrollPane();
+      this.setState({scrollLoaded: true});
+    }
   },
   componentWillReceiveProps: function(newProps) {
     this.setState({notes: NotesStore.getState().notes});
+
+    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
+      this.setState({scrollLoaded: true});
+      $('.notes-list').jScrollPane();
+    }
   },
   componentWillUnmount: function() {
     clearTimeout(this.state.timeoutId);

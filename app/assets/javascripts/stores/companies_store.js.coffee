@@ -14,13 +14,20 @@ class CompaniesStore extends EventEmitter
   setCurrent: (cid) ->
     if @ready
       if cid
-        @current = Immutable.fromJS(@find(cid))
+        @current = Immutable.fromJS(@findBy('id', cid))
       else
         @current = Immutable.fromJS({})
 
+  findBy: (field, cid) ->
+    c = @companies.find (company) ->
+      company.get(field).toString() == cid.toString()
+
+    if typeof(c) != 'undefined'
+      c.toJS();
+
   find: (cid) ->
     c = @companies.find (company) ->
-      company.get("id").toString() == cid.toString()
+      company.get("api_id").toString() == cid.toString()
 
     if typeof(c) != 'undefined'
       c.toJS();

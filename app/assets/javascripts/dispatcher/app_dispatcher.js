@@ -1,29 +1,34 @@
 var Dispatcher = {
-  post: function(path, params) {
-    console.log('post')
-    console.log(path);
-    console.log(params);
-
-
+  post: function(path, params, successCallback) {
     $.ajax({
       type: "POST",
       contentType: "application/json",
       url: path,
       data: JSON.stringify(params),
       success: function(data) {
-        console.log(data);
+        successCallback(data);
       },
-      error: function(data) {
-        console.log(data);
-        // return p.reject(data.responseJSON.errors);
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
       }
     });
 
   },
 
-  get: function(path, params) {
-    console.log('get')
-    console.log(path);
-    console.log(params);
+  apiGet: function(path, params, successCallback) {
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: "/api/v1/teneo_api",
+      data: $.extend(params, {path: path}),
+      success: function(data, status, xhr) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
   }
 }

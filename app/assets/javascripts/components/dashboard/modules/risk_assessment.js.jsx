@@ -3,6 +3,10 @@ var RiskAssessment = React.createClass({
     var pos = (292 * this.props.company.risk / 1) - 8;
     $('.slider-button').animate({left: pos}, 1000);
   },
+  componentWillReceiveProps: function(newProps) {
+    var pos = (292 * newProps.company.risk / 1) - 8;
+    $('.slider-button').animate({left: pos}, 1000);
+  },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var company = this.props.company;

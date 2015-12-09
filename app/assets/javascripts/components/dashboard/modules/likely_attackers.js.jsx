@@ -1,36 +1,48 @@
 var LikelyAttackers = React.createClass({
-  componentDidMount: function() {
-    $('.likely-attackers-list').jScrollPane();
+  getInitialState: function() {
+    return {scrollLoaded: false, attackers: []};
+  },
+  componentWillMount: function() {
+    this.getData();
+  },
+  componentWillReceiveProps: function(newProps) {
+    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
+      if (!this.state.wait) {
+        this.setState({scrollLoaded: true});
+        $('.likely-attackers-list').jScrollPane();
+      }
+    }
+
+    if (this.props.company.id != newProps.company.id) {
+      this.setState({wait: true}, function(){
+        this.getData(newProps);
+      }.bind(this));
+    }
+  },
+  getData: function(props) {
+    var p = props ? props : this.props;
+
+    Dispatcher.apiGet(
+      APIEndpoints.LIKELY_ATTACKERS,
+      {id: p.company.api_id},
+      function(data) {
+        this.setState({attackers: data}, function() {
+          if (!this.state.scrollLoaded && !p.hidden) {
+            $('.likely-attackers-list').jScrollPane();
+            this.setState({scrollLoaded: true});
+          } else if (this.state.wait) {
+            if (typeof($('.likely-attackers-list').data('jsp')) == "undefined") {
+              $('.likely-attackers-list').jScrollPane();
+              this.setState({scrollLoaded: true});
+            }
+            this.setState({wait: false});
+          }
+        }.bind(this));
+      }.bind(this)
+    );
   },
   renderList: function() {
-    var attackers = [
-      {
-        "attacker_name": "Pershing Square Capital",
-        "likelihood": 0.7
-      },
-      {
-        "attacker_name": "Icahn Enterprises",
-        "likelihood": 0.6
-      },
-      {
-        "attacker_name": "Low Risk Capital",
-        "likelihood": 0.1
-      },
-      {
-        "attacker_name": "Something Enterprises",
-        "likelihood": 0.3
-      },
-      {
-        "attacker_name": "Snacks Capital",
-        "likelihood": 0.8
-      },
-      {
-        "attacker_name": "Hungry Enterprises",
-        "likelihood": 0.4
-      }
-    ]
-
-    var list = $.map(attackers, function(item, i) {
+    var list = $.map(this.state.attackers, function(item, i) {
       var attacker = item.attacker_name
       var probability = item.likelihood;
       return <ProbabilityListItem key={i} title={attacker} probability={probability} />

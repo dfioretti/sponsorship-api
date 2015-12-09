@@ -3,7 +3,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var Dashboard = React.createClass({
   getInitialState: function() {
-    return {loaded: false};
+    return {dashboardLoaded: false, companyLoaded: false};
   },
   componentWillMount: function() {
     this.props.setTitle('dashboard');
@@ -13,7 +13,7 @@ var Dashboard = React.createClass({
     NotesStore.setCompanyId(this.props.params.id);
 
     DashboardsStore.getCurrent(this.props.params.id).then(function(){
-      this.setState({dashboardState: DashboardsStore.getState().current, loaded: true});
+      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
 
       $('.modules-container').shapeshift({
         selector: ".dashboard-module",
@@ -31,9 +31,18 @@ var Dashboard = React.createClass({
       }.bind(this));
     }.bind(this));
 
+    if (CompaniesStore.getState().ready) {
+      console.log('ready');
+      console.log(CompaniesStore.getState().current);
+      this.setState({companyLoaded: true});
+    }
+
     CompaniesStore.on("update", function() {
+      console.log("UPDATE");
+      console.log(CompaniesStore.getState());
       CompaniesStore.setCurrent(this.props.params.id);
-    });
+      this.setState({companyLoaded: true});
+    }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.params.id !== this.props.params.id) {
@@ -91,7 +100,6 @@ var Dashboard = React.createClass({
       hidden = true;
 
     var company = CompaniesStore.getState().current;
-
     switch (name) {
       case 'risk_assessment':
         el = <RiskAssessment company={company} hidden={hidden} key={name}/>
@@ -133,7 +141,8 @@ var Dashboard = React.createClass({
   },
   render: function() {
     var dashboardState;
-    if (this.state.loaded) {
+
+    if (this.state.dashboardLoaded && this.state.companyLoaded) {
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">

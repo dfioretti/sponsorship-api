@@ -1,12 +1,47 @@
 var SocialSentiment = React.createClass({
+  getInitialState: function() {
+    return {};
+  },
   componentDidMount: function() {
-    var ctx = ReactDOM.findDOMNode(this.refs.chart);
+    this.getData();
+  },
+  componentWillReceiveProps: function(newProps) {
+    if (this.props.company.id != newProps.company.id) {
+      this.getData(newProps);
+    }
+  },
+  getData: function(props) {
+    var p = props ? props : this.props;
+
+    Dispatcher.apiGet(
+      APIEndpoints.SOCIAL_SENTIMENT,
+      {id: p.company.api_id},
+      function(data) {
+        var sentiment = [],
+        volume = [];
+        $.each(data.reverse(), function(i, point) {
+          sentiment.push(point.sentiment);
+          volume.push(point.volume);
+        }.bind(this));
+
+        if (typeof(this.state.chart) != 'undefined') {
+          $('#social_sentiment .main iframe').remove();
+          $('#sentiment-chart').replaceWith('<canvas id="sentiment-chart"></canvas>');
+        }
+
+        this.renderChart(sentiment, volume);
+
+      }.bind(this)
+    );
+  },
+  renderChart: function(sentiment, volume) {
+    var ctx = document.getElementById("sentiment-chart");
     Chart.defaults.global.elements.line.tension = 0;
 
-    var sentimentChart = new Chart(ctx, {
+    var data = {
       type: 'line',
       data: {
-        labels: ['', '', '', '', '', '', '', '', ''],
+        labels: new Array(sentiment.length).fill(''),
         datasets: [{
           yAxisID: "y-axis-1",
           label: 'Sentiment',
@@ -16,9 +51,7 @@ var SocialSentiment = React.createClass({
           pointBorderColor: "rgba(80,227,194,1)",
           pointHoverRadius: 5,
           pointBackgroundColor: "rgba(80,227,194,1)",
-          data: [
-            1.1, 3.2, 2.3, 2.7, 3.4, 3.1, 3.2, 4.2, 1.9
-          ]
+          data: sentiment
         },
         {
           yAxisID: "y-axis-2",
@@ -29,9 +62,7 @@ var SocialSentiment = React.createClass({
           borderWidth: 1,
           pointBorderColor: "transparent",
           pointBackgroundColor: "transparent",
-          data: [
-            1000, 1200, 2100, 3000, 2400, 2200, 4100, 4300, 3400
-          ]
+          data: volume
         }]
       },
       options:{
@@ -86,7 +117,11 @@ var SocialSentiment = React.createClass({
           }]
         }
       }
-    });
+    }
+
+    var sentimentChart = new Chart(ctx, data);
+
+    this.setState({chart: sentimentChart});
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
@@ -97,7 +132,7 @@ var SocialSentiment = React.createClass({
           <div className="top-title">Social Sentiment</div>
         </div>
         <div className="main">
-          <canvas id="sentiment-chart" ref="chart"></canvas>
+          <canvas id="sentiment-chart"></canvas>
           <div>Social Sentiment : Social Volume</div>
         </div>
       </div>

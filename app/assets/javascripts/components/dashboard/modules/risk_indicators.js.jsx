@@ -1,9 +1,45 @@
 var RiskIndicators = React.createClass({
   getInitialState: function() {
-    return {orderBy: {field: "data_type_display_name", order: 0}};
+    return {scrollLoaded: false, orderBy: {field: "data_type_display_name", order: 0}, indicators: []};
   },
-  componentDidMount: function() {
-    $('.risk-indicator-list').jScrollPane();
+  componentWillMount: function() {
+    this.getData();
+  },
+  componentWillReceiveProps: function(newProps) {
+    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
+      if (!this.state.wait) {
+        this.setState({scrollLoaded: true});
+        $('.risk-indicator-list').jScrollPane();
+      }
+    }
+
+    if (this.props.company.id != newProps.company.id) {
+      this.setState({wait: true}, function(){
+        this.getData(newProps);
+      }.bind(this));
+    }
+  },
+  getData: function(props) {
+    var p = props ? props : this.props;
+
+    Dispatcher.apiGet(
+      APIEndpoints.RISK_INDICATORS,
+      {id: p.company.api_id},
+      function(data) {
+        this.setState({indicators: data}, function() {
+          if (!this.state.scrollLoaded && !p.hidden) {
+            $('.risk-indicator-list').jScrollPane();
+            this.setState({scrollLoaded: true});
+          } else if (this.state.wait) {
+            if (typeof($('.risk-indicator-list').data('jsp')) == "undefined") {
+              $('.risk-indicator-list').jScrollPane();
+              this.setState({scrollLoaded: true});
+            }
+            this.setState({wait: false});
+          }
+        }.bind(this));
+      }.bind(this)
+    );
   },
   order: function(value) {
     switch (value) {
@@ -24,42 +60,27 @@ var RiskIndicators = React.createClass({
     }
   },
   renderList: function() {
-    var indicators = [
-      {
-        "data_type": "norm_pe_ratio",
-        "data_type_display_name":"P/E Ratio",
-        "importance": 0.9,
-        "model_rank" : 0
-      },
-      {
-        "data_type": "ebitda_margin",
-        "data_type_display_name":"EBITDA Margin",
-        "importance": 0.8,
-        "model_rank" : 3
-      },
-      {
-        "data_type": "test_ratio",
-        "data_type_display_name":"Test Ratio",
-        "importance": 0.2,
-        "model_rank" : 2
-      },
-      {
-        "data_type": "other_margin",
-        "data_type_display_name":"Other Margin",
-        "importance": 0.3,
-        "model_rank" : 4
-      }
-    ]
+    var indicators = this.state.indicators;
 
     if (this.state.orderBy) {
       indicators.sort(function(i1, i2){
         var order;
+        var field1 = i1[this.state.orderBy.field];
+        var field2 = i2[this.state.orderBy.field];
+
+        if (typeof(field1) === 'string') {
+          field1 = field1.toUpperCase();
+        }
+        if (typeof(field2) === 'string') {
+          field1 = field1.toUpperCase();
+        }
 
         if (this.state.orderBy.order == 0) {
-          order = i1[this.state.orderBy.field] > i2[this.state.orderBy.field]
+          order = field1 > field2 ? 1 : -1
         } else {
-          order = i1[this.state.orderBy.field] < i2[this.state.orderBy.field]
+          order = field1 < field2 ? 1 : -1
         }
+
         return order;
       }.bind(this));
     }

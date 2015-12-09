@@ -1,36 +1,48 @@
 var HistoricalPrecedent = React.createClass({
-  componentDidMount: function() {
-    $('.historical-precedent-list').jScrollPane();
+  getInitialState: function() {
+    return {scrollLoaded: false, precedent: []};
+  },
+  componentWillMount: function() {
+    this.getData();
+  },
+  componentWillReceiveProps: function(newProps) {
+    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
+      if (!this.state.wait) {
+        this.setState({scrollLoaded: true});
+        $('.historical-precedent-list').jScrollPane();
+      }
+    }
+
+    if (this.props.company.id != newProps.company.id) {
+      this.setState({wait: true}, function(){
+        this.getData(newProps);
+      }.bind(this));
+    }
+  },
+  getData: function(props) {
+    var p = props ? props : this.props;
+
+    Dispatcher.apiGet(
+      APIEndpoints.HISTORICAL_PRECEDENTS,
+      {id: this.props.company.api_id},
+      function(data) {
+        this.setState({precedent: data}, function() {
+          if (!this.state.scrollLoaded && !p.hidden) {
+            $('.historical-precedent-list').jScrollPane();
+            this.setState({scrollLoaded: true});
+          } else if (this.state.wait) {
+            if (typeof($('.historical-precedent-list').data('jsp')) == "undefined") {
+              $('.historical-precedent-list').jScrollPane();
+              this.setState({scrollLoaded: true});
+            }
+            this.setState({wait: false});
+          }
+        }.bind(this));
+      }.bind(this)
+    );
   },
   renderList: function() {
-    var precedent = [
-      {
-        "company_id" : 2,
-        "date" : "2012-03-01",
-        "attacker_name": "Pershing Square Capital",
-        "similarity": 0.7
-      },
-      {
-        "company_id" : 1,
-        "date" : "2012-08-01",
-        "attacker_name": "Icahn Enterprises",
-        "similarity": 0.6
-      },
-      {
-        "company_id" : 4,
-        "date" : "2011-08-01",
-        "attacker_name": "Something Enterprises",
-        "similarity": 0.1
-      },
-      {
-        "company_id" : 3,
-        "date" : "2010-08-01",
-        "attacker_name": "Other Enterprises",
-        "similarity": 0.9
-      }
-    ]
-
-    var list = $.map(precedent, function(item, i) {
+    var list = $.map(this.state.precedent, function(item, i) {
       var company = CompaniesStore.find(item.company_id.toString());
       if (typeof(company) != 'undefined') {
         var name = company.name;

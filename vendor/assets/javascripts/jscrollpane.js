@@ -1460,7 +1460,9 @@
           {
             var destY = contentPositionY() + Math[deltaY<0 ? 'floor' : 'ceil'](deltaY),
               percentScrolled = destY / (contentHeight - paneHeight);
-            positionDragY(percentScrolled * dragMaxY, animate);
+
+            if ($(elem).find('.jspContainer').innerHeight() < $(elem).find('.jspPane').innerHeight())
+              positionDragY(percentScrolled * dragMaxY, animate);
           },
           // Positions the horizontal drag at the specified x position (and updates the viewport to reflect
           // this). animate is optional and if not passed then the value of animateScroll from the settings
