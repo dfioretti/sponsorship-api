@@ -7,6 +7,7 @@
 //= require jquery.scrollstop.min
 //= require jquery.mousewheel
 //= require jscrollpane
+//= require spin.min
 //= require pubsub
 //= require jtoker
 //= require EventEmitter.min
