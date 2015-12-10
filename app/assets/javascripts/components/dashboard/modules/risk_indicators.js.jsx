@@ -26,6 +26,7 @@ var RiskIndicators = React.createClass({
       APIEndpoints.RISK_INDICATORS,
       {id: p.company.api_id},
       function(data) {
+        console.log(data);
         this.setState({indicators: data}, function() {
           if (!this.state.scrollLoaded && !p.hidden) {
             $('.risk-indicator-list').jScrollPane();

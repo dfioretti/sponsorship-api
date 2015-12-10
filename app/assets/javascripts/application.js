@@ -17,6 +17,7 @@
 //= require moment.min
 //= require chart
 //= require chartist.min
+//= require chartist-tooltip
 
 //= require bootstrap-sprockets
 //= require turbolinks

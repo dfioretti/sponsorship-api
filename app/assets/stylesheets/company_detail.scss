@@ -3,11 +3,15 @@ $subnav-height: 80px;
 .ct-series .ct-line {
   stroke: $dark-blue;
   stroke-width: 1px;
-  stroke-dasharray: 1000;
+  stroke-dasharray: 30000;
 }
 
 .ct-series-a .ct-line {
   stroke: rgba(80,227,194,1);
+}
+
+.ct-point {
+  stroke: transparent !important;
 }
 
 .ct-grids {
@@ -27,6 +31,10 @@ $subnav-height: 80px;
   color: rgba(0, 0, 0, 0.6);
   font-family: "Avenir-Medium";
   font-size: 12px;
+}
+
+.chartist-tooltip {
+  position: absolute;
 }
 
 .chart-legend {

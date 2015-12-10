@@ -13,7 +13,12 @@ namespace :seed do
     companies = ActiveSupport::JSON.decode(response.response_body)
 
     companies.each do |c|
-      Company.create api_id: c['id'], name: c['name'], ticker: c['ticker'], risk: c['risk']
+      company = Company.find_by_api_id c['id']
+      if company
+        company.update risk: c['risk']
+      else
+        Company.create api_id: c['id'], name: c['name'], ticker: c['ticker'], risk: c['risk']
+      end
     end
 
     Logger.new(STDOUT).info "Seeding complete."

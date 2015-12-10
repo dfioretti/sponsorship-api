@@ -1485,6 +1485,7 @@
 
     getElementsAtEvent: function(e) {
       var eventPosition = helpers.getRelativePosition(e, this.chart);
+      console.log(eventPosition)
       var elementsArray = [];
 
       var found = (function(){
@@ -1583,6 +1584,7 @@
         this.active = [];
         this.tooltipActive = [];
       } else {
+        console.log('else');
         this.active = function() {
           switch (this.options.hover.mode) {
             case 'single':
@@ -6237,7 +6239,8 @@
 
       if (vm) {
         var hoverRange = vm.hitRadius + vm.radius;
-        return ((Math.pow(mouseX - vm.x, 2) + Math.pow(mouseY - vm.y, 2)) < Math.pow(hoverRange, 2));
+        // console.log(((Math.pow(mouseX - vm.x, 2) + Math.pow(mouseY - vm.y, 2)) < Math.pow(hoverRange, 2)));
+        return ((Math.pow(mouseX - vm.x, 2)) < Math.pow(hoverRange, 2));
       } else {
         return false;
       }

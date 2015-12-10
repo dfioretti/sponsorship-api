@@ -3,6 +3,7 @@ const APIEndpoints = {
   REGISTER: "/api/v1/auth/",
   PASSWORD: "/api/v1/auth/password",
   PASSWORD_RESET: "/reset_password",
+  COMPANY: "http://ewsapi.teneodigital.com/company",
   FINANCIAL_DATA: "http://ewsapi.teneodigital.com/financial_data",
   LATEST_FINANCIAL_DATA: "http://ewsapi.teneodigital.com/financial_data_latest",
   RISK_INDICATORS: "http://ewsapi.teneodigital.com/risk_indicators",
