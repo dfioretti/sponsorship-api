@@ -4,10 +4,19 @@ var RouteHandler = ReactRouter.RouteHandler,
 var CompanyIndex = React.createClass({
   mixins: [ Navigation ],
   getInitialState: function() {
-    return {orderBy: {field: "name", order: 0}};
+    return {orderBy: {field: "name", order: 0}, companies: []};
   },
   componentWillMount: function() {
     this.props.setTitle('');
+
+    if (CompaniesStore.getState().ready) {
+      this.setState({companiesLoaded: true, companies: CompaniesStore.getState().companies});
+    }
+
+    CompaniesStore.on("update", function() {
+      this.setState({companiesLoaded: true, companies: CompaniesStore.getState().companies});
+    }.bind(this));
+
   },
   setCompany: function(e) {
     CompaniesStore.setCurrent(e.id);
@@ -39,7 +48,7 @@ var CompanyIndex = React.createClass({
     }
   },
   renderList: function() {
-    var companies = CompaniesStore.getState().companies;
+    var companies = this.state.companies;
     if (this.state.orderBy) {
       companies.sort(function(c1, c2){
         var order;
