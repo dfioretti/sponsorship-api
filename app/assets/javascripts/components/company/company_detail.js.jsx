@@ -111,27 +111,7 @@ var CompanyDetail = React.createClass({
         this.setState({orderBy: {field: "importance", order: order}});
         break;
     }
-  },
-  renderSubnav: function() {
-    var link = '/dashboard/' + this.props.params.id;
 
-    return (
-      <div className="details-subnav">
-        <div className="details-left-nav">
-          <Link to={link}><div className="back-icon"></div></Link>
-          <div className="to-dashboard">Risk Indicators</div>
-          <div className="filter">Print Report</div>
-        </div>
-        <div className="details-right-nav">
-          <div className="filters">
-            <div className="filter value-filter" onClick={this.order.bind(this, 0)}>Filter by Value <span className="caret"></span></div>
-            <div className="filter severity-filter" onClick={this.order.bind(this, 1)}>Filter by Severity <span className="caret"></span></div>
-          </div>
-        </div>
-      </div>
-    );
-  },
-  renderCharts: function() {
     var indicators = this.state.indicators;
 
     if (this.state.orderBy) {
@@ -157,8 +137,47 @@ var CompanyDetail = React.createClass({
       }.bind(this));
     }
 
+    var newDom = $.map(indicators, function(indicator) {
+      return ReactDOM.findDOMNode(this.refs[indicator.data_type]);
+    }.bind(this));
+
+    $('.charts-container').html(newDom);
+    $('.charts-container').shapeshift({
+      selector: ".detail-module",
+      handle: ".drag-handle",
+      align: "left",
+      autoHeight: false,
+      gutterX: 20,
+      gutterY: 20,
+      paddingX: 20,
+      paddingY: 20
+    });
+  },
+  renderSubnav: function() {
+    var link = '/dashboard/' + this.props.params.id;
+
+    return (
+      <div className="details-subnav">
+        <div className="details-left-nav">
+          <Link to={link}><div className="back-icon"></div></Link>
+          <div className="to-dashboard">Risk Indicators</div>
+          <div className="filter">Print Report</div>
+        </div>
+        <div className="details-right-nav">
+          <div className="filters">
+            <div className="filter value-filter" onClick={this.order.bind(this, 0)}>Filter by Value <span className="caret"></span></div>
+            <div className="filter severity-filter" onClick={this.order.bind(this, 1)}>Filter by Severity <span className="caret"></span></div>
+          </div>
+        </div>
+      </div>
+    );
+  },
+  renderCharts: function() {
+    var indicators = this.state.indicators;
+
     var charts = $.map(indicators, function(v, k){
       return <DetailChart
+        ref={v.data_type}
         key={k}
         data={v}
         fullCompany={this.state.fullCompany}

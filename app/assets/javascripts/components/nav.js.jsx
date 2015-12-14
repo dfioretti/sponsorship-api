@@ -107,7 +107,7 @@ var Nav = React.createClass({
         </div>
         <div className="nav-center">{this.renderTitle()}</div>
         <div className="navbar-collapse collapse">
-          <div className="nav navbar-nav navbar-left nav-brand">Teneo</div>
+          <div className="nav navbar-nav navbar-left nav-brand"><Link to="choose_company">Teneo</Link></div>
           <ul className="nav navbar-nav navbar-right nav-user">
             {this.renderMenu()}
           </ul>

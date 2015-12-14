@@ -4,7 +4,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 var CompanyIndex = React.createClass({
   mixins: [ Navigation ],
   getInitialState: function() {
-    return {orderBy: {field: "name", order: 0}, companies: []};
+    return {orderBy: {field: "risk", order: 1}, companies: []};
   },
   componentWillMount: function() {
     this.props.setTitle('');
@@ -49,6 +49,7 @@ var CompanyIndex = React.createClass({
   },
   renderList: function() {
     var companies = this.state.companies;
+
     if (this.state.orderBy) {
       companies.sort(function(c1, c2){
         var order;
@@ -86,7 +87,7 @@ var CompanyIndex = React.createClass({
             </div>
             {riskLabel(company.risk)}
           </td>
-          <td style={colorStyle}>{parseFloat(company.risk).toFixed(2)}</td>
+          <td style={colorStyle}>{(parseFloat(company.risk) * 100).toFixed(2)}%</td>
         </tr>
       );
     }.bind(this));

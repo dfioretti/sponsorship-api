@@ -100,7 +100,7 @@ var Notes = React.createClass({
       <div id="notes" className="dashboard-module tall" style={hiddenStyle}>
         <div className="top">
           <div className="drag-handle"></div>
-          <div className="top-title">Notes</div>
+          <div className="top-title">Team Notes</div>
         </div>
         <div className="main">
           {this.renderNotesList()}

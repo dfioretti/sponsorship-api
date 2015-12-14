@@ -12,9 +12,18 @@ var DetailChart = React.createClass({
 
     var dataType = newProps.data.data_type;
 
-    var companyData = $.map(newProps.companyData.reverse(), function(point) {
-      if (typeof(point[dataType]) != "undefined") {
-        return {x: new Date(point.date), y: point[dataType].toFixed(2)};
+    var companyData = $.map(newProps.companyData.reverse(), function(point, i) {
+      // jank sample every 5
+      if (newProps.companyData.length > 500) {
+        if (i % 5 == 0) {
+          if (typeof(point[dataType]) != "undefined") {
+            return {x: new Date(point.date), y: point[dataType].toFixed(2)};
+          }
+        }
+      } else {
+        if (typeof(point[dataType]) != "undefined") {
+          return {x: new Date(point.date), y: point[dataType].toFixed(2)};
+        }
       }
     });
 
@@ -22,7 +31,11 @@ var DetailChart = React.createClass({
     var avg = {};
 
     compData = $.map(newProps.compData, function(v, k) {
-      var data = $.map(v.reverse(), function(point) {
+      var data = $.map(v.reverse(), function(point, i) {
+        // jank sample every 5
+        if (newProps.compData.length > 500) {
+          if (i % 5 == 0) {
+
         if (typeof(point[dataType]) != "undefined") {
           var date = new Date(point.date),
           value = point[dataType];
@@ -34,6 +47,24 @@ var DetailChart = React.createClass({
           }
 
           return {x: date, y: value};
+        }
+
+          }
+        } else {
+
+        if (typeof(point[dataType]) != "undefined") {
+          var date = new Date(point.date),
+          value = point[dataType];
+
+          if (typeof(avg[date.getTime()]) != "undefined") {
+            avg[date.getTime()][k] = value;
+          } else {
+            avg[date.getTime()] = {[k]: value};
+          }
+
+          return {x: date, y: value};
+        }
+
         }
       });
 

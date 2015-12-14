@@ -10,12 +10,20 @@
 
   .nav-brand {
     font-size: 24px;
+
+    a {
+      &:hover, &:active, &:visited {
+        text-decoration: none;
+        color: $darker-grey;
+      }
+    }
   }
 
   .nav-center {
     position: absolute;
-    width: 100%;
+    width: 50%;
     left: 0;
+    right: 0;
     text-align: center;
     margin: auto;
 

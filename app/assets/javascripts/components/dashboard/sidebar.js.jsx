@@ -7,10 +7,13 @@ var Sidebar = React.createClass({
   },
   renderToggles: function() {
     var toggles = $.map(ModuleToggles, function(name){
-      var cn = "icon " + name;
-      var title = name.replace(/_/g, ' ')
-      var state = this.props.dashboardState;
-      var toggleValue = state[name]["toggle"];
+      var cn = "icon " + name,
+      title = name.replace(/_/g, ' '),
+      state = this.props.dashboardState,
+      toggleValue;
+
+      if (state[name])
+        toggleValue = state[name]["toggle"];
 
       return (
         <li key={name}>
