@@ -14,8 +14,6 @@ var CompanyDetail = React.createClass({
       this.setLoaded();
     }.bind(this));
   },
-  componentDidMount: function() {
-  },
   setupGrid: function() {
     $('.charts-container').shapeshift({
       selector: ".detail-module",
@@ -35,12 +33,10 @@ var CompanyDetail = React.createClass({
     }.bind(this));
   },
   getRiskIndicators: function() {
-    console.log('get risk indicators');
     Dispatcher.apiGet(
       APIEndpoints.RISK_INDICATORS,
       {id: this.state.company.api_id},
       function(data) {
-        console.log(data);
         this.setState({indicators: data}, function() {
           this.setupGrid();
         }.bind(this));
@@ -50,46 +46,53 @@ var CompanyDetail = React.createClass({
         });
 
         this.getCompanyData(data_types);
-        // this.getComps(data_types);
+        this.getComps(data_types);
       }.bind(this)
     );
   },
   getCompanyData: function(indicators) {
-    console.log('get company data');
     Dispatcher.apiGet(
       APIEndpoints.FINANCIAL_DATA,
       {id: this.state.company.api_id, data_type: indicators.join(',')},
       function(data) {
-        console.log(data);
         this.setState({companyData: data});
       }.bind(this)
     );
   },
   getComps: function(indicators) {
+    var self = this;
     Dispatcher.apiGet(
       APIEndpoints.COMPANY,
-      {id: this.state.company.api_id},
+      {id: self.state.company.api_id},
       function(data) {
-        this.setState({fullCompany: data});
-        console.log(data.comps);
+        self.setState({fullCompany: data});
 
         var compData = {};
         $.each(data.comps, function(i, comp) {
-          compData[comp] = this.getChartsData(comp, indicators);
-        }.bind(this));
-        console.log(compData);
-        this.setState({compData: compData});
-      }.bind(this)
+          self.getChartsData(comp, indicators).then(function(data) {
+            compData[comp] = data;
+          });
+        });
+
+        $(document).ajaxStop(function() {
+          $(this).unbind("ajaxStop");
+          self.setState({compData: compData});
+        });
+      }
     );
   },
-  getChartsData: function(comp, indicator) {
+  getChartsData: function(comp, indicators) {
+    var p = $.Deferred();
+
     Dispatcher.apiGet(
       APIEndpoints.FINANCIAL_DATA,
       {id: comp, data_type: indicators.join(',')},
       function(data) {
-        return data;
+        p.resolve(data);
       }.bind(this)
     );
+
+    return p;
   },
   renderSubnav: function() {
     var link = '/dashboard/' + this.props.params.id;
@@ -112,7 +115,13 @@ var CompanyDetail = React.createClass({
   },
   renderCharts: function() {
     var charts = $.map(this.state.indicators, function(v, k){
-      return <DetailChart key={k} data={v} company={CompaniesStore.getState().current} companyData={this.state.companyData} compData={this.state.compData} />
+      return <DetailChart
+        key={k}
+        data={v}
+        fullCompany={this.state.fullCompany}
+        company={CompaniesStore.getState().current}
+        companyData={this.state.companyData}
+        compData={this.state.compData} />
     }.bind(this));
 
     return (

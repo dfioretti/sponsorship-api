@@ -227,10 +227,10 @@
         }
 
         ul.text-list {
-          height: 440px;
+          height: 425px;
           overflow: auto;
           list-style: none;
-          margin: 13px 20px 0px;
+          margin: 0px 20px 0px;
 
           li {
             padding: 15px 5px;
@@ -472,6 +472,8 @@
 
   &#notes {
     .main {
+      border-bottom: 1px solid $dark-blue;
+
       .new-note {
         position: absolute;
         bottom: 0px;
@@ -571,6 +573,10 @@
   }
   &#risk_indicators {
     .main {
+      ul.risk-indicator-list {
+        height: 560px;
+      }
+
       .filters {
         border-bottom: 1px solid $dark-blue;
         margin: 0 20px;

@@ -7,11 +7,7 @@ var Notes = React.createClass({
     (function poll(){
       var timeoutId = setTimeout(function(){
         NotesStore.poll(s.props.company.id).then(function(notes){
-          s.setState({notes: NotesStore.getState().notes});
-          if (typeof($('.notes-list').data('jsp')) != 'undefined') {
-            $('.notes-list').data('jsp').reinitialise();
-            $('.notes-list').data('jsp').addHoverFunc();
-          }
+          s.addNote();
           poll();
         });
       }, 10000);
@@ -24,7 +20,7 @@ var Notes = React.createClass({
     }
   },
   componentWillReceiveProps: function(newProps) {
-    this.setState({notes: NotesStore.getState().notes});
+    this.addNote();
 
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       this.setState({scrollLoaded: true});
@@ -61,7 +57,7 @@ var Notes = React.createClass({
             args["attachment"] = public_url;
             NotesStore.create(args).then(function() {
               p.clearForm();
-              p.setState({notes: NotesStore.getState().notes});
+              p.addNote();
               $('.note-submit').attr('disabled', false);
               $('.loader-bar').width(0)
             });
@@ -73,9 +69,18 @@ var Notes = React.createClass({
       } else {
         NotesStore.create(args).then(function() {
           p.clearForm();
-          p.setState({notes: NotesStore.getState().notes});
+          p.addNote();
         });
       }
+  },
+  addNote: function() {
+    if (typeof($('.notes-list').data('jsp')) != "undefined") {
+      $('.notes-list').data('jsp').destroy();
+      this.setState({notes: NotesStore.getState().notes}, function() {
+        $('.notes-list').jScrollPane();
+        $('.notes-list').data('jsp').addHoverFunc();
+      });
+    }
   },
   renderNotesList: function() {
     var notes = $.map(this.state.notes, function(note) {
