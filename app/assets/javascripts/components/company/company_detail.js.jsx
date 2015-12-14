@@ -3,7 +3,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var CompanyDetail = React.createClass({
   getInitialState: function() {
-    return {loaded: false, indicators: []};
+    return {loaded: false, orderBy: {field: "data_type_display_name", order: 0}, indicators: []};
   },
   componentWillMount: function() {
     if (CompaniesStore.getState().ready) {
@@ -94,6 +94,24 @@ var CompanyDetail = React.createClass({
 
     return p;
   },
+  order: function(value) {
+    switch (value) {
+      case 0:
+        var order = 0;
+        if (this.state.orderBy.field == "data_type_display_name" && this.state.orderBy.order == 0) {
+          order = 1;
+        }
+        this.setState({orderBy: {field: "data_type_display_name", order: order}});
+        break;
+      case 1:
+        var order = 0;
+        if (this.state.orderBy.field == "importance" && this.state.orderBy.order == 0) {
+          order = 1;
+        }
+        this.setState({orderBy: {field: "importance", order: order}});
+        break;
+    }
+  },
   renderSubnav: function() {
     var link = '/dashboard/' + this.props.params.id;
 
@@ -106,15 +124,40 @@ var CompanyDetail = React.createClass({
         </div>
         <div className="details-right-nav">
           <div className="filters">
-            <div className="filter value-filter">Filter by Value <span className="caret"></span></div>
-            <div className="filter severity-filter">Filter by Severity <span className="caret"></span></div>
+            <div className="filter value-filter" onClick={this.order.bind(this, 0)}>Filter by Value <span className="caret"></span></div>
+            <div className="filter severity-filter" onClick={this.order.bind(this, 1)}>Filter by Severity <span className="caret"></span></div>
           </div>
         </div>
       </div>
     );
   },
   renderCharts: function() {
-    var charts = $.map(this.state.indicators, function(v, k){
+    var indicators = this.state.indicators;
+
+    if (this.state.orderBy) {
+      indicators.sort(function(i1, i2){
+        var order;
+        var field1 = i1[this.state.orderBy.field];
+        var field2 = i2[this.state.orderBy.field];
+
+        if (typeof(field1) === 'string') {
+          field1 = field1.toUpperCase();
+        }
+        if (typeof(field2) === 'string') {
+          field1 = field1.toUpperCase();
+        }
+
+        if (this.state.orderBy.order == 0) {
+          order = field1 > field2 ? 1 : -1
+        } else {
+          order = field1 < field2 ? 1 : -1
+        }
+
+        return order;
+      }.bind(this));
+    }
+
+    var charts = $.map(indicators, function(v, k){
       return <DetailChart
         key={k}
         data={v}

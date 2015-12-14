@@ -232,9 +232,9 @@ var DetailChart = React.createClass({
     );
   },
   renderLegend: function() {
-    var legendItems = $.map(this.state.compsShown, function(name) {
+    var legendItems = $.map(this.state.compsShown, function(name, k) {
       if (name == 'avg') {
-        return (<div className="other-legend"><span className="legend-color"></span>Industry Average</div>);
+        return (<div key={k} className="other-legend"><span className="legend-color"></span>Industry Average</div>);
       }
 
       var colorStyle = {};
@@ -243,8 +243,9 @@ var DetailChart = React.createClass({
           colorStyle['backgroundColor'] = $(s).find('.ct-line').css('stroke')
         }
       });
+
       return (
-        <div className="other-legend"><span className="legend-color" style={colorStyle}></span>{name}</div>
+        <div key={k} className="other-legend"><span className="legend-color" style={colorStyle}></span>{name}</div>
       );
     }.bind(this));
     return (
