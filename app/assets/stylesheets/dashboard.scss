@@ -576,6 +576,11 @@
     .main {
       ul.risk-indicator-list {
         height: 560px;
+
+        li a {
+          color: white;
+          text-decoration: none;
+        }
       }
 
       .filters {

@@ -62,12 +62,15 @@ var ProbabilityListItem = React.createClass({
     return probabilityBar;
   },
   render: function() {
+    var link = '/dashboard/' + this.props.companyId + '/detail';
+
     return (
       <li className="probability-list-item">
-        {this.renderProbability()}
-        {this.renderRightText()}
-        {this.renderTooltip()}
-        <div className="li-title">{this.props.title}</div>
+        <Link to={link}>
+          {this.renderProbability()}
+          {this.renderRightText()}
+          <div className="li-title">{this.props.title}</div>
+        </Link>
       </li>
     );
   }
