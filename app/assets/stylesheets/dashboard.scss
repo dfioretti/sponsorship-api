@@ -690,7 +690,8 @@
 .filter {
   color: white;
   height: 30px;
-  width: 150px;
+  padding-left: 14px;
+  padding-right: 14px;
   padding-top: 7px;
   border-radius: 15px;
   background-color: #124c93;
@@ -707,5 +708,9 @@
 
   &:hover {
     opacity: 1.0;
+  }
+
+  &.asc .caret {
+    transform: rotate(180deg);
   }
 }

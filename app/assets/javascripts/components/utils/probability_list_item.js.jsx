@@ -2,9 +2,9 @@ var ProbabilityListItem = React.createClass({
   getInitialState: function() {
     return {loaded: false};
   },
-  componentWillReceiveProps: function() {
+  componentWillReceiveProps: function(newProps) {
     var bar = ReactDOM.findDOMNode(this.refs.bar);
-    $(bar).animate({width: this.props.probability * 100}, 1000, function() {
+    $(bar).animate({width: newProps.probability * 100}, 1000, function() {
       this.setState({loaded: true});
     }.bind(this));
   },

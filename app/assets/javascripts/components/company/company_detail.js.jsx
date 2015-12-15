@@ -3,7 +3,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var CompanyDetail = React.createClass({
   getInitialState: function() {
-    return {loaded: false, orderBy: {field: "data_type_display_name", order: 0}, indicators: []};
+    return {loaded: false, orderBy: {field: "model_rank", order: 1}, indicators: []};
   },
   componentWillMount: function() {
     if (CompaniesStore.getState().ready) {
@@ -94,19 +94,22 @@ var CompanyDetail = React.createClass({
 
     return p;
   },
-  order: function(value) {
+  order: function(value, e) {
+    $('.details-subnav .filter').removeClass('asc');
     switch (value) {
       case 0:
-        var order = 0;
-        if (this.state.orderBy.field == "data_type_display_name" && this.state.orderBy.order == 0) {
-          order = 1;
+        var order = 1;
+        if (this.state.orderBy.field == "model_rank" && this.state.orderBy.order == 1) {
+          order = 0;
+          $(e.target).closest('.filter').addClass('asc');
         }
-        this.setState({orderBy: {field: "data_type_display_name", order: order}});
+        this.setState({orderBy: {field: "model_rank", order: order}});
         break;
       case 1:
-        var order = 0;
-        if (this.state.orderBy.field == "importance" && this.state.orderBy.order == 0) {
-          order = 1;
+        var order = 1;
+        if (this.state.orderBy.field == "importance" && this.state.orderBy.order == 1) {
+          order = 0;
+          $(e.target).closest('.filter').addClass('asc');
         }
         this.setState({orderBy: {field: "importance", order: order}});
         break;
@@ -119,13 +122,6 @@ var CompanyDetail = React.createClass({
         var order;
         var field1 = i1[this.state.orderBy.field];
         var field2 = i2[this.state.orderBy.field];
-
-        if (typeof(field1) === 'string') {
-          field1 = field1.toUpperCase();
-        }
-        if (typeof(field2) === 'string') {
-          field1 = field1.toUpperCase();
-        }
 
         if (this.state.orderBy.order == 0) {
           order = field1 > field2 ? 1 : -1
@@ -165,8 +161,8 @@ var CompanyDetail = React.createClass({
         </div>
         <div className="details-right-nav">
           <div className="filters">
-            <div className="filter value-filter" onClick={this.order.bind(this, 0)}>Filter by Value <span className="caret"></span></div>
-            <div className="filter severity-filter" onClick={this.order.bind(this, 1)}>Filter by Severity <span className="caret"></span></div>
+            <div className="filter value-filter" onClick={this.order.bind(this, 0)}>Sort by Importance to Model <span className="caret"></span></div>
+            <div className="filter severity-filter" onClick={this.order.bind(this, 1)}>Sort by Severity <span className="caret"></span></div>
           </div>
         </div>
       </div>
