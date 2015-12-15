@@ -1,9 +1,11 @@
 var DetailChart = React.createClass({
   getInitialState: function() {
-    return {graphId: uuid.v4(), compsShown: ['avg']}
+    return {graphId: uuid.v4(), compsShown: ['avg'], loading: true}
   },
   componentWillMount: function() {
-
+  },
+  componentDidMount: function() {
+    this.startSpin();
   },
   componentWillReceiveProps: function(newProps) {
     if (!newProps.companyData || !newProps.compData) {
@@ -12,18 +14,9 @@ var DetailChart = React.createClass({
 
     var dataType = newProps.data.data_type;
 
-    var companyData = $.map(newProps.companyData.reverse(), function(point, i) {
-      // jank sample every 5
-      if (newProps.companyData.length > 500) {
-        if (i % 5 == 0) {
-          if (typeof(point[dataType]) != "undefined") {
-            return {x: new Date(point.date), y: point[dataType].toFixed(2)};
-          }
-        }
-      } else {
-        if (typeof(point[dataType]) != "undefined") {
-          return {x: new Date(point.date), y: point[dataType].toFixed(2)};
-        }
+    var companyData = $.map(newProps.companyData, function(point, i) {
+      if (typeof(point[dataType]) != "undefined") {
+        return {x: new Date(point.date), y: point[dataType].toFixed(2)};
       }
     });
 
@@ -32,9 +25,6 @@ var DetailChart = React.createClass({
 
     compData = $.map(newProps.compData, function(v, k) {
       var data = $.map(v.reverse(), function(point, i) {
-        // jank sample every 5
-        if (newProps.compData.length > 500) {
-          if (i % 5 == 0) {
 
         if (typeof(point[dataType]) != "undefined") {
           var date = new Date(point.date),
@@ -49,23 +39,6 @@ var DetailChart = React.createClass({
           return {x: date, y: value};
         }
 
-          }
-        } else {
-
-        if (typeof(point[dataType]) != "undefined") {
-          var date = new Date(point.date),
-          value = point[dataType];
-
-          if (typeof(avg[date.getTime()]) != "undefined") {
-            avg[date.getTime()][k] = value;
-          } else {
-            avg[date.getTime()] = {[k]: value};
-          }
-
-          return {x: date, y: value};
-        }
-
-        }
       });
 
       return {name: k, data: data};
@@ -117,28 +90,62 @@ var DetailChart = React.createClass({
 
     var chart;
 
-    this.setState({avg: avg, compData: compData, currentData: data});
-
-    if (typeof(this.state.chart) == "undefined") {
-      chart = new Chartist.Line('.ct-chart-'+this.state.graphId, data, options);
-      this.setState({chart: chart}, function(){
-        this.setupTooltip();
-      }.bind(this));
-    } else {
-      this.state.chart.update(data);
-    }
-
-    chart.on('draw', function(data) {
-      if(data.type === 'line') {
-        data.element.animate({
-          'stroke-dashoffset': {
-            dur: 7000,
-            from: 30000,
-            to: 0
-          }
-        });
+    this.setState({avg: avg, compData: compData, currentData: data, loading: false}, function() {
+      if (typeof(this.state.chart) == "undefined") {
+        chart = new Chartist.Line('.ct-chart-'+this.state.graphId, data, options);
+        this.setState({chart: chart}, function(){
+          this.setupTooltip();
+        }.bind(this));
+      } else {
+        this.state.chart.update(data);
       }
-    });
+
+      chart.on('draw', function(data) {
+        if(data.type === 'line') {
+          this.stopSpin();
+          data.element.animate({
+            'stroke-dashoffset': {
+              dur: 7000,
+              from: 30000,
+              to: 0
+            }
+          });
+        }
+      }.bind(this));
+    }.bind(this));
+  },
+  startSpin: function() {
+    var opts = {
+      lines: 9, // The number of lines to draw
+      length: 13, // The length of each line
+      width: 16, // The line thickness
+      radius: 52, // The radius of the inner circle
+      scale: 1, // Scales overall size of the spinner
+      corners: 0.5, // Corner roundness (0..1)
+      color: 'black', // #rgb or #rrggbb or array of colors
+      opacity: 0.25, // Opacity of the lines
+      rotate: 0, // The rotation offset
+      direction: 1, // 1: clockwise, -1: counterclockwise
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      fps: 20, // Frames per second when using setTimeout() as a fallback for CSS
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      className: 'spinner', // The CSS class to assign to the spinner
+      top: '50%', // Top position relative to parent
+      left: '50%', // Left position relative to parent
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      position: 'absolute', // Element positioning
+    }
+    var target = ReactDOM.findDOMNode(this.refs.spinner);
+    var spinner = new Spinner(opts).spin(target);
+    this.setState({spinner: spinner});
+  },
+  stopSpin: function() {
+    if (this.state.spinner && this.state.spinner.el) {
+      this.state.spinner.el.remove();
+      this.setState({spinner: null});
+    }
   },
   setupTooltip: function() {
     var $chart = $(this.state.chart.container);
@@ -287,7 +294,20 @@ var DetailChart = React.createClass({
     );
   },
   render: function() {
-    var cn = "graph ct-chart-" + this.state.graphId;
+    var cn = "graph ct-chart-" + this.state.graphId,
+    main;
+
+    if (this.state.loading) {
+      main = <div className="chart-spinner" ref="spinner"></div>
+    } else {
+      main = (
+        <div className="main">
+          {this.renderLegend()}
+          <div id={this.state.graphId} className={cn}></div>
+        </div>
+      );
+    }
+
     return (
       <div id="" className="detail-module detail-chart">
         <div className="top">
@@ -299,10 +319,7 @@ var DetailChart = React.createClass({
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.data.data_type_display_name}</div>
         </div>
-        <div className="main">
-          {this.renderLegend()}
-          <div id={this.state.graphId} className={cn}></div>
-        </div>
+        {main}
       </div>
     );
   }
