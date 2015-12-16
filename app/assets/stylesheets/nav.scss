@@ -47,7 +47,8 @@
       right: 0px;
       left: 0px;
       max-height: 400px;
-      overflow: scroll;
+      overflow-y: scroll;
+      overflow-x: hidden;
     }
 
   }
@@ -89,6 +90,7 @@
     li {
       a {
         cursor: pointer;
+        white-space: inherit;
 
         &:hover {
           background-color: $light-grey;

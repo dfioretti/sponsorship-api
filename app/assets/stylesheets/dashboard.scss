@@ -325,6 +325,11 @@
               border-bottom: none;
             }
 
+            a {
+              color: white;
+              text-decoration: none;
+            }
+
             .li-tooltip-button {
               width: 20px;
               height: 20px;
@@ -576,11 +581,6 @@
     .main {
       ul.risk-indicator-list {
         height: 560px;
-
-        li a {
-          color: white;
-          text-decoration: none;
-        }
       }
 
       .filters {
