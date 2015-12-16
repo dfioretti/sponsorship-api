@@ -80,7 +80,7 @@ var CompanyIndex = React.createClass({
       var colorStyle = {color: color}
       return (
         <tr className="company-cell" key={company.id} onClick={this.setCompany.bind(this, company)}>
-          <td>{company.name} ({company.ticker})</td>
+          <td><div>{company.name} ({company.ticker})</div></td>
           <td>
             <div className="bkg-bar">
               <div className="fill-bar" style={barStyle}></div>
