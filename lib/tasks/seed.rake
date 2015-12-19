@@ -15,9 +15,9 @@ namespace :seed do
     companies.each do |c|
       company = Company.find_by_api_id c['id']
       if company
-        company.update risk: c['risk']
+        company.update api_id: c['id'], name: c['name'], ticker: c['ticker'], risk: c['risk'], industry: c['industry']
       else
-        Company.create api_id: c['id'], name: c['name'], ticker: c['ticker'], risk: c['risk']
+        Company.create api_id: c['id'], name: c['name'], ticker: c['ticker'], risk: c['risk'], industry: c['industry']
       end
     end
 

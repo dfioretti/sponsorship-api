@@ -26,7 +26,8 @@ class Api::V1::DashboardsController < ApplicationController
         risk_indicators: {index: 1, toggle: "on"},
         historical_precedent: {index: 2, toggle: "on"},
         general_financials: {index: 3, toggle: "on"},
-        notes: {index: 4, toggle: "on"}
+        iss_governance: {index: 4, toggle: "on"},
+        notes: {index: 5, toggle: "on"}
         # likely_attackers: {index: 3, toggle: "on"},
         # social_sentiment: {index: 5, toggle: "on"},
         # key_social_posts: {index: 6, toggle: "on"},

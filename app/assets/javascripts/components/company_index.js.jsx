@@ -4,7 +4,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 var CompanyIndex = React.createClass({
   mixins: [ Navigation ],
   getInitialState: function() {
-    return {orderBy: {field: "risk", order: 1}, companies: []};
+    return {orderBy: {field: "risk", order: 1}, companies: [], showSearch: false};
   },
   componentWillMount: function() {
     this.props.setTitle('');
@@ -21,6 +21,33 @@ var CompanyIndex = React.createClass({
   setCompany: function(e) {
     CompaniesStore.setCurrent(e.id);
     this.transitionTo('/dashboard/' + e.id);
+  },
+  toggleSearch: function() {
+    if (!this.state.showSearch) {
+      $('.search-box').animate({height: 70, paddingTop: 14, paddingBottom: 14}, 300);
+    } else {
+      $('.search-box').animate({height: 0, paddingTop: 0, paddingBottom: 0}, 300);
+    }
+
+    this.setState({showSearch: !this.state.showSearch})
+  },
+  handleChange: function(e) {
+    this.setState({query: e.target.value})
+  },
+  filterCompaniesOnQuery: function (companies) {
+    var query = this.state.query;
+    if (typeof(query) == "undefined" || query == "") {
+      return companies;
+    }
+    matches = [];
+    var substrRegex = new RegExp(query, 'i');
+    $.each(companies, function(i, c) {
+      if (substrRegex.test(c.name)) {
+        matches.push(c)
+      }
+    });
+
+    return matches
   },
   order: function(value) {
     switch (value) {
@@ -40,16 +67,15 @@ var CompanyIndex = React.createClass({
         break;
       case 2:
         var order = 0;
-        if (this.state.orderBy.field == "risk" && this.state.orderBy.order == 0) {
+        if (this.state.orderBy.field == "industry" && this.state.orderBy.order == 0) {
           order = 1;
         }
-        this.setState({orderBy: {field: "risk", order: order}});
+        this.setState({orderBy: {field: "industry", order: order}});
         break;
     }
   },
   renderList: function() {
-    var companies = this.state.companies;
-
+    var companies = this.filterCompaniesOnQuery(this.state.companies);
     if (this.state.orderBy) {
       companies.sort(function(c1, c2){
         var order;
@@ -60,7 +86,7 @@ var CompanyIndex = React.createClass({
           field1 = field1.toUpperCase();
         }
         if (typeof(field2) === 'string') {
-          field1 = field1.toUpperCase();
+          field2 = field2.toUpperCase();
         }
 
         if (this.state.orderBy.order == 0) {
@@ -87,7 +113,7 @@ var CompanyIndex = React.createClass({
             </div>
             {riskLabel(company.risk)}
           </td>
-          <td style={colorStyle}>{(parseFloat(company.risk) * 100).toFixed(2)}%</td>
+          <td style={colorStyle}>{company.industry}</td>
         </tr>
       );
     }.bind(this));
@@ -102,6 +128,10 @@ var CompanyIndex = React.createClass({
       <div className="centered company-index">
         <div className="top">
           <p className="top-title">Choose Company</p>
+          <div className="search-toggle" onClick={this.toggleSearch}></div>
+        </div>
+        <div className="search-box">
+          <input type="text" placeholder="Search by Company Name" value={this.state.query} onChange={this.handleChange}/>
         </div>
         <div className="company-index-table">
           <table>
@@ -109,7 +139,7 @@ var CompanyIndex = React.createClass({
               <tr>
                 <th><a href="#" onClick={this.order.bind(this, 0)}>Company (Ticker)<span className="caret"></span></a></th>
                 <th><a href="#" onClick={this.order.bind(this, 1)}>Risk Score<span className="caret"></span></a></th>
-                <th><a href="#" onClick={this.order.bind(this, 2)}>Gov. Score<span className="caret"></span></a></th>
+                <th><a href="#" onClick={this.order.bind(this, 2)}>Industry<span className="caret"></span></a></th>
               </tr>
             </thead>
             {this.renderList()}

@@ -14,6 +14,43 @@
     text-align: center;
     padding-top: 22px;
     padding-bottom: 17px;
+    position: relative;
+
+    .search-toggle {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      background-color: white;
+      right: 10px;
+      top: 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      background-size: 20px 20px;
+      background-image: image-url("login/icon-user.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .search-box {
+    height: 0px;
+    width: 100%;
+    padding: 0px 30px;
+    background: -moz-linear-gradient(180deg, #fafafa 0%, #f1f1f1 100%);
+    background: -webkit-linear-gradient(180deg, #fafafa 0%,#f1f1f1 100%);
+    background: linear-gradient(180deg, #fafafa 0%,#f1f1f1 100%);
+    border-bottom: 1px solid $light-grey;
+    overflow: hidden;
+
+    input {
+      width: 540px;
+      height: 42px;
+      border-radius: 21px;
+      border: 1px solid $light-grey;
+      box-shadow: inset 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      outline: none;
+    }
   }
 
   .company-index-table {
@@ -74,6 +111,7 @@
         margin-top: 42px;
 
         tr {
+          // display: table;
           height: 75px;
 
           &:hover {
@@ -91,7 +129,7 @@
 
             &:first-child {
               padding-left: 30px;
-              width: 46%;
+              width: 320px;
             }
 
             &:nth-child(2) {

@@ -31,6 +31,41 @@ var Nav = React.createClass({
     PubSub.unsubscribe(this.state.ut);
     PubSub.unsubscribe(this.state.rt);
   },
+  handleChange: function(e) {
+    this.setState({query: e.target.value})
+  },
+  filterCompaniesOnQuery: function (companies) {
+    var query = this.state.query;
+    if (typeof(query) == "undefined" || query == "") {
+      return companies;
+    }
+    matches = [];
+    var substrRegex = new RegExp(query, 'i');
+    $.each(companies, function(i, c) {
+      if (substrRegex.test(c.name)) {
+        matches.push(c)
+      }
+    });
+
+    return matches
+  },
+  substringMatcher: function(strs) {
+    return function findMatches(q, cb) {
+      var matches, substringRegex;
+
+      matches = [];
+
+      substrRegex = new RegExp(q, 'i');
+
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str)) {
+          matches.push(str);
+        }
+      });
+
+      cb(matches);
+    };
+  },
   signOut: function() {
     $.auth.signOut();
   },
@@ -70,11 +105,12 @@ var Nav = React.createClass({
     if (this.props.title == 'dashboard') {
       var companyName, companies;
       if (this.state.loaded) {
+        var queried = this.filterCompaniesOnQuery(CompaniesStore.getState().companies);
         companyName = CompaniesStore.getState().current.name,
-        companies = $.map(CompaniesStore.getState().companies, function(company) {
+        companies = $.map(queried, function(company) {
           var link = '/dashboard/' + company.id;
           return (
-            <li key={company.id}><Link to={link}>{company.name}</Link></li>
+          <li key={company.id}><Link to={link}>{company.name}</Link></li>
           );
         });
       }
@@ -84,9 +120,17 @@ var Nav = React.createClass({
           <a href="#" className="company-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {companyName} <span className="caret"></span>
           </a>
-          <ul className="dropdown-menu">
-            {companies}
-          </ul>
+
+          <div className="dropdown-menu">
+            <div className="dropdown-searchbar">
+              <input type="text" placeholder="Search by Company Name" value={this.state.query} onChange={this.handleChange}/>
+            </div>
+            <div className="company-list">
+              <ul>
+                {companies}
+              </ul>
+            </div>
+          </div>
         </div>
       );
     } else {

@@ -129,6 +129,9 @@ var Dashboard = React.createClass({
       case 'general_financials':
         el = <GeneralFinanacials company={company} hidden={hidden} key={name}/>
         break;
+      case 'iss_governance':
+        el = <IssGovernance company={company} hidden={hidden} key={name}/>
+        break;
     }
     return el
   },

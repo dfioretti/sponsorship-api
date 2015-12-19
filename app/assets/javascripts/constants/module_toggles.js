@@ -6,5 +6,6 @@ const ModuleToggles = [
   'notes',
   // 'social_sentiment',
   // 'key_social_posts',
-  'general_financials'
+  'general_financials',
+  'iss_governance'
 ]
