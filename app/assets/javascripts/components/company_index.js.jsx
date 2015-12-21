@@ -22,10 +22,12 @@ var CompanyIndex = React.createClass({
     CompaniesStore.setCurrent(e.id);
     this.transitionTo('/dashboard/' + e.id);
   },
-  toggleSearch: function() {
+  toggleSearch: function(e) {
     if (!this.state.showSearch) {
+      $(e.target).addClass('on');
       $('.search-box').animate({height: 70, paddingTop: 14, paddingBottom: 14}, 300);
     } else {
+      $(e.target).removeClass('on');
       $('.search-box').animate({height: 0, paddingTop: 0, paddingBottom: 0}, 300);
     }
 

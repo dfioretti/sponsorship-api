@@ -20,15 +20,19 @@
       width: 40px;
       height: 40px;
       position: absolute;
-      background-color: white;
       right: 10px;
       top: 10px;
       border-radius: 20px;
       cursor: pointer;
       background-size: 20px 20px;
-      background-image: image-url("login/icon-user.svg");
+      background-image: image-url("dashboard/Icon-SearchWhite@2x");
       background-repeat: no-repeat;
       background-position: center;
+
+      &.on {
+        background-color: white;
+        background-image: image-url("dashboard/Icon-SearchGrey@2x");
+      }
     }
   }
 
