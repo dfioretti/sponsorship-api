@@ -36,6 +36,27 @@ var CompanyIndex = React.createClass({
   handleChange: function(e) {
     this.setState({query: e.target.value})
   },
+  showTooltip: function(e) {
+    var $el = $(e.target), ratio;
+    if ($el.hasClass('fill-bar')) {
+      ratio = $el.width()
+    } else {
+      ratio = $el.children('.fill-bar').width()
+    }
+
+    var color = riskColor(ratio / 100);
+    var left = ratio - 32;
+    var tooltipStyle = {left: left, backgroundColor: color}
+    var arrowStyle = {borderTop: "20px solid " + color}
+
+    $('.custom-tooltip').css({left: $el.offset().left + left, top: $el.offset().top - 60, backgroundColor: color});
+    $('.custom-tooltip-arrow').css({borderTop: "20px solid " + color});
+    $('.custom-tooltip .risk-label').html(riskLabel(ratio / 100))
+    $('.custom-tooltip').show();
+  },
+  hideTooltip: function(e) {
+    $('.custom-tooltip').hide();
+  },
   filterCompaniesOnQuery: function (companies) {
     var query = this.state.query;
     if (typeof(query) == "undefined" || query == "") {
@@ -106,21 +127,22 @@ var CompanyIndex = React.createClass({
       var color = riskColor(ratio);
       var barStyle = {backgroundColor: color, width: 100 * ratio}
       var colorStyle = {color: color}
+
       return (
         <tr className="company-cell" key={company.id} onClick={this.setCompany.bind(this, company)}>
           <td><div>{company.name} ({company.ticker})</div></td>
-          <td>
-            <div className="bkg-bar">
+          <td onMouseLeave={this.hideTooltip}>
+            <div className="bkg-bar" onMouseOver={this.showTooltip}>
               <div className="fill-bar" style={barStyle}></div>
             </div>
-            {riskLabel(company.risk)}
+            <span style={colorStyle}>{(parseFloat(company.risk) * 100).toFixed(2)}%</span>
           </td>
-          <td style={colorStyle}>{company.industry}</td>
+          <td>{company.industry}</td>
         </tr>
       );
     }.bind(this));
     return (
-      <tbody>
+      <tbody onScroll={this.hideTooltip}>
         {list}
       </tbody>
     );
@@ -128,6 +150,10 @@ var CompanyIndex = React.createClass({
   render: function() {
     return (
       <div className="centered company-index">
+        <div className="custom-tooltip">
+          <span className="risk-label"></span>
+          <div className="custom-tooltip-arrow"></div>
+        </div>
         <div className="top">
           <p className="top-title">Choose Company</p>
           <div className="search-toggle" onClick={this.toggleSearch}></div>

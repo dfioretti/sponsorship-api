@@ -28,6 +28,7 @@ var GeneralFinanacials = React.createClass({
       function(data) {
         this.setState({
           price: data.price.value,
+          priceDate: data.price.date,
           change: data.roc_1.value,
           data: [
             $.extend(data.one_year_return, {data_type_display_name: "Year Change"}),
@@ -112,7 +113,7 @@ var GeneralFinanacials = React.createClass({
             </div>
             <div className="left">
               <div className="ticker">{this.props.company.ticker}</div>
-              <div className="time">Today 3:25 <small>PM</small></div>
+              <div className="time">{moment(this.state.priceDate).calendar()}</div>
             </div>
           </li>
           {list}

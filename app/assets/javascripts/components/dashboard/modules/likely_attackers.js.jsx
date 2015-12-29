@@ -9,7 +9,7 @@ var LikelyAttackers = React.createClass({
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {
         this.setState({scrollLoaded: true});
-        $('.likely-attackers-list').jScrollPane();
+        $('.likely-attackers-list-container').jScrollPane();
       }
     }
 
@@ -28,14 +28,18 @@ var LikelyAttackers = React.createClass({
       function(data) {
         this.setState({attackers: data}, function() {
           if (!this.state.scrollLoaded && !p.hidden) {
-            $('.likely-attackers-list').jScrollPane();
+            $('.likely-attackers-list-container').jScrollPane();
             this.setState({scrollLoaded: true});
           } else if (this.state.wait) {
-            if (typeof($('.likely-attackers-list').data('jsp')) == "undefined") {
-              $('.likely-attackers-list').jScrollPane();
+            if (typeof($('.likely-attackers-list-container').data('jsp')) == "undefined") {
+              $('.likely-attackers-list-container').jScrollPane();
               this.setState({scrollLoaded: true});
             }
             this.setState({wait: false});
+          } else {
+            $('.likely-attackers-list-container').data('jsp').destroy();
+            $('.likely-attackers-list-container').jScrollPane();
+            $('.likely-attackers-list-container').data('jsp').addHoverFunc();
           }
         }.bind(this));
       }.bind(this)
@@ -48,9 +52,11 @@ var LikelyAttackers = React.createClass({
       return <ProbabilityListItem key={i} title={attacker} probability={probability} />
     });
     return (
-      <ul className="probability-list likely-attackers-list short">
-        {list}
-      </ul>
+      <div className="likely-attackers-list-container">
+        <ul className="probability-list likely-attackers-list">
+          {list}
+        </ul>
+      </div>
     );
   },
   render: function() {

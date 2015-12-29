@@ -9,7 +9,7 @@ var RiskIndicators = React.createClass({
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {
         this.setState({scrollLoaded: true});
-        $('.risk-indicator-list').jScrollPane();
+        $('.risk-indicator-list-container').jScrollPane();
       }
     }
 
@@ -21,19 +21,22 @@ var RiskIndicators = React.createClass({
   },
   getData: function(props) {
     var p = props ? props : this.props;
-
     Dispatcher.apiGet(
       APIEndpoints.RISK_INDICATORS,
       {id: p.company.api_id},
       function(data) {
         this.setState({indicators: data}, function() {
           if (!this.state.scrollLoaded && !p.hidden) {
-            $('.risk-indicator-list').jScrollPane();
+            $('.risk-indicator-list-container').jScrollPane();
             this.setState({scrollLoaded: true});
           } else if (this.state.wait) {
-            if (typeof($('.risk-indicator-list').data('jsp')) == "undefined") {
-              $('.risk-indicator-list').jScrollPane();
+            if (typeof($('.risk-indicator-list-container').data('jsp')) == "undefined") {
+              $('.risk-indicator-list-container').jScrollPane();
               this.setState({scrollLoaded: true});
+            } else {
+              $('.risk-indicator-list-container').data('jsp').destroy();
+              $('.risk-indicator-list-container').jScrollPane();
+              $('.risk-indicator-list-container').data('jsp').addHoverFunc();
             }
             this.setState({wait: false});
           }
@@ -88,9 +91,11 @@ var RiskIndicators = React.createClass({
       return <ProbabilityListItem key={i} link={true} title={dataType} probability={probability} companyId={this.props.company.id} />
     }.bind(this));
     return (
-      <ul className="probability-list risk-indicator-list">
-        {list}
-      </ul>
+      <div className="risk-indicator-list-container">
+        <ul className="probability-list risk-indicator-list">
+          {list}
+        </ul>
+      </div>
     );
   },
   render: function() {

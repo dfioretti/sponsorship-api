@@ -1,9 +1,9 @@
 var Sidebar = React.createClass({
   showTooltip: function() {
-    $('.custom-tooltip').show();
+    $('#sidebar-tooltip').show();
   },
   hideTooltip: function() {
-    $('.custom-tooltip').hide();
+    $('#sidebar-tooltip').hide();
   },
   renderToggles: function() {
     var toggles = $.map(ModuleToggles, function(name){
@@ -62,7 +62,7 @@ var Sidebar = React.createClass({
           <div className="top-title">Risk Overview</div>
           <div className="bkg-bar" onMouseOver={this.showTooltip}>
             <div className="fill-bar" style={barStyle}></div>
-            <div className="custom-tooltip" style={tooltipStyle}>
+            <div id="sidebar-tooltip" className="custom-tooltip" style={tooltipStyle}>
               {riskLabel(company.risk)}
               <div className="custom-tooltip-arrow" style={arrowStyle}></div>
             </div>

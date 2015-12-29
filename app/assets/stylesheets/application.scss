@@ -67,3 +67,27 @@ body {
     }
   }
 }
+
+.custom-tooltip {
+  padding-top: 12px;
+  width: 65px;
+  height: 50px;
+  border-radius: 3px;
+  text-align: center;
+  font-family: 'Oswald';
+  font-weight: 300;
+  font-size: 18px;
+  color: $white;
+  position: absolute;
+  top: -26px;
+  z-index: 99999;
+  display: none;
+}
+
+.custom-tooltip-arrow {
+  width: 0;
+  height: 0;
+  margin-left: 11px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+}

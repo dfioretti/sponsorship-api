@@ -272,7 +272,7 @@ var DetailChart = React.createClass({
   renderLegend: function() {
     var legendItems = $.map(this.state.compsShown, function(name, k) {
       if (name == 'avg') {
-        return (<div key={k} className="other-legend"><span className="legend-color"></span>Industry Average</div>);
+        return (<div key={k} className="other-legend"><span className="legend-color"></span>Comp Average</div>);
       }
 
       var colorStyle = {};

@@ -9,7 +9,7 @@ var IssGovernance = React.createClass({
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {
         this.setState({scrollLoaded: true});
-        $('.iss-governance-list').jScrollPane();
+        $('.iss-governance-list-container').jScrollPane();
       }
     }
 
@@ -34,14 +34,18 @@ var IssGovernance = React.createClass({
         ]
         this.setState({items: items}, function() {
           if (!this.state.scrollLoaded && !p.hidden) {
-            $('.iss-governance-list').jScrollPane();
+            $('.iss-governance-list-container').jScrollPane();
             this.setState({scrollLoaded: true});
           } else if (this.state.wait) {
-            if (typeof($('.iss-governance-list').data('jsp')) == "undefined") {
-              $('.iss-governance-list').jScrollPane();
+            if (typeof($('.iss-governance-list-container').data('jsp')) == "undefined") {
+              $('.iss-governance-list-container').jScrollPane();
               this.setState({scrollLoaded: true});
             }
             this.setState({wait: false});
+          } else {
+            $('.iss-governance-list-container').data('jsp').destroy();
+            $('.iss-governance-list-container').jScrollPane();
+            $('.iss-governance-list-container').data('jsp').addHoverFunc();
           }
         }.bind(this));
       }.bind(this)
@@ -54,9 +58,11 @@ var IssGovernance = React.createClass({
       return <ProbabilityListItem key={i} title={name} probability={rank/10} rightText={rank}/>
     });
     return (
-      <ul className="probability-list iss-governance-list short">
-        {list}
-      </ul>
+      <div className="iss-governance-list-container">
+        <ul className="probability-list iss-governance-list">
+          {list}
+        </ul>
+      </div>
     );
   },
   render: function() {

@@ -43,8 +43,6 @@
         top: -20px;
         z-index: 99999;
         display: none;
-
-        background-color: red;
       }
 
       .custom-tooltip-arrow {
@@ -53,7 +51,6 @@
         margin-left: 11px;
         border-left: 20px solid transparent;
         border-right: 20px solid transparent;
-        border-top: 20px solid red;
       }
 
       .fill-bar {
@@ -430,9 +427,9 @@
         position: relative;
         border-radius: 6px;
         box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
-        background: -moz-linear-gradient(90deg, $low-risk-color 0%, $high-risk-color 100%);
-        background: -webkit-linear-gradient(90deg, $low-risk-color 0%, $high-risk-color 100%);
-        background: linear-gradient(90deg, $low-risk-color 0%, $high-risk-color 100%);
+        background: -moz-linear-gradient(90deg, $low-risk-color 0%, $mid-risk-color 50%, $high-risk-color 100%);
+        background: -webkit-linear-gradient(90deg, $low-risk-color 0%, $mid-risk-color 50%, $high-risk-color 100%);
+        background: linear-gradient(90deg, $low-risk-color 0%, $mid-risk-color 50%, $high-risk-color 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$low-risk-color', endColorstr='$high-risk-color',GradientType=1 );
 
         .slider-button {
@@ -583,6 +580,10 @@
   &#risk_indicators {
     .main {
       ul.risk-indicator-list {
+        padding-left: 0px;
+      }
+
+      .risk-indicator-list-container {
         height: 560px;
       }
 
@@ -595,7 +596,11 @@
     }
   }
   &#historical_precedent {
-
+    .main {
+      ul.historical-precedent-list {
+        padding-left: 0px;
+      }
+    }
   }
   &#likely_attackers {
 
@@ -603,6 +608,10 @@
   &#iss_governance {
     .main {
       ul.iss-governance-list {
+        padding-left: 0px;
+      }
+
+      .iss-governance-list-container {
         height: 270px;
       }
     }

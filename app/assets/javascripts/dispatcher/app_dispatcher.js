@@ -13,7 +13,6 @@ var Dispatcher = {
         console.log(error);
       }
     });
-
   },
 
   apiGet: function(path, params, successCallback) {

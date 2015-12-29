@@ -9,7 +9,7 @@ var HistoricalPrecedent = React.createClass({
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {
         this.setState({scrollLoaded: true});
-        $('.historical-precedent-list').jScrollPane();
+        $('.historical-precedent-list-container').jScrollPane();
       }
     }
 
@@ -28,14 +28,18 @@ var HistoricalPrecedent = React.createClass({
       function(data) {
         this.setState({precedent: data}, function() {
           if (!this.state.scrollLoaded && !p.hidden) {
-            $('.historical-precedent-list').jScrollPane();
+            $('.historical-precedent-list-container').jScrollPane();
             this.setState({scrollLoaded: true});
           } else if (this.state.wait) {
-            if (typeof($('.historical-precedent-list').data('jsp')) == "undefined") {
-              $('.historical-precedent-list').jScrollPane();
+            if (typeof($('.historical-precedent-list-container').data('jsp')) == "undefined") {
+              $('.historical-precedent-list-container').jScrollPane();
               this.setState({scrollLoaded: true});
             }
             this.setState({wait: false});
+          } else {
+            $('.historical-precedent-list-container').data('jsp').destroy();
+            $('.historical-precedent-list-container').jScrollPane();
+            $('.historical-precedent-list-container').data('jsp').addHoverFunc();
           }
         }.bind(this));
       }.bind(this)
@@ -52,9 +56,11 @@ var HistoricalPrecedent = React.createClass({
       }
     });
     return (
-      <ul className="probability-list historical-precedent-list short">
-        {list}
-      </ul>
+      <div className="historical-precedent-list-container">
+        <ul className="probability-list historical-precedent-list">
+          {list}
+        </ul>
+      </div>
     );
   },
   render: function() {

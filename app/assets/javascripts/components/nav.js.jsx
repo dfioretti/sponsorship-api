@@ -71,7 +71,8 @@ var Nav = React.createClass({
   },
   renderMenu: function() {
     var menu;
-    if (typeof(this.state.name) !== 'undefined') {
+
+    if (typeof(this.state.name) !== 'undefined' && this.state.name !== null) {
       menu = (
         <li>
           <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -142,13 +143,6 @@ var Nav = React.createClass({
   render: function() {
     return (
       <nav id="navbar" className="nav navbar-default navbar-fixed-top">
-        <div className="navbar-header">
-          <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span className="icon-bar"></span>
-            <span className="icon-bar"></span>
-            <span className="icon-bar"></span>
-          </button>
-        </div>
         <div className="nav-center">{this.renderTitle()}</div>
         <div className="navbar-collapse collapse">
           <div className="nav navbar-nav navbar-left nav-brand"><Link to="choose_company">Teneo</Link></div>
