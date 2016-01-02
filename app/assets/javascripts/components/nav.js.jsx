@@ -69,6 +69,15 @@ var Nav = React.createClass({
   signOut: function() {
     $.auth.signOut();
   },
+  renderLogo: function() {
+    var logo;
+    if (typeof(this.state.name) !== 'undefined' && this.state.name !== null) {
+      logo = <div className="nav navbar-nav navbar-left nav-brand"><Link to="choose_company">Teneo</Link></div>
+    } else {
+      logo = <div className="nav navbar-nav navbar-left nav-brand"><Link to="account_login">Teneo</Link></div>
+    }
+    return logo;
+  },
   renderMenu: function() {
     var menu;
 
@@ -145,7 +154,7 @@ var Nav = React.createClass({
       <nav id="navbar" className="nav navbar-default navbar-fixed-top">
         <div className="nav-center">{this.renderTitle()}</div>
         <div className="navbar-collapse collapse">
-          <div className="nav navbar-nav navbar-left nav-brand"><Link to="choose_company">Teneo</Link></div>
+          {this.renderLogo()}
           <ul className="nav navbar-nav navbar-right nav-user">
             {this.renderMenu()}
           </ul>

@@ -25,6 +25,7 @@ var Dispatcher = {
         successCallback(data);
       },
       error: function(xhr, status, error) {
+        console.log("ERROR")
         console.log(status);
         console.log(error);
       }

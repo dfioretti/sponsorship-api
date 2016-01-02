@@ -228,7 +228,8 @@
 
         ul.text-list {
           height: 425px;
-          overflow: auto;
+          overflow-x: hidden;
+          overflow-y: auto;
           list-style: none;
           margin: 0px 20px 0px;
 
@@ -270,6 +271,7 @@
               clear: both;
               margin-top: 10px;
               white-space: pre-line;
+              word-wrap: break-word;
             }
 
             .li-attachment {

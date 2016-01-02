@@ -233,10 +233,10 @@ var DetailChart = React.createClass({
 
     if (e.target.checked) {
       compsShown.push(e.target.value);
-      currentData['series'] = currentData['series'].concat(data);
+      currentData["series"] = currentData["series"].concat(data);
     } else {
       compsShown.splice(index, 1);
-      currentData['series'] = $.map(currentData['series'], function(s) {
+      currentData["series"] = $.map(currentData["series"], function(s) {
         if (s.name != e.target.value) {
           return s;
         }
@@ -246,6 +246,12 @@ var DetailChart = React.createClass({
     this.state.chart.update(currentData);
 
     this.setState({compsShown: compsShown, currentData: currentData});
+  },
+  resetGraph: function() {
+    var currentData = this.state.currentData;
+    currentData["series"] = currentData["series"].slice(0,2);
+    this.state.chart.update(currentData);
+    this.setState({compsShown: ["avg"], currentData: currentData});
   },
   renderCompSelect: function() {
     var compIds = [],
@@ -312,7 +318,7 @@ var DetailChart = React.createClass({
       <div id="" className="detail-module detail-chart">
         <div className="top">
           <div className="filters">
-            <div className="filter average-filter">Comps Average <span className="caret"></span></div>
+            <div className="filter average-filter" onClick={this.resetGraph}>Comps Average <span className="caret"></span></div>
             <div className="filter comp-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comps <span className="caret"></span></div>
             {this.renderCompSelect()}
           </div>
