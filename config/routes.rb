@@ -4,11 +4,20 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :dashboards, only: [:show, :update]
+      namespace :ews do
+        resources :dashboards, only: [:show, :update]
+        get '/teneo_api' => 'teneo_api#get'
+      end
+
+      namespace :fifa do
+        resources :dashboards, only: [:show, :update]
+        get '/teneo_api' => 'teneo_api#get'
+      end
+
       resources :notes, only: [:index, :create]
       resources :companies, only: [:index]
+      resources :users, only: [:index, :update]
       get '/sign_upload' => 's3#sign_upload'
-      get '/teneo_api' => 'teneo_api#get'
     end
   end
 

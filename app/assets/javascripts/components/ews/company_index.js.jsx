@@ -16,11 +16,10 @@ var CompanyIndex = React.createClass({
     CompaniesStore.on("update", function() {
       this.setState({companiesLoaded: true, companies: CompaniesStore.getState().companies});
     }.bind(this));
-
   },
   setCompany: function(e) {
     CompaniesStore.setCurrent(e.id);
-    this.transitionTo('/dashboard/' + e.id);
+    this.transitionTo('/ews/dashboard/' + e.id);
   },
   toggleSearch: function(e) {
     if (!this.state.showSearch) {

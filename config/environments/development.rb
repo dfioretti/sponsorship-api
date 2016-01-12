@@ -36,4 +36,9 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :letter_opener
+
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.logger.level = ActiveSupport::Logger.const_get(
+    ENV['LOG_LEVEL'] ? ENV['LOG_LEVEL'].upcase : 'DEBUG'
+  )
 end

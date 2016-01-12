@@ -9,10 +9,10 @@ var App = React.createClass({
   },
   componentDidMount: function() {
     PubSub.subscribe('auth.signIn.success', function(ev, user) {
-      this.transitionTo('/choose_company');
+      this.transitionTo('/ews/choose_company');
     }.bind(this));
     PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
-      this.transitionTo('/choose_company');
+      this.transitionTo('/ews/choose_company');
     }.bind(this));
     PubSub.subscribe('auth.signOut.success', function(ev, user) {
       this.transitionTo('/account_login');
@@ -21,6 +21,15 @@ var App = React.createClass({
 
     $.auth.validateToken()
       .then(function(user) {
+        $.each(PermissionTypes, function(i, p) {
+          if (window.location.pathname.indexOf(p) == 1) {
+            if (user.permissions.indexOf(p) == -1) {
+              PubSub.publish('alert.update', {message: "You don't have access to this page", alertType: "danger"});
+              this.transitionTo('/account_login')
+            }
+          }
+        }.bind(this));
+
         this.setState({loaded: true});
       }.bind(this))
       .fail(function(resp) {

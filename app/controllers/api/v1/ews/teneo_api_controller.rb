@@ -1,8 +1,4 @@
-class Api::V1::TeneoApiController < ApplicationController
-  def post
-
-  end
-
+class Api::V1::Ews::TeneoApiController < ApplicationController
   def get
     request = Typhoeus::Request.new(
       params['path'],

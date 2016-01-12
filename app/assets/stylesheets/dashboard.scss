@@ -10,6 +10,20 @@
     padding: 41px 20px 36px;
     background-color: $darkest-grey;
 
+    &.light {
+      height: 80px;
+      padding-top: 31px;
+      background-color: $dark-grey;
+
+      .top-title {
+        opacity: 0.4;
+      }
+
+      .bkg-bar {
+        background-color: $darkest-grey;
+      }
+    }
+
     > * {
       display: inline-block;
     }
@@ -25,7 +39,7 @@
       background-color: $dark-grey;
       width: 80px;
       height: 8px;
-      border-radius: 8px;
+      border-radius: 4px;
       margin-left: 15px;
       display: inline-block;
 
@@ -227,7 +241,7 @@
         }
 
         ul.text-list {
-          height: 425px;
+          height: 415px;
           overflow-x: hidden;
           overflow-y: auto;
           list-style: none;
@@ -486,6 +500,10 @@
         bottom: 0px;
         margin: 17px 20px;
 
+        .error-message {
+          text-align: center;
+        }
+
         form {
           width: 360px;
 
@@ -692,6 +710,31 @@
         }
       }
     }
+  }
+  &#rep_score {
+    .main {
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-left: 8px;
+      padding-bottom: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+    }
+  }
+  &#insights_implications {
+
+  }
+  &#global_hotspots {
+
+  }
+  &#global_influencers {
+
+  }
+  &#news {
+
+  }
+  &#global_issues {
+
   }
 }
 

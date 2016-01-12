@@ -10,7 +10,7 @@ class DashboardsStore extends EventEmitter
     $.ajax
       type: "GET"
       contentType: "application/json"
-      url: "/api/v1/dashboards/#{cid}"
+      url: "/api/v1/ews/dashboards/#{cid}"
       success: (data) =>
         @current = Immutable.fromJS(data)
       error: (data) ->
@@ -19,7 +19,7 @@ class DashboardsStore extends EventEmitter
   update: (args) ->
     p = $.Deferred()
     $.ajax
-      url: "/api/v1/dashboards/#{args.id}"
+      url: "/api/v1/ews/dashboards/#{args.id}"
       type: "PUT"
       data: JSON.stringify({dashboard: {state: args.state}})
       contentType: "application/json"
@@ -30,5 +30,32 @@ class DashboardsStore extends EventEmitter
         console.log(data)
 
     p
+
+  getFifa: () ->
+    console.log 'get fifa'
+    $.ajax
+      type: "GET"
+      contentType: "application/json"
+      url: "/api/v1/fifa/dashboards/fifa"
+      success: (data) =>
+        @current = Immutable.fromJS(data)
+      error: (data) ->
+        console.log(data)
+
+  updateFifa: (args) ->
+    p = $.Deferred()
+    $.ajax
+      url: "/api/v1/fifa/dashboards/fifa"
+      type: "PUT"
+      data: JSON.stringify({dashboard: {state: args.state}})
+      contentType: "application/json"
+      success: (data) =>
+        @current = Immutable.fromJS(data)
+        p.resolve data
+      error: (data) ->
+        console.log(data)
+
+    p
+
 
 window.DashboardsStore = new DashboardsStore()

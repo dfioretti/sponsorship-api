@@ -27,6 +27,18 @@
     text-align: center;
     margin: auto;
 
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 24px;
+    }
+
+    p {
+      line-height: 16px;
+      font-size: 16px;
+      opacity: 0.4;
+    }
+
     .company-select {
       min-width: 140px;
       height: 40px;

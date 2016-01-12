@@ -1485,7 +1485,7 @@
 
     getElementsAtEvent: function(e) {
       var eventPosition = helpers.getRelativePosition(e, this.chart);
-      console.log(eventPosition)
+      // console.log(eventPosition)
       var elementsArray = [];
 
       var found = (function(){
@@ -1584,7 +1584,7 @@
         this.active = [];
         this.tooltipActive = [];
       } else {
-        console.log('else');
+        // console.log('else');
         this.active = function() {
           switch (this.options.hover.mode) {
             case 'single':

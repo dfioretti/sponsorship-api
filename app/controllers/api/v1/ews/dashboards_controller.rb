@@ -1,4 +1,4 @@
-class Api::V1::DashboardsController < ApplicationController
+class Api::V1::Ews::DashboardsController < ApplicationController
 
   def show
     dashboard = current_user.dashboards.find_by_company_id params[:id]

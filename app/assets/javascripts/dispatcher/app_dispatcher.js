@@ -14,21 +14,40 @@ var Dispatcher = {
       }
     });
   },
-
   apiGet: function(path, params, successCallback) {
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: "/api/v1/teneo_api",
+      url: "/api/v1/ews/teneo_api",
       data: $.extend(params, {path: path}),
       success: function(data, status, xhr) {
         successCallback(data);
       },
       error: function(xhr, status, error) {
-        console.log("ERROR")
+        console.log("ERROR");
+        console.log(xhr);
+        console.log(status);
+        console.log(error);
+      }
+    });
+  },
+  fifaGet: function(path, params, successCallback) {
+    params.client_id = 'fifa';
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: "/api/v1/fifa/teneo_api",
+      data: $.extend(params, {path: path}),
+      success: function(data, status, xhr) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log("ERROR");
+        console.log(xhr);
         console.log(status);
         console.log(error);
       }
     });
   }
+
 }

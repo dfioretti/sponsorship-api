@@ -9,3 +9,12 @@ const ModuleToggles = [
   'general_financials',
   'iss_governance'
 ]
+
+const FifaModuleToggles = [
+  'rep_score',
+  'insights_implications',
+  'global_hotspots',
+  'global_influencers',
+  'news',
+  'global_issues'
+]

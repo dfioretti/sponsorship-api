@@ -2,6 +2,7 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var Dashboard = React.createClass({
+  mixins: [DashboardMixin],
   getInitialState: function() {
     return {dashboardLoaded: false, companyLoaded: false};
   },
@@ -43,60 +44,6 @@ var Dashboard = React.createClass({
         $('.modules-container').trigger('ss-rearrange');
       }.bind(this));
     }
-  },
-  setupGrid: function() {
-    $('.modules-container').shapeshift({
-      selector: ".dashboard-module",
-      handle: ".drag-handle",
-      align: "left",
-      autoHeight: false,
-      gutterX: 20,
-      gutterY: 20,
-      paddingX: 20,
-      paddingY: 20
-    });
-
-    $('.modules-container').on('ss-drop-complete', function(e, selected) {
-      this.updateDashboardState(this.getDashboardState());
-    }.bind(this));
-  },
-  handleChange: function() {
-    this.setState({dashboardState: DashboardsStore.getState().current});
-  },
-  handleToggle: function(values, e) {
-    var state;
-    if (values.value == "on") {
-      state = {value: "off", module: values.module}
-      this.updateDashboardUI("off", values.module);
-    } else {
-      state = {value: "on", module: values.module}
-      this.updateDashboardUI("on", values.module);
-    }
-  },
-  updateDashboardUI: function(state, name) {
-    if (state == "on") {
-      $('.dashboard-module#' + name).show();
-    } else {
-      $('.dashboard-module#' + name).hide();
-    }
-    $('.modules-container').trigger('ss-rearrange');
-    this.updateDashboardState(this.getDashboardState());
-  },
-  getDashboardState: function() {
-    var dashboardState = {};
-
-    $('.modules-container').children().each(function() {
-      var toggle = $(this).is(":visible") ? "on" : "off"
-      dashboardState[$(this).attr('id')] = {index: $(this).index(), toggle: toggle}
-    });
-
-    var did = DashboardsStore.getState().current.id
-    return {id: did, state: dashboardState};
-  },
-  updateDashboardState: function(state) {
-    DashboardsStore.update(state).then(function(dashboard){
-      this.handleChange();
-    }.bind(this));
   },
   mapModule: function(name, state) {
     var el, hidden;
@@ -153,7 +100,7 @@ var Dashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} handleToggle={this.handleToggle}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="ews" handleToggle={this.handleToggle}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

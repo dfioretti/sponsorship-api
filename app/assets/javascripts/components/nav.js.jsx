@@ -7,11 +7,11 @@ var Nav = React.createClass({
   },
   componentWillMount: function() {
     var st = PubSub.subscribe('auth.validation.success', function(ev, user) {
-      this.setState({name: user.name, image: user.image});
+      this.setState({name: user.name, image: user.image, permissions: user.permissions});
     }.bind(this));
     var rt = PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
       var user = user.data;
-      this.setState({name: user.name, image: user.image});
+      this.setState({name: user.name, image: user.image, permissions: user.permissions});
     }.bind(this));
     var ut = PubSub.subscribe('auth.signOut.success', function(ev, user) {
       this.setState({name: null, image: null});
@@ -82,6 +82,15 @@ var Nav = React.createClass({
     var menu;
 
     if (typeof(this.state.name) !== 'undefined' && this.state.name !== null) {
+      if (this.state.permissions) {
+        var access = $.map(this.state.permissions, function(p, i) {
+          var link = PermissionLinkMap[p]
+          return (
+            <li key={i}><Link to={link}>{p.slice(0,1).toUpperCase() + p.substring(1)}</Link></li>
+          );
+        });
+      }
+
       menu = (
         <li>
           <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,6 +102,8 @@ var Nav = React.createClass({
             </div>
           </a>
           <ul className="dropdown-menu" aria-labelledby="user-dropdown">
+            {access}
+            <li role="separator" className="divider"></li>
             <li><a onClick={this.signOut}>Sign out</a></li>
           </ul>
         </li>
@@ -141,6 +152,13 @@ var Nav = React.createClass({
               </ul>
             </div>
           </div>
+        </div>
+      );
+    } else if (this.props.title == 'fifa') {
+      return (
+        <div>
+          <h3>FIFA</h3>
+          <p>Company Scorecard</p>
         </div>
       );
     } else {
