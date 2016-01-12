@@ -150,7 +150,7 @@ var CompanyDetail = React.createClass({
     });
   },
   renderSubnav: function() {
-    var link = '/dashboard/' + this.props.params.id;
+    var link = '/ews/dashboard/' + this.props.params.id;
 
     return (
       <div className="details-subnav">
