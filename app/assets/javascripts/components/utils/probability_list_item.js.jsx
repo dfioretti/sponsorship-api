@@ -62,7 +62,7 @@ var ProbabilityListItem = React.createClass({
     return probabilityBar;
   },
   render: function() {
-    var link = '/dashboard/' + this.props.companyId + '/detail',
+    var link = '/ews/dashboard/' + this.props.companyId + '/detail',
     main;
 
     if (this.props.link) {

@@ -129,7 +129,7 @@ var Nav = React.createClass({
         var queried = this.filterCompaniesOnQuery(CompaniesStore.getState().companies);
         companyName = CompaniesStore.getState().current.name,
         companies = $.map(queried, function(company) {
-          var link = '/dashboard/' + company.id;
+          var link = '/ews/dashboard/' + company.id;
           return (
           <li key={company.id}><Link to={link}>{company.name}</Link></li>
           );
