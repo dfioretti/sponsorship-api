@@ -7,6 +7,7 @@
 //= require jquery.scrollstop.min
 //= require jquery.mousewheel
 //= require jscrollpane
+//= require cartodb
 //= require spin.min
 //= require pubsub
 //= require jtoker

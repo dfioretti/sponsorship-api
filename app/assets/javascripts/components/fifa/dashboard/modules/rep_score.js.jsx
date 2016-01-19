@@ -113,7 +113,7 @@ var RepScore = React.createClass({
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     return (
-      <div id="rep_score" className="dashboard-module" style={hiddenStyle}>
+      <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
           <div className="drag-handle"></div>
           <div className="top-title">Rep Score</div>

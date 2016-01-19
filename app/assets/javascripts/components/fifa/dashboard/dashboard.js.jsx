@@ -29,7 +29,7 @@ var FifaDashboard = React.createClass({
       hidden = true;
 
     switch (name) {
-      case 'rep_score':
+      case 'teneo_rep_score':
         el = <RepScore hidden={hidden} key={name}/>
         break;
       case 'insights_implications':
@@ -38,13 +38,13 @@ var FifaDashboard = React.createClass({
       case 'global_hotspots':
         el = <GlobalHotspots hidden={hidden} key={name}/>
         break;
-      case 'global_influencers':
+      case 'top_global_influencers':
         el = <GlobalInfluencers hidden={hidden} key={name}/>
         break;
-      case 'news':
+      case 'top_news':
         el = <News hidden={hidden} key={name}/>
         break;
-      case 'global_issues':
+      case 'top_global_issues':
         el = <GlobalIssues hidden={hidden} key={name}/>
         break;
     }

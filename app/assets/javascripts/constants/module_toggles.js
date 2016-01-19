@@ -11,10 +11,10 @@ const ModuleToggles = [
 ]
 
 const FifaModuleToggles = [
-  'rep_score',
+  'teneo_rep_score',
   'insights_implications',
   'global_hotspots',
-  'global_influencers',
-  'news',
-  'global_issues'
+  'top_global_influencers',
+  'top_news',
+  'top_global_issues'
 ]

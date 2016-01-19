@@ -24,6 +24,12 @@
       }
     }
 
+    &.social {
+      height: 120px;
+      padding-top: 34px;
+      padding-bottom: 29px
+    }
+
     > * {
       display: inline-block;
     }
@@ -42,6 +48,8 @@
       border-radius: 4px;
       margin-left: 15px;
       display: inline-block;
+      float: right;
+      margin-top: 6px;
 
       .custom-tooltip {
         padding-top: 12px;
@@ -72,6 +80,18 @@
         height: 8px;
         border-radius: 8px;
       }
+    }
+
+    select {
+      width: 210px;
+      height: 30px;
+      margin-top: 10px;
+      background-color: #33363b;
+      border: 1px solid black;
+      color: white;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      outline: none;
     }
   }
 }
@@ -154,22 +174,22 @@
           background-repeat: no-repeat;
           background-position: left;
 
-          &.general_financials {
+          &.general_financials, &.teneo_rep_score {
             background-image: image-url("dashboard/icon-general-financials.svg");
           }
-          &.historical_precedent {
+          &.historical_precedent, &.insights_implications {
             background-image: image-url("dashboard/icon-historical-precedent.svg");
           }
-          &.key_social_posts {
+          &.key_social_posts, &.global_hotspots {
             background-image: image-url("dashboard/icon-key-social-posts.svg");
           }
-          &.likely_attackers {
+          &.likely_attackers, &.top_global_influencers {
             background-image: image-url("dashboard/icon-likely-attackers.svg");
           }
-          &.notes {
+          &.notes, &.top_news {
             background-image: image-url("dashboard/icon-notes.svg");
           }
-          &.risk_assessment {
+          &.risk_assessment, &.top_global_issues {
             background-image: image-url("dashboard/icon-risk-assessment.svg");
           }
           &.risk_indicators {
@@ -382,12 +402,117 @@
         .text-list {
 
         }
+
+        ul.media-list {
+          list-style: none;
+          margin-left: 20px;
+          margin-right: 20px;
+
+          li {
+            padding-left: 10px;
+            padding-top: 23px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid $dark-blue;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            a {
+              color: white;
+              text-decoration: none;
+            }
+
+            .media-image {
+              width: 50px;
+              height: 50px;
+              border-radius: 25px;
+              float: left;
+              overflow: hidden;
+
+              img {
+                width: 100%;
+              }
+            }
+
+            .media-text {
+              font-family: "Avenir-Book";
+              font-size: 12px;
+              margin-left: 60px;
+
+              .media-header {
+                font-size: 14px;
+              }
+
+              .media-sub {
+                font-family: "Avenir-Book";
+                font-size: 10px;
+              }
+            }
+          }
+        }
+      }
+
+      ul.trend-list {
+        list-style: none;
+        margin-left: 20px;
+        margin-right: 20px;
+
+        li {
+          height: 65px;
+          padding: 20px 0;
+          border-bottom: 1px solid $dark-blue;
+
+          .trend-image {
+            width: 24px;
+            height: 24px;
+            margin-right: 14px;
+            float: left;
+            background-size: 24px 24px;
+            background-repeat: no-repeat;
+            background-position: center center;
+
+            &.up {
+              background-image: image-url("fifa/icon-upward.svg");
+            }
+
+            &.down {
+              background-image: image-url("fifa/icon-downward.svg");
+            }
+
+            &.no-change {
+              background-image: image-url("fifa/icon-neutral.svg");
+            }
+          }
+
+          .trend-text {
+            .trend-header {
+              font-size: 14px;
+            }
+
+            .trend-subheader {
+              font-size: 12px;
+              font-family: "Avenir-Book";
+              color: $light-grey;
+            }
+          }
+
+          .trend-score {
+            width: 44px;
+            height: 30px;
+            margin-top: -4px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            background-color: $dark-blue;
+            float: right;
+          }
+        }
       }
 
       .ss-placeholder-child {
-          background: transparent;
-          border: 2px dashed $blue;
-          position: absolute;
+        background: transparent;
+        border: 2px dashed $blue;
+        position: absolute;
       }
     }
   }
@@ -417,6 +542,45 @@
 }
 
 .dashboard-module {
+  .legend {
+    padding: 14px 0px 12px;
+    border-bottom: 1px solid $dark-blue;
+    font-size: 10px;
+    text-align: center;
+
+    .legend-item {
+      display: inline-block;
+      margin-right: 10px;
+
+      .legend-point {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        float: left;
+        margin-top: 3px;
+        margin-right: 5px;
+
+        &.legend-color-1 {
+          background-color: $high-risk-color;
+        }
+        &.legend-color-2 {
+          background-color: $mid-risk-color;
+        }
+        &.legend-color-3 {
+          background-color: $low-risk-color;
+        }
+        &.legend-color-4 {
+          background-color: $negative-color;
+        }
+        &.legend-color-5 {
+          background-color: $neutral-color;
+        }
+        &.legend-color-6 {
+          background-color: $positive-color;
+        }
+      }
+    }
+  }
 
   &#risk_assessment {
     .main {
@@ -455,37 +619,6 @@
           border-radius: 12px;
           border: 9px solid rgba(255, 255, 255, 1);
           box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.22), inset 0px 1px 2px 0px rgba(0, 0, 0, 0.22);
-        }
-      }
-    }
-  }
-
-  .legend {
-    padding: 14px 0px 12px;
-    border-bottom: 1px solid $dark-blue;
-    font-size: 10px;
-    text-align: center;
-
-    .legend-item {
-      display: inline-block;
-      margin-right: 10px;
-
-      .legend-point {
-        width: 6px;
-        height: 6px;
-        border-radius: 3px;
-        float: left;
-        margin-top: 3px;
-        margin-right: 5px;
-
-        &.legend-color-1 {
-          background-color: #e63500;
-        }
-        &.legend-color-2 {
-          background-color: #ff6a00;
-        }
-        &.legend-color-3 {
-          background-color: #ffb700;
         }
       }
     }
@@ -711,7 +844,7 @@
       }
     }
   }
-  &#rep_score {
+  &#teneo_rep_score {
     .main {
       padding-top: 20px;
       padding-right: 20px;
@@ -725,16 +858,38 @@
 
   }
   &#global_hotspots {
+    .main {
+      #map {
+        height: 229px;
+        outline: none;
+        overflow: hidden;
+      }
+    }
+  }
+  &#top_global_influencers {
+    .main {
+      ul.global-influencers-list {
+        padding-left: 0px;
+      }
+
+      .global-influencers-list-container {
+        height: 610px;
+      }
+    }
+  }
+  &#top_news {
 
   }
-  &#global_influencers {
+  &#top_global_issues {
+    .main {
+      ul.global-issues-list {
+        padding-left: 0px;
+      }
 
-  }
-  &#news {
-
-  }
-  &#global_issues {
-
+      .global-issues-list-container {
+        height: 270px;
+      }
+    }
   }
 }
 

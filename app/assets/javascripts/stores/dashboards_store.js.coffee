@@ -32,7 +32,6 @@ class DashboardsStore extends EventEmitter
     p
 
   getFifa: () ->
-    console.log 'get fifa'
     $.ajax
       type: "GET"
       contentType: "application/json"
