@@ -23,4 +23,12 @@ namespace :seed do
 
     Logger.new(STDOUT).info "Seeding complete."
   end
+
+
+  task fifa_dashboard_components: :environment do
+    Dashboard.where(kind: 'fifa').find_each do |dashboard|
+      dashboard.state = Dashboard::FIFA_DEFAULT_STATE
+      dashboard.save
+    end
+  end
 end
