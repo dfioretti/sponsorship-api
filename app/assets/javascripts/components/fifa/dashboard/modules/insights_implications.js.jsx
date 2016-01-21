@@ -4,8 +4,12 @@ var InsightsImplications = React.createClass({
       {
         id: 12,
         company_id: 12,
+        attachment_name: '50998.jpg',
         attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body'
+        body: 'this is a test body',
+        user: {
+          name: 'James Dunbar'
+        }
       }
     ]};
   },

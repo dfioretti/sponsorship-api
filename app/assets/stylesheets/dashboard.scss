@@ -204,17 +204,6 @@
           &.print-report {
             background-image: image-url("dashboard/Icon-Print@2x.png");
           }
-          &.file {
-            height: 40px;
-            width: 32px;
-            padding-top: 4px;
-            padding-left: 32px;
-            background-size: 32px 40px;
-            &.file-ppt, .file-doc, .file-xls {
-            background-image: image-url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Word_2013_file_icon.svg/370px-Word_2013_file_icon.svg.png");
-          }
-          }
-
         }
       }
     }
@@ -451,12 +440,19 @@
                 font-size: 14px;
               }
 
-              .media-sub {
-                font-family: "Avenir-Book";
+              .media-subheader {
                 font-size: 10px;
               }
             }
           }
+        }
+      }
+
+      .insight-item {
+
+        .insight-item-body {
+          padding-bottom: 10px;
+          border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
         }
       }
 

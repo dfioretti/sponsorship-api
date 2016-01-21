@@ -1,0 +1,17 @@
+.icon {
+  &.file {
+    height: 40px;
+    width: 32px;
+    padding-top: 4px;
+    padding-left: 32px;
+    background-size: 32px 40px;
+    background-image: image-url("fifa/icon-default.svg");
+
+    &:hover {
+      background-image: image-url("fifa/icon-default-hover.svg");
+    }
+
+    &.file-ppt, &.file-doc, &.file-xls {
+    }
+  }
+}
