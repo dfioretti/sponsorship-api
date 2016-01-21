@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require lodash/dist/lodash.core.js
 //= require jquery-deparam
 //= require jquery.cookie
 //= require jquery.shapeshift.min

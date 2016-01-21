@@ -20,6 +20,10 @@ gem 'turbolinks'
 gem 'typhoeus'
 gem 'uglifier', '>= 1.3.0'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-lodash', '~> 4.0'
+end
+
 group :production do
   gem 'rails_12factor'
 end
