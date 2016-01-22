@@ -1,4 +1,39 @@
 var NotableForm = React.createClass({
+  saveToS3IfUpload: function () {
+    var deferred = $.Deferred();
+
+    var file = ReactDOM.findDOMNode(this.refs.file).files[0];
+    var args = {body: ReactDOM.findDOMNode(this.refs.body).value, company_id: this.props.company_id};
+    $('.note-submit').attr('disabled', true);
+
+    console.log('savetos3')
+
+    if (typeof(file) != 'undefined') {
+
+      var name = file.name.replace(/ /g, '_');
+      var s3upload = s3upload != null ? s3upload : new S3Upload({
+        file_dom_selector: 'note-file',
+        s3_sign_put_url: '/api/v1/sign_upload',
+        s3_object_name: ENV+'/'+uuid.v4()+'/'+name,
+        onProgress: function(percent, message) {
+          console.log(percent)
+          $('.loader-bar').width(percent * 4);
+        },
+        onFinishS3Put: function(public_url) {
+          args.attachment = public_url;
+          deferred.resolve(args);
+        },
+        onError: function(status) {
+          console.log('Upload error: ', status);
+          deferred.reject();
+        }
+      });
+    } else {
+      deferred.resolve(args);
+    }
+
+    return deferred.promise();
+  },
   save: function(e) {
     e.preventDefault();
 
@@ -6,44 +41,25 @@ var NotableForm = React.createClass({
 
     var body = ReactDOM.findDOMNode(p.refs.body).value;
 
+
+    console.log('save')
     if (body === '') {
       p.setState({error: "Body cannot be blank"});
       return;
     }
 
-    var file = ReactDOM.findDOMNode(this.refs.file).files[0];
-    var args = {body: body, company_id: p.props.company_id};
+    this.saveToS3IfUpload().done(function (args) {
+      console.log(args)
+      NotesStore.create(args).then(function() {
+        p.clear();
+        $('.note-submit').attr('disabled', false);
+        $('.loader-bar').width(0)
 
-    if (typeof(file) != 'undefined') {
-      $('.note-submit').attr('disabled', true);
-
-        var name = file.name.replace(/ /g, '_');
-        var s3upload = s3upload != null ? s3upload : new S3Upload({
-          file_dom_selector: 'note-file',
-          s3_sign_put_url: '/api/v1/sign_upload',
-          s3_object_name: ENV+'/'+uuid.v4()+'/'+name,
-          onProgress: function(percent, message) {
-            $('.loader-bar').width(percent * 4);
-          },
-          onFinishS3Put: function(public_url) {
-            args["attachment"] = public_url;
-            NotesStore.create(args).then(function() {
-              p.clear();
-              p.addNote();
-              $('.note-submit').attr('disabled', false);
-              $('.loader-bar').width(0)
-            });
-          },
-          onError: function(status) {
-            console.log('Upload error: ', status);
-          }
-        });
-      } else {
-        NotesStore.create(args).then(function() {
-          p.clear();
-          p.addNote();
-        });
-      }
+        if (p.props.saveHandler) {
+          p.props.saveHandler();
+        }
+      });
+    });
   },
   clear: function() {
     this.setState({error: null});

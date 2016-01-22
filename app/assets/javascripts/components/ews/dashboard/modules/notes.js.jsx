@@ -31,6 +31,7 @@ var Notes = React.createClass({
     clearTimeout(this.state.timeoutId);
   },
   addNote: function() {
+    console.log('on successful save')
     if (typeof($('.notes-list').data('jsp')) != "undefined") {
       $('.notes-list').data('jsp').destroy();
       this.setState({notes: NotesStore.getState().notes}, function() {
@@ -67,7 +68,7 @@ var Notes = React.createClass({
         </div>
         <div className="main">
           {this.renderNotesList()}
-          <NotableForm errorMessage={errorMessage} company_id={this.props.company.id}   />
+          <NotableForm errorMessage={errorMessage} company_id={this.props.company.id} saveHandler={this.addNote} />
         </div>
       </div>
     );

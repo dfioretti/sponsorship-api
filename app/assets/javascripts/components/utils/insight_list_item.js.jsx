@@ -4,7 +4,6 @@ var InsightListItem = React.createClass({
     var itemFileExtension = _.last(this.props.item.attachment_name.split('.')).toLowerCase();
     var iconClass = 'file-default';
 
-    console.log(itemFileExtension)
     if (itemFileExtension.match('pdf')) {
       iconClass = 'file-pdf';
     } else if (itemFileExtension.match('xls')) {
