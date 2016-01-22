@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :dashboards
   has_many :notes
+  has_many :insights
 
   validates_presence_of :name
 

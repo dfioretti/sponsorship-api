@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
 
       resources :notes, only: [:index, :create]
+      resources :insights, only: [:index, :create]
       resources :companies, only: [:index]
       resources :users, only: [:index, :update]
       get '/sign_upload' => 's3#sign_upload'
