@@ -1,15 +1,18 @@
 var InsightListItem = React.createClass({
 
   getIconClass: function () {
-    var itemFileExtension = _.last(this.props.item.attachment.split('.')).toLowerCase();
+    var itemFileExtension = _.last(this.props.item.attachment_name.split('.')).toLowerCase();
     var iconClass = 'file-default';
 
+    console.log(itemFileExtension)
     if (itemFileExtension.match('pdf')) {
-      // iconUrl =
+      iconClass = 'file-pdf';
     } else if (itemFileExtension.match('xls')) {
-
+      iconClass = 'file-xls';
     } else if (itemFileExtension.match('ppt')) {
-
+      iconClass = 'file-ppt';
+    } else if (itemFileExtension.match('doc')) {
+      iconClass = 'file-doc';
     }
     return iconClass;
   },
@@ -19,7 +22,7 @@ var InsightListItem = React.createClass({
   render: function() {
     return (
       <li className="insight-item" key={this.props.id}>
-        <div className={this.iconClasses()}></div>
+        <a href={this.props.item.attachment} className={this.iconClasses()}></a>
         <div className="media-text">
           <div className="media-header"><a href={this.props.item.attachment}>{this.props.item.attachment_name}</a></div>
           <div className="media-subheader"><span>{this.props.item.user.name}</span> <span>|</span> <span>December 20, 2015</span></div>

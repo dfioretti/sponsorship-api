@@ -235,6 +235,10 @@
 
         &.tall {
           height: 660px;
+
+          .media-list-container {
+            height: 610px;
+          }
         }
 
         .top {
@@ -428,6 +432,10 @@
 
               img {
                 width: 100%;
+              }
+
+              &.icon.file {
+                border-radius: 0;
               }
             }
 
