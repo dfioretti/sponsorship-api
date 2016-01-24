@@ -6,8 +6,6 @@ var NotableForm = React.createClass({
     var args = {body: ReactDOM.findDOMNode(this.refs.body).value, company_id: this.props.company_id};
     $('.note-submit').attr('disabled', true);
 
-    console.log('savetos3')
-
     if (typeof(file) != 'undefined') {
 
       var name = file.name.replace(/ /g, '_');
@@ -16,7 +14,6 @@ var NotableForm = React.createClass({
         s3_sign_put_url: '/api/v1/sign_upload',
         s3_object_name: ENV+'/'+uuid.v4()+'/'+name,
         onProgress: function(percent, message) {
-          console.log(percent)
           $('.loader-bar').width(percent * 4);
         },
         onFinishS3Put: function(public_url) {
@@ -40,25 +37,23 @@ var NotableForm = React.createClass({
     var p = this;
 
     var body = ReactDOM.findDOMNode(p.refs.body).value;
-
-
-    console.log('save')
     if (body === '') {
       p.setState({error: "Body cannot be blank"});
       return;
     }
 
     this.saveToS3IfUpload().done(function (args) {
-      console.log(args)
-      NotesStore.create(args).then(function() {
+      if (p.props.saveHandler) {
+        p.props.saveHandler(args).then(function() {
+          p.clear();
+          $('.note-submit').attr('disabled', false);
+          $('.loader-bar').width(0);
+        });
+      } else {
         p.clear();
         $('.note-submit').attr('disabled', false);
-        $('.loader-bar').width(0)
-
-        if (p.props.saveHandler) {
-          p.props.saveHandler();
-        }
-      });
+        $('.loader-bar').width(0);
+      }
     });
   },
   clear: function() {
@@ -66,10 +61,16 @@ var NotableForm = React.createClass({
     ReactDOM.findDOMNode(this.refs.form).reset();
   },
   render: function () {
+    if (this.props.validateBody && this.state && this.state.error) {
+      var errorMessage = (
+        <div className="error-message">{this.state.error}</div>
+      );
+    }
+
     return (
       <div>
         <div className="new-note">
-          {this.props.errorMessage}
+          {errorMessage}
           <form id="note-form" ref="form" onSubmit={this.save}>
             <textarea placeholder="New note here..." ref="body"></textarea>
             <div className="attachment">

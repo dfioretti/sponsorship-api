@@ -31,7 +31,6 @@ var Notes = React.createClass({
     clearTimeout(this.state.timeoutId);
   },
   addNote: function() {
-    console.log('on successful save')
     if (typeof($('.notes-list').data('jsp')) != "undefined") {
       $('.notes-list').data('jsp').destroy();
       this.setState({notes: NotesStore.getState().notes}, function() {
@@ -39,6 +38,13 @@ var Notes = React.createClass({
         $('.notes-list').data('jsp').addHoverFunc();
       });
     }
+  },
+  createNote: function (args) {
+    var self = this;
+
+    return NotesStore.create(args).then(function() {
+      self.addNote();
+    });
   },
   renderNotesList: function() {
     var notes = $.map(this.state.notes, function(note) {
@@ -54,11 +60,6 @@ var Notes = React.createClass({
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
-    if (this.state.error) {
-      var errorMessage = (
-        <div className="error-message">{this.state.error}</div>
-      );
-    }
 
     return (
       <div id="notes" className="dashboard-module tall" style={hiddenStyle}>
@@ -68,7 +69,7 @@ var Notes = React.createClass({
         </div>
         <div className="main">
           {this.renderNotesList()}
-          <NotableForm errorMessage={errorMessage} company_id={this.props.company.id} saveHandler={this.addNote} />
+          <NotableForm company_id={this.props.company.id} saveHandler={this.createNote} validateBody={true} />
         </div>
       </div>
     );
