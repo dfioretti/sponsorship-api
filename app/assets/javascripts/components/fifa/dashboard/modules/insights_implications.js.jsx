@@ -1,77 +1,78 @@
 var InsightsImplications = React.createClass({
   getInitialState: function() {
-    return {scrollLoaded: false, insights: [
-      {
-        id: 12,
-        company_id: 12,
-        attachment_name: '50998.xlsx',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      },
-      {
-        id: 13,
-        company_id: 12,
-        attachment_name: '50998.jpg',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      },
-      {
-        id: 14,
-        company_id: 12,
-        attachment_name: '50998.jpg',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      },
-      {
-        id: 15,
-        company_id: 12,
-        attachment_name: '50998.pdf',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      },
-      {
-        id: 16,
-        company_id: 12,
-        attachment_name: '50998.docx',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      },
-      {
-        id: 17,
-        company_id: 12,
-        attachment_name: '50998.doc',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      },
-      {
-        id: 18,
-        company_id: 12,
-        attachment_name: '50998.ppt',
-        attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-        body: 'this is a test body',
-        user: {
-          name: 'James Dunbar'
-        }
-      }
-    ]};
+    // return {scrollLoaded: false, insights: [
+    //   {
+    //     id: 12,
+    //     company_id: 12,
+    //     attachment_name: '50998.xlsx',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   },
+    //   {
+    //     id: 13,
+    //     company_id: 12,
+    //     attachment_name: '50998.jpg',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   },
+    //   {
+    //     id: 14,
+    //     company_id: 12,
+    //     attachment_name: '50998.jpg',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   },
+    //   {
+    //     id: 15,
+    //     company_id: 12,
+    //     attachment_name: '50998.pdf',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   },
+    //   {
+    //     id: 16,
+    //     company_id: 12,
+    //     attachment_name: '50998.docx',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   },
+    //   {
+    //     id: 17,
+    //     company_id: 12,
+    //     attachment_name: '50998.doc',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   },
+    //   {
+    //     id: 18,
+    //     company_id: 12,
+    //     attachment_name: '50998.ppt',
+    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
+    //     body: 'this is a test body',
+    //     user: {
+    //       name: 'James Dunbar'
+    //     }
+    //   }
+    // ]};
+    return {scrollLoaded: false, insights: InsightsStore.getState().insights};
   },
   renderList: function () {
     var insights = $.map(this.state.insights, function(item) {
@@ -95,6 +96,7 @@ var InsightsImplications = React.createClass({
         </div>
         <div className="main">
           {this.renderList()}
+          <NotableForm company_id={this.props.company_id} saveHandler={this.createNote} validateBody={true} />
         </div>
       </div>
     );

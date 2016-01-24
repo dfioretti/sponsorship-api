@@ -24,6 +24,12 @@ namespace :seed do
     Logger.new(STDOUT).info "Seeding complete."
   end
 
+  task fifa: :environment do
+    c = Company.create(name: 'FIFA', visible: false)
+
+    Dashboard.where(kind: 'fifa').update_all(company_id: c.id)
+  end
+
 
   task fifa_dashboard_components: :environment do
     Dashboard.where(kind: 'fifa').find_each do |dashboard|

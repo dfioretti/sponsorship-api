@@ -11,21 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122182756) do
+ActiveRecord::Schema.define(version: 20160124061348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "companies", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "name"
     t.decimal  "risk"
     t.string   "ticker"
     t.string   "api_id"
     t.string   "industry"
+    t.boolean  "visible",    default: true
   end
+
+  add_index "companies", ["name"], name: "index_companies_on_name", using: :btree
 
   create_table "dashboards", force: :cascade do |t|
     t.integer  "company_id"

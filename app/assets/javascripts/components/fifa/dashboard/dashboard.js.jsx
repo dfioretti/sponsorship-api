@@ -33,7 +33,7 @@ var FifaDashboard = React.createClass({
         el = <RepScore hidden={hidden} key={name}/>
         break;
       case 'insights_implications':
-        el = <InsightsImplications hidden={hidden} key={name}/>
+        el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
         break;
       case 'global_hotspots':
         el = <GlobalHotspots hidden={hidden} key={name}/>
