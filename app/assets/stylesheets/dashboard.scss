@@ -235,6 +235,10 @@
 
         &.tall {
           height: 660px;
+
+          // .media-list-container {
+          //   height: 610px;
+          // }
         }
 
         .top {
@@ -399,10 +403,6 @@
           }
         }
 
-        .text-list {
-
-        }
-
         ul.media-list {
           list-style: none;
           margin-left: 20px;
@@ -433,6 +433,10 @@
               img {
                 width: 100%;
               }
+
+              &.icon.file {
+                border-radius: 0;
+              }
             }
 
             .media-text {
@@ -444,12 +448,19 @@
                 font-size: 14px;
               }
 
-              .media-sub {
-                font-family: "Avenir-Book";
+              .media-subheader {
                 font-size: 10px;
               }
             }
           }
+        }
+      }
+
+      .insight-item {
+
+        .insight-item-body {
+          padding-bottom: 10px;
+          // border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
         }
       }
 
@@ -624,7 +635,7 @@
     }
   }
 
-  &#notes {
+  &#notes, &#insights_implications {
     .main {
       border-bottom: 1px solid $dark-blue;
 

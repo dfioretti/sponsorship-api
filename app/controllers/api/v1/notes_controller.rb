@@ -1,6 +1,6 @@
 class Api::V1::NotesController < ApplicationController
   def index
-    notes = Note.where(company_id: params["company_id"]).order(created_at: :desc)
+    notes = Note.includes(:user).recent_by_company(params[:company_id])
     render json: notes.to_json(include: :user)
   end
 
