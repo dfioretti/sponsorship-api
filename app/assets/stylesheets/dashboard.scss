@@ -408,6 +408,15 @@
           margin-left: 20px;
           margin-right: 20px;
 
+          &.media-list-scrollable-tall {
+            height: 610px;
+            overflow-y: auto;
+
+            .jspHorizontalBar, .jspVerticalBar, .jspTrack {
+                background: none repeat scroll 0 0 transparent;
+            }
+          }
+
           li {
             padding-left: 10px;
             padding-top: 23px;
@@ -451,6 +460,10 @@
               .media-subheader {
                 font-size: 10px;
               }
+            }
+
+            .media-break-text {
+              word-wrap: break-word;
             }
           }
         }

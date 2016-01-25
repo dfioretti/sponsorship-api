@@ -10,10 +10,11 @@ const APIEndpoints = {
   HISTORICAL_PRECEDENTS: "http://ewsapi.teneodigital.com/precedents",
   LIKELY_ATTACKERS: "http://ewsapi.teneodigital.com/likely_attackers",
   SOCIAL_SENTIMENT: "http://ewsapi.teneodigital.com/social_sentiment",
-}
+};
 
 const FIFAEndpoints = {
   REP_SCORE: "http://dashapi.teneodigital.com:8080/rep_score",
   GLOBAL_ISSUES: "http://dashapi.teneodigital.com:8080/global_issues",
-  INFLUENCERS: "http://dashapi.teneodigital.com:8080/influencers"
-}
+  INFLUENCERS: "http://dashapi.teneodigital.com:8080/influencers",
+  NEWS: "http://dashapi.teneodigital.com:8080/news"
+};
