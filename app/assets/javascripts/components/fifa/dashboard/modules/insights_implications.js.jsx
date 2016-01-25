@@ -3,11 +3,11 @@ var InsightsImplications = React.createClass({
     return {scrollLoaded: false, insights: []};
   },
   addInsight: function() {
-    if (typeof($('.media-list').data('jsp')) != "undefined") {
-      $('.media-list').data('jsp').destroy();
+    if (typeof($('#insight-list').data('jsp')) != "undefined") {
+      $('#insight-list').data('jsp').destroy();
       this.setState({insights: InsightsStore.getState().insights}, function() {
-        $('.media-list').jScrollPane({contentWidth: '0px'});
-        $('.media-list').data('jsp').addHoverFunc();
+        $('#insight-list').jScrollPane({contentWidth: '0px'});
+        $('#insight-list').data('jsp').addHoverFunc();
       });
     }
   },
@@ -16,7 +16,7 @@ var InsightsImplications = React.createClass({
 
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       this.setState({scrollLoaded: true});
-      $('.media-list').jScrollPane({contentWidth: '0px'});
+      $('#insight-list').jScrollPane({contentWidth: '0px'});
     }
   },
   createInsight: function (args) {
@@ -31,11 +31,9 @@ var InsightsImplications = React.createClass({
       return (<InsightListItem key={item.id} item={item} />);
     });
     return (
-      // <div className="media-list-container">
-        <ul className="text-list media-list">
-          {insights}
-        </ul>
-      // </div>
+      <ul id="insight-list" className="text-list media-list">
+        {insights}
+      </ul>
     );
   },
   componentDidMount: function () {
@@ -56,7 +54,7 @@ var InsightsImplications = React.createClass({
 
     // TODO refactor the jScrollPane implementation
     if (!this.state.scrollLoaded && !this.props.hidden) {
-      $('.media-list').jScrollPane({contentWidth: '0px'});
+      $('#insight-list').jScrollPane({contentWidth: '0px'});
       this.setState({scrollLoaded: true});
     }
   },
