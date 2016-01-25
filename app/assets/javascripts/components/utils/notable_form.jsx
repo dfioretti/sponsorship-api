@@ -1,4 +1,31 @@
 var NotableForm = React.createClass({
+  validateForm: function () {
+    var self = this;
+    var errors = [];
+    var validators = {
+      validateBody: {
+        shouldValidate: !!this.props.validateBody,
+        message: "Body cannot be blank",
+        value: ReactDOM.findDOMNode(this.refs.body).value
+      },
+      validateFile: {
+        shouldValidate: !!this.props.validateFile,
+        message: "Must attach file",
+        value: ReactDOM.findDOMNode(this.refs.file).files[0]
+      }
+    };
+
+    _.each(validators, function (value, key) {
+      if (value.shouldValidate && _.isEmpty(value.value)) {
+        errors.push(value.message);
+        self.setState({error: value.message});
+      }
+    });
+
+    return {
+      errors: errors
+    };
+  },
   saveToS3IfUpload: function () {
     var deferred = $.Deferred();
 
@@ -36,9 +63,8 @@ var NotableForm = React.createClass({
 
     var p = this;
 
-    var body = ReactDOM.findDOMNode(p.refs.body).value;
-    if (body === '') {
-      p.setState({error: "Body cannot be blank"});
+    console.log(this.validateForm().errors)
+    if (this.validateForm().errors.length > 0) {
       return;
     }
 
@@ -61,7 +87,7 @@ var NotableForm = React.createClass({
     ReactDOM.findDOMNode(this.refs.form).reset();
   },
   render: function () {
-    if (this.props.validateBody && this.state && this.state.error) {
+    if (this.state && this.state.error) {
       var errorMessage = (
         <div className="error-message">{this.state.error}</div>
       );

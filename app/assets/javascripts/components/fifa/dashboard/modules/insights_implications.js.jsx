@@ -74,17 +74,37 @@ var InsightsImplications = React.createClass({
     // ]};
     return {scrollLoaded: false, insights: InsightsStore.getState().insights};
   },
+  createInsight: function (args) {
+    return InsightsStore.create(args);
+  },
   renderList: function () {
     var insights = $.map(this.state.insights, function(item) {
       return (<InsightListItem key={item.id} item={item} />);
     });
     return (
-      <div className="media-list-container">
+      // <div className="media-list-container">
         <ul className="text-list media-list">
           {insights}
         </ul>
-      </div>
+      // </div>
     );
+  },
+  componentDidMount: function () {
+    // refactor to use this.getDOMNode()
+    // if (!this.state.scrollLoaded) {
+    //   $('#insights_implications .media-list-container').jScrollPane();
+    //   this.setState({scrollLoaded: true});
+    // } else if (this.state.wait) {
+    //   if (typeof($('#insights_implications .media-list-container').data('jsp')) == "undefined") {
+    //     $('#insights_implications .media-list-container').jScrollPane();
+    //     this.setState({scrollLoaded: true});
+    //   }
+    //   this.setState({wait: false});
+    // } else {
+    //   $('#insights_implications .media-list-container').data('jsp').destroy();
+    //   $('#insights_implications .media-list-container').jScrollPane();
+    //   $('#insights_implications .media-list-container').data('jsp').addHoverFunc();
+    // }
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
@@ -96,26 +116,9 @@ var InsightsImplications = React.createClass({
         </div>
         <div className="main">
           {this.renderList()}
-          <NotableForm company_id={this.props.company_id} saveHandler={this.createNote} validateBody={true} />
+          <NotableForm company_id={this.props.company_id} saveHandler={this.createInsight} validateFile={true} />
         </div>
       </div>
     );
-  },
-  componentDidMount: function () {
-    // refactor to use this.getDOMNode()
-    if (!this.state.scrollLoaded) {
-      $('#insights_implications .media-list-container').jScrollPane();
-      this.setState({scrollLoaded: true});
-    } else if (this.state.wait) {
-      if (typeof($('#insights_implications .media-list-container').data('jsp')) == "undefined") {
-        $('#insights_implications .media-list-container').jScrollPane();
-        this.setState({scrollLoaded: true});
-      }
-      this.setState({wait: false});
-    } else {
-      $('#insights_implications .media-list-container').data('jsp').destroy();
-      $('#insights_implications .media-list-container').jScrollPane();
-      $('#insights_implications .media-list-container').data('jsp').addHoverFunc();
-    }
   }
 });

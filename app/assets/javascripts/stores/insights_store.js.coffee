@@ -33,7 +33,7 @@ class InsightsStore extends EventEmitter
     $.ajax
       url: "/api/v1/insights"
       type: "POST"
-      data: JSON.stringify({note: args})
+      data: JSON.stringify({insight: args})
       contentType: "application/json"
       success: (data) =>
         @insights = @insights.unshift Immutable.fromJS(data)
