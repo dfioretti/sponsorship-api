@@ -18,7 +18,7 @@ var FifaDashboard = React.createClass({
     }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
-    DashboardsStore.getFifa().then(function() {
+    DashboardsStore.getFifa().then(function(dashboard) {
       this.handleChange();
       $('.modules-container').trigger('ss-rearrange');
     }.bind(this));

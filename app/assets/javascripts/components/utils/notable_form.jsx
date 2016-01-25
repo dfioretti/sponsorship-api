@@ -6,19 +6,19 @@ var NotableForm = React.createClass({
       validateBody: {
         shouldValidate: !!this.props.validateBody,
         message: "Body cannot be blank",
-        value: ReactDOM.findDOMNode(this.refs.body).value
+        isValid: function () { return ReactDOM.findDOMNode(self.refs.body).value !== ""; }
       },
       validateFile: {
         shouldValidate: !!this.props.validateFile,
         message: "Must attach file",
-        value: ReactDOM.findDOMNode(this.refs.file).files[0]
+        isValid: function () { return !_.isUndefined(ReactDOM.findDOMNode(self.refs.file).files[0]); }
       }
     };
 
-    _.each(validators, function (value, key) {
-      if (value.shouldValidate && _.isEmpty(value.value)) {
-        errors.push(value.message);
-        self.setState({error: value.message});
+    _.each(validators, function (config, key) {
+      if (config.shouldValidate && !config.isValid()) {
+        errors.push(config.message);
+        self.setState({error: config.message});
       }
     });
 
@@ -60,10 +60,10 @@ var NotableForm = React.createClass({
   },
   save: function(e) {
     e.preventDefault();
-
     var p = this;
+    // console.log(ReactDOM.findDOMNode(this.refs.file).files[0])
+    // console.log(_.isEmpty(ReactDOM.findDOMNode(this.refs.file).files[0]))
 
-    console.log(this.validateForm().errors)
     if (this.validateForm().errors.length > 0) {
       return;
     }

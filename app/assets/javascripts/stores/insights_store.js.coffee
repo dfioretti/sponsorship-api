@@ -6,6 +6,16 @@ class InsightsStore extends EventEmitter
   getState: (cid) ->
     {insights: @insights.toJS(), ready: @ready}
 
+  setCompanyId: (cid) ->
+    @companyId = cid
+    @ready = false
+    @insights = Immutable.fromJS([])
+    @emit "update"
+    @list().then (insights) =>
+      @ready = true
+      @insights = Immutable.fromJS(insights)
+      @emit "update"
+
   poll: (cid) ->
     @companyId = cid
     @ready = false

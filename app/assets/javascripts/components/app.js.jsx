@@ -5,7 +5,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 var App = React.createClass({
   mixins: [ Navigation ],
   getInitialState: function() {
-    return {loaded: false}
+    return {loaded: false};
   },
   componentDidMount: function() {
     PubSub.subscribe('auth.signIn.success', function(ev, user) {
@@ -25,7 +25,7 @@ var App = React.createClass({
           if (window.location.pathname.indexOf(p) == 1) {
             if (user.permissions.indexOf(p) == -1) {
               PubSub.publish('alert.update', {message: "You don't have access to this page", alertType: "danger"});
-              this.transitionTo('/account_login')
+              this.transitionTo('/account_login');
             }
           }
         }.bind(this));
@@ -60,8 +60,8 @@ var App = React.createClass({
       shadow: false, // Whether to render a shadow
       hwaccel: false, // Whether to use hardware acceleration
       position: 'absolute', // Element positioning
-    }
-    var target = document.getElementById('spinner')
+    };
+    var target = document.getElementById('spinner');
     var spinner = new Spinner(opts).spin(target);
   },
   setTitle: function(title) {

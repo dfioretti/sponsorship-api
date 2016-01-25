@@ -1,81 +1,30 @@
 var InsightsImplications = React.createClass({
   getInitialState: function() {
-    // return {scrollLoaded: false, insights: [
-    //   {
-    //     id: 12,
-    //     company_id: 12,
-    //     attachment_name: '50998.xlsx',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   },
-    //   {
-    //     id: 13,
-    //     company_id: 12,
-    //     attachment_name: '50998.jpg',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   },
-    //   {
-    //     id: 14,
-    //     company_id: 12,
-    //     attachment_name: '50998.jpg',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   },
-    //   {
-    //     id: 15,
-    //     company_id: 12,
-    //     attachment_name: '50998.pdf',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   },
-    //   {
-    //     id: 16,
-    //     company_id: 12,
-    //     attachment_name: '50998.docx',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   },
-    //   {
-    //     id: 17,
-    //     company_id: 12,
-    //     attachment_name: '50998.doc',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   },
-    //   {
-    //     id: 18,
-    //     company_id: 12,
-    //     attachment_name: '50998.ppt',
-    //     attachment: 'http://s3.amazonaws.com/artatlas/painting/images/large/50998.jpg?1423600554',
-    //     body: 'this is a test body',
-    //     user: {
-    //       name: 'James Dunbar'
-    //     }
-    //   }
-    // ]};
-    return {scrollLoaded: false, insights: InsightsStore.getState().insights};
+    return {scrollLoaded: false, insights: []};
+  },
+  addInsight: function() {
+    if (typeof($('.media-list').data('jsp')) != "undefined") {
+      $('.media-list').data('jsp').destroy();
+      this.setState({insights: InsightsStore.getState().insights}, function() {
+        $('.media-list').jScrollPane({contentWidth: '0px'});
+        $('.media-list').data('jsp').addHoverFunc();
+      });
+    }
+  },
+  componentWillReceiveProps: function(newProps) {
+    this.addInsight();
+
+    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
+      this.setState({scrollLoaded: true});
+      $('.media-list').jScrollPane({contentWidth: '0px'});
+    }
   },
   createInsight: function (args) {
-    return InsightsStore.create(args);
+    var self = this;
+
+    return InsightsStore.create(args).then(function () {
+        self.addInsight();
+    });
   },
   renderList: function () {
     var insights = $.map(this.state.insights, function(item) {
@@ -90,21 +39,26 @@ var InsightsImplications = React.createClass({
     );
   },
   componentDidMount: function () {
-    // refactor to use this.getDOMNode()
-    // if (!this.state.scrollLoaded) {
-    //   $('#insights_implications .media-list-container').jScrollPane();
-    //   this.setState({scrollLoaded: true});
-    // } else if (this.state.wait) {
-    //   if (typeof($('#insights_implications .media-list-container').data('jsp')) == "undefined") {
-    //     $('#insights_implications .media-list-container').jScrollPane();
-    //     this.setState({scrollLoaded: true});
-    //   }
-    //   this.setState({wait: false});
-    // } else {
-    //   $('#insights_implications .media-list-container').data('jsp').destroy();
-    //   $('#insights_implications .media-list-container').jScrollPane();
-    //   $('#insights_implications .media-list-container').data('jsp').addHoverFunc();
-    // }
+    var self = this;
+    InsightsStore.setCompanyId(this.props.company_id).then(function () {
+      self.addInsight();
+    });
+
+    (function poll(){
+      var timeoutId = setTimeout(function(){
+        InsightsStore.poll(self.props.company_id).then(function(insights){
+          self.addInsight();
+          poll();
+        });
+      }, 10000);
+      self.setState({timeoutId: timeoutId})
+    })();
+
+    // TODO refactor the jScrollPane implementation
+    if (!this.state.scrollLoaded && !this.props.hidden) {
+      $('.media-list').jScrollPane({contentWidth: '0px'});
+      this.setState({scrollLoaded: true});
+    }
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
