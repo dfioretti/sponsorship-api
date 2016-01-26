@@ -68,6 +68,7 @@ var GlobalInfluencers = React.createClass({
     return (
       <div id="top_global_influencers" className="dashboard-module tall" style={hiddenStyle}>
         <div className="top">
+          <a className="expand-handle"></a>
           <div className="drag-handle"></div>
           <div className="top-title">Top Global Influencers</div>
         </div>

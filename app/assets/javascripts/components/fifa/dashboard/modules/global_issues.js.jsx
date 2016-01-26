@@ -99,6 +99,7 @@ var GlobalIssues = React.createClass({
     return (
       <div id="top_global_issues" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
+          <a className="expand-handle"></a>
           <div className="drag-handle"></div>
           <div className="top-title">Top Global Issues</div>
         </div>

@@ -63,10 +63,8 @@ var InsightsImplications = React.createClass({
     return (
       <div id="insights_implications" className="dashboard-module tall" style={hiddenStyle}>
         <div className="top">
-          <div className="expand-handle"></div>
           <div className="drag-handle"></div>
           <div className="top-title">Insights & Implications</div>
-
         </div>
         <div className="main">
           {this.renderList()}

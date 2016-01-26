@@ -103,7 +103,7 @@ var RepScore = React.createClass({
           }]
         }
       }
-    }
+    };
 
     var sentimentChart = new Chart(ctx, data);
 
@@ -115,6 +115,7 @@ var RepScore = React.createClass({
     return (
       <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
+          <a className="expand-handle"></a>
           <div className="drag-handle"></div>
           <div className="top-title">Rep Score</div>
         </div>

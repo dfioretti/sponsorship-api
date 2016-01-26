@@ -260,12 +260,19 @@
           }
 
           .expand-handle {
-            width: 16px;
-            height: 16px;
+            line-height: 24px;
+            width: 24px;
+            height: 24px;
             float: right;
             margin-right: 20px;
             cursor: pointer;
-            background-image: image-url("dashboard/icon-move.svg");
+            background-image: image-url("fifa/icon-expand.svg");
+            position: relative;
+            top: -3px;
+
+            &:hover, &:focus {
+              background-image: image-url("fifa/icon-expand-hover.svg");
+            }
           }
         }
 
