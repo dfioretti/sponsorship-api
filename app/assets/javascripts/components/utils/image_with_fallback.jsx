@@ -4,7 +4,6 @@ var ImageWithFallback = React.createClass({
   },
   errorHandler: function () {
     this.setState({ errored: true });
-    console.log('error handler')
   },
   render: function (argument) {
     var src = this.state.errored ? this.props.fallbackSrc : this.props.src;

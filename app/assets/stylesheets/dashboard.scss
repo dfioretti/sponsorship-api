@@ -207,7 +207,6 @@
         }
       }
     }
-
   }
 
   .modules-box {
@@ -235,10 +234,6 @@
 
         &.tall {
           height: 660px;
-
-          // .media-list-container {
-          //   height: 610px;
-          // }
         }
 
         .top {
@@ -261,6 +256,27 @@
             color: $white;
             width: 382px;
             text-align: center;
+          }
+        }
+
+        .dashboard-module-footer {
+          border-top: 1px solid $dark-blue;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 50px;
+          line-height: 20px;
+          padding: 10px 15px;
+
+          h5 {
+            margin: 5px 0;
+          }
+
+          .btn-primary {
+            height: initial;
+            border-radius: 15px;
+            background: $dark-blue;
           }
         }
 
@@ -409,7 +425,7 @@
           margin-right: 20px;
 
           &.media-list-scrollable-tall {
-            height: 610px;
+            height: 560px;
             overflow-y: auto;
 
             .jspHorizontalBar, .jspVerticalBar, .jspTrack {
@@ -909,13 +925,13 @@
   }
   &#top_global_influencers {
     .main {
-      ul.global-influencers-list {
-        padding-left: 0px;
-      }
+      // ul.global-influencers-list {
+      //   padding-left: 0px;
+      // }
 
-      .global-influencers-list-container {
-        height: 610px;
-      }
+      // .global-influencers-list-container {
+      //   height: 610px;
+      // }
     }
   }
   &#top_news {
