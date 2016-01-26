@@ -93,12 +93,19 @@ var NotableForm = React.createClass({
       );
     }
 
+    if (this.props.tagsEnabled) {
+      var tagsInput = (
+        <input type="text" className="form-control notable-tags-input" id="notable-tags" placeholder="Add tags (separate with commas)..."/>
+      )
+    }
+
     return (
       <div>
         <div className="new-note">
           {errorMessage}
           <form id="note-form" ref="form" onSubmit={this.save}>
-            <textarea placeholder="New note here..." ref="body"></textarea>
+            <textarea placeholder={this.props.bodyPlaceholder || "New note here..."} ref="body"></textarea>
+            {tagsInput}
             <div className="attachment">
               <input type="file" className="file-input" id="note-file" ref="file" />
             </div>

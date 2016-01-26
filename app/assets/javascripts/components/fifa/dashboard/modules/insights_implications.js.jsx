@@ -68,7 +68,7 @@ var InsightsImplications = React.createClass({
         </div>
         <div className="main">
           {this.renderList()}
-          <NotableForm company_id={this.props.company_id} saveHandler={this.createInsight} validateFile={true} />
+          <NotableForm company_id={this.props.company_id} saveHandler={this.createInsight} validateFile={true} bodyPlaceholder="Add optional comments..." tagsEnabled={true} />
         </div>
       </div>
     );
