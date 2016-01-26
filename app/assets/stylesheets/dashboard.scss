@@ -207,7 +207,6 @@
         }
       }
     }
-
   }
 
   .modules-box {
@@ -235,10 +234,6 @@
 
         &.tall {
           height: 660px;
-
-          // .media-list-container {
-          //   height: 610px;
-          // }
         }
 
         .top {
@@ -261,6 +256,32 @@
             color: $white;
             width: 382px;
             text-align: center;
+          }
+        }
+
+        .dashboard-module-footer {
+          border-top: 1px solid $dark-blue;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 50px;
+          line-height: 20px;
+          padding: 10px 15px;
+
+          h5 {
+            margin: 5px 0;
+          }
+
+          .btn-primary {
+            height: initial;
+            border-radius: 15px;
+            background: $dark-blue;
+
+            .glyphicon {
+              font-size: 10px;
+              margin-left: 2px;
+            }
           }
         }
 
@@ -408,6 +429,15 @@
           margin-left: 20px;
           margin-right: 20px;
 
+          &.media-list-scrollable-tall {
+            height: 560px;
+            overflow-y: auto;
+
+            .jspHorizontalBar, .jspVerticalBar, .jspTrack {
+                background: none repeat scroll 0 0 transparent;
+            }
+          }
+
           li {
             padding-left: 10px;
             padding-top: 23px;
@@ -445,12 +475,33 @@
               margin-left: 60px;
 
               .media-header {
+                margin-top: 6px;
                 font-size: 14px;
+
+                &.media-header-limit-2-lines {
+                  display: block;
+                  display: -webkit-box;
+                  max-width: 100%;
+                  height: 28px;
+                  margin: 0 auto;
+                  margin-top: 6px;
+                  margin-bottom: 3px;
+                  line-height: 1;
+                  -webkit-line-clamp: 2;
+                  -webkit-box-orient: vertical;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
               }
 
               .media-subheader {
                 font-size: 10px;
+                margin-bottom: 3px;
               }
+            }
+
+            .media-break-text {
+              word-wrap: break-word;
             }
           }
         }
@@ -878,18 +929,8 @@
     }
   }
   &#top_global_influencers {
-    .main {
-      ul.global-influencers-list {
-        padding-left: 0px;
-      }
-
-      .global-influencers-list-container {
-        height: 610px;
-      }
-    }
   }
   &#top_news {
-
   }
   &#top_global_issues {
     .main {

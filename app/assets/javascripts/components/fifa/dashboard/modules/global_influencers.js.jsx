@@ -58,11 +58,9 @@ var GlobalInfluencers = React.createClass({
       );
     });
     return (
-      <div className="global-influencers-list-container">
-        <ul className="media-list global-influencers-list">
-          {list}
-        </ul>
-      </div>
+      <ul className="media-list global-influencers-list media-list-scrollable-tall global-influencers-list-container">
+        {list}
+      </ul>
     );
   },
   render: function() {
@@ -75,6 +73,10 @@ var GlobalInfluencers = React.createClass({
         </div>
         <div className="main">
           {this.renderList()}
+        </div>
+        <div className="dashboard-module-footer">
+          <h5 className="pull-left">View All Global Influencers</h5>
+          <a className='pull-right btn btn-sm btn-primary img-round'>View <span className="glyphicon glyphicon-play"></span></a>
         </div>
       </div>
     );
