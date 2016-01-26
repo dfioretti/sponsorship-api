@@ -49,7 +49,6 @@ var InsightsImplications = React.createClass({
           poll();
         });
       }, 10000);
-      self.setState({timeoutId: timeoutId})
     })();
 
     // TODO refactor the jScrollPane implementation

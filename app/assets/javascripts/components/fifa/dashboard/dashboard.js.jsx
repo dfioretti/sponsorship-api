@@ -5,7 +5,7 @@ var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
     var endDate = new Date();
-    var startDate = endDate.setTime( endDate.getTime() - this.defaultRange  * 86400000 );
+    var startDate = moment(endDate).subtract(this.defaultRange, 'days').toDate();
 
     return {dashboardLoaded: false, endDate: new Date(), startDate: startDate};
   },
@@ -27,9 +27,9 @@ var FifaDashboard = React.createClass({
     }.bind(this));
   },
   defaultRange: 35,
-  onDateRangeSelect: function (selectedDays) {
+  onDateRangeSelect: function (selectedRange) {
     var endDate = new Date();
-    var startDate = endDate.setTime( endDate.getTime() - selectedDays  * 86400000 );
+    var startDate = moment(endDate).subtract(selectedRange, 'days').toDate();
 
     this.setState({
       endDate: endDate,
