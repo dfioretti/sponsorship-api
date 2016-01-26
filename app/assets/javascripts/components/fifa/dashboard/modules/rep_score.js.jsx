@@ -11,7 +11,7 @@ var RepScore = React.createClass({
       function(data) {
         var news = [],
         social = [];
-        $.each(data.reverse(), function(i, point) {
+        $.each(_.values(data).reverse(), function(i, point) {
           news.push(point.news_score);
           social.push(point.social_score);
         }.bind(this));
