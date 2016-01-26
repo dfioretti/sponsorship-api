@@ -277,6 +277,11 @@
             height: initial;
             border-radius: 15px;
             background: $dark-blue;
+
+            .glyphicon {
+              font-size: 10px;
+              margin-left: 2px;
+            }
           }
         }
 
