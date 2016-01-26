@@ -31,7 +31,7 @@ var NewsItem = React.createClass({
       <li>
         <div className="media-image"><ImageWithFallback src={this.clearbitSrc()} fallbackSrc="http://placehold.it/100x100" /></div>
         <div className="media-text">
-          <div className="media-header media-break-text"><a href={this.props.item.link} target="_blank">{this.props.item.title}</a></div>
+          <div className="media-header media-header-limit-2-lines media-break-text"><a href={this.props.item.link} target="_blank">{this.props.item.title}</a></div>
           <div className="media-subheader"><span>{moment(this.props.item.date).format('MMMM Do, YYYY')}</span></div>
           <div className="media-break-text">{this.shortenedFullText()}</div>
         </div>
