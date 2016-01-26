@@ -27,6 +27,17 @@ var FifaDashboard = React.createClass({
     }.bind(this));
   },
   defaultRange: 35,
+  onDateRangeSelect: function (selectedDays) {
+    var endDate = new Date();
+    var startDate = endDate.setTime( endDate.getTime() - selectedDays  * 86400000 );
+
+    this.setState({
+      endDate: endDate,
+      startDate: startDate
+    });
+
+    console.log(this.state);
+  },
   mapModule: function(name, state) {
     var el, hidden;
     if (state == "off")
@@ -72,7 +83,7 @@ var FifaDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange} onDateRangeSelect={this.onDateRangeSelect}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

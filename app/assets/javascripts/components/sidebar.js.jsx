@@ -8,8 +8,7 @@ var Sidebar = React.createClass({
   selectChange: function(e) {
     var selectedDays = e.target.value;
 
-    var endDate = new Date();
-    var startDate = endDate.setTime( endDate.getTime() - selectedDays  * 86400000 );
+    this.props.onDateRangeSelect(selectedDays)
 
 
   },
