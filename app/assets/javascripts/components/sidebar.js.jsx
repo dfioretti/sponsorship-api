@@ -6,7 +6,12 @@ var Sidebar = React.createClass({
     $('#sidebar-tooltip').hide();
   },
   selectChange: function(e) {
-    console.log(e.target.value);
+    var selectedDays = e.target.value;
+
+    var endDate = new Date();
+    var startDate = endDate.setTime( endDate.getTime() - selectedDays  * 86400000 );
+
+
   },
   renderSocialRating: function() {
     // var tooltipStyle = {left: left, backgroundColor: color}
@@ -25,14 +30,10 @@ var Sidebar = React.createClass({
             </div>
           </div>
           <div className="range-select">
-            <select onChange={this.selectChange}>
-              <option value="1">Range: Last 1 Months</option>
-              <option value="2">Range: Last 2 Months</option>
-              <option value="3">Range: Last 3 Months</option>
-              <option value="4">Range: Last 4 Months</option>
-              <option value="5">Range: Last 5 Months</option>
-              <option value="6">Range: Last 6 Months</option>
-              <option value="12">Range: Last 1 Year</option>
+            <select onChange={this.selectChange} value={this.props.defaultRange}>
+              <option value="5">Last 5 Days</option>
+              <option value="35">Last 5 Weeks</option>
+              <option value="150">Last 5 Months</option>
             </select>
           </div>
         </div>

@@ -10,7 +10,7 @@ class Api::V1::Fifa::TeneoApiController < ApplicationController
       params: params.except(:path, :controller, :action, :teneo_api)
     )
     response = request.run
-    render json: git response.response_body
+    render json: response.response_body
   rescue => e
     render json: e
   end

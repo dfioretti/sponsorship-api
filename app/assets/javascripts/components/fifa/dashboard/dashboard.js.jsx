@@ -4,7 +4,10 @@ var RouteHandler = ReactRouter.RouteHandler,
 var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    return {dashboardLoaded: false};
+    var endDate = new Date();
+    var startDate = endDate.setTime( endDate.getTime() - this.defaultRange  * 86400000 );
+
+    return {dashboardLoaded: false, endDate: new Date(), startDate: startDate};
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
@@ -23,6 +26,7 @@ var FifaDashboard = React.createClass({
       $('.modules-container').trigger('ss-rearrange');
     }.bind(this));
   },
+  defaultRange: 35,
   mapModule: function(name, state) {
     var el, hidden;
     if (state == "off")
@@ -68,7 +72,7 @@ var FifaDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>
