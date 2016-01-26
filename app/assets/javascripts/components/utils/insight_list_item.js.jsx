@@ -25,7 +25,7 @@ var InsightListItem = React.createClass({
         <div className="media-text">
           <div className="media-header"><a href={this.props.item.attachment}>{this.props.item.attachment_name}</a></div>
           <div className="media-subheader"><span>{this.props.item.user.name}</span> <span>|</span> <span>{moment(this.props.item.created_at).format('MMMM Do, YYYY')}</span></div>
-          <div className="insight-item-body">{this.props.item.bio}</div>
+          <div className="insight-item-body">{this.props.item.body}</div>
         </div>
       </li>
     );
