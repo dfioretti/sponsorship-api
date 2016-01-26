@@ -18,9 +18,11 @@ class Api::V1::Fifa::DashboardsController < ApplicationController
   private
 
   def create_dashboard(user)
+    company = Company.find_by_name('FIFA')
     user.dashboards.create(
       kind: "fifa",
-      state: Dashboard::FIFA_DEFAULT_STATE
+      state: Dashboard::FIFA_DEFAULT_STATE,
+      company_id: company.id
     )
   end
 
