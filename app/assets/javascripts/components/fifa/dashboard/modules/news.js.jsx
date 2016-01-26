@@ -12,12 +12,6 @@ var News = React.createClass({
       FIFAEndpoints.NEWS,
       {},
       function(data) {
-
-        // $.each(data.reverse(), function(i, point) {
-        //   news.push(point.news_score);
-        //   social.push(point.social_score);
-        // }
-
         this.setState({
           news: data.reverse()
         }, function () {

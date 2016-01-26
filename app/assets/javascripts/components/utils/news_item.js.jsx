@@ -7,19 +7,29 @@ var NewsItem = React.createClass({
     return this._ellipsis(text, 144);
   },
   rootDomain: function () {
-    return this.link.match("/http(s?):\/\/(.*)\//")[0];
+    var domain;
+    var link = this.props.item.link;
+    if (!link) return;
+
+    domain = link.replace(RegExp(/http(s?):\/\//), '').split('/')[0];
+    return domain;
   },
   clearbitSrc: function () {
-    if (this.link) {
-      return 'https://logo.clearbit.com/' + this.rootDomain();
-    } else {
-      return 'http://placehold.it/100x100';
+    var logoSrc = 'http://placehold.it/100x100';
+
+    // console.log(this.props.item.link)
+
+    if (this.props.item.link && this.rootDomain()) {
+      // logoSrc = 'https://logo.clearbit.com/' + this.rootDomain();
+      logoSrc = 'https://logo.clearbit.com/' + this.rootDomain();
     }
+
+    return logoSrc;
   },
   render: function () {
     return (
       <li>
-        <div className="media-image"><img src={this.clearbitSrc()}/></div>
+        <div className="media-image"><ImageWithFallback src={this.clearbitSrc()} fallbackSrc="http://placehold.it/100x100" /></div>
         <div className="media-text">
           <div className="media-header media-break-text"><a href={this.props.item.link} target="_blank">{this.props.item.title}</a></div>
           <div className="media-subheader"><span>{moment(this.props.item.date).format('MMMM Do, YYYY')}</span></div>
