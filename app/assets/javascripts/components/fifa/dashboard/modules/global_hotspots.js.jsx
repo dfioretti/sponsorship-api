@@ -44,7 +44,7 @@ var GlobalHotspots = React.createClass({
           {this.renderMap()}
         </div>
         <script type="sql/html" id="sql_template_a">
-          SELECT * FROM dashboard_dummy
+          SELECT * FROM sojcp0flmlm7rshw6usbx27
         </script>
       </div>
     );
