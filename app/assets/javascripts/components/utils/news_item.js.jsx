@@ -1,4 +1,5 @@
 var NewsItem = React.createClass({
+  _defaultLogoSrc: '/assets/fifa/icon-news.svg',
   _ellipsis: function (text, maxLength) {
     return text.length < maxLength ? text : text.slice(0,maxLength - 3) + '...';
   },
@@ -15,12 +16,9 @@ var NewsItem = React.createClass({
     return domain;
   },
   clearbitSrc: function () {
-    var logoSrc = 'http://placehold.it/100x100';
-
-    // console.log(this.props.item.link)
+    logoSrc = this._defaultLogoSrc;
 
     if (this.props.item.link && this.rootDomain()) {
-      // logoSrc = 'https://logo.clearbit.com/' + this.rootDomain();
       logoSrc = 'https://logo.clearbit.com/' + this.rootDomain();
     }
 
@@ -29,7 +27,7 @@ var NewsItem = React.createClass({
   render: function () {
     return (
       <li>
-        <div className="media-image"><ImageWithFallback src={this.clearbitSrc()} fallbackSrc="http://placehold.it/100x100" /></div>
+        <div className="media-image"><ImageWithFallback src={this.clearbitSrc()} fallbackSrc={this._defaultLogoSrc} /></div>
         <div className="media-text">
           <div className="media-header media-header-limit-2-lines media-break-text"><a href={this.props.item.link} target="_blank">{this.props.item.title}</a></div>
           <div className="media-subheader"><span>{moment(this.props.item.date).format('MMMM Do, YYYY')}</span></div>
