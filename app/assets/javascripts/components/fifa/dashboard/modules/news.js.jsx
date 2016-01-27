@@ -1,34 +1,50 @@
 var News = React.createClass({
   getInitialState: function () {
-    return { scrollLoaded: false, news: [] };
+    return {scrollLoaded: false, news: []};
   },
-  componentDidMount: function() {
-    this.getData();
+  componentWillMount: function() {
+    this.getData({
+      start_date: moment(this.props.startDate).format('YYYY-MM-DD'),
+      end_date: moment(this.props.endDate).format('YYYY-MM-DD')
+    });
   },
-  getData: function(props) {
+  componentWillReceiveProps: function (newProps) {
+    this.setState({news: []});
+
+    this.getData({
+      start_date: moment(newProps.startDate).format('YYYY-MM-DD'),
+      end_date: moment(newProps.endDate).format('YYYY-MM-DD')
+    });
+  },
+  getData: function(params) {
     var self = this;
 
     Dispatcher.fifaGet(
       FIFAEndpoints.NEWS,
-      {},
+      params,
       function(data) {
+        var news = $.map(data.reverse(), function (item) {
+          item.id = uuid.v4();
+          return item;
+        });
+
         this.setState({
-          news: data.reverse()
+          news: news
         }, function () {
-          if (!self.state.scrollLoaded) {
-            $('#top-news').jScrollPane({contentWidth: '0px'});
-            self.setState({scrollLoaded: true});
-          } else if (self.state.wait) {
-            if (typeof($('#top-news').data('jsp')) == "undefined") {
-              $('#top-news').jScrollPane({contentWidth: '0px'});
-              self.setState({scrollLoaded: true});
-            }
-            self.setState({wait: false});
-          } else {
-            $('#top-news').data('jsp').destroy();
-            $('#top-news').jScrollPane({contentWidth: '0px'});
-            $('#top-news').data('jsp').addHoverFunc();
-          }
+          // if (!self.state.scrollLoaded) {
+          //   $('#top-news').jScrollPane({contentWidth: '0px'});
+          //   self.setState({scrollLoaded: true});
+          // } else if (self.state.wait) {
+          //   if (typeof($('#top-news').data('jsp')) == "undefined") {
+          //     $('#top-news').jScrollPane({contentWidth: '0px'});
+          //     self.setState({scrollLoaded: true});
+          //   }
+          //   self.setState({wait: false});
+          // } else {
+          //   $('#top-news').data('jsp').destroy();
+          //   $('#top-news').jScrollPane({contentWidth: '0px'});
+          //   $('#top-news').data('jsp').addHoverFunc();
+          // }
         });
 
       }.bind(this)
@@ -37,7 +53,7 @@ var News = React.createClass({
   renderList: function () {
     var list = $.map(this.state.news, function (item, index) {
       return(
-        <NewsItem key={index} item={item} />
+        <NewsItem key={item.id} item={item} />
       );
     });
 

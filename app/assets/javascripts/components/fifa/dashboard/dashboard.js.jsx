@@ -35,8 +35,6 @@ var FifaDashboard = React.createClass({
       endDate: endDate,
       startDate: startDate
     });
-
-    console.log(this.state);
   },
   mapModule: function(name, state) {
     var el, hidden;
@@ -57,7 +55,7 @@ var FifaDashboard = React.createClass({
         el = <GlobalInfluencers hidden={hidden} key={name}/>
         break;
       case 'top_news':
-        el = <News hidden={hidden} key={name}/>
+        el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'top_global_issues':
         el = <GlobalIssues hidden={hidden} key={name}/>

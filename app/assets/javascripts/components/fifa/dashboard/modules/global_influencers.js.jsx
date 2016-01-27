@@ -9,7 +9,7 @@ var GlobalInfluencers = React.createClass({
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {
         this.setState({scrollLoaded: true});
-        $('.global-influencers-list-container').jScrollPane();
+        // $('.global-influencers-list-container').jScrollPane();
       }
     }
 
@@ -25,20 +25,20 @@ var GlobalInfluencers = React.createClass({
       {},
       function(data) {
         this.setState({influencers: data}, function() {
-          if (!this.state.scrollLoaded && !p.hidden) {
-            $('.global-influencers-list-container').jScrollPane();
-            this.setState({scrollLoaded: true});
-          } else if (this.state.wait) {
-            if (typeof($('.global-influencers-list-container').data('jsp')) == "undefined") {
-              $('.global-influencers-list-container').jScrollPane();
-              this.setState({scrollLoaded: true});
-            }
-            this.setState({wait: false});
-          } else {
-            $('.global-influencers-list-container').data('jsp').destroy();
-            $('.global-influencers-list-container').jScrollPane();
-            $('.global-influencers-list-container').data('jsp').addHoverFunc();
-          }
+          // if (!this.state.scrollLoaded && !p.hidden) {
+          //   $('.global-influencers-list-container').jScrollPane();
+          //   this.setState({scrollLoaded: true});
+          // } else if (this.state.wait) {
+          //   if (typeof($('.global-influencers-list-container').data('jsp')) == "undefined") {
+          //     $('.global-influencers-list-container').jScrollPane();
+          //     this.setState({scrollLoaded: true});
+          //   }
+          //   this.setState({wait: false});
+          // } else {
+          //   $('.global-influencers-list-container').data('jsp').destroy();
+          //   $('.global-influencers-list-container').jScrollPane();
+          //   $('.global-influencers-list-container').data('jsp').addHoverFunc();
+          // }
         }.bind(this));
       }.bind(this)
     );

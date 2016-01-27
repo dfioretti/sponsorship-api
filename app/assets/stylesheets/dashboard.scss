@@ -1,3 +1,19 @@
+::-webkit-scrollbar {
+    height: 3px;
+    width: 3px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255, 0.6);
+    -webkit-border-radius: 3ex;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
 .sidebar {
   width: 250px;
   height: calc(100% - 80px);
@@ -92,6 +108,8 @@
       font-size: 12px;
       letter-spacing: 0.5px;
       outline: none;
+      padding: 0 15px;
+      -webkit-appearance:none;
     }
   }
 }
@@ -455,10 +473,6 @@
           &.media-list-scrollable-tall {
             height: 560px;
             overflow-y: auto;
-
-            .jspHorizontalBar, .jspVerticalBar, .jspTrack {
-                background: none repeat scroll 0 0 transparent;
-            }
           }
 
           li {

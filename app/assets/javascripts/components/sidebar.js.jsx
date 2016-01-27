@@ -29,7 +29,7 @@ var Sidebar = React.createClass({
             </div>
           </div>
           <div className="range-select">
-            <select onChange={this.selectChange} value={this.props.defaultRange}>
+            <select onChange={this.selectChange} defaultValue={this.props.defaultRange}>
               <option value="5">Last 5 Days</option>
               <option value="35">Last 5 Weeks</option>
               <option value="150">Last 5 Months</option>
