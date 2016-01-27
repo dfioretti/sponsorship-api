@@ -20,12 +20,18 @@ var GlobalIssues = React.createClass({
   getData: function(props) {
     var p = props ? props : this.props;
 
+    console.log(p)
+
     Dispatcher.fifaGet(
       FIFAEndpoints.GLOBAL_ISSUES,
-      {},
+      {
+        start_date: moment(p.startDate).format('YYYY-MM-DD'),
+        end_date: moment(p.endDate).format('YYYY-MM-DD')
+      },
       function(data) {
         // (TODO) Not sure if this is the correct data...
         // Need to check what data is supposed to be displayed here
+        var
         issues = [],
         today = data[0].aggregate_issues,
         yesterday = data[1].aggregate_issues;

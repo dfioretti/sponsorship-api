@@ -30,21 +30,6 @@ var News = React.createClass({
 
         this.setState({
           news: news
-        }, function () {
-          // if (!self.state.scrollLoaded) {
-          //   $('#top-news').jScrollPane({contentWidth: '0px'});
-          //   self.setState({scrollLoaded: true});
-          // } else if (self.state.wait) {
-          //   if (typeof($('#top-news').data('jsp')) == "undefined") {
-          //     $('#top-news').jScrollPane({contentWidth: '0px'});
-          //     self.setState({scrollLoaded: true});
-          //   }
-          //   self.setState({wait: false});
-          // } else {
-          //   $('#top-news').data('jsp').destroy();
-          //   $('#top-news').jScrollPane({contentWidth: '0px'});
-          //   $('#top-news').data('jsp').addHoverFunc();
-          // }
         });
 
       }.bind(this)
