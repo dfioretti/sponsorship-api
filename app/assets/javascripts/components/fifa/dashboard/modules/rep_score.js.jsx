@@ -2,12 +2,18 @@ var RepScore = React.createClass({
   componentDidMount: function() {
     this.getData();
   },
+  componentWillReceiveProps: function (newProps) {
+    this.getData(newProps);
+  },
   getData: function(props) {
     var p = props ? props : this.props;
 
     Dispatcher.fifaGet(
       FIFAEndpoints.REP_SCORE,
-      {},
+      {
+        start_date: moment(p.startDate).format('YYYY-MM-DD'),
+        end_date: moment(p.endDate).format('YYYY-MM-DD')
+      },
       function(data) {
         var news = [],
         social = [];
@@ -108,7 +114,6 @@ var RepScore = React.createClass({
     var sentimentChart = new Chart(ctx, data);
 
     this.setState({chart: sentimentChart});
-    window.test = sentimentChart;
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};

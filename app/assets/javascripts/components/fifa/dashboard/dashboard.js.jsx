@@ -4,7 +4,10 @@ var RouteHandler = ReactRouter.RouteHandler,
 var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    return {dashboardLoaded: false};
+    var endDate = new Date();
+    var startDate = moment(endDate).subtract(this.defaultRange, 'days').toDate();
+
+    return {dashboardLoaded: false, endDate: new Date(), startDate: startDate};
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
@@ -23,6 +26,16 @@ var FifaDashboard = React.createClass({
       $('.modules-container').trigger('ss-rearrange');
     }.bind(this));
   },
+  defaultRange: 35,
+  onDateRangeSelect: function (selectedRange) {
+    var endDate = new Date();
+    var startDate = moment(endDate).subtract(selectedRange, 'days').toDate();
+
+    this.setState({
+      endDate: endDate,
+      startDate: startDate
+    });
+  },
   mapModule: function(name, state) {
     var el, hidden;
     if (state == "off")
@@ -30,7 +43,7 @@ var FifaDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name}/>
+        el = <RepScore hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
@@ -42,10 +55,10 @@ var FifaDashboard = React.createClass({
         el = <GlobalInfluencers hidden={hidden} key={name}/>
         break;
       case 'top_news':
-        el = <News hidden={hidden} key={name}/>
+        el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'top_global_issues':
-        el = <GlobalIssues hidden={hidden} key={name}/>
+        el = <GlobalIssues hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
     }
     return el
@@ -68,7 +81,7 @@ var FifaDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange} onDateRangeSelect={this.onDateRangeSelect}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

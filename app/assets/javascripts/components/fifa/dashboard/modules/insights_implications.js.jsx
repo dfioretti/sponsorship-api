@@ -3,21 +3,10 @@ var InsightsImplications = React.createClass({
     return {scrollLoaded: false, insights: []};
   },
   addInsight: function() {
-    if (typeof($('#insight-list').data('jsp')) != "undefined") {
-      $('#insight-list').data('jsp').destroy();
-      this.setState({insights: InsightsStore.getState().insights}, function() {
-        $('#insight-list').jScrollPane({contentWidth: '0px'});
-        $('#insight-list').data('jsp').addHoverFunc();
-      });
-    }
+    this.setState({insights: InsightsStore.getState().insights});
   },
   componentWillReceiveProps: function(newProps) {
     this.addInsight();
-
-    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
-      this.setState({scrollLoaded: true});
-      $('#insight-list').jScrollPane({contentWidth: '0px'});
-    }
   },
   createInsight: function (args) {
     var self = this;
@@ -49,14 +38,7 @@ var InsightsImplications = React.createClass({
           poll();
         });
       }, 10000);
-      self.setState({timeoutId: timeoutId})
     })();
-
-    // TODO refactor the jScrollPane implementation
-    if (!this.state.scrollLoaded && !this.props.hidden) {
-      $('#insight-list').jScrollPane({contentWidth: '0px'});
-      this.setState({scrollLoaded: true});
-    }
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};

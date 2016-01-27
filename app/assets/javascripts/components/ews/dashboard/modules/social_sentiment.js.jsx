@@ -122,7 +122,6 @@ var SocialSentiment = React.createClass({
     var sentimentChart = new Chart(ctx, data);
 
     this.setState({chart: sentimentChart});
-    window.test = sentimentChart;
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
