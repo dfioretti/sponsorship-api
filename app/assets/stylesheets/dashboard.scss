@@ -981,6 +981,10 @@
   &#top_global_influencers {
   }
   &#top_news {
+    .media-list-scrollable-tall {
+      height: 509px;
+    }
+
   }
   &#top_global_issues {
     .main {
@@ -1026,16 +1030,25 @@
   cursor: pointer;
   display: inline-block;
   opacity: 0.4;
+  margin-right: 10px;
 
-  &:first-child {
-    margin-right: 10px;
+  &:last-child {
+    margin-right: 0px;
   }
 
-  &:hover {
+  &:hover, &.filter-active {
     opacity: 1.0;
   }
 
   &.asc .caret {
     transform: rotate(180deg);
+  }
+}
+
+.filters {
+  &.media-list-filters {
+    border-bottom: 1px solid $dark-blue;
+    padding: 10px 0;
+    text-align: center;
   }
 }
