@@ -1,8 +1,12 @@
 var RepScore = React.createClass({
   componentDidMount: function() {
+    console.log('rep score mounted')
     this.getData();
   },
   componentWillReceiveProps: function (newProps) {
+    console.log('rep score recieved new props')
+
+    console.log(this.props)
     this.getData(newProps);
   },
   getData: function(props) {
@@ -27,6 +31,8 @@ var RepScore = React.createClass({
     );
   },
   renderChart: function(news, social) {
+    if (this.sentimentChart) this.sentimentChart.destroy();
+
     var ctx = document.getElementById("rep-score-chart");
     Chart.defaults.global.elements.line.tension = 0;
 
@@ -111,9 +117,9 @@ var RepScore = React.createClass({
       }
     };
 
-    var sentimentChart = new Chart(ctx, data);
+    this.sentimentChart = new Chart(ctx, data);
 
-    this.setState({chart: sentimentChart});
+    this.setState({chart: this.sentimentChart});
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
