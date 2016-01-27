@@ -2,7 +2,7 @@ var GlobalIssues = React.createClass({
   getInitialState: function() {
     return {scrollLoaded: false, issues: []};
   },
-  componentWillMount: function() {
+  componentDidMount: function() {
     this.getData();
   },
   componentWillReceiveProps: function(newProps) {
