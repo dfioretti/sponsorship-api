@@ -1,3 +1,5 @@
+var Link = ReactRouter.Link;
+
 var GlobalIssues = React.createClass({
   getInitialState: function() {
     return {scrollLoaded: false, issues: []};
@@ -99,11 +101,13 @@ var GlobalIssues = React.createClass({
     );
   },
   render: function() {
+    var detailLink = '/fifa/dashboard/global_issues';
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
+
     return (
       <div id="top_global_issues" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
-          <a className="expand-handle"></a>
+          <Link to={detailLink} className="expand-handle"></Link>
           <div className="drag-handle"></div>
           <div className="top-title">Top Global Issues</div>
         </div>

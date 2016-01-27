@@ -11,6 +11,7 @@ this.AppRoutes = (
     <Route name='dashboard' handler={Dashboard} path='ews/dashboard/:id'/>
     <Route name='company_detail' handler={CompanyDetail} path='ews/dashboard/:id/detail'/>
     <Route name='fifa_dashboard' handler={FifaDashboard} path='fifa/dashboard'/>
+    <Route name='fifa_detail' handler={FifaDetail} path='fifa/dashboard/:detail_type'/>
     <Route name='users' handler={UsersIndex} path='admin/users'/>
     <DefaultRoute handler={CompanyIndex}/>
   </Route>
