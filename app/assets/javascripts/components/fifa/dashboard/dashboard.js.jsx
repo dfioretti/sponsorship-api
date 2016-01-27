@@ -43,7 +43,7 @@ var FifaDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name}/>
+        el = <RepScore hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>

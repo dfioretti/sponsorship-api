@@ -20,8 +20,6 @@ var GlobalIssues = React.createClass({
   getData: function(props) {
     var p = props ? props : this.props;
 
-    console.log(p)
-
     Dispatcher.fifaGet(
       FIFAEndpoints.GLOBAL_ISSUES,
       {
