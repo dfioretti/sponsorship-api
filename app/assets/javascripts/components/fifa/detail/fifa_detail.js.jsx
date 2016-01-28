@@ -26,35 +26,11 @@ var FifaDetail = React.createClass({
     );
   },
   renderDetails: function() {
-    // var indicators = this.state.indicators;
-
-    // var charts = $.map(indicators, function(v, k){
-    //   return <DetailChart
-    //     ref={v.data_type}
-    //     key={k}
-    //     data={v}
-    //     fullCompany={this.state.fullCompany}
-    //     company={CompaniesStore.getState().current}
-    //     companyData={this.state.companyData}
-    //     compData={this.state.compData} />
-    // }.bind(this));
-
-    // return (
-    //   <div className="charts-container">
-    //     {charts}
-    //   </div>
-    // );
-    // return charts;
     var self = this;
     var supportedDetailModules = {
-      global_issues: (
-        <h1>Test</h1>
-      ),
-      global_influencers: (
-        <GlobalInfluencersDetail />
-      )
+      global_issues: <GlobalIssuesDetail />,
+      global_influencers: <GlobalInfluencersDetail />
     };
-
 
     var detailType = this.props.params.detail_type;
     return supportedDetailModules[detailType];
