@@ -1,6 +1,6 @@
 var News = React.createClass({
   getInitialState: function () {
-    return {scrollLoaded: false, news: [], activeFilter: "date" };
+    return {scrollLoaded: false, news: [], activeFilter: "date"};
   },
   componentWillReceiveProps: function (newProps) {
     this.setState({news: []});
