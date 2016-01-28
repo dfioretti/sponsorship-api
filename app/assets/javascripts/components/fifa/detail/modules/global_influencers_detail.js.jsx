@@ -6,21 +6,16 @@ var GlobalInfluencersDetail = React.createClass({
     this.getDetails();
   },
   componentDidUpdate: function () {
-    console.log('component did update')
-
-    window.requestAnimationFrame(function () {
-      $('.details-container').shapeshift({
-        selector: ".detail-module",
-        handle: ".drag-handle",
-        align: "left",
-        autoHeight: false,
-        gutterX: 20,
-        gutterY: 20,
-        paddingX: 20,
-        paddingY: 20
-      });
+    $('.details-container').shapeshift({
+      selector: ".detail-module",
+      handle: ".drag-handle",
+      align: "left",
+      autoHeight: false,
+      gutterX: 20,
+      gutterY: 20,
+      paddingX: 20,
+      paddingY: 20
     });
-
   },
   getDetails: function () {
     Dispatcher.fifaGet(
@@ -28,8 +23,6 @@ var GlobalInfluencersDetail = React.createClass({
       {},
       function(data) {
         this.setState({influencers: data}, function() {
-
-          console.log('data loaded')
         }.bind(this));
       }.bind(this)
     );
