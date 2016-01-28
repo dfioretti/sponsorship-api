@@ -15,16 +15,16 @@ var InfluencerCard = React.createClass({
         </div>
         <ul className="twitter-stats">
           <li>
-            <div className="metric">{this.props.item.following}</div>
+            <div className="metric">{_.toShortenedNum(this.props.item.following)}</div>
             <div className="metric-label">Following</div>
           </li>
           <li>
-            <div className="metric">{this.props.item.followers}</div>
+            <div className="metric">{_.toShortenedNum(this.props.item.followers)}</div>
             <div className="metric-label">Followers</div>
           </li>
           <li>
-            <div className="metric">{this.props.item.followers}</div>
-            <div className="metric-label">Followers</div>
+            <div className="metric">{_.toShortenedNum(this.props.item.followers)}</div>
+            <div className="metric-label">Tweets</div>
           </li>
         </ul>
       </div>
