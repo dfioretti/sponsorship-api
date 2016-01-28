@@ -3,7 +3,44 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var FifaDetail = React.createClass({
   getInitialState: function() {
-    return {loaded: true, orderBy: {field: "model_rank", order: 1}, indicators: []};
+    return {loaded: false, orderBy: {field: "model_rank", order: 1}, indicators: []};
+  },
+  getDetails: function () {
+    Dispatcher.fifaGet(
+      FIFAEndpoints.INFLUENCERS,
+      {},
+      function(data) {
+        this.setState({loaded: true, influencers: data}, function() {
+          // if (!this.state.scrollLoaded && !p.hidden) {
+          //   $('.global-influencers-list-container').jScrollPane();
+          //   this.setState({scrollLoaded: true});
+          // } else if (this.state.wait) {
+          //   if (typeof($('.global-influencers-list-container').data('jsp')) == "undefined") {
+          //     $('.global-influencers-list-container').jScrollPane();
+          //     this.setState({scrollLoaded: true});
+          //   }
+          //   this.setState({wait: false});
+          // } else {
+          //   $('.global-influencers-list-container').data('jsp').destroy();
+          //   $('.global-influencers-list-container').jScrollPane();
+          //   $('.global-influencers-list-container').data('jsp').addHoverFunc();
+          // }
+          $('.details-container').shapeshift({
+            selector: ".detail-module",
+            handle: ".drag-handle",
+            align: "left",
+            autoHeight: false,
+            gutterX: 20,
+            gutterY: 20,
+            paddingX: 20,
+            paddingY: 20
+          });
+        }.bind(this));
+      }.bind(this)
+    );
+  },
+  componentDidMount: function () {
+    this.getDetails();
   },
   componentWillMount: function() {
     // if (CompaniesStore.getState().ready) {
@@ -15,7 +52,7 @@ var FifaDetail = React.createClass({
     // }.bind(this));
   },
   setupGrid: function() {
-    // $('.charts-container').shapeshift({
+    // $('.details-container').shapeshift({
     //   selector: ".detail-module",
     //   handle: ".drag-handle",
     //   align: "left",
@@ -96,7 +133,8 @@ var FifaDetail = React.createClass({
   },
   getSubNavTitle: function () {
     var titles = {
-      global_issues: "Top Global Issues"
+      global_issues: "Top Global Issues",
+      global_influencers: "Top Global Influencers"
     };
 
     return titles[this.props.params.detail_type];
@@ -144,8 +182,8 @@ var FifaDetail = React.createClass({
       return ReactDOM.findDOMNode(this.refs[indicator.data_type]);
     }.bind(this));
 
-    $('.charts-container').html(newDom);
-    $('.charts-container').shapeshift({
+    $('.details-container').html(newDom);
+    $('.details-container').shapeshift({
       selector: ".detail-module",
       handle: ".drag-handle",
       align: "left",
@@ -168,26 +206,41 @@ var FifaDetail = React.createClass({
       </div>
     );
   },
-  renderCharts: function() {
-    var indicators = this.state.indicators;
+  renderDetails: function() {
+    // var indicators = this.state.indicators;
 
-    var charts = $.map(indicators, function(v, k){
-      return <DetailChart
-        ref={v.data_type}
-        key={k}
-        data={v}
-        fullCompany={this.state.fullCompany}
-        company={CompaniesStore.getState().current}
-        companyData={this.state.companyData}
-        compData={this.state.compData} />
-    }.bind(this));
+    // var charts = $.map(indicators, function(v, k){
+    //   return <DetailChart
+    //     ref={v.data_type}
+    //     key={k}
+    //     data={v}
+    //     fullCompany={this.state.fullCompany}
+    //     company={CompaniesStore.getState().current}
+    //     companyData={this.state.companyData}
+    //     compData={this.state.compData} />
+    // }.bind(this));
 
-    return (
-      <div className="charts-container">
-        {charts}
-      </div>
-    );
-    return charts;
+    // return (
+    //   <div className="charts-container">
+    //     {charts}
+    //   </div>
+    // );
+    // return charts;
+    var self = this;
+    var supportedDetailModules = {
+      global_issues: (
+        <h1>Test</h1>
+      ),
+      global_influencers: (
+        _.map(self.state.influencers, function (item, i) {
+          return <InfluencerCard key={i} item={item} />
+        })
+      )
+    };
+
+
+    var detailType = this.props.params.detail_type;
+    return supportedDetailModules[detailType];
   },
   render: function() {
     console.log(this.props.params)
@@ -197,8 +250,10 @@ var FifaDetail = React.createClass({
         <div className="company-detail fifa-detail">
           <Sidebar {...this.props} dashboardType="fifa" minimal />
           {this.renderSubnav()}
-          <div className="charts-box">
-            {this.renderCharts()}
+          <div className="details-box">
+            <div className="details-container">
+              {this.renderDetails()}
+            </div>
           </div>
         </div>
       );
