@@ -19,7 +19,9 @@ var News = React.createClass({
       }
     });
 
-    this.setState({news: orderedItems.reverse(), activeFilter: name});
+    this.setState({news: orderedItems.reverse(), activeFilter: name}, function () {
+      $('#top-news').animate({ scrollTop: 0 });
+    });
   },
   getData: function(params) {
     var self = this;
