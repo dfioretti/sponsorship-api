@@ -2,12 +2,6 @@ var News = React.createClass({
   getInitialState: function () {
     return {scrollLoaded: false, news: [], activeFilter: "date" };
   },
-  componentDidMount: function() {
-    this.getData({
-      start_date: moment(this.props.startDate).format('YYYY-MM-DD'),
-      end_date: moment(this.props.endDate).format('YYYY-MM-DD')
-    });
-  },
   componentWillReceiveProps: function (newProps) {
     this.setState({news: []});
 
