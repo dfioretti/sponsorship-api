@@ -1,3 +1,5 @@
+var Link = ReactRouter.Link;
+
 var GlobalInfluencers = React.createClass({
   getInitialState: function() {
     return {scrollLoaded: false, influencers: []};
@@ -51,8 +53,8 @@ var GlobalInfluencers = React.createClass({
           <div className="media-text">
             <div className="media-header">{item.name} <a href={item.profile} target="_blank">({item.handle})</a></div>
             <div>{item.bio}</div>
-            <div>Following: {item.following}</div>
-            <div>Followers: {item.followers}</div>
+            <div>Following: {_.toShortenedNum(item.following)}</div>
+            <div>Followers: {_.toShortenedNum(item.followers)}</div>
           </div>
         </li>
       );
@@ -65,10 +67,12 @@ var GlobalInfluencers = React.createClass({
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
+    var detailLink = '/fifa/dashboard/global_influencers';
+
     return (
       <div id="top_global_influencers" className="dashboard-module tall" style={hiddenStyle}>
         <div className="top">
-          <a className="expand-handle"></a>
+          <Link to={detailLink} className="expand-handle"></Link>
           <div className="drag-handle"></div>
           <div className="top-title">Top Global Influencers</div>
         </div>
@@ -77,7 +81,7 @@ var GlobalInfluencers = React.createClass({
         </div>
         <div className="dashboard-module-footer">
           <h5 className="pull-left">View All Global Influencers</h5>
-          <a className='pull-right btn btn-sm btn-primary img-round'>View <span className="glyphicon glyphicon-play"></span></a>
+          <Link to={detailLink} className='pull-right btn btn-sm btn-primary img-round'>View <span className="glyphicon glyphicon-play"></span></Link>
         </div>
       </div>
     );

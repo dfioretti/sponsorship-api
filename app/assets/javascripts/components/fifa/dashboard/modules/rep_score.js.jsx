@@ -1,12 +1,8 @@
 var RepScore = React.createClass({
   componentDidMount: function() {
-    console.log('rep score mounted')
     this.getData();
   },
   componentWillReceiveProps: function (newProps) {
-    console.log('rep score recieved new props')
-
-    console.log(this.props)
     this.getData(newProps);
   },
   getData: function(props) {
