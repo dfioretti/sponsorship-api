@@ -39,9 +39,31 @@ var GlobalIssuesDetail = React.createClass({
     // );
   },
   render: function () {
+    var data = {
+        labels: [
+            "Red",
+            "Green",
+            "Yellow"
+        ],
+        datasets: [
+            {
+                data: [300, 50, 100],
+                backgroundColor: [
+                    "#F7464A",
+                    "#46BFBD",
+                    "#FDB45C"
+                ],
+                hoverBackgroundColor: [
+                    "#FF5A5E",
+                    "#5AD3D1",
+                    "#FFC870"
+                ]
+        }]
+    };
+
     return (
       <div className="details-container">
-        <FifaDoughnutDetail moduleTitle="Top Global Issues Social Media" data={this.state.global_issues} chartOptions={this.state.doughnutChartOptions}></FifaDoughnutDetail>
+        <FifaDoughnutDetail moduleTitle="Top Global Issues Social Media" data={data} chartOptions={this.state.doughnutChartOptions}></FifaDoughnutDetail>
         <div id="global-issues-social" className="detail-module detail-chart">
         </div>
         <div id="global-issues-media" className="detail-module detail-chart">
