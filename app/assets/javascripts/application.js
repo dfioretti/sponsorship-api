@@ -19,6 +19,7 @@
 //= require moment.min
 //= require chart
 //= require chartist.min
+//= require regression-js/src/regression.js
 
 //= require bootstrap-sprockets
 //= require turbolinks
