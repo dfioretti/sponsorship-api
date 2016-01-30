@@ -1,0 +1,71 @@
+ul.trend-list {
+  list-style: none;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  li {
+    height: 65px;
+    padding: 20px 0;
+    border-bottom: 1px solid $dark-blue;
+
+    .trend-image {
+      width: 24px;
+      height: 24px;
+      margin-right: 14px;
+      float: left;
+      background-size: 24px 24px;
+      background-repeat: no-repeat;
+      background-position: center center;
+
+      &.up {
+        background-image: image-url("fifa/icon-upward.svg");
+      }
+
+      &.down {
+        background-image: image-url("fifa/icon-downward.svg");
+      }
+
+      &.no-change {
+        background-image: image-url("fifa/icon-neutral.svg");
+      }
+    }
+
+    .trend-text {
+      .trend-header {
+        font-size: 14px;
+      }
+
+      .trend-subheader {
+        font-size: 12px;
+        font-family: "Avenir-Book";
+        color: $light-grey;
+      }
+    }
+
+    .trend-score {
+      min-width: 44px;
+      height: 30px;
+      margin-top: -4px;
+      padding: 6px 12px;
+      border-radius: 15px;
+      background-color: $dark-blue;
+      float: right;
+      color: $white;
+    }
+  }
+  &.light {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+
+    li {
+      border-color: $light-grey;
+
+      .trend-text {
+        .trend-subheader {
+          color: #CED3D9
+        }
+      }
+    }
+  }
+}

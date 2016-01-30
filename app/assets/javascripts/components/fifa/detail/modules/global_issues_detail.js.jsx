@@ -1,6 +1,6 @@
 var GlobalIssuesDetail = React.createClass({
   getInitialState: function() {
-    return {};
+    return { topSocialIssues: [], topNewsIssues: [] };
   },
   componentDidMount: function () {
     $('.details-container').shapeshift({
@@ -48,8 +48,8 @@ var GlobalIssuesDetail = React.createClass({
       console.log(topSocialIssues)
 
       self.setState({
-        topSocialIssues: topNewsIssues,
-        topNewsIssues: topSocialIssues,
+        topSocialIssues: topSocialIssues,
+        topNewsIssues: topNewsIssues,
         globalIssuesChartData: chartData
       });
     });
@@ -76,35 +76,11 @@ var GlobalIssuesDetail = React.createClass({
     return chartData;
   },
   render: function () {
-    // var data = {
-    //     labels: [
-    //         "Red",
-    //         "Green",
-    //         "Yellow"
-    //     ],
-    //     datasets: [
-    //         {
-    //             data: [300, 50, 100],
-    //             backgroundColor: [
-    //                 "#F7464A",
-    //                 "#46BFBD",
-    //                 "#FDB45C"
-    //             ],
-    //             hoverBackgroundColor: [
-    //                 "#FF5A5E",
-    //                 "#5AD3D1",
-    //                 "#FFC870"
-    //             ]
-    //     }]
-    // };
-
     return (
       <div className="details-container">
         <FifaDoughnutDetail moduleTitle="Top Global Issues Social Media" data={this.state.globalIssuesChartData}></FifaDoughnutDetail>
-        <div id="global-issues-social" className="detail-module detail-chart">
-        </div>
-        <div id="global-issues-media" className="detail-module detail-chart">
-        </div>
+        <FifaGlobalIssuesCard moduleTitle="Top News Media Issues" issues={this.state.topNewsIssues} />
+        <FifaGlobalIssuesCard moduleTitle="Top Social Media Issues" issues={this.state.topSocialIssues} />
         <div id="global-issues-volume" className="detail-module detail-chart">
         </div>
       </div>

@@ -38,24 +38,31 @@ var _GlobalIssuesStore = function (argument) {
           aggIssues[parentTopic] = [issue];
         }
       });
-    })
+    });
 
     console.log(aggIssues)
 
 
     // Calculate the weighted average over the period
-    // If we want, we want calculate trendline here too
-    var issuesWithAvgSentiment = {};
+
+    var issuesWithAvgSentiment = [];
 
     _.each(aggIssues, function (issues, key) {
       var totalVolume = _.sumBy(issues, function (issue) { return issue.volume; });
       var totalWeightedSentiment = _.sumBy(issues, function (issue) { return issue.volume * issue.sentiment; });
+      // TO-DO calculate trendline here too
 
-      issuesWithAvgSentiment[key] = {
+      issuesWithAvgSentiment.push({
+        title: key,
         volume: totalVolume,
         sentiment: totalWeightedSentiment / totalVolume
-      };
+      });
     });
+
+    // Sort by volume
+    issuesWithAvgSentiment = _.sortBy(issuesWithAvgSentiment, function (issue) {
+      return issue.volume;
+    }).reverse();
 
     return issuesWithAvgSentiment;
   };
