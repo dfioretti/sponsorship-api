@@ -40,22 +40,24 @@ var _GlobalIssuesStore = function (argument) {
       });
     });
 
-    console.log(aggIssues)
-
-
     // Calculate the weighted average over the period
-
     var issuesWithAvgSentiment = [];
 
     _.each(aggIssues, function (issues, key) {
       var totalVolume = _.sumBy(issues, function (issue) { return issue.volume; });
       var totalWeightedSentiment = _.sumBy(issues, function (issue) { return issue.volume * issue.sentiment; });
-      // TO-DO calculate trendline here too
+
+      // Generate a linear regression
+      var data = _.map(issues, function (issue, index) {
+        return [index, issue.sentiment];
+      });
+      var trend = regression('linear', data);
 
       issuesWithAvgSentiment.push({
         title: key,
         volume: totalVolume,
-        sentiment: totalWeightedSentiment / totalVolume
+        sentiment: totalWeightedSentiment / totalVolume,
+        trend: data.length > 1 ? trend.equation[0] : 1 // the slope of the linear equation
       });
     });
 
