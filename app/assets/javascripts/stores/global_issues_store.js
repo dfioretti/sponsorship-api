@@ -17,14 +17,7 @@ var _GlobalIssuesStore = function (argument) {
   // Aggregate by issue averaging sentiment scores across the period by volume
   // Determine Cadence in this.List() params
   this.aggIssuesByWeightedAvgSentiment = function (issueType, data) {
-    var aggIssues = {
-      "Some issue": [
-        {
-          sentiment: 2.5,
-          volume: 4
-        }
-      ]
-    };
+    var aggIssues = {};
 
     // Aggregate scores by issue
     _.each(data, function (entry) {
