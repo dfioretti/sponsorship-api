@@ -2,7 +2,7 @@ var GlobalIssuesDetail = React.createClass({
   getInitialState: function() {
     return { topSocialIssues: [], topNewsIssues: [] };
   },
-  componentDidMount: function () {
+  setGrid: function () {
     $('.details-container').shapeshift({
       selector: ".detail-module",
       handle: ".drag-handle",
@@ -13,39 +13,21 @@ var GlobalIssuesDetail = React.createClass({
       paddingX: 20,
       paddingY: 20
     });
+  },
+  componentDidMount: function () {
+    this.setGrid();
     this.getDetails();
   },
   componentDidUpdate: function () {
-    $('.details-container').shapeshift({
-      selector: ".detail-module",
-      handle: ".drag-handle",
-      align: "left",
-      autoHeight: false,
-      gutterX: 20,
-      gutterY: 20,
-      paddingX: 20,
-      paddingY: 20
-    });
-    // probably needs to be moved to willReceiveProps as soon as Date is built in
+    this.setGrid();
   },
   getDetails: function () {
-    // Dispatcher.fifaGet(
-    //   FIFAEndpoints.GLOBAL_ISSUES,
-    //   {},
-    //   function(data) {
-
-    //     this.setState({globalIssuesChartData: chartData});
-    //   }.bind(this)
-    // );
     var self = this;
     var chartData, topNewsIssues, topSocialIssues;
     GlobalIssuesStore.list().then(function (data) {
       chartData = self.getChartData(data);
       topNewsIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('news_issues', data);
       topSocialIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('social_issues', data);
-
-      console.log(topNewsIssues)
-      console.log(topSocialIssues)
 
       self.setState({
         topSocialIssues: topSocialIssues,

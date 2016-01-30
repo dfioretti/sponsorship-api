@@ -33,6 +33,10 @@ ul.trend-list {
     .trend-text {
       .trend-header {
         font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .trend-subheader {
