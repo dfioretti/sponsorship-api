@@ -72,7 +72,7 @@ var riskLabel = function(risk) {
   return label;
 };
 
-//
+
 _.mixin({ toShortenedNum: function (number) {
   var textNumber;
 
@@ -86,19 +86,3 @@ _.mixin({ toShortenedNum: function (number) {
   return textNumber;
 }});
 
-
-// Monkey-patch Chart.js to limit the # of labels
-//https://github.com/nnnick/Chart.js/issues/12#issuecomment-55939683
-Chart.types.Line.extend({
-   name : "AltLine",
-
-   initialize : function(data) {
-      Chart.types.Line.prototype.initialize.apply(this, arguments);
-      this.scale.draw = function() {
-         if (this.display && (this.xLabelRotation > 90)) {
-            this.endPoint = this.height - 5;
-         }
-         Chart.Scale.prototype.draw.apply(this, arguments);
-      };
-   }
-});

@@ -65,90 +65,6 @@ var RepScore = React.createClass({
       ]
     };
 
-    console.log(data)
-    // Chart.defaults.global.elements.line.tension = 0;
-
-    // var data = {
-    //   type: 'line',
-    //   data: {
-    //     labels: new Array(news.length).fill(''),
-    //     datasets: [{
-    //       yAxisID: "y-axis-1",
-    //       label: 'News Score',
-    //       fill: false,
-    //       borderColor: "rgba(80,227,194,1)",
-    //       borderWidth: 1,
-    //       pointBorderColor: "rgba(80,227,194,1)",
-    //       pointHoverRadius: 5,
-    //       pointBackgroundColor: "rgba(255,255,255,1)",
-    //       data: news
-    //     },
-    //     {
-    //       yAxisID: "y-axis-2",
-    //       label: 'Social Score',
-    //       fill: false,
-    //       borderColor: "rgba(245,166,35,1)",
-    //       borderWidth: 1,
-    //       pointBorderColor: "rgba(245,166,35,1)",
-    //       pointHoverRadius: 5,
-    //       pointBackgroundColor: "rgba(255,255,255,1)",
-    //       data: social
-    //     }]
-    //   },
-    //   options:{
-    //     responsive: true,
-    //     hover: {
-    //       mode: "label"
-    //     },
-    //     tooltips: {
-    //       enabled: true,
-    //       mode: "label",
-    //       bodyFontFamily: "Avenir-Book",
-    //       bodyColor: "#9b9b9b",
-    //       backgroundColor: "#fff",
-    //       cornerRadius: 3,
-    //       yPadding: 0,
-    //       xPadding: 14,
-    //       caretSize: 5
-    //     },
-    //     stacked: false,
-    //     scales:{
-    //       xAxes:[{
-    //         gridLines: {
-    //           drawTicks: false,
-    //           color: "rgba(255, 255, 255, 0.0)"
-    //         }
-    //       }],
-    //       yAxes:[{
-    //         id: "y-axis-1",
-    //         type: "linear",
-    //         position: "left",
-    //         ticks:{
-    //           beginAtZero: true,
-    //           fontColor: "rgba(255, 255, 255, 0.6)",
-    //           fontFamily: "Avenir-Medium"
-    //         },
-    //         gridLines: {
-    //           color: "rgba(255, 255, 255, 0.1)",
-    //           zeroLineWidth: 1,
-    //           zeroLineColor: "#2d64a5"
-    //         }
-    //       },
-    //       {
-    //         id: "y-axis-2",
-    //         type: "linear",
-    //         ticks:{
-    //           beginAtZero: true
-    //         },
-    //         gridLines: {
-    //           show: false
-    //         },
-    //         display: false
-    //       }]
-    //     }
-    //   }
-    // };
-
     this.sentimentChart = new Chart(ctx).Line(data, {
       tooltipFontSize: 9,
       tooltipFillColor: 'rgba(255,255,255,0.8)',
@@ -158,7 +74,9 @@ var RepScore = React.createClass({
       scaleFontColor: "#fff",
       scaleLineColor: "rgba(255,255,255,0.3)",
       scaleGridLineColor: "rga(255,255,255,0.3)",
-      scaleLabel: "<%= ' ' + value%>"
+      scaleLabel: "<%= ' ' + value%>",
+      scaleFontSize: 11,
+      scaleShowVerticalLines: false
     });
 
     this.setState({chart: this.sentimentChart});
