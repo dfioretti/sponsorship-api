@@ -17,19 +17,55 @@ var RepScore = React.createClass({
       function(data) {
         var news = [],
         social = [];
-        $.each(data.reverse(), function(i, point) {
-          news.push(point.news_score);
-          social.push(point.social_score);
+        data = _.sortBy(data, 'date');
+
+        $.each(data, function(i, point) {
+          news.push(point.news_score || 0);
+          social.push(point.social_score || 0);
         }.bind(this));
 
-        this.renderChart(news, social);
+        this.renderChart(news, social, this.getLabels(data));
       }.bind(this)
     );
   },
-  renderChart: function(news, social) {
+  getLabels: function (data) {
+    // assume daily cadence for now, need to refactor for multiple cadences
+    return _.map(data, function (entry) {
+      return moment(entry.date).format('MMM D');
+    });
+  },
+  renderChart: function(news, social, labels) {
     if (this.sentimentChart) this.sentimentChart.destroy();
 
-    // var ctx = document.getElementById("rep-score-chart");
+    var ctx = $("#rep-score-chart").get(0).getContext("2d");
+
+    var data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'News Score',
+          fillColor: false,
+          strokeColor: "rgba(80,227,194,1)",
+          pointColor: "#fff",
+          pointStrokeColor: "rgba(80,227,194,1)",
+          pointHighlightFill: "rgba(80,227,194,1)",
+          pointHighlightStroke: "rgba(80,227,194,1)",
+          data: news
+        },
+        {
+          label: 'Social Score',
+          fillColor: false,
+          strokeColor: "rgba(245,166,35,1)",
+          pointColor: "#fff",
+          pointStrokeColor: "rgba(245,166,35,1)",
+          pointHighlightFill: "rgba(245,166,35,1)",
+          pointHighlightStroke: "rgba(245,166,35,1)",
+          data: social
+        }
+      ]
+    };
+
+    console.log(data)
     // Chart.defaults.global.elements.line.tension = 0;
 
     // var data = {
@@ -113,9 +149,9 @@ var RepScore = React.createClass({
     //   }
     // };
 
-    // this.sentimentChart = new Chart(ctx, data);
+    this.sentimentChart = new Chart(ctx).Line(data);
 
-    // this.setState({chart: this.sentimentChart});
+    this.setState({chart: this.sentimentChart});
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};

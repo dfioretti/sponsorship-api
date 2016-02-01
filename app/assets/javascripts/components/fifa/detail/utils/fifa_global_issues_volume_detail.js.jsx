@@ -56,10 +56,12 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     var chartData = {
       labels: labels,
       datasets: _.map(topIssues, function (issue, i) {
-        return _.extend({}, {
-          label: issue.title,
-          data: _.map(issue.points, function (point) { return point.volume; })
-        }, chartConfig[i]);
+        return _.extend({},
+          chartConfig[i],
+          {
+            label: issue.title,
+            data: _.map(issue.points, function (point) { return point.volume; })
+        });
       })
     };
 
