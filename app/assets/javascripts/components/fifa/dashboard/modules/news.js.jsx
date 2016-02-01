@@ -15,7 +15,7 @@ var News = React.createClass({
       if (_.isFunction(customEvaluator)) {
         return customEvaluator(item);
       } else {
-        return _.get(item, name);
+        return _.get(item, name) || 0;
       }
     });
 
