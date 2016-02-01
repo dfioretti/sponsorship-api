@@ -23,12 +23,15 @@ var GlobalIssuesDetail = React.createClass({
   },
   getDetails: function () {
     var self = this;
-    var chartData, topNewsIssues, topSocialIssues;
+    var chartData, topNewsIssues, topSocialIssues, socialIssueVolumeChartData;
+
     GlobalIssuesStore.list().then(function (data) {
       chartData = self.getChartData(data);
       topNewsIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('news_issues', data);
       topSocialIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('social_issues', data);
+      socialIssueVolumeChartData = GlobalIssuesStore.getIssuesByVolumeWithCadence('social_issues', data);
 
+      console.log(socialIssueVolumeChartData)
       self.setState({
         topSocialIssues: topSocialIssues,
         topNewsIssues: topNewsIssues,
@@ -46,8 +49,6 @@ var GlobalIssuesDetail = React.createClass({
         value: volume,
         label: issue
       });
-      // chartData.labels.push(issue);
-      // chartData.data.push(volume);
     });
 
     return chartData;
@@ -58,8 +59,7 @@ var GlobalIssuesDetail = React.createClass({
         <FifaDoughnutDetail moduleTitle="Top Global Issues Social Media" data={this.state.globalIssuesChartData}></FifaDoughnutDetail>
         <FifaGlobalIssuesCard moduleTitle="Top News Media Issues" issues={this.state.topNewsIssues} />
         <FifaGlobalIssuesCard moduleTitle="Top Social Media Issues" issues={this.state.topSocialIssues} />
-        <div id="global-issues-volume" className="detail-module detail-chart">
-        </div>
+        <FifaGlobalIssuesVolumeDetail moduleTitle="Volume of Leading Social Media Topics" data={this.state.socialIssueVolumeChartData} />
       </div>
     );
   }

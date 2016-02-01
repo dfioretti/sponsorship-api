@@ -49,7 +49,6 @@ var FifaDoughnutDetail = React.createClass({
 
   },
   renderLegend: function () {
-    console.log(this.props.data)
     var data = this.props.data;
     var self = this;
 
@@ -65,28 +64,23 @@ var FifaDoughnutDetail = React.createClass({
     });
   },
   render: function () {
-    var el = (<div>Loading...</div>);
-    if (this.props.data) {
-      el = (
-        <div className="detail-module detail-chart">
-          <div className="top">
-            <div className="drag-handle"></div>
-            <div className="top-title">{this.props.moduleTitle}</div>
-          </div>
-          <div className="main">
-            <div className="doughnut-main-container">
-              <div className="doughnut-chart-container">
-                <canvas id={this.chartId} width="201" height="201" style={{width: "201px", height: "201px"}}></canvas>
-              </div>
-              <ul className="doughnut-chart-legend">
-                {this.renderLegend()}
-              </ul>
+    return(
+      <div className="detail-module detail-chart">
+        <div className="top">
+          <div className="drag-handle"></div>
+          <div className="top-title">{this.props.moduleTitle}</div>
+        </div>
+        <div className="main">
+          <div className="doughnut-main-container">
+            <div className="doughnut-chart-container">
+              <canvas id={this.chartId} width="201" height="201" style={{width: "201px", height: "201px"}}></canvas>
             </div>
+            <ul className="doughnut-chart-legend">
+              {this.renderLegend()}
+            </ul>
           </div>
         </div>
-      );
-    }
-
-    return el;
+      </div>
+    );
   }
 });

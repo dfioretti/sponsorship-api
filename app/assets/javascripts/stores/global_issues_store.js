@@ -40,7 +40,7 @@ var _GlobalIssuesStore = function (argument) {
       var totalVolume = _.sumBy(issues, function (issue) { return issue.volume; });
       var totalWeightedSentiment = _.sumBy(issues, function (issue) { return issue.volume * issue.sentiment; });
 
-      // Generate a linear regression
+      // Generate a linear regression from the cadence points
       var data = _.map(issues, function (issue, index) {
         return [index, issue.sentiment];
       });
@@ -80,6 +80,42 @@ var _GlobalIssuesStore = function (argument) {
     });
 
     return issues;
+  };
+
+  this.getIssuesByVolumeWithCadence = function (issueType, data) {
+    var issuesWithVolume = [];
+    var orderedIssuesByVolume;
+
+    _.each(this.aggParentIssuesByVolume(issueType, data), function (volume, key) {
+      issuesWithVolume.push({
+        title: key,
+        volume: volume
+      });
+    }.bind(this));
+
+    orderedIssuesByVolume = _.sortBy(issuesWithVolume, function (issue) {
+      return issue.volume;
+    }.bind(this)).reverse();
+
+
+    return _.map(orderedIssuesByVolume, function (issue) {
+      return {
+        title: issue,
+        points: _.map(data, function (entry) {
+          var volume = 0;
+
+          _.each(entry[issueType], function (_issue) {
+            var parentTopic = _issue.parent_topic;
+
+            if (parentTopic === issue.title) {
+              volume = _issue.volume;
+            }
+          });
+
+          return volume;
+        })
+      };
+    });
   };
 };
 
