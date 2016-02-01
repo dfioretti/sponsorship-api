@@ -83,10 +83,6 @@ var News = React.createClass({
           </div>
           {this.renderList()}
         </div>
-        <div className="dashboard-module-footer">
-          <h5 className="pull-left">View More Top News Articles</h5>
-          <a className='pull-right btn btn-sm btn-primary img-round'>View <span className="glyphicon glyphicon-play"></span></a>
-        </div>
       </div>
     );
   }
