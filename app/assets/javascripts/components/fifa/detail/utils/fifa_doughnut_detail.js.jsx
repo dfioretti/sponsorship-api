@@ -24,42 +24,42 @@ var FifaDoughnutDetail = React.createClass({
   renderChart: function (props) {
     if (!props.data) return;
 
-    props.data.datasets[0].backgroundColor = _.clone(this.backgroundColor);
+    var self = this;
+    var data = this.props.data;
 
-    var ctx = $("#" + this.chartId).get(0).getContext("2d");
-    var doughnutChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: this.props.data,
-      options: {
-        tooltips: {
-          bodyFontSize: 9,
-          bodyColor: "#333",
-          backgroundColor: 'rgba(255,255,255,0.6)',
-          cornerRadius: 2,
-          yPadding: 2
-        },
-        animation: {
-          animateRotate: true
-        }
-      }
+    data = _.map(data, function (dataset, i) {
+      dataset.color = self.backgroundColor[i];
+      return dataset;
     });
 
-    setTimeout(function () {
-      doughnutChart.render();
-    }, 1000)
+    // props.data.datasets[0].backgroundColor = _.clone(this.backgroundColor);
+
+    var ctx = $("#" + this.chartId).get(0).getContext("2d");
+
+    var doughnutChart = new Chart(ctx).Doughnut(data, {
+      tooltipFontSize: 9,
+      tooltipFillColor: 'rgba(255,255,255,0.6)',
+      tooltipFontStyle: 'Avenir-Book',
+      tooltipFontColor: '#333',
+      animationEasing : "easeOutQuart",
+      animateRotate: false,
+      animateScale: true,
+      animationSteps: 30
+    });
 
   },
   renderLegend: function () {
+    console.log(this.props.data)
     var data = this.props.data;
     var self = this;
 
-    return _.map(data.labels, function (label, i) {
+    return _.map(data, function (pt, i) {
       var backgroundColor = self.backgroundColor[i];
 
       return(
         <li key={backgroundColor}>
           <span className="legend-droplet" style={{ borderColor: backgroundColor}}></span>
-          <span>{label}</span>
+          <span>{pt.label}</span>
         </li>
       );
     });

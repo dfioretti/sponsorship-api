@@ -17,7 +17,7 @@
 //= require s3upload
 //= require uuid
 //= require moment.min
-//= require chart
+//= require chartjs/Chart
 //= require chartist.min
 //= require regression-js/src/regression.js
 

@@ -37,22 +37,17 @@ var GlobalIssuesDetail = React.createClass({
     });
   },
   getChartData: function (data) {
-    var chartData = {
-      labels: [],
-      datasets: [
-        {
-          data: [],
-          backgroundColor: [],
-          hoverBackgroundColor: []
-        }
-      ]
-    };
+    var chartData = [];
 
     var socialIssues = GlobalIssuesStore.aggParentIssuesByVolume('social_issues', data);
 
     _.each(socialIssues, function (volume, issue) {
-      chartData.labels.push(issue);
-      chartData.datasets[0].data.push(volume);
+      chartData.push({
+        value: volume,
+        label: issue
+      });
+      // chartData.labels.push(issue);
+      // chartData.data.push(volume);
     });
 
     return chartData;
