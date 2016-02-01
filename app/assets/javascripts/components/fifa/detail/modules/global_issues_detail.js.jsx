@@ -31,11 +31,11 @@ var GlobalIssuesDetail = React.createClass({
       topSocialIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('social_issues', data);
       socialIssueVolumeChartData = GlobalIssuesStore.getIssuesByVolumeWithCadence('social_issues', data);
 
-      console.log(socialIssueVolumeChartData)
       self.setState({
         topSocialIssues: topSocialIssues,
         topNewsIssues: topNewsIssues,
-        globalIssuesChartData: chartData
+        globalIssuesChartData: chartData,
+        socialIssueVolumeChartData: socialIssueVolumeChartData
       });
     });
   },

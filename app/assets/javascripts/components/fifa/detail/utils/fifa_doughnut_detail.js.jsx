@@ -1,7 +1,4 @@
 var FifaDoughnutDetail = React.createClass({
-  getInitialState: function () {
-    return {};
-  },
   componentWillMount: function () {
     this.chartId = uuid.v4();
   },
@@ -24,15 +21,12 @@ var FifaDoughnutDetail = React.createClass({
   renderChart: function (props) {
     if (!props.data) return;
 
-    var self = this;
     var data = this.props.data;
 
     data = _.map(data, function (dataset, i) {
-      dataset.color = self.backgroundColor[i];
+      dataset.color = this.backgroundColor[i];
       return dataset;
-    });
-
-    // props.data.datasets[0].backgroundColor = _.clone(this.backgroundColor);
+    }.bind(this));
 
     var ctx = $("#" + this.chartId).get(0).getContext("2d");
 
