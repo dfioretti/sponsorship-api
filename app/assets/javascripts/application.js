@@ -17,7 +17,7 @@
 //= require s3upload
 //= require uuid
 //= require moment.min
-//= require chart
+//= require chartjs/Chart
 //= require chartist.min
 //= require regression-js/src/regression.js
 
@@ -72,7 +72,7 @@ var riskLabel = function(risk) {
   return label;
 };
 
-//
+
 _.mixin({ toShortenedNum: function (number) {
   var textNumber;
 
@@ -85,3 +85,4 @@ _.mixin({ toShortenedNum: function (number) {
   }
   return textNumber;
 }});
+
