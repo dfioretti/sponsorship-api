@@ -20,8 +20,8 @@ var RepScore = React.createClass({
         data = _.sortBy(data, 'date');
 
         $.each(data, function(i, point) {
-          news.push(point.news_score || 0);
-          social.push(point.social_score || 0);
+          news.push((point.news_score || 0).toFixed(2));
+          social.push((point.social_score || 0).toFixed(2));
         }.bind(this));
 
         this.renderChart(news, social, this.getLabels(data));
@@ -44,9 +44,9 @@ var RepScore = React.createClass({
       datasets: [
         {
           label: 'News Score',
-          fillColor: false,
+          fillColor: "rgba(0,0,0,0)",
           strokeColor: "rgba(80,227,194,1)",
-          pointColor: "#fff",
+          pointColor: "rgba(80,227,194,1)",
           pointStrokeColor: "rgba(80,227,194,1)",
           pointHighlightFill: "rgba(80,227,194,1)",
           pointHighlightStroke: "rgba(80,227,194,1)",
@@ -54,9 +54,9 @@ var RepScore = React.createClass({
         },
         {
           label: 'Social Score',
-          fillColor: false,
+          fillColor: "rgba(0,0,0,0)",
           strokeColor: "rgba(245,166,35,1)",
-          pointColor: "#fff",
+          pointColor: "rgba(245,166,35,1)",
           pointStrokeColor: "rgba(245,166,35,1)",
           pointHighlightFill: "rgba(245,166,35,1)",
           pointHighlightStroke: "rgba(245,166,35,1)",
@@ -149,7 +149,17 @@ var RepScore = React.createClass({
     //   }
     // };
 
-    this.sentimentChart = new Chart(ctx).Line(data);
+    this.sentimentChart = new Chart(ctx).Line(data, {
+      tooltipFontSize: 9,
+      tooltipFillColor: 'rgba(255,255,255,0.8)',
+      tooltipFontStyle: 'Avenir-Book',
+      tooltipFontColor: '#333',
+      tooltipTitleFontColor: '#333',
+      scaleFontColor: "#fff",
+      scaleLineColor: "rgba(255,255,255,0.3)",
+      scaleGridLineColor: "rga(255,255,255,0.3)",
+      scaleLabel: "<%= ' ' + value%>"
+    });
 
     this.setState({chart: this.sentimentChart});
   },
@@ -163,7 +173,7 @@ var RepScore = React.createClass({
           <div className="top-title">Rep Score</div>
         </div>
         <div className="main">
-          <canvas id="rep-score-chart" height="180"></canvas>
+          <canvas id="rep-score-chart" width="380px" height="240px"></canvas>
         </div>
       </div>
     );

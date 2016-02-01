@@ -68,7 +68,14 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     var ctx = $("#" + this.chartId).get(0).getContext("2d");
 
     // TODO Add labels
-    new Chart(ctx).Line(chartData);
+    new Chart(ctx).Line(chartData, {
+      tooltipFontSize: 9,
+      tooltipFillColor: 'rgba(255,255,255,0.8)',
+      tooltipFontStyle: 'Avenir-Book',
+      tooltipFontColor: '#333',
+      tooltipTitleFontColor: '#333',
+      scaleLabel: "<%= ' ' + value%>"
+    });
   },
   render: function () {
     return (
