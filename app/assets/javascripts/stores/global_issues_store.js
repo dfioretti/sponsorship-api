@@ -85,6 +85,8 @@ var _GlobalIssuesStore = function (argument) {
   this.getIssuesByVolumeWithCadence = function (issueType, data) {
     var issuesWithVolume = [];
     var orderedIssuesByVolume;
+    // Sort by date. temporary fix
+    data = _.sortBy(data, 'date');
 
     _.each(this.aggParentIssuesByVolume(issueType, data), function (volume, key) {
       issuesWithVolume.push({
@@ -97,10 +99,9 @@ var _GlobalIssuesStore = function (argument) {
       return issue.volume;
     }.bind(this)).reverse();
 
-
     return _.map(orderedIssuesByVolume, function (issue) {
       return {
-        title: issue,
+        title: issue.title,
         points: _.map(data, function (entry) {
           var volume = 0;
 
@@ -108,11 +109,14 @@ var _GlobalIssuesStore = function (argument) {
             var parentTopic = _issue.parent_topic;
 
             if (parentTopic === issue.title) {
-              volume = _issue.volume;
+              volume += _issue.volume;
             }
           });
 
-          return volume;
+          return {
+            date: moment(entry.date),
+            volume: volume
+          };
         })
       };
     });

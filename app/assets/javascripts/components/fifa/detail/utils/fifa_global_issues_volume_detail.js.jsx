@@ -5,41 +5,63 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
   componentDidUpdate: function () {
     this.renderChart(this.props);
   },
+  chartConfig: [
+    {
+      fillColor: "rgba(80,227,194,0.2)",
+      strokeColor: "#50e3c2",
+      pointColor: "#50e3c2",
+      pointStrokeColor: "#fff",
+      pointHighlightFill: "#fff",
+      pointHighlightStroke: "#50e3c2",
+    },
+    {
+      fillColor: "rgba(231,105,89,0.2)",
+      strokeColor: "#e76959",
+      pointColor: "#e76959",
+      pointStrokeColor: "#fff",
+      pointHighlightFill: "#fff",
+      pointHighlightStroke: "#e76959"
+    }
+  ],
+  getLabels: function (data) {
+    // assume daily cadence for now, need to refactor for multiple cadences
+    return _.map(data[0].points, function (point) {
+      return moment(point.date).format('MMM D');
+    });
+  },
+  renderLegend: function () {
+    if (!this.props.data) return;
+
+    var topIssues = this.props.data.splice(0,2);
+
+    return _.map(topIssues, function (issue, i) {
+      var backgroundColor = this.chartConfig[i].strokeColor;
+
+      return (
+        <li key={backgroundColor}>
+          <span className="legend-droplet" style={{ borderColor: backgroundColor}}></span>
+          <span>{issue.title}</span>
+        </li>
+      );
+    }.bind(this));
+  },
   renderChart: function (props) {
     if (!props.data) return;
 
-    var topIssues = props.data.splice(0,2);
-    var chartConfig = [
-      {
-        fillColor: "rgba(220,220,220,0.2)",
-        strokeColor: "rgba(220,220,220,1)",
-        pointColor: "rgba(220,220,220,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(220,220,220,1)",
-      },
-      {
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        pointStrokeColor: "#fff",
-        pointHighlightFill: "#fff",
-        pointHighlightStroke: "rgba(151,187,205,1)"
-      }
-    ];
+    var data = props.data;
+    var labels = this.getLabels(data);
+    var topIssues = data.splice(0,2);
+    var chartConfig = this.chartConfig;
 
     var chartData = {
-      labels: _.map(topIssues[0].points, function (issue, i) { return i; }),
+      labels: labels,
       datasets: _.map(topIssues, function (issue, i) {
         return _.extend({}, {
           label: issue.title,
-          data: issue.points
+          data: _.map(issue.points, function (point) { return point.volume; })
         }, chartConfig[i]);
       })
     };
-
-
-    console.log(chartData)
 
     var ctx = $("#" + this.chartId).get(0).getContext("2d");
 
@@ -53,8 +75,11 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.moduleTitle}</div>
         </div>
-        <div className="main">
-          <canvas width="590px" id={this.chartId}></canvas>
+        <div className="main main-centered">
+          <ul className="chart-legend">
+            {this.renderLegend()}
+          </ul>
+          <canvas width="570px" height="300px" id={this.chartId}></canvas>
         </div>
       </div>
     );

@@ -44,10 +44,9 @@ var FifaDoughnutDetail = React.createClass({
   },
   renderLegend: function () {
     var data = this.props.data;
-    var self = this;
 
     return _.map(data, function (pt, i) {
-      var backgroundColor = self.backgroundColor[i];
+      var backgroundColor = this.backgroundColor[i];
 
       return(
         <li key={backgroundColor}>
@@ -55,7 +54,7 @@ var FifaDoughnutDetail = React.createClass({
           <span>{pt.label}</span>
         </li>
       );
-    });
+    }.bind(this));
   },
   render: function () {
     return(
