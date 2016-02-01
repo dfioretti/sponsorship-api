@@ -1,12 +1,6 @@
 var News = React.createClass({
   getInitialState: function () {
-    return {scrollLoaded: false, news: [], activeFilter: "date" };
-  },
-  componentDidMount: function() {
-    this.getData({
-      start_date: moment(this.props.startDate).format('YYYY-MM-DD'),
-      end_date: moment(this.props.endDate).format('YYYY-MM-DD')
-    });
+    return {scrollLoaded: false, news: [], activeFilter: "date"};
   },
   componentWillReceiveProps: function (newProps) {
     this.setState({news: []});
@@ -25,7 +19,9 @@ var News = React.createClass({
       }
     });
 
-    this.setState({news: orderedItems.reverse(), activeFilter: name});
+    this.setState({news: orderedItems.reverse(), activeFilter: name}, function () {
+      $('#top-news').animate({ scrollTop: 0 });
+    });
   },
   getData: function(params) {
     var self = this;

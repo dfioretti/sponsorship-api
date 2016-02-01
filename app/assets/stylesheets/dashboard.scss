@@ -597,7 +597,7 @@
           }
 
           .trend-score {
-            width: 44px;
+            min-width: 44px;
             height: 30px;
             margin-top: -4px;
             padding: 6px 12px;
@@ -975,6 +975,8 @@
         height: 229px;
         outline: none;
         overflow: hidden;
+        z-index: 0;
+        border-radius: 3px;
       }
     }
   }
@@ -990,6 +992,8 @@
     .main {
       ul.global-issues-list {
         padding-left: 0px;
+        height: 260px;
+        overflow-y: auto;
       }
 
       .global-issues-list-container {
