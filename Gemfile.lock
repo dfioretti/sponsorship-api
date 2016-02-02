@@ -133,6 +133,7 @@ GEM
       railties (= 4.2.4)
       sprockets-rails
     rails-assets-chartjs (1.0.2)
+    rails-assets-he (0.5.0)
     rails-assets-lodash (4.0.0)
     rails-assets-regression-js (1.3.0)
     rails-deprecated_sanitizer (1.0.3)
@@ -222,6 +223,7 @@ DEPENDENCIES
   puma
   rails (= 4.2.4)
   rails-assets-chartjs (= 1.0.2)!
+  rails-assets-he (~> 0.5.0)!
   rails-assets-lodash (~> 4.0)!
   rails-assets-regression-js!
   rails_12factor
