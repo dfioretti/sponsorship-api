@@ -1,4 +1,7 @@
 var RepScore = React.createClass({
+  getInitialState: function () {
+    return {};
+  },
   componentDidMount: function() {
     this.getData();
   },
@@ -20,8 +23,8 @@ var RepScore = React.createClass({
         data = _.sortBy(data, 'date');
 
         $.each(data, function(i, point) {
-          news.push((point.news_score || 0).toFixed(2));
-          social.push((point.social_score || 0).toFixed(2));
+          news.push(point.news_score ? point.news_score.toFixed(2) : null);
+          social.push(point.social_score ? point.social_score.toFixed(2) : null);
         }.bind(this));
 
         this.renderChart(news, social, this.getLabels(data));
@@ -32,6 +35,17 @@ var RepScore = React.createClass({
     // assume daily cadence for now, need to refactor for multiple cadences
     return _.map(data, function (entry) {
       return moment(entry.date).format('MMM D');
+    });
+  },
+  renderLegend: function () {
+    if (!this.state.data) return;
+
+    return _.map(this.state.data.datasets, function (dataset, i) {
+      return(
+        <div key={i} className="company-legend">
+          <span className="legend-color" style={{backgroundColor: dataset.pointColor}}></span><span>{dataset.label}</span>
+        </div>
+      );
     });
   },
   renderChart: function(news, social, labels) {
@@ -66,11 +80,14 @@ var RepScore = React.createClass({
     };
 
     this.sentimentChart = new Chart(ctx).Line(data, {
-      tooltipFontSize: 9,
-      tooltipFillColor: 'rgba(255,255,255,0.8)',
+      tooltipFontSize: 11,
+      tooltipFillColor: 'rgba(255,255,255,0.6)',
       tooltipFontStyle: 'Avenir-Book',
       tooltipFontColor: '#333',
-      tooltipTitleFontColor: '#333',
+      tooltipTitleFontFamily: 'Avenir-Book',
+      tooltipTitleFontColor: '#738694',
+      tooltipTitleFontSize: 11,
+      tooltipTitleFontStyle: 'normal',
       scaleFontColor: "#fff",
       scaleLineColor: "rgba(255,255,255,0.3)",
       scaleGridLineColor: "rga(255,255,255,0.3)",
@@ -79,7 +96,10 @@ var RepScore = React.createClass({
       scaleShowVerticalLines: false
     });
 
-    this.setState({chart: this.sentimentChart});
+    this.setState({
+      data: data,
+      chart: this.sentimentChart
+    });
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
@@ -91,6 +111,9 @@ var RepScore = React.createClass({
           <div className="top-title">Rep Score</div>
         </div>
         <div className="main">
+          <div className="chart-legend">
+            {this.renderLegend()}
+          </div>
           <canvas id="rep-score-chart" width="380px" height="240px"></canvas>
         </div>
       </div>
