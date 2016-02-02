@@ -1,4 +1,7 @@
 var RepScore = React.createClass({
+  getInitialState: function () {
+    return {};
+  },
   componentDidMount: function() {
     this.getData();
   },
@@ -34,6 +37,17 @@ var RepScore = React.createClass({
       return moment(entry.date).format('MMM D');
     });
   },
+  renderLegend: function () {
+    if (!this.state.data) return;
+
+    return _.map(this.state.data.datasets, function (dataset, i) {
+      return(
+        <div key={i} className="company-legend">
+          <span className="legend-color" style={{backgroundColor: dataset.pointColor}}></span><span>{dataset.label}</span>
+        </div>
+      );
+    });
+  },
   renderChart: function(news, social, labels) {
     if (this.sentimentChart) this.sentimentChart.destroy();
 
@@ -67,7 +81,7 @@ var RepScore = React.createClass({
 
     this.sentimentChart = new Chart(ctx).Line(data, {
       tooltipFontSize: 11,
-      tooltipFillColor: 'rgba(255,255,255,0.8)',
+      tooltipFillColor: 'rgba(255,255,255,0.6)',
       tooltipFontStyle: 'Avenir-Book',
       tooltipFontColor: '#333',
       tooltipTitleFontFamily: 'Avenir-Book',
@@ -82,7 +96,10 @@ var RepScore = React.createClass({
       scaleShowVerticalLines: false
     });
 
-    this.setState({chart: this.sentimentChart});
+    this.setState({
+      data: data,
+      chart: this.sentimentChart
+    });
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
@@ -94,6 +111,9 @@ var RepScore = React.createClass({
           <div className="top-title">Rep Score</div>
         </div>
         <div className="main">
+          <div className="chart-legend">
+            {this.renderLegend()}
+          </div>
           <canvas id="rep-score-chart" width="380px" height="240px"></canvas>
         </div>
       </div>
