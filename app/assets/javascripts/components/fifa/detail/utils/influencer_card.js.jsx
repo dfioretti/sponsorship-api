@@ -23,7 +23,7 @@ var InfluencerCard = React.createClass({
             <div className="metric-label">Followers</div>
           </li>
           <li>
-            <div className="metric">{_.toShortenedNum(this.props.item.followers)}</div>
+            <div className="metric">{_.toShortenedNum(this.props.item.tweets)}</div>
             <div className="metric-label">Tweets</div>
           </li>
         </ul>

@@ -1,6 +1,6 @@
 var News = React.createClass({
   getInitialState: function () {
-    return {scrollLoaded: false, news: [], activeFilter: "date"};
+    return {scrollLoaded: false, news: [], activeFilter: "date", order: "DESC"};
   },
   componentWillReceiveProps: function (newProps) {
     this.setState({news: []});
@@ -11,6 +11,7 @@ var News = React.createClass({
     });
   },
   orderBy: function (name, customEvaluator) {
+    var order = "DESC";
     var orderedItems = _.sortBy(this.state.news, function (item) {
       if (_.isFunction(customEvaluator)) {
         return customEvaluator(item);
@@ -19,7 +20,19 @@ var News = React.createClass({
       }
     });
 
-    this.setState({news: orderedItems.reverse(), activeFilter: name}, function () {
+    if (this.state.activeFilter === name && this.state.order === "DESC") {
+      order = "ASC";
+    }
+
+    if (order === "ASC") {
+      orderedItems = orderedItems.reverse();
+    }
+
+    this.setState({
+      news: orderedItems,
+      activeFilter: name,
+      order: order
+    }, function () {
       $('#top-news').animate({ scrollTop: 0 });
     });
   },
@@ -48,6 +61,11 @@ var News = React.createClass({
     if (this.state.activeFilter === filterName) {
       c += " filter-active";
     }
+
+    if (this.state.order === "ASC") {
+      c += " asc";
+    }
+
     return c;
   },
   renderList: function () {
