@@ -20,8 +20,8 @@ var RepScore = React.createClass({
         data = _.sortBy(data, 'date');
 
         $.each(data, function(i, point) {
-          news.push((point.news_score || 0).toFixed(2));
-          social.push((point.social_score || 0).toFixed(2));
+          news.push(point.news_score ? point.news_score.toFixed(2) : null);
+          social.push(point.social_score ? point.social_score.toFixed(2) : null);
         }.bind(this));
 
         this.renderChart(news, social, this.getLabels(data));
@@ -66,11 +66,14 @@ var RepScore = React.createClass({
     };
 
     this.sentimentChart = new Chart(ctx).Line(data, {
-      tooltipFontSize: 9,
+      tooltipFontSize: 11,
       tooltipFillColor: 'rgba(255,255,255,0.8)',
       tooltipFontStyle: 'Avenir-Book',
       tooltipFontColor: '#333',
-      tooltipTitleFontColor: '#333',
+      tooltipTitleFontFamily: 'Avenir-Book',
+      tooltipTitleFontColor: '#738694',
+      tooltipTitleFontSize: 11,
+      tooltipTitleFontStyle: 'normal',
       scaleFontColor: "#fff",
       scaleLineColor: "rgba(255,255,255,0.3)",
       scaleGridLineColor: "rga(255,255,255,0.3)",
