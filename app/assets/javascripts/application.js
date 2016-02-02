@@ -79,7 +79,7 @@ _.mixin({ toShortenedNum: function (number) {
   if (!number) number = 0;
 
   var toFixed = function (number) {
-    if (number % 1 !== 0) number = number.toFixed(2);
+    if (number % 1 !== 0) number = number.toFixed(0);
 
     return number;
   };
