@@ -31,7 +31,7 @@ var NewsItem = React.createClass({
         <div className="media-text">
           <div className="media-header media-header-limit-2-lines media-break-text"><a href={this.props.item.link} target="_blank">{this.props.item.title}</a></div>
           <div className="media-subheader"><span>{moment(this.props.item.date).format('MMMM Do, YYYY')}</span></div>
-          <div className="media-break-text">Total shares: {_.get(this.props.item, 'latest_shares.total_shares') || 0}  <span className="news-separator">|</span>  Shares since last: {this.props.item.shares_since_last || 0}</div>
+          <div className="media-break-text">Total shares: {_.get(this.props.item, 'latest_shares.total_shares') || 0}  <span className="news-separator">|</span>  Velocity: {this.props.item.shares_since_last || 0}</div>
           <div className="media-break-text">{this.shortenedFullText()}</div>
         </div>
       </li>
