@@ -24,7 +24,7 @@ var News = React.createClass({
       order = "ASC";
     }
 
-    if (order === "ASC") {
+    if (order === "DESC") {
       orderedItems = orderedItems.reverse();
     }
 
