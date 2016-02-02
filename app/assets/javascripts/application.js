@@ -76,10 +76,20 @@ var riskLabel = function(risk) {
 _.mixin({ toShortenedNum: function (number) {
   var textNumber;
 
+  if (!number) number = 0;
+
+  var toFixed = function (number) {
+    if (number % 1 !== 0) number = number.toFixed(2);
+
+    return number;
+  };
+
   if (number / 1000000 > 1) {
-    textNumber = (number / 1000000).toString() + 'm';
+     number = number / 1000000;
+     textNumber = toFixed(number).toString() + 'm';
   } else if (number / 1000 > 1) {
-    textNumber = (number / 1000).toString() + 'k';
+    number = number / 1000;
+    textNumber = toFixed(number).toString() + 'k';
   } else {
     textNumber = number.toString();
   }
