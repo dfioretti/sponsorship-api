@@ -21,7 +21,42 @@ var GlobalHotspots = React.createClass({
       type:'cartodb',
       sublayers:[{
         sql: clusterSQL,
-        cartocss:"#layer{  marker-width: 12;  marker-fill: #5CA2D1;  marker-line-width: 1.5;  marker-fill-opacity: 0.8;  marker-line-opacity: 0;  marker-line-color: #fff; marker-allow-overlap: true;  [src = 'smalls'] {marker-line-width: 0;    marker-width: 12;  }   [src = 'mids'] {    marker-line-width: 0;   marker-width:36;  }  [src = 'bigs']    {marker-line-width: 0;    marker-width: 48;  } [ average <= 35676000] {   marker-fill: #BD0026;}  [ average <= 300424] {   marker-fill: #F03B20;}  [ average <= 111461] {   marker-fill: #FD8D3C;}  [ average <= 47653] {   marker-fill: #FECC5C;}  [ average <= 15601] {   marker-fill: #FFFFB2;}  }   ",
+        cartocss:"#layer{  "+
+                    "marker-width: 12;" +
+                    "marker-fill: #5CA2D1;" +
+                    "marker-line-width: 1.5;" +
+                    "marker-fill-opacity: 0.8;" +
+                    "marker-line-opacity: 0;" +
+                    "marker-line-color: #fff;" +
+                    "marker-allow-overlap: true;" +
+                    "[src = 'smalls'] {" +
+                      "marker-line-width: 0;" +
+                      "marker-width: 12;" +
+                    "}" +
+                    "[src = 'mids'] {" +
+                      "marker-line-width: 0;" +
+                      "marker-width:36;" +
+                    "}" +
+                    "[src = 'bigs']    {" +
+                      "marker-line-width: 0;" +
+                      "marker-width: 48;" +
+                    "}" +
+                    "[ average <= 35676000] {" +
+                      "marker-fill: #BD0026;" +
+                    "}" +
+                    "[ average <= 300424] {" +
+                      "marker-fill: #F03B20;" +
+                    "}" +
+                    "[ average <= 111461] {" +
+                      "marker-fill: #FD8D3C;" +
+                    "}" +
+                    "[ average <= 47653] {" +
+                      "marker-fill: #FECC5C;" +
+                    "}" +
+                    "[ average <= 15601] {" +
+                      "marker-fill: #FFFFB2;" +
+                    "}" +
+                  "}",
       }]
     }).addTo(map);
 
