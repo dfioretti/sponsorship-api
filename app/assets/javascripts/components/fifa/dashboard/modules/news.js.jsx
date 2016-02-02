@@ -1,6 +1,6 @@
 var News = React.createClass({
   getInitialState: function () {
-    return {scrollLoaded: false, news: [], activeFilter: "date"};
+    return {scrollLoaded: false, news: [], activeFilter: "date", order: "DESC"};
   },
   componentWillReceiveProps: function (newProps) {
     this.setState({news: []});
@@ -11,15 +11,28 @@ var News = React.createClass({
     });
   },
   orderBy: function (name, customEvaluator) {
+    var order = "DESC";
     var orderedItems = _.sortBy(this.state.news, function (item) {
       if (_.isFunction(customEvaluator)) {
         return customEvaluator(item);
       } else {
-        return _.get(item, name);
+        return _.get(item, name) || 0;
       }
     });
 
-    this.setState({news: orderedItems.reverse(), activeFilter: name}, function () {
+    if (this.state.activeFilter === name && this.state.order === "DESC") {
+      order = "ASC";
+    }
+
+    if (order === "DESC") {
+      orderedItems = orderedItems.reverse();
+    }
+
+    this.setState({
+      news: orderedItems,
+      activeFilter: name,
+      order: order
+    }, function () {
       $('#top-news').animate({ scrollTop: 0 });
     });
   },
@@ -48,6 +61,11 @@ var News = React.createClass({
     if (this.state.activeFilter === filterName) {
       c += " filter-active";
     }
+
+    if (this.state.order === "ASC") {
+      c += " asc";
+    }
+
     return c;
   },
   renderList: function () {
@@ -82,10 +100,6 @@ var News = React.createClass({
             <div className={this.getFilterClasses('shares_since_last')} onClick={this.orderBy.bind(this, 'shares_since_last')}>Most Viral <span className="caret"></span></div>
           </div>
           {this.renderList()}
-        </div>
-        <div className="dashboard-module-footer">
-          <h5 className="pull-left">View More Top News Articles</h5>
-          <a className='pull-right btn btn-sm btn-primary img-round'>View <span className="glyphicon glyphicon-play"></span></a>
         </div>
       </div>
     );

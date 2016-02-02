@@ -1,7 +1,4 @@
 var FifaDoughnutDetail = React.createClass({
-  getInitialState: function () {
-    return {};
-  },
   componentWillMount: function () {
     this.chartId = uuid.v4();
   },
@@ -24,69 +21,59 @@ var FifaDoughnutDetail = React.createClass({
   renderChart: function (props) {
     if (!props.data) return;
 
-    props.data.datasets[0].backgroundColor = _.clone(this.backgroundColor);
+    var data = this.props.data;
+
+    data = _.map(data, function (dataset, i) {
+      dataset.color = this.backgroundColor[i];
+      return dataset;
+    }.bind(this));
 
     var ctx = $("#" + this.chartId).get(0).getContext("2d");
-    var doughnutChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: this.props.data,
-      options: {
-        tooltips: {
-          bodyFontSize: 9,
-          bodyColor: "#333",
-          backgroundColor: 'rgba(255,255,255,0.6)',
-          cornerRadius: 2,
-          yPadding: 2
-        },
-        animation: {
-          animateRotate: true
-        }
-      }
-    });
 
-    setTimeout(function () {
-      doughnutChart.render();
-    }, 1000)
+    var doughnutChart = new Chart(ctx).Doughnut(data, {
+      tooltipFontSize: 9,
+      tooltipFillColor: 'rgba(255,255,255,0.8)',
+      tooltipFontStyle: 'Avenir-Book',
+      tooltipFontColor: '#333',
+      animationEasing : "easeOutQuart",
+      animateRotate: false,
+      animateScale: true,
+      animationSteps: 30
+    });
 
   },
   renderLegend: function () {
     var data = this.props.data;
-    var self = this;
 
-    return _.map(data.labels, function (label, i) {
-      var backgroundColor = self.backgroundColor[i];
+    return _.map(data, function (pt, i) {
+      var backgroundColor = this.backgroundColor[i];
 
       return(
         <li key={backgroundColor}>
           <span className="legend-droplet" style={{ borderColor: backgroundColor}}></span>
-          <span>{label}</span>
+          <span>{pt.label}</span>
         </li>
       );
-    });
+    }.bind(this));
   },
   render: function () {
-    var el = (<div>Loading...</div>);
-    if (this.props.data) {
-      el = (
-        <div className="detail-module detail-chart">
-          <div className="top">
-            <div className="drag-handle"></div>
-            <div className="top-title">{this.props.moduleTitle}</div>
-          </div>
-          <div className="main">
-            <div className="doughnut-main-container">
-              <div className="doughnut-chart-container">
-                <canvas id={this.chartId} width="201" height="201" style={{width: "201px", height: "201px"}}></canvas>
-              </div>
-              <ul className="doughnut-chart-legend">
-                {this.renderLegend()}
-              </ul>
+    return(
+      <div className="detail-module detail-chart">
+        <div className="top">
+          <div className="drag-handle"></div>
+          <div className="top-title">{this.props.moduleTitle}</div>
+        </div>
+        <div className="main">
+          <div className="doughnut-main-container">
+            <div className="doughnut-chart-container">
+              <canvas id={this.chartId} width="201" height="201" style={{width: "201px", height: "201px"}}></canvas>
             </div>
+            <ul className="doughnut-chart-legend">
+              {this.renderLegend()}
+            </ul>
           </div>
         </div>
-      );
-    }
-
-    return el;
+      </div>
+    );
   }
 });

@@ -23,6 +23,7 @@ gem 'uglifier', '>= 1.3.0'
 source 'https://rails-assets.org' do
   gem 'rails-assets-lodash', '~> 4.0'
   gem 'rails-assets-regression-js'
+  gem 'rails-assets-chartjs', '1.0.2'
 end
 
 group :production do

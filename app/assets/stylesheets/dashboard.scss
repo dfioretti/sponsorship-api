@@ -961,6 +961,11 @@
       padding-bottom: 10px;
       color: rgba(255, 255, 255, 0.8);
       text-align: center;
+      position: relative;
+    }
+    .chart-legend {
+      right: 15px;
+      color: $white;
     }
   }
   &#insights_implications {
@@ -981,12 +986,14 @@
     }
   }
   &#top_global_influencers {
+    .media-list-scrollable-tall {
+      height: 600px;
+    }
   }
   &#top_news {
-    .media-list-scrollable-tall {
-      height: 509px;
+    .news-separator {
+      padding: 0 4px;
     }
-
   }
   &#top_global_issues {
     .main {
