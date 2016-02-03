@@ -62,7 +62,7 @@ var News = React.createClass({
       c += " filter-active";
     }
 
-    if (this.state.order === "ASC") {
+    if (this.state.order === "ASC" && this.state.activeFilter === filterName) {
       c += " asc";
     }
 

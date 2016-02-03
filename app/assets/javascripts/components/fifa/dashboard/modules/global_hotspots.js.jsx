@@ -1,10 +1,14 @@
 var GlobalHotspots = React.createClass({
+  getInitialState: function () {
+    return {};
+  },
   componentWillMount: function() {
   },
   componentDidMount: function() {
     this.createMap();
   },
   createMap: function() {
+    var component = this;
     var map = L.map('map', {center: [36,0], zoom: 3});
     var accessToken = 'pk.eyJ1IjoiYW1hbmRhY29zdG9udGVuIiwiYSI6ImNpam9wbG81cDAwd2l0OWtvNDYzZXlidzMifQ.7FcC5_qcn4qb2loFvpmgqw';
 
@@ -17,7 +21,7 @@ var GlobalHotspots = React.createClass({
     });
 
     cartodb.createLayer(map, {
-      user_name:'ernestomb',
+      user_name:'amandacoston',
       type:'cartodb',
       sublayers:[{
         sql: clusterSQL,
@@ -41,49 +45,60 @@ var GlobalHotspots = React.createClass({
                       "marker-line-width: 0;" +
                       "marker-width: 48;" +
                     "}" +
-                    "[ average <= 35676000] {" +
-                      "marker-fill: #BD0026;" +
+                    "[ sentiment_score_avg <= 35676000] {" +
+                      "marker-fill: #56E0C3;" +
                     "}" +
-                    "[ average <= 300424] {" +
-                      "marker-fill: #F03B20;" +
+                    "[ sentiment_score_avg <= 3.24] {" +
+                      "marker-fill: #ECA836;" +
                     "}" +
-                    "[ average <= 111461] {" +
-                      "marker-fill: #FD8D3C;" +
-                    "}" +
-                    "[ average <= 47653] {" +
-                      "marker-fill: #FECC5C;" +
-                    "}" +
-                    "[ average <= 15601] {" +
-                      "marker-fill: #FFFFB2;" +
+                    "[ sentiment_score_avg <= 2.74] {" +
+                      "marker-fill: #E1695B;" +
                     "}" +
                   "}",
       }]
-    }).addTo(map);
+    })
+    .on('done', function(layer){
+      // Build our own Tooltip for CartoDB
+      // http://bl.ocks.org/ohasselblad/raw/a0e06de1f6f1597c096b/
 
-    // cartodb.createLayer(map, {
-    //   user_name:'amandacoston',
-    //   type:'cartodb',
-    //   sublayers:[{
-    //     sql: clusterSQL,
-    //     // cartocss: "#layer{  marker-width: 12;  marker-fill: #5CA2D1;  marker-line-width: 1.5;  marker-fill-opacity: 0.8;  marker-line-opacity: 0;  marker-line-color: #fff; marker-allow-overlap: true;  [src = 'smalls'] {marker-line-width: 0;    marker-width: 12;  }   [src = 'mids'] {    marker-line-width: 0;   marker-width:36;  }  [src = 'bigs']    {marker-line-width: 0;    marker-width: 48;  } [ average <= 35676000] {   marker-fill: #BD0026;}  [ average <= 300424] {   marker-fill: #F03B20;}  [ average <= 111461] {   marker-fill: #FD8D3C;}  [ average <= 47653] {   marker-fill: #FECC5C;}  [ average <= 15601] {   marker-fill: #FFFFB2;}  }"
-    //     cartocss:"#layer{  marker-width: 12;  marker-fill: #5CA2D1;  marker-line-width: 1.5;  marker-fill-opacity: 0.8;  marker-line-opacity: 0;  marker-line-color: #fff; marker-allow-overlap: true;   }   ",
-    //   }]
-    // }).addTo(map);
-    // .done(function (e) {
-    //   console.log(e)
-    // })
-    // .error(function (e) {
-    //   console.log(e)
-    // })
-    // .on('done', function(layer){
-    //  cdb.vis.Vis.addInfowindow(map,layer.getSubLayer(0), ['points_count', 'average'],{infowindowTemplate: $('#infowindow_template').html()});
-    // })
+      sublayer = layer.getSubLayer(0);
+      sublayer.setInteraction(true);
+      sublayer.setInteractivity('points_count, sentiment_score_avg');
 
+      sublayer.on('featureOver', function(e, latlng, pos, data, layerNumber) {
+          component.setState({
+            tooltip: {
+              data: data,
+              styles: {
+                bottom: ($(component.refs.map).height()-pos.y+20),
+                left: pos.x-75
+              }
+            }
+          });
+      });
+      sublayer.on('featureOut', function(e,latlng, pos, data, layerNumber) {
+        component.setState({
+          tooltip: undefined
+        });
+      });
+    })
+    .addTo(map);
   },
   renderMap: function() {
-    return <div id="map" className="carto-map"></div>
+    return <div id="map" ref="map" className="carto-map"></div>
   },
   render: function() {
+    var cartodbTooltip;
+
+    if (this.state.tooltip) {
+      cartodbTooltip = (
+        <CartodbTooltip tooltip={this.state.tooltip}>
+          <p>Sentiment: {this.state.tooltip.data.sentiment_score_avg}</p>
+          <p>Volume: {this.state.tooltip.data.points_count}</p>
+        </CartodbTooltip>
+      );
+    }
+
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     return (
       <div id="global_hotspots" className="dashboard-module" style={hiddenStyle}>
@@ -98,22 +113,42 @@ var GlobalHotspots = React.createClass({
             <div className="legend-item"><div className="legend-point legend-color-6"></div>Positive Sentiment</div>
           </div>
           {this.renderMap()}
+          {cartodbTooltip}
         </div>
         <script type="sql/html" id="sql_template_a">
           WITH
-          hgridA AS (SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 48), greatest(!pixel_width!,!pixel_height!) * 48) as cell),
+          hgridA AS (
+              SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 48), greatest(!pixel_width!,!pixel_height!) * 48) as cell
+          ),
 
-          bigs AS (SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator, count(i.cartodb_id) as points_count, 1 as cartodb_id, array_agg(cartodb_id) AS id_list, avg(pop_max) AS average FROM hgridA, (select * from ne_10m_populated_places_simple_7_copy) i where ST_Intersects(i.the_geom_webmercator, hgridA.cell) GROUP BY hgridA.cell) t WHERE points_count > 100 ),
+          bigs AS (
+              SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
+                  count(i.cartodb_id) as points_count,
+                  1 as cartodb_id,
+                  array_agg(cartodb_id) AS id_list,
+                  round(avg(sentiment_score),2) AS sentiment_score_avg FROM hgridA,
+                  (select * from sojcp0flmlm7rshw6usbx27) i where ST_Intersects(i.the_geom_webmercator, hgridA.cell) GROUP BY hgridA.cell) t WHERE points_count > 100 ),
 
-          hgridB AS (SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 36), greatest(!pixel_width!,!pixel_height!) * 36) as cell),
+          hgridB AS (
+              SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 36), greatest(!pixel_width!,!pixel_height!) * 36) as cell),
 
-          mids AS (SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator, count(i.cartodb_id) as points_count, 1 as cartodb_id, array_agg(cartodb_id) AS id_list, avg(pop_max) AS average FROM hgridB, (select * from ne_10m_populated_places_simple_7_copy) i where ST_Intersects(i.the_geom_webmercator, hgridB.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) GROUP BY hgridB.cell) t WHERE points_count > 25 ),
+          mids AS (
+              SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
+                  count(i.cartodb_id) as points_count,
+                  1 as cartodb_id, array_agg(cartodb_id) AS id_list, round(avg(sentiment_score),2) AS sentiment_score_avg FROM hgridB,
+                  (select * from sojcp0flmlm7rshw6usbx27) i where ST_Intersects(i.the_geom_webmercator, hgridB.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) GROUP BY hgridB.cell) t WHERE points_count > 25 ),
 
-          hgridC AS (SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 12), greatest(!pixel_width!,!pixel_height!) * 12) as cell),
+          hgridC AS (
+              SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 12), greatest(!pixel_width!,!pixel_height!) * 12) as cell),
 
-          smalls AS (SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator, count(i.cartodb_id) as points_count, 1 as cartodb_id, array_agg(cartodb_id) AS id_list, avg(pop_max) AS average FROM hgridC, (select * from ne_10m_populated_places_simple_7_copy) i where ST_Intersects(i.the_geom_webmercator, hgridC.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM mids) GROUP BY hgridC.cell) t WHERE points_count > 1 )
+          smalls AS (
+              SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
+                  count(i.cartodb_id) as points_count,
+                  1 as cartodb_id, array_agg(cartodb_id) AS id_list,
+                  round(avg(sentiment_score),2) AS sentiment_score_avg FROM hgridC,
+                  (select * from sojcp0flmlm7rshw6usbx27) i where ST_Intersects(i.the_geom_webmercator, hgridC.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM mids) GROUP BY hgridC.cell) t WHERE points_count > 1 )
 
-          SELECT the_geom_webmercator, 1 points_count, cartodb_id, ARRAY[cartodb_id], pop_max AS average, 'origin' as src FROM ne_10m_populated_places_simple_7_copy WHERE cartodb_id NOT IN (select unnest(id_list) FROM bigs) AND cartodb_id NOT IN (select unnest(id_list) FROM mids) AND cartodb_id NOT IN (select unnest(id_list) FROM smalls)
+          SELECT the_geom_webmercator, 1 points_count, cartodb_id, ARRAY[cartodb_id], sentiment_score AS sentiment_score_avg, 'origin' as src FROM sojcp0flmlm7rshw6usbx27 WHERE cartodb_id NOT IN (select unnest(id_list) FROM bigs) AND cartodb_id NOT IN (select unnest(id_list) FROM mids) AND cartodb_id NOT IN (select unnest(id_list) FROM smalls)
 
           UNION ALL
           SELECT *, 'bigs' as src FROM bigs
