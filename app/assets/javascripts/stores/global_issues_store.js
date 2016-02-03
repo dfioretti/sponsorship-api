@@ -25,6 +25,8 @@ var _GlobalIssuesStore = function (argument) {
         var parentTopic = issue.parent_topic;
         if (!parentTopic) return;
 
+        issue.topic = key;
+
         if (aggIssues[parentTopic]) {
           aggIssues[parentTopic].push(issue);
         } else {
@@ -32,6 +34,21 @@ var _GlobalIssuesStore = function (argument) {
         }
       });
     });
+
+    // TODO Move to separate function for grouping child topics under parents
+
+    // var agged = {}
+
+    // _.each(aggIssues, function (issues, key) {
+    //     agged[key] = {};
+    //   _.each(issues, function (child) {
+    //     if (agged[key][child.topic]) {
+    //       agged[key][child.topic].push(child);
+    //     } else {
+    //       agged[key][child.topic] = [child];
+    //     }
+    //   });
+    // });
 
     // Calculate the weighted average over the period
     var issuesWithAvgSentiment = [];

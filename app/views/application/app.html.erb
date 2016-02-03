@@ -10,4 +10,14 @@
       return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
     }
   });
+
+  $.ajaxSetup({beforeSend: undefined});
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      // append outbound auth headers for everything but
+      if (!settings.url.match(/cartodb/)) {
+        $.auth.appendAuthHeaders(xhr, settings);
+      }
+    }
+  });
 </script>

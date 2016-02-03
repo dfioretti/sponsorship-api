@@ -20,6 +20,7 @@
 //= require chartjs/Chart
 //= require chartist.min
 //= require regression-js/src/regression.js
+//= require he/he
 
 //= require bootstrap-sprockets
 //= require turbolinks

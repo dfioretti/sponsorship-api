@@ -24,6 +24,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-lodash', '~> 4.0'
   gem 'rails-assets-regression-js'
   gem 'rails-assets-chartjs', '1.0.2'
+  gem 'rails-assets-he', '~> 0.5.0'
 end
 
 group :production do
