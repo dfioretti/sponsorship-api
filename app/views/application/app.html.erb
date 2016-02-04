@@ -14,7 +14,6 @@
   $.ajaxSetup({beforeSend: undefined});
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
-      console.log(settings)
       // append outbound auth headers for everything but
       if (!settings.url.match(/cartodb|teneo/)) {
         $.auth.appendAuthHeaders(xhr, settings);

@@ -1173,11 +1173,6 @@
     // fetch current auth headers from storage
     var currentHeaders = root.auth.retrieveData(SAVED_CREDS_KEY);
 
-    // console.log('--------------')
-    // console.log(settings.url)
-    // console.log(currentHeaders)
-    // console.log('--------------')
-
     // check config apiUrl matches the current request url
     if (isApiRequest(settings.url) && currentHeaders) {
 
