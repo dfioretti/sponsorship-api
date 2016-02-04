@@ -563,11 +563,11 @@
           border-bottom: 1px solid $dark-blue;
 
           .trend-image {
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
             margin-right: 14px;
             float: left;
-            background-size: 24px 24px;
+            background-size: contain;
             background-repeat: no-repeat;
             background-position: center center;
 
