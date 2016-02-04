@@ -4,9 +4,6 @@ var GlobalIssues = React.createClass({
   getInitialState: function() {
     return {scrollLoaded: false, issues: []};
   },
-  componentDidMount: function() {
-    this.getData();
-  },
   componentWillReceiveProps: function(newProps) {
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {

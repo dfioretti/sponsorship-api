@@ -31,13 +31,18 @@ var Dispatcher = {
       }
     });
   },
-  fifaGet: function(path, params, successCallback) {
+  fifaGet: function(url, params, successCallback) {
     params.client_id = 'fifa';
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: "/api/v1/fifa/teneo_api",
-      data: $.extend(params, {path: path}),
+      url: url,
+      data: params,
+      headers: {
+        'Accept': 'json',
+        'Authorization': API_KEYS.FIFA
+      },
+      cache: false,
       success: function(data, status, xhr) {
         successCallback(data);
       },
