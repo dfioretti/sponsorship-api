@@ -25,7 +25,7 @@ var GlobalIssues = React.createClass({
     };
 
     GlobalIssuesStore.list(params).then(function (data) {
-      issues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('aggregate_issues', data);
+      issues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('aggregate_issues', data.period_breakdown);
 
       self.setState({
         issues: issues

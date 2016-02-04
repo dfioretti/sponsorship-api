@@ -18,7 +18,7 @@ var GlobalIssuesItem = React.createClass({
         <div className={this.getTrendIconClass()}></div>
         <div className="trend-text">
           <div className="trend-header">{this.props.item.title}</div>
-          <div className="trend-subheader">{this.props.item.volume + ' items'}</div>
+          <div className="trend-subheader">{this.props.item.volume.toFixed(0) + ' items'}</div>
         </div>
       </li>
     )
