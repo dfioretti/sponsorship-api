@@ -26,10 +26,12 @@ var GlobalIssuesDetail = React.createClass({
     var chartData, topNewsIssues, topSocialIssues, socialIssueVolumeChartData;
 
     GlobalIssuesStore.list().then(function (data) {
-      chartData = self.getChartData(data);
-      topNewsIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('news_issues', data);
-      topSocialIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('social_issues', data);
-      socialIssueVolumeChartData = GlobalIssuesStore.getIssuesByVolumeWithCadence('social_issues', data);
+      var periodBreakdown = data.period_breakdown;
+
+      chartData = self.getChartData(periodBreakdown);
+      topNewsIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('news_issues', periodBreakdown);
+      topSocialIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('social_issues', periodBreakdown);
+      socialIssueVolumeChartData = GlobalIssuesStore.getIssuesByVolumeWithCadence('social_issues', periodBreakdown);
 
       self.setState({
         topSocialIssues: topSocialIssues,
