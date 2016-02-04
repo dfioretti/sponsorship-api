@@ -94,9 +94,8 @@ var RepScore = React.createClass({
       scaleStartValue : 1,
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
-
-
         var tooltipEl = $('#chartjs-tooltip');
+
          if (!tooltip) {
              tooltipEl.css({
                  opacity: 0
@@ -107,8 +106,8 @@ var RepScore = React.createClass({
          var rawData = self.props.repScores.raw;
          var labels = ["News", "Social"];
          var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
-         tooltipEl.removeClass('above below');
-         tooltipEl.addClass(tooltip.yAlign);
+
+
          var innerHtml = '';
          innerHtml+= '<h6>' + moment(dateOfToolTip).format('MMMM Do, YYYY')  + '</h6>';
          for (var i = tooltip.labels.length - 1; i >= 0; i--) {
@@ -123,7 +122,7 @@ var RepScore = React.createClass({
          tooltipEl.html(innerHtml);
          tooltipEl.css({
              opacity: 1,
-             left: (tooltip.x - 70) + 'px',
+             left: (tooltip.x - 65) + 'px',
              top: (tooltip.y - 72) + 'px',
              fontFamily: tooltip.fontFamily,
              fontSize: tooltip.fontSize,

@@ -97,3 +97,40 @@ _.mixin({ toShortenedNum: function (number) {
   return textNumber;
 }});
 
+// Fix Chart tooltip.x reported position in customTooltip callback
+// https://github.com/nnnick/Chart.js/issues/974
+
+Chart.MultiTooltip.prototype.initialize = function(){
+  this.font = Chart.helpers.fontString(this.fontSize,this.fontStyle,this.fontFamily);
+
+  this.titleFont = Chart.helpers.fontString(this.titleFontSize,this.titleFontStyle,this.titleFontFamily);
+
+  this.height = (this.labels.length * this.fontSize) + ((this.labels.length-1) * (this.fontSize/2)) + (this.yPadding*2) + this.titleFontSize *1.5;
+
+  this.ctx.font = this.titleFont;
+
+  var titleWidth = this.ctx.measureText(this.title).width,
+    //Label has a legend square as well so account for this.
+    labelWidth = Chart.helpers.longestText(this.ctx,this.font,this.labels) + this.fontSize + 3,
+    longestTextWidth = Chart.helpers.max([labelWidth,titleWidth]);
+
+  this.width = Chart.helpers.longestTextWidth + (this.xPadding*2);
+
+
+  var halfHeight = this.height/2;
+
+  //Check to ensure the height will fit on the canvas
+  if (this.y - halfHeight < 0 ){
+    this.y = halfHeight;
+  } else if (this.y + halfHeight > this.chart.height){
+    this.y = this.chart.height - halfHeight;
+  }
+
+  //Decide whether to align left or right based on position on canvas
+  // if (this.x > this.chart.width/2){
+  //   this.x -= this.xOffset + this.width;
+  // } else {
+  //   this.x += this.xOffset;
+  // }
+};
+

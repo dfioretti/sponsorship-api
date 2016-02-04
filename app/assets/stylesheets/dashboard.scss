@@ -966,6 +966,8 @@
     }
   }
   &#teneo_rep_score {
+    overflow: visible;
+
     .top {
       .overall-trend-score {
         margin-top: -3px;
@@ -977,15 +979,6 @@
           display: table-cell;
           padding-right: 10px;
         }
-        // &.up {
-        //   color: $positive-color;
-        // }
-        // &.down-change {
-        //   color: $negative-color;
-        // }
-        // &.no-change {
-        //   color: $neutral-color;
-        // }
       }
       .trend-image {
         float: none;
@@ -1078,7 +1071,7 @@
       width: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-top: 8px solid $battleship-grey;
+      border-top: 8px solid $light-grey;
       position: absolute;
       bottom: -8px;
       right: calc(50% - 12px);
