@@ -20,14 +20,24 @@ var RepScore = React.createClass({
       function(data) {
         var news = [],
         social = [];
+        var socialAvg, newsAvg, overallAvg;
         data = _.sortBy(data, 'date');
+
+        socialAvg = this.getRepScoreAvg('social_score', data);
+        newsAvg = this.getRepScoreAvg('news_score', data);
+        overallAvg = socialAvg + newsAvg / 2;
 
         $.each(data, function(i, point) {
           news.push(point.news_score ? point.news_score.toFixed(2) : null);
           social.push(point.social_score ? point.social_score.toFixed(2) : null);
         }.bind(this));
 
-        this.setState({ rawData: data }, function () {
+        this.setState({
+          rawData: data,
+          socialAvg: socialAvg,
+          newsAvg: newsAvg,
+          overallAvg: overallAvg
+        }, function () {
           this.renderChart(news, social, this.getLabels(data));
         });
       }.bind(this)
@@ -53,6 +63,11 @@ var RepScore = React.createClass({
 
     return trendCN;
   },
+  getRepScoreAvg: function (type, data) {
+    var values = _.compact(_.map(data, function (entry) { return entry[type]; }));
+
+    return _.sum(values) / values.length;
+  },
   renderLegend: function () {
     if (!this.state.data) return;
 
@@ -63,6 +78,10 @@ var RepScore = React.createClass({
         </div>
       );
     });
+  },
+  renderScore: function () {
+    if (!this.state.overallAvg) return ;
+    return(<div className="pull-right overall-trend-score"><span className="">{this.state.overallAvg.toFixed(2)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
   renderChart: function(news, social, labels) {
     if (this.sentimentChart) this.sentimentChart.destroy();
@@ -112,9 +131,10 @@ var RepScore = React.createClass({
       scaleFontSize: 11,
       scaleShowVerticalLines: false,
       scaleOverride : true,
-      scaleSteps : 5,
+      scaleSteps : 4,
       scaleStepWidth : 1,
-      scaleStartValue : 0,
+      scaleStartValue : 1,
+      pointDotRadius : 3,
       customTooltips: function (tooltip) {
 
 
@@ -142,10 +162,9 @@ var RepScore = React.createClass({
           ].join('');
          }
          tooltipEl.html(innerHtml);
-         console.log(tooltip.x)
          tooltipEl.css({
              opacity: 1,
-             left: (tooltip.x) + 'px',
+             left: (tooltip.x - 70) + 'px',
              top: (tooltip.y - 72) + 'px',
              fontFamily: tooltip.fontFamily,
              fontSize: tooltip.fontSize,
@@ -165,7 +184,7 @@ var RepScore = React.createClass({
       <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
           <a className="expand-handle"></a>
-          <div className="pull-right"><span className="">{2.7}</span><div className={this.getTrendIconClass()}></div></div>
+          {this.renderScore()}
           <div className="drag-handle"></div>
           <div className="top-title">Rep Score</div>
         </div>

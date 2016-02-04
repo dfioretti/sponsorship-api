@@ -935,6 +935,23 @@
     .top {
       .overall-trend-score {
         margin-top: -3px;
+        font-size: 18px;
+        display: table;
+
+        span {
+          vertical-align: top;
+          display: table-cell;
+          padding-right: 10px;
+        }
+        // &.up {
+        //   color: $positive-color;
+        // }
+        // &.down-change {
+        //   color: $negative-color;
+        // }
+        // &.no-change {
+        //   color: $neutral-color;
+        // }
       }
       .trend-image {
         float: none;
@@ -1009,12 +1026,7 @@
   font-size: 12px;
   border-radius: 3px;
   pointer-events: none;
-  // -webkit-transition: all .1s ease;
-  // transition: all .1s ease;
-  // -webkit-transform: translate(-50%, 0);
-  // transform: translate(-50%, 0);
   width: 140px;
-  margin-left: -70px;
 
   .chartjs-tooltip-key{
     display:inline-block;

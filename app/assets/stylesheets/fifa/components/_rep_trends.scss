@@ -1,0 +1,11 @@
+.overall-trend-score {
+  &.up {
+    color: $positive-color;
+  }
+  &.down-change {
+    color: $negative-color;
+  }
+  &.no-change {
+    color: $neutral-color;
+  }
+}
