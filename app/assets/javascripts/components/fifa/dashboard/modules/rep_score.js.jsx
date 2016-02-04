@@ -2,46 +2,19 @@ var RepScore = React.createClass({
   getInitialState: function () {
     return {};
   },
-  componentDidMount: function() {
-    this.getData();
-  },
   componentWillReceiveProps: function (newProps) {
-    this.getData(newProps);
-  },
-  getData: function(props) {
-    var p = props ? props : this.props;
+    var repScores = this.props.repScores;
+    if (!repScores) return;
 
-    Dispatcher.fifaGet(
-      FIFAEndpoints.REP_SCORE,
-      {
-        start_date: moment(p.startDate).format('YYYY-MM-DD'),
-        end_date: moment(p.endDate).format('YYYY-MM-DD')
-      },
-      function(data) {
-        var news = [],
+    var news = [],
         social = [];
-        var socialAvg, newsAvg, overallAvg;
-        data = _.sortBy(data, 'date');
 
-        socialAvg = this.getRepScoreAvg('social_score', data);
-        newsAvg = this.getRepScoreAvg('news_score', data);
-        overallAvg = socialAvg + newsAvg / 2;
+    $.each(data, function(i, point) {
+      news.push(point.news_score ? point.news_score.toFixed(2) : null);
+      social.push(point.social_score ? point.social_score.toFixed(2) : null);
+    }.bind(this));
 
-        $.each(data, function(i, point) {
-          news.push(point.news_score ? point.news_score.toFixed(2) : null);
-          social.push(point.social_score ? point.social_score.toFixed(2) : null);
-        }.bind(this));
-
-        this.setState({
-          rawData: data,
-          socialAvg: socialAvg,
-          newsAvg: newsAvg,
-          overallAvg: overallAvg
-        }, function () {
-          this.renderChart(news, social, this.getLabels(data));
-        });
-      }.bind(this)
-    );
+    this.renderChart(news, social, this.getLabels(data));
   },
   getLabels: function (data) {
     // assume daily cadence for now, need to refactor for multiple cadences
@@ -62,11 +35,6 @@ var RepScore = React.createClass({
     }
 
     return trendCN;
-  },
-  getRepScoreAvg: function (type, data) {
-    var values = _.compact(_.map(data, function (entry) { return entry[type]; }));
-
-    return _.sum(values) / values.length;
   },
   renderLegend: function () {
     if (!this.state.data) return;

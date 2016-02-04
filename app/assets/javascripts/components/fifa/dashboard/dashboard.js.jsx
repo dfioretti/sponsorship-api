@@ -11,30 +11,60 @@ var FifaDashboard = React.createClass({
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
-
-    DashboardsStore.getFifa().then(function(){
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-
-      if (this.state.dashboardLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
     DashboardsStore.getFifa().then(function(dashboard) {
+      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
       this.handleChange();
+      this.setupGrid();
       $('.modules-container').trigger('ss-rearrange');
+    }.bind(this))
+    .then(function () {
+      this.getRepScores();
     }.bind(this));
   },
   defaultRange: 35,
   onDateRangeSelect: function (selectedRange) {
-    var endDate = new Date();
+    // TODO
+    var endDate = moment(new Date()).add(2, 'days').toDate();
     var startDate = moment(endDate).subtract(selectedRange, 'days').toDate();
 
     this.setState({
       endDate: endDate,
       startDate: startDate
     });
+  },
+  getRepScores: function () {
+    Dispatcher.fifaGet(
+      FIFAEndpoints.REP_SCORE,
+      {
+        start_date: moment(p.startDate).format('YYYY-MM-DD'),
+        end_date: moment(p.endDate).format('YYYY-MM-DD')
+      },
+      function(data) {
+        var socialAvg, newsAvg, overallAvg;
+        data = _.sortBy(data, 'date');
+
+        socialAvg = this.getRepScoreAvg('social_score', data);
+        newsAvg = this.getRepScoreAvg('news_score', data);
+        overallAvg = socialAvg + newsAvg / 2;
+
+
+        this.setState({
+          repScores: {
+            raw: data,
+            socialAvg: socialAvg,
+            newsAvg: newsAvg,
+            overallAvg: overallAvg
+          }
+        });
+      }.bind(this)
+    );
+  },
+  getRepScoreAvg: function (type, data) {
+    var values = _.compact(_.map(data, function (entry) { return entry[type]; }));
+
+    return _.sum(values) / values.length;
   },
   mapModule: function(name, state) {
     var el, hidden;
@@ -43,7 +73,7 @@ var FifaDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
+        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
