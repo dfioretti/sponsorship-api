@@ -562,28 +562,6 @@
           padding: 20px 0;
           border-bottom: 1px solid $dark-blue;
 
-          .trend-image {
-            width: 24px;
-            height: 24px;
-            margin-right: 14px;
-            float: left;
-            background-size: 24px 24px;
-            background-repeat: no-repeat;
-            background-position: center center;
-
-            &.up {
-              background-image: image-url("fifa/icon-upward.svg");
-            }
-
-            &.down {
-              background-image: image-url("fifa/icon-downward.svg");
-            }
-
-            &.no-change {
-              background-image: image-url("fifa/icon-neutral.svg");
-            }
-          }
-
           .trend-text {
             .trend-header {
               font-size: 14px;
@@ -954,6 +932,16 @@
     }
   }
   &#teneo_rep_score {
+    .top {
+      .overall-trend-score {
+        margin-top: -3px;
+      }
+      .trend-image {
+        float: none;
+        display: inline-block;
+
+      }
+    }
     .main {
       padding-top: 20px;
       padding-right: 20px;

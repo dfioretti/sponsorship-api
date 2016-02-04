@@ -39,13 +39,27 @@ var RepScore = React.createClass({
       return moment(entry.date).format('MMM D');
     });
   },
+  getTrendIconClass: function () {
+    var trendCN = "trend-image ";
+    var average = 2.1;
+
+    if (average > 0) {
+      trendCN += "up";
+    } else if (average < 0) {
+      trendCN += "down";
+    } else {
+      trendCN += "no-change";
+    }
+
+    return trendCN;
+  },
   renderLegend: function () {
     if (!this.state.data) return;
 
     return _.map(this.state.data.datasets, function (dataset, i) {
       return(
         <div key={i} className="company-legend">
-          <span className="legend-color" style={{backgroundColor: dataset.pointColor}}></span><span>{dataset.label}</span>
+          <span className="legend-color" style={{backgroundColor: dataset.pointStrokeColor}}></span><span>{dataset.label}</span>
         </div>
       );
     });
@@ -151,6 +165,7 @@ var RepScore = React.createClass({
       <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
           <a className="expand-handle"></a>
+          <div className="pull-right"><span className="">{2.7}</span><div className={this.getTrendIconClass()}></div></div>
           <div className="drag-handle"></div>
           <div className="top-title">Rep Score</div>
         </div>
