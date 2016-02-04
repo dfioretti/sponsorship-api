@@ -3,18 +3,18 @@ var RepScore = React.createClass({
     return {};
   },
   componentWillReceiveProps: function (newProps) {
-    var repScores = this.props.repScores;
+    var repScores = newProps.repScores;
     if (!repScores) return;
 
     var news = [],
         social = [];
 
-    $.each(data, function(i, point) {
-      news.push(point.news_score ? point.news_score.toFixed(2) : null);
-      social.push(point.social_score ? point.social_score.toFixed(2) : null);
+    $.each(repScores.raw, function(i, point) {
+      news.push(point.news_score ? point.news_score.toFixed(1) : null);
+      social.push(point.social_score ? point.social_score.toFixed(1) : null);
     }.bind(this));
 
-    this.renderChart(news, social, this.getLabels(data));
+    this.renderChart(news, social, repScores, this.getLabels(repScores.raw));
   },
   getLabels: function (data) {
     // assume daily cadence for now, need to refactor for multiple cadences
@@ -24,11 +24,11 @@ var RepScore = React.createClass({
   },
   getTrendIconClass: function () {
     var trendCN = "trend-image ";
-    var average = 2.1;
+    var trend = this.props.repScores.avgTrend;
 
-    if (average > 0) {
+    if (trend > 0) {
       trendCN += "up";
-    } else if (average < 0) {
+    } else if (trend < 0) {
       trendCN += "down";
     } else {
       trendCN += "no-change";
@@ -42,16 +42,16 @@ var RepScore = React.createClass({
     return _.map(this.state.data.datasets, function (dataset, i) {
       return(
         <div key={i} className="company-legend">
-          <span className="legend-color" style={{backgroundColor: dataset.pointStrokeColor}}></span><span>{dataset.label}</span>
+          <span className="legend-color" style={{backgroundColor: dataset.pointStrokeColor}}></span><span>{dataset.label} ({dataset.averageSentimentScore.toFixed(1)})</span>
         </div>
       );
     });
   },
   renderScore: function () {
-    if (!this.state.overallAvg) return ;
-    return(<div className="pull-right overall-trend-score"><span className="">{this.state.overallAvg.toFixed(2)}</span><div className={this.getTrendIconClass()}></div></div>);
+    if (!this.props.repScores) return ;
+    return(<div className="pull-right overall-trend-score"><span className="">{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
-  renderChart: function(news, social, labels) {
+  renderChart: function(news, social, repScores, labels) {
     if (this.sentimentChart) this.sentimentChart.destroy();
 
     var ctx  = $("#rep-score-chart").get(0).getContext("2d");
@@ -68,7 +68,8 @@ var RepScore = React.createClass({
           pointStrokeColor: "rgba(80,227,194,1)",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(80,227,194,1)",
-          data: news
+          data: news,
+          averageSentimentScore: repScores.newsAvg
         },
         {
           label: 'Social',
@@ -78,12 +79,14 @@ var RepScore = React.createClass({
           pointStrokeColor: "rgba(245,166,35,1)",
           pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(245,166,35,1)",
-          data: social
+          data: social,
+          averageSentimentScore: repScores.socialAvg
         }
       ]
     };
 
     this.sentimentChart = new Chart(ctx).Line(data, {
+      animation: false,
       tooltipFontSize: 11,
       tooltipFillColor: 'rgba(255,255,255,0.6)',
       tooltipFontStyle: 'Avenir-Book',
@@ -114,8 +117,9 @@ var RepScore = React.createClass({
              return;
          }
 
+         var rawData = self.props.repScores.raw;
          var labels = ["News", "Social"];
-         var dateOfToolTip = self.state.rawData[self.getLabels(self.state.rawData).indexOf(tooltip.title)].date;
+         var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
          tooltipEl.removeClass('above below');
          tooltipEl.addClass(tooltip.yAlign);
          var innerHtml = '';

@@ -32,39 +32,35 @@ var FifaDashboard = React.createClass({
     this.setState({
       endDate: endDate,
       startDate: startDate
-    });
+    }, function () {
+      this.getRepScores();
+    }.bind(this));
   },
   getRepScores: function () {
-    Dispatcher.fifaGet(
-      FIFAEndpoints.REP_SCORE,
-      {
-        start_date: moment(p.startDate).format('YYYY-MM-DD'),
-        end_date: moment(p.endDate).format('YYYY-MM-DD')
-      },
-      function(data) {
-        var socialAvg, newsAvg, overallAvg;
-        data = _.sortBy(data, 'date');
+    var params = {
+      start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
+      end_date: moment(this.state.endDate).format('YYYY-MM-DD')
+    };
 
-        socialAvg = this.getRepScoreAvg('social_score', data);
-        newsAvg = this.getRepScoreAvg('news_score', data);
-        overallAvg = socialAvg + newsAvg / 2;
+    RepScoresStore.list(params).then(function (data) {
+      var socialAvg, newsAvg, overallAvg, avgTrend;
+      data = _.sortBy(data, 'date');
 
+      socialAvg = RepScoresStore.getRepScoreAvg('social_score', data);
+      newsAvg = RepScoresStore.getRepScoreAvg('news_score', data);
+      overallAvg = (socialAvg + newsAvg) / 2;
+      avgTrend = RepScoresStore.getAvgTrend(data);
 
-        this.setState({
-          repScores: {
-            raw: data,
-            socialAvg: socialAvg,
-            newsAvg: newsAvg,
-            overallAvg: overallAvg
-          }
-        });
-      }.bind(this)
-    );
-  },
-  getRepScoreAvg: function (type, data) {
-    var values = _.compact(_.map(data, function (entry) { return entry[type]; }));
-
-    return _.sum(values) / values.length;
+      this.setState({
+        repScores: {
+          raw: data,
+          socialAvg: socialAvg,
+          newsAvg: newsAvg,
+          overallAvg: overallAvg,
+          avgTrend: avgTrend
+        }
+      });
+    }.bind(this))
   },
   mapModule: function(name, state) {
     var el, hidden;
