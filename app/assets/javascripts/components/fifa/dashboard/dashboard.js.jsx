@@ -11,30 +11,56 @@ var FifaDashboard = React.createClass({
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
-
-    DashboardsStore.getFifa().then(function(){
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-
-      if (this.state.dashboardLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
     DashboardsStore.getFifa().then(function(dashboard) {
+      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
       this.handleChange();
+      this.setupGrid();
       $('.modules-container').trigger('ss-rearrange');
+    }.bind(this))
+    .then(function () {
+      this.getRepScores();
     }.bind(this));
   },
   defaultRange: 35,
   onDateRangeSelect: function (selectedRange) {
-    var endDate = new Date();
+    // TODO
+    var endDate = moment(new Date()).add(2, 'days').toDate();
     var startDate = moment(endDate).subtract(selectedRange, 'days').toDate();
 
     this.setState({
       endDate: endDate,
       startDate: startDate
-    });
+    }, function () {
+      this.getRepScores();
+    }.bind(this));
+  },
+  getRepScores: function () {
+    var params = {
+      start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
+      end_date: moment(this.state.endDate).format('YYYY-MM-DD')
+    };
+
+    RepScoresStore.list(params).then(function (data) {
+      var socialAvg, newsAvg, overallAvg, avgTrend;
+      data = _.sortBy(data, 'date');
+
+      socialAvg = RepScoresStore.getRepScoreAvg('social_score', data);
+      newsAvg = RepScoresStore.getRepScoreAvg('news_score', data);
+      overallAvg = (socialAvg + newsAvg) / 2;
+      avgTrend = RepScoresStore.getAvgTrend(data);
+
+      this.setState({
+        repScores: {
+          raw: data,
+          socialAvg: socialAvg,
+          newsAvg: newsAvg,
+          overallAvg: overallAvg,
+          avgTrend: avgTrend
+        }
+      });
+    }.bind(this))
   },
   mapModule: function(name, state) {
     var el, hidden;
@@ -43,7 +69,7 @@ var FifaDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
+        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
@@ -81,7 +107,7 @@ var FifaDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange} onDateRangeSelect={this.onDateRangeSelect}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange} onDateRangeSelect={this.onDateRangeSelect}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

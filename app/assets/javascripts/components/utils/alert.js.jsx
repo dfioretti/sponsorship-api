@@ -6,7 +6,7 @@ var Alerts = React.createClass({
         alertType: data.alertType
       });
       setTimeout(this.removeAlert, 5000);
-    }.bind(this))
+    }.bind(this));
     this.setState({token: token});
   },
   componentWillUnmount: function() {

@@ -1,6 +1,6 @@
 var _GlobalIssuesStore = function (argument) {
   this.list = function (params) {
-    p = $.Deferred();
+    var p = $.Deferred();
     var self = this;
 
     Dispatcher.fifaGet(

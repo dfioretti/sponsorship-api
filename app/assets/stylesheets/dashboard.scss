@@ -57,6 +57,64 @@
       letter-spacing: 1.5px;
     }
 
+    .custom-tooltip {
+      padding-top: 12px;
+      width: 65px;
+      height: 50px;
+      border-radius: 3px;
+      text-align: center;
+      font-family: 'Oswald';
+      font-weight: 300;
+      font-size: 18px;
+      color: $white;
+      position: absolute;
+      top: -20px;
+      z-index: 99999;
+      display: none;
+
+      &.up, &.down, &.no-change {
+        right: -3px;
+        top: -25px;
+      }
+
+      &.up {
+        background: $positive-color;
+
+        .custom-tooltip-arrow {
+          border-top: 20px solid $positive-color;
+        }
+      }
+
+      &.down {
+        background: $negative-color;
+        .custom-tooltip-arrow {
+          border-top: 20px solid $negative-color;
+        }
+      }
+
+      &.no-change {
+        background: $neutral-color;
+
+        .custom-tooltip-arrow {
+          border-top: 20px solid $neutral-color;
+        }
+      }
+    }
+
+    .trend-image {
+      margin-right: 0;
+    }
+
+    .custom-tooltip-arrow {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      position: absolute;
+      left: 50%;
+      margin-left: -20px;
+    }
+
     .bkg-bar {
       background-color: $dark-grey;
       width: 80px;
@@ -66,30 +124,6 @@
       display: inline-block;
       float: right;
       margin-top: 6px;
-
-      .custom-tooltip {
-        padding-top: 12px;
-        width: 65px;
-        height: 50px;
-        border-radius: 3px;
-        text-align: center;
-        font-family: 'Oswald';
-        font-weight: 300;
-        font-size: 18px;
-        color: $white;
-        position: absolute;
-        top: -20px;
-        z-index: 99999;
-        display: none;
-      }
-
-      .custom-tooltip-arrow {
-        width: 0;
-        height: 0;
-        margin-left: 11px;
-        border-left: 20px solid transparent;
-        border-right: 20px solid transparent;
-      }
 
       .fill-bar {
         width: 0px;
@@ -562,28 +596,6 @@
           padding: 20px 0;
           border-bottom: 1px solid $dark-blue;
 
-          .trend-image {
-            width: 36px;
-            height: 36px;
-            margin-right: 14px;
-            float: left;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center center;
-
-            &.up {
-              background-image: image-url("fifa/icon-upward.svg");
-            }
-
-            &.down {
-              background-image: image-url("fifa/icon-downward.svg");
-            }
-
-            &.no-change {
-              background-image: image-url("fifa/icon-neutral.svg");
-            }
-          }
-
           .trend-text {
             .trend-header {
               font-size: 14px;
@@ -954,6 +966,26 @@
     }
   }
   &#teneo_rep_score {
+    overflow: visible;
+
+    .top {
+      .overall-trend-score {
+        margin-top: -3px;
+        font-size: 18px;
+        display: table;
+
+        span {
+          vertical-align: top;
+          display: table-cell;
+          padding-right: 10px;
+        }
+      }
+      .trend-image {
+        float: none;
+        display: inline-block;
+
+      }
+    }
     .main {
       padding-top: 20px;
       padding-right: 20px;
@@ -1011,9 +1043,9 @@
 }
 
 #chartjs-tooltip {
-  padding: 10px 14px;
+  padding: 12px 6px;
   border: 1px solid $light-grey;
-  opacity: 1;
+  opacity: 0;
   position: absolute;
   background: $white;
   color: #9b9b9b;
@@ -1021,10 +1053,41 @@
   font-size: 12px;
   border-radius: 3px;
   pointer-events: none;
-  -webkit-transition: all .1s ease;
-  transition: all .1s ease;
-  -webkit-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
+  width: 140px;
+
+  .chartjs-tooltip-key{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    border-radius: 50%;
+  }
+
+  h6 {
+    margin: 0 0 2px 0;
+  }
+
+  .arrow-down {
+      height: 0;
+      width: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $light-grey;
+      position: absolute;
+      bottom: -8px;
+      right: calc(50% - 12px);
+      z-index: 2;
+
+      &:before {
+        content: "";
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 6px solid $white;
+        position: absolute;
+        z-index: 1;
+        right: -7px;
+        bottom: 2px;
+      }
+  }
 }
 
 .filter {
