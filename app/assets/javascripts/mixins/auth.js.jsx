@@ -11,4 +11,4 @@ var Auth = {
         this.transitionTo('/account_login');
       }.bind(this));
   }
-}
+};

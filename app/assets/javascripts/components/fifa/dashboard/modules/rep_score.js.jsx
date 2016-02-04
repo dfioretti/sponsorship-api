@@ -1,4 +1,5 @@
 var RepScore = React.createClass({
+  mixins: [RepScoreMixin],
   getInitialState: function () {
     return {};
   },
@@ -22,20 +23,6 @@ var RepScore = React.createClass({
       return moment(entry.date).format('MMM D');
     });
   },
-  getTrendIconClass: function () {
-    var trendCN = "trend-image ";
-    var trend = this.props.repScores.avgTrend;
-
-    if (trend > 0) {
-      trendCN += "up";
-    } else if (trend < 0) {
-      trendCN += "down";
-    } else {
-      trendCN += "no-change";
-    }
-
-    return trendCN;
-  },
   renderLegend: function () {
     if (!this.state.data) return;
 
@@ -48,8 +35,8 @@ var RepScore = React.createClass({
     });
   },
   renderScore: function () {
-    if (!this.props.repScores) return ;
-    return(<div className="pull-right overall-trend-score"><span className="">{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
+    if (!this.props.repScores) return;
+    return(<div className="pull-right overall-trend-score"><span className={this.getTrendClass()}>{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
   renderChart: function(news, social, repScores, labels) {
     if (this.sentimentChart) this.sentimentChart.destroy();
