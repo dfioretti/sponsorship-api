@@ -1011,9 +1011,9 @@
 }
 
 #chartjs-tooltip {
-  padding: 10px 14px;
+  padding: 12px 6px;
   border: 1px solid $light-grey;
-  opacity: 1;
+  opacity: 0;
   position: absolute;
   background: $white;
   color: #9b9b9b;
@@ -1021,10 +1021,46 @@
   font-size: 12px;
   border-radius: 3px;
   pointer-events: none;
-  -webkit-transition: all .1s ease;
-  transition: all .1s ease;
-  -webkit-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
+  // -webkit-transition: all .1s ease;
+  // transition: all .1s ease;
+  // -webkit-transform: translate(-50%, 0);
+  // transform: translate(-50%, 0);
+  width: 140px;
+  margin-left: -70px;
+
+  .chartjs-tooltip-key{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    border-radius: 50%;
+  }
+
+  h6 {
+    margin: 0 0 2px 0;
+  }
+
+  .arrow-down {
+      height: 0;
+      width: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $battleship-grey;
+      position: absolute;
+      bottom: -8px;
+      right: calc(50% - 12px);
+      z-index: 2;
+
+      &:before {
+        content: "";
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 6px solid $white;
+        position: absolute;
+        z-index: 1;
+        right: -7px;
+        bottom: 2px;
+      }
+  }
 }
 
 .filter {

@@ -27,7 +27,9 @@ var RepScore = React.createClass({
           social.push(point.social_score ? point.social_score.toFixed(2) : null);
         }.bind(this));
 
-        this.renderChart(news, social, this.getLabels(data));
+        this.setState({ rawData: data }, function () {
+          this.renderChart(news, social, this.getLabels(data));
+        });
       }.bind(this)
     );
   },
@@ -51,28 +53,29 @@ var RepScore = React.createClass({
   renderChart: function(news, social, labels) {
     if (this.sentimentChart) this.sentimentChart.destroy();
 
-    var ctx = $("#rep-score-chart").get(0).getContext("2d");
+    var ctx  = $("#rep-score-chart").get(0).getContext("2d");
+    var self = this;
 
     var data = {
       labels: labels,
       datasets: [
         {
-          label: 'News Score',
+          label: 'News',
           fillColor: "rgba(0,0,0,0)",
           strokeColor: "rgba(80,227,194,1)",
-          pointColor: "rgba(80,227,194,1)",
+          pointColor: "#fff",
           pointStrokeColor: "rgba(80,227,194,1)",
-          pointHighlightFill: "rgba(80,227,194,1)",
+          pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(80,227,194,1)",
           data: news
         },
         {
-          label: 'Social Score',
+          label: 'Social',
           fillColor: "rgba(0,0,0,0)",
           strokeColor: "rgba(245,166,35,1)",
-          pointColor: "rgba(245,166,35,1)",
+          pointColor: "#fff",
           pointStrokeColor: "rgba(245,166,35,1)",
-          pointHighlightFill: "rgba(245,166,35,1)",
+          pointHighlightFill: "#fff",
           pointHighlightStroke: "rgba(245,166,35,1)",
           data: social
         }
@@ -93,7 +96,48 @@ var RepScore = React.createClass({
       scaleGridLineColor: "rga(255,255,255,0.3)",
       scaleLabel: "<%= ' ' + value%>",
       scaleFontSize: 11,
-      scaleShowVerticalLines: false
+      scaleShowVerticalLines: false,
+      scaleOverride : true,
+      scaleSteps : 5,
+      scaleStepWidth : 1,
+      scaleStartValue : 0,
+      customTooltips: function (tooltip) {
+
+
+        var tooltipEl = $('#chartjs-tooltip');
+         if (!tooltip) {
+             tooltipEl.css({
+                 opacity: 0
+             });
+             return;
+         }
+
+         var labels = ["News", "Social"];
+         var dateOfToolTip = self.state.rawData[self.getLabels(self.state.rawData).indexOf(tooltip.title)].date;
+         tooltipEl.removeClass('above below');
+         tooltipEl.addClass(tooltip.yAlign);
+         var innerHtml = '';
+         innerHtml+= '<h6>' + moment(dateOfToolTip).format('MMMM Do, YYYY')  + '</h6>';
+         for (var i = tooltip.labels.length - 1; i >= 0; i--) {
+          innerHtml += [
+            '<div class="chartjs-tooltip-section">',
+            ' <span class="chartjs-tooltip-key" style="background-color:' + tooltip.legendColors[i].fill + '"></span>',
+            ' <span class="chartjs-tooltip-value">' + labels[i] + ': ' + tooltip.labels[i] + '</span>',
+            '<div class="arrow-down"></div>',
+            '</div>'
+          ].join('');
+         }
+         tooltipEl.html(innerHtml);
+         console.log(tooltip.x)
+         tooltipEl.css({
+             opacity: 1,
+             left: (tooltip.x) + 'px',
+             top: (tooltip.y - 72) + 'px',
+             fontFamily: tooltip.fontFamily,
+             fontSize: tooltip.fontSize,
+             fontStyle: tooltip.fontStyle,
+         });
+      }
     });
 
     this.setState({
@@ -115,6 +159,7 @@ var RepScore = React.createClass({
             {this.renderLegend()}
           </div>
           <canvas id="rep-score-chart" width="380px" height="240px"></canvas>
+          <div id="chartjs-tooltip"></div>
         </div>
       </div>
     );
