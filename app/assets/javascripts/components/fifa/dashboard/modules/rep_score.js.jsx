@@ -5,7 +5,6 @@ var RepScore = React.createClass({
   },
   componentDidUpdate: function () {
     if (!this.state.chart) return;
-    console.log('state chart')
     this.state.chart.update();
 
   },
@@ -55,8 +54,6 @@ var RepScore = React.createClass({
     return(<div className="pull-right overall-trend-score"><span className={this.getTrendClass()}>{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
   renderChart: function(news, social, repScores, labels) {
-    console.log('reload chart')
-
     var ctx  = $("#rep-score-chart").get(0).getContext("2d");
     var self = this;
 
