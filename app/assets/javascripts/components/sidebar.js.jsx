@@ -52,10 +52,9 @@ var Sidebar = React.createClass({
     var ranges = {
      'Last 5 Days': [moment().subtract(5, 'days'), moment()],
      'Last 5 Weeks': [moment().subtract(35, 'days'), moment()],
-     'Last 5 Months': [moment().subtract(35, 'months'), moment()],
+     'Last 5 Months': [moment().subtract(5, 'months'), moment()],
     };
-
-    var displayedStartDate = endDate.toDate() < new Date() ? endDate.subtract(1, 'days') : endDate;
+    var displayedStartDate = endDate.subtract(1, 'days');
 
     if (this.props.dashboardType == "fifa") {
       return (
