@@ -113,7 +113,7 @@ var RepScore = React.createClass({
          for (var i = tooltip.labels.length - 1; i >= 0; i--) {
           innerHtml += [
             '<div class="chartjs-tooltip-section">',
-            ' <span class="chartjs-tooltip-key" style="background-color:' + tooltip.legendColors[i].fill + '"></span>',
+            ' <span class="chartjs-tooltip-key" style="background-color:' + data.datasets[i].strokeColor + '"></span>',
             ' <span class="chartjs-tooltip-value">' + labels[i] + ': ' + tooltip.labels[i] + '</span>',
             '<div class="arrow-down"></div>',
             '</div>'
