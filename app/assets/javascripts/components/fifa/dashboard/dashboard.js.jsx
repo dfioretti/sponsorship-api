@@ -4,7 +4,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    var dateRange = this.getDateRange();
+    var dateRange = this.getInitialDateRange();
     var cadence = this.getDateRangeCadence(this.defaultStartInverval);
     return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
   },
@@ -24,7 +24,7 @@ var FifaDashboard = React.createClass({
   },
   defaultStartInverval: 35,
   defaultStartDate: moment().subtract(this.defaultStartInverval, 'days').toDate(),
-  getDateRange: function (selectedRange) {
+  getInitialDateRange: function (selectedRange) {
     var daysAgo = selectedRange || this.defaultStartInverval;
     var endDate = moment(new Date()).add(1, 'days').toDate();
     var startDate = moment(endDate).subtract( daysAgo, 'days').toDate();
@@ -47,12 +47,12 @@ var FifaDashboard = React.createClass({
   },
   onDateRangeSelect: function (startDate, endDate) {
     var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
-
-    // TODO refactor this function
-    var dateRange = this.getDateRange(numberOfDays);
     var cadence = this.getDateRangeCadence(numberOfDays);
-
-    var config = _.extend(dateRange, {cadence: cadence});
+    var config = {
+      startDate: startDate,
+      endDate: endDate,
+      cadence: cadence
+    };
 
     this.setState(config, function () {
       this.getRepScores();

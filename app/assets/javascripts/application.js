@@ -30,6 +30,7 @@
 //= require react_ujs
 //= require react_router
 //= require react_router_ujs
+//= require react_date_picker
 
 //= require components
 

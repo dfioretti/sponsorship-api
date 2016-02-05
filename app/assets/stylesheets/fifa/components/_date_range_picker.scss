@@ -24,6 +24,10 @@
     border: 1px solid $blue;
   }
 
+  td.in-range {
+    background: rgba(45, 99, 165, 0.20);
+  }
+
   td.active, td.active:hover {
     border-radius: 50%;
     background-color: $blue;
