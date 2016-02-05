@@ -4,8 +4,8 @@ var RouteHandler = ReactRouter.RouteHandler,
 var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    var dateRange = this.getDateRange();
-    var cadence = this.getDateRangeCadence(this.defaultRange);
+    var dateRange = this.getInitialDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
     return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
   },
   componentWillMount: function() {
@@ -22,10 +22,10 @@ var FifaDashboard = React.createClass({
       this.getRepScores();
     }.bind(this));
   },
-  defaultRange: 35,
-  getDateRange: function (selectedRange) {
-    var daysAgo = selectedRange || this.defaultRange;
-
+  defaultStartInverval: 35,
+  defaultStartDate: moment().subtract(this.defaultStartInverval, 'days').toDate(),
+  getInitialDateRange: function (selectedRange) {
+    var daysAgo = selectedRange || this.defaultStartInverval;
     var endDate = moment(new Date()).add(1, 'days').toDate();
     var startDate = moment(endDate).subtract( daysAgo, 'days').toDate();
 
@@ -45,11 +45,14 @@ var FifaDashboard = React.createClass({
 
     return cadence;
   },
-  onDateRangeSelect: function (numberOfDays) {
-    var dateRange = this.getDateRange(numberOfDays);
+  onDateRangeSelect: function (startDate, endDate) {
+    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
     var cadence = this.getDateRangeCadence(numberOfDays);
-
-    var config = _.extend(dateRange, {cadence: cadence});
+    var config = {
+      startDate: startDate,
+      endDate: endDate,
+      cadence: cadence
+    };
 
     this.setState(config, function () {
       this.getRepScores();
@@ -80,7 +83,7 @@ var FifaDashboard = React.createClass({
           avgTrend: avgTrend
         }
       });
-    }.bind(this))
+    }.bind(this));
   },
   mapModule: function(name, state) {
     var el, hidden;
@@ -127,7 +130,7 @@ var FifaDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="fifa" handleToggle={this.handleToggle} defaultRange={this.defaultRange} onDateRangeSelect={this.onDateRangeSelect}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="fifa" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

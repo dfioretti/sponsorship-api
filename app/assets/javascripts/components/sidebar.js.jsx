@@ -6,11 +6,6 @@ var Sidebar = React.createClass({
   hideTooltip: function() {
     $('#sidebar-tooltip').hide();
   },
-  selectChange: function(e) {
-    var selectedDays = e.target.value;
-
-    this.props.onDateRangeSelect(selectedDays);
-  },
   renderEWS: function () {
     var cn = "top ";
     var company = CompaniesStore.getState().current;
@@ -52,9 +47,15 @@ var Sidebar = React.createClass({
     );
   },
   renderFifa: function() {
-    // var tooltipStyle = {left: left, backgroundColor: color}
-    // var barStyle = {backgroundColor: color, width: 80 * ratio}
-    // var arrowStyle = {borderTop: "20px solid " + color}
+    var startDate = moment(this.props.startDate);
+    var endDate = moment(this.props.endDate);
+    var ranges = {
+     'Last 5 Days': [moment().subtract(5, 'days'), moment()],
+     'Last 5 Weeks': [moment().subtract(35, 'days'), moment()],
+     'Last 5 Months': [moment().subtract(35, 'months'), moment()],
+    };
+
+    var displayedStartDate = endDate.toDate() < new Date() ? endDate.subtract(1, 'days') : endDate;
 
     if (this.props.dashboardType == "fifa") {
       return (
@@ -62,15 +63,16 @@ var Sidebar = React.createClass({
           <div className="top-title">Social Scorecard</div>
           {this.renderScore()}
           <div className="range-select">
-            <select onChange={this.selectChange} defaultValue={this.props.defaultRange}>
-              <option value="5">Last 5 Days</option>
-              <option value="35">Last 5 Weeks</option>
-              <option value="150">Last 5 Months</option>
-            </select>
+            <DateRangePicker opens="left" startDate={startDate} endDate={endDate} autoApply={true} maxDate={moment()} ranges={ranges} onHide={this.dateSelectChange}>
+              <input type="text" name="dashboardDateRangePicker" ref="dashboardDateRangePicker" value={"Range: " + startDate.format('MM/DD/YY') + '-' + displayedStartDate.format('MM/DD/YY')} readOnly={true}/>
+            </DateRangePicker>
           </div>
         </div>
       );
     }
+  },
+  dateSelectChange: function(event, picker) {
+    this.props.onDateRangeSelect(picker.startDate, picker.endDate);
   },
   renderToggles: function() {
     var toggles;
