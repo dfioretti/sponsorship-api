@@ -11,21 +11,6 @@ ul.trend-list {
     .trend-image {
       margin-right: 14px;
       float: left;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center;
-
-      &.up {
-        background-image: image-url("fifa/icon-upward.svg");
-      }
-
-      &.down {
-        background-image: image-url("fifa/icon-downward.svg");
-      }
-
-      &.no-change {
-        background-image: image-url("fifa/icon-neutral.svg");
-      }
     }
 
     .trend-text {
