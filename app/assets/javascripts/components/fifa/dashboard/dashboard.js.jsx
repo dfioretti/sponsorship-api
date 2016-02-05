@@ -50,7 +50,7 @@ var FifaDashboard = React.createClass({
     var cadence = this.getDateRangeCadence(numberOfDays);
     var config = {
       startDate: startDate,
-      endDate: endDate,
+      endDate: moment(endDate).add(1, 'days').toDate(),
       cadence: cadence
     };
 

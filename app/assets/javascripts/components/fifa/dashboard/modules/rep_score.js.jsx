@@ -124,17 +124,21 @@ var RepScore = React.createClass({
          }
 
          var rawData = self.props.repScores.raw;
-         var labels = ["News", "Social"];
          var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
 
 
          var innerHtml = '';
          innerHtml+= '<h6>' + moment(dateOfToolTip).format('MMMM Do, YYYY')  + '</h6>';
          for (var i = tooltip.labels.length - 1; i >= 0; i--) {
+
+          // Needed to Handle datapoints with missing values
+          var strokeColor = tooltip.legendColors[i].stroke;
+          var dataset = _.find(data.datasets, function (dataset) { return strokeColor === dataset.strokeColor;  })
+
           innerHtml += [
             '<div class="chartjs-tooltip-section">',
-            ' <span class="chartjs-tooltip-key" style="background-color:' + data.datasets[i].strokeColor + '"></span>',
-            ' <span class="chartjs-tooltip-value">' + labels[i] + ': ' + tooltip.labels[i] + '</span>',
+            ' <span class="chartjs-tooltip-key" style="background-color:' + dataset.strokeColor + '"></span>',
+            ' <span class="chartjs-tooltip-value">' + dataset.label + ': ' + tooltip.labels[i] + '</span>',
             '<div class="arrow-down"></div>',
             '</div>'
           ].join('');
