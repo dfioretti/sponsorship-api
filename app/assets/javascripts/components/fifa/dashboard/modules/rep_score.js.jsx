@@ -6,7 +6,6 @@ var RepScore = React.createClass({
   componentDidUpdate: function () {
     if (!this.state.chart) return;
     this.state.chart.update();
-
   },
   componentWillReceiveProps: function (newProps) {
     if (this.state.chart) this.state.chart.destroy();
@@ -21,8 +20,16 @@ var RepScore = React.createClass({
   getLabels: function (data) {
     // assume daily cadence for now, need to refactor for multiple cadences
     return _.map(data, function (entry) {
-      return moment(entry.date).format('MMM D');
-    });
+      var label;
+
+      if (this.props.cadence === "monthly") {
+        label = moment(entry.date).format('MMMM');
+      } else {
+        label = moment(entry.date).format('MMM D');
+      }
+
+      return label;
+    }.bind(this));
   },
   buildChart: function (props) {
     var repScores = props.repScores;

@@ -4,10 +4,9 @@ var RouteHandler = ReactRouter.RouteHandler,
 var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    var endDate = new Date();
-    var startDate = moment(endDate).subtract(this.defaultRange, 'days').toDate();
-
-    return {dashboardLoaded: false, endDate: new Date(), startDate: startDate};
+    var dateRange = this.getDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultRange);
+    return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
@@ -24,22 +23,43 @@ var FifaDashboard = React.createClass({
     }.bind(this));
   },
   defaultRange: 35,
-  onDateRangeSelect: function (selectedRange) {
-    // TODO
-    var endDate = moment(new Date()).add(2, 'days').toDate();
-    var startDate = moment(endDate).subtract(selectedRange, 'days').toDate();
+  getDateRange: function (selectedRange) {
+    var daysAgo = selectedRange || this.defaultRange;
 
-    this.setState({
+    var endDate = moment(new Date()).add(1, 'days').toDate();
+    var startDate = moment(endDate).subtract( daysAgo, 'days').toDate();
+
+    return {
       endDate: endDate,
       startDate: startDate
-    }, function () {
+    };
+  },
+  getDateRangeCadence: function (numberOfDays) {
+    var cadence = 'daily';
+
+    if (numberOfDays > 60) {
+      cadence = 'monthly';
+    } else if (numberOfDays > 21) {
+      cadence = 'weekly';
+    }
+
+    return cadence;
+  },
+  onDateRangeSelect: function (numberOfDays) {
+    var dateRange = this.getDateRange(numberOfDays);
+    var cadence = this.getDateRangeCadence(numberOfDays);
+
+    var config = _.extend(dateRange, {cadence: cadence});
+
+    this.setState(config, function () {
       this.getRepScores();
     }.bind(this));
   },
   getRepScores: function () {
     var params = {
       start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
-      end_date: moment(this.state.endDate).format('YYYY-MM-DD')
+      end_date: moment(this.state.endDate).format('YYYY-MM-DD'),
+      cadence: this.state.cadence
     };
 
     RepScoresStore.list(params).then(function (data) {
@@ -69,7 +89,7 @@ var FifaDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} />
+        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
