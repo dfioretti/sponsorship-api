@@ -1,11 +1,7 @@
 .daterangepicker {
   background: #33363b;
 
-  &.opensleft {
-    &:before {
-      left: 7px;
-    }
-
+  &.opensright {
     left: 20px !important;
     right: initial !important;
   }
