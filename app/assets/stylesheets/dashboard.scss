@@ -132,18 +132,48 @@
       }
     }
 
-    select {
+    .range-select {
       width: 210px;
       height: 30px;
       margin-top: 10px;
       background-color: #33363b;
       border: 1px solid black;
+      border-radius: 3px;
       color: white;
       font-size: 12px;
       letter-spacing: 0.5px;
       outline: none;
       padding: 0 15px;
       -webkit-appearance:none;
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        margin-top: -2px;
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+
+        border-top: 4px solid $white;
+      }
+
+      input[type="text"] {
+        background: transparent;
+        border: 0;
+        padding: 0;
+        width: 100%;
+        line-height: 30px;
+        cursor: pointer;
+
+        &:focus {
+          outline: 0;
+        }
+      }
     }
   }
 }
@@ -1054,6 +1084,7 @@
   border-radius: 3px;
   pointer-events: none;
   width: 140px;
+  z-index: 1000;
 
   .chartjs-tooltip-key{
     display:inline-block;

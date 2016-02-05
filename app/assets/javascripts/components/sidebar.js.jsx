@@ -1,15 +1,64 @@
 var Sidebar = React.createClass({
   mixins: [RepScoreMixin],
+  componentWillReceiveProps: function (newProps) {
+    if (this.props.dashboardType === 'fifa') {
+      this.initializeDatePicker(newProps);
+    }
+  },
+  // componentWillUpdate: function () {
+  //   var input = this.refs.dashboardDateRangePicker;
+  //   var previousDatePicker = $(input).data('daterangepicker');
+
+  //   if (previousDatePicker) {
+  //     console.log('remove will update')
+  //     previousDatePicker.remove();
+  //   }
+  // },
+  componentWillUnmount: function () {
+    var input = this.refs.dashboardDateRangePicker;
+    var previousDatePicker = $(input).data('daterangepicker');
+
+    if (previousDatePicker) {
+      console.log('remove will unmount')
+      previousDatePicker.remove();
+    }
+  },
+  initializeDatePicker: function (props) {
+    var startDate = props.startDate;
+    var endDate = props.endDate;
+
+    var input = this.refs.dashboardDateRangePicker;
+
+    var previousDatePicker = $(input).data('daterangepicker');
+
+    if (previousDatePicker) {
+      console.log('remove will update')
+      previousDatePicker.remove();
+    }
+
+    var dateSelectChange = function(startDate, endDate, label) {
+      console.log('select')
+      this.props.onDateRangeSelect(startDate,endDate);
+    };
+
+    $(input).daterangepicker({
+      startDate: startDate,
+      endDate: endDate,
+      autoApply: true,
+      maxDate: moment(),
+      opens: 'left',
+      ranges: {
+         'Last 5 Days': [moment().subtract(5, 'days'), moment()],
+         'Last 5 Weeks': [moment().subtract(35, 'days'), moment()],
+         'Last 5 Months': [moment().subtract(35, 'months'), moment()],
+      }
+    }, dateSelectChange.bind(this));
+  },
   showTooltip: function() {
     $('#sidebar-tooltip').show();
   },
   hideTooltip: function() {
     $('#sidebar-tooltip').hide();
-  },
-  selectChange: function(e) {
-    var selectedDays = e.target.value;
-
-    this.props.onDateRangeSelect(selectedDays);
   },
   renderEWS: function () {
     var cn = "top ";
@@ -62,11 +111,7 @@ var Sidebar = React.createClass({
           <div className="top-title">Social Scorecard</div>
           {this.renderScore()}
           <div className="range-select">
-            <select onChange={this.selectChange} defaultValue={this.props.defaultRange}>
-              <option value="5">Last 5 Days</option>
-              <option value="35">Last 5 Weeks</option>
-              <option value="150">Last 5 Months</option>
-            </select>
+            <input type="text" name="dashboardDateRangePicker" ref="dashboardDateRangePicker"/>
           </div>
         </div>
       );

@@ -21,6 +21,7 @@
 //= require chartist.min
 //= require regression-js/src/regression.js
 //= require he/he
+//= require bootstrap-daterangepicker/daterangepicker
 
 //= require bootstrap-sprockets
 //= require turbolinks
