@@ -1,5 +1,5 @@
 var NewsItem = React.createClass({
-  _defaultLogoSrc: '/assets/fifa/icon-news.svg',
+  _defaultLogoSrc: ASSET_PATHS.IMAGES.DEFAULT_NEWS_LOGO,
   _ellipsis: function (text, maxLength) {
     return text.length < maxLength ? text : text.slice(0,maxLength - 3) + '...';
   },
