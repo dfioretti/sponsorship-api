@@ -37,10 +37,10 @@ var FifaDashboard = React.createClass({
   getDateRangeCadence: function (numberOfDays) {
     var cadence = 'daily';
 
-    if (numberOfDays > 21) {
-      cadence = 'weekly';
-    } else if (numberOfDays > 60) {
+    if (numberOfDays > 60) {
       cadence = 'monthly';
+    } else if (numberOfDays > 21) {
+      cadence = 'weekly';
     }
 
     return cadence;
@@ -58,7 +58,8 @@ var FifaDashboard = React.createClass({
   getRepScores: function () {
     var params = {
       start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
-      end_date: moment(this.state.endDate).format('YYYY-MM-DD')
+      end_date: moment(this.state.endDate).format('YYYY-MM-DD'),
+      cadence: this.state.cadence
     };
 
     RepScoresStore.list(params).then(function (data) {
@@ -88,7 +89,7 @@ var FifaDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} />
+        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
