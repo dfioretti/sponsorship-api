@@ -3,8 +3,29 @@ var RepScore = React.createClass({
   getInitialState: function () {
     return {};
   },
+  componentDidUpdate: function () {
+    if (!this.state.chart) return;
+    this.state.chart.update();
+
+  },
   componentWillReceiveProps: function (newProps) {
-    var repScores = newProps.repScores;
+    if (this.state.chart) this.state.chart.destroy();
+
+    // Force component to render again once display:none is gone.
+    if (this.props.hidden !== newProps.hidden) {
+      this.setState({ reload: true});
+    } else {
+      this.buildChart(newProps);
+    }
+  },
+  getLabels: function (data) {
+    // assume daily cadence for now, need to refactor for multiple cadences
+    return _.map(data, function (entry) {
+      return moment(entry.date).format('MMM D');
+    });
+  },
+  buildChart: function (props) {
+    var repScores = props.repScores;
     if (!repScores) return;
 
     var news = [],
@@ -16,12 +37,6 @@ var RepScore = React.createClass({
     }.bind(this));
 
     this.renderChart(news, social, repScores, this.getLabels(repScores.raw));
-  },
-  getLabels: function (data) {
-    // assume daily cadence for now, need to refactor for multiple cadences
-    return _.map(data, function (entry) {
-      return moment(entry.date).format('MMM D');
-    });
   },
   renderLegend: function () {
     if (!this.state.data) return;
@@ -39,8 +54,6 @@ var RepScore = React.createClass({
     return(<div className="pull-right overall-trend-score"><span className={this.getTrendClass()}>{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
   renderChart: function(news, social, repScores, labels) {
-    if (this.sentimentChart) this.sentimentChart.destroy();
-
     var ctx  = $("#rep-score-chart").get(0).getContext("2d");
     var self = this;
 

@@ -16,7 +16,9 @@ var DashboardMixin = {
     }.bind(this));
   },
   handleChange: function() {
-    this.setState({dashboardState: DashboardsStore.getState().current});
+    this.setState({dashboardState: DashboardsStore.getState().current}, function () {
+      this.setupGrid();
+    }.bind(this));
   },
   handleToggle: function(values, e) {
     var state;
@@ -53,4 +55,4 @@ var DashboardMixin = {
       this.handleChange();
     }.bind(this));
   }
-}
+};
