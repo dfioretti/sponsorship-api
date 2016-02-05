@@ -4,10 +4,9 @@ var RouteHandler = ReactRouter.RouteHandler,
 var FifaDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    var endDate = new Date();
-    var startDate = moment(endDate).subtract(this.defaultRange, 'days').toDate();
-
-    return {dashboardLoaded: false, endDate: new Date(), startDate: startDate};
+    var dateRange = this.getDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultRange);
+    return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
@@ -24,15 +23,35 @@ var FifaDashboard = React.createClass({
     }.bind(this));
   },
   defaultRange: 35,
-  onDateRangeSelect: function (selectedRange) {
-    // TODO
-    var endDate = moment(new Date()).add(2, 'days').toDate();
-    var startDate = moment(endDate).subtract(selectedRange, 'days').toDate();
+  getDateRange: function (selectedRange) {
+    var daysAgo = selectedRange || this.defaultRange;
 
-    this.setState({
+    var endDate = moment(new Date()).add(1, 'days').toDate();
+    var startDate = moment(endDate).subtract( daysAgo, 'days').toDate();
+
+    return {
       endDate: endDate,
       startDate: startDate
-    }, function () {
+    };
+  },
+  getDateRangeCadence: function (numberOfDays) {
+    var cadence = 'daily';
+
+    if (numberOfDays > 21) {
+      cadence = 'weekly';
+    } else if (numberOfDays > 60) {
+      cadence = 'monthly';
+    }
+
+    return cadence;
+  },
+  onDateRangeSelect: function (numberOfDays) {
+    var dateRange = this.getDateRange(numberOfDays);
+    var cadence = this.getDateRangeCadence(numberOfDays);
+
+    var config = _.extend(dateRange, {cadence: cadence});
+
+    this.setState(config, function () {
       this.getRepScores();
     }.bind(this));
   },
