@@ -63,7 +63,7 @@ var Sidebar = React.createClass({
           <div className="top-title">Social Scorecard</div>
           {this.renderScore()}
           <div className="range-select">
-            <DateRangePicker opens="left" startDate={startDate} endDate={endDate} autoApply={true} maxDate={moment()} ranges={ranges} onHide={this.dateSelectChange}>
+            <DateRangePicker startDate={startDate} endDate={endDate} autoApply={true} maxDate={moment()} ranges={ranges} onHide={this.dateSelectChange}>
               <input type="text" name="dashboardDateRangePicker" ref="dashboardDateRangePicker" value={"Range: " + startDate.format('MM/DD/YY') + '-' + displayedStartDate.format('MM/DD/YY')} readOnly={true}/>
             </DateRangePicker>
           </div>
