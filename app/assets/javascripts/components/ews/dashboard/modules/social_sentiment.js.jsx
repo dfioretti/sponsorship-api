@@ -96,7 +96,7 @@ var SocialSentiment = React.createClass({
             ticks:{
               beginAtZero: true,
               fontColor: "rgba(255, 255, 255, 0.6)",
-              fontFamily: "Avenir-Medium"
+              fontFamily: "Avenir-Book"
             },
             gridLines: {
               color: "rgba(255, 255, 255, 0.1)",
