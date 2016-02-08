@@ -1,9 +1,12 @@
 var InsightsImplications = React.createClass({
+  mixins: [jScrollpaneMixin],
   getInitialState: function() {
     return {scrollLoaded: false, insights: []};
   },
   addInsight: function() {
-    this.setState({insights: InsightsStore.getState().insights});
+    this.setState({insights: InsightsStore.getState().insights}, function () {
+      this.loadJScroll();
+    }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
     this.addInsight();
@@ -20,9 +23,11 @@ var InsightsImplications = React.createClass({
       return (<InsightListItem key={item.id} item={item} />);
     });
     return (
-      <ul id="insight-list" className="text-list media-list">
-        {insights}
-      </ul>
+      <div className="media-list-scrollable-tall" ref="jScrollContainer">
+        <ul id="insight-list" className="text-list media-list">
+          {insights}
+        </ul>
+      </div>
     );
   },
   componentDidMount: function () {

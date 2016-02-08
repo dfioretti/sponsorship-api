@@ -1,4 +1,5 @@
 var News = React.createClass({
+  mixins: [jScrollpaneMixin],
   getInitialState: function () {
     return {scrollLoaded: false, news: [], activeFilter: "date", order: "DESC"};
   },
@@ -50,6 +51,8 @@ var News = React.createClass({
 
         this.setState({
           news: news
+        }, function () {
+          this.loadJScroll();
         });
 
       }.bind(this)
@@ -76,9 +79,11 @@ var News = React.createClass({
     });
 
     return (
-      <ul id="top-news" className="media-list text-list media-list-scrollable-tall">
-        {list}
-      </ul>
+      <div className="media-list-scrollable-tall" ref="jScrollContainer">
+        <ul id="top-news" className="media-list">
+          {list}
+        </ul>
+      </div>
     );
   },
   render: function() {
