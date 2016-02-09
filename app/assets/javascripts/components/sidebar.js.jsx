@@ -71,6 +71,20 @@ var Sidebar = React.createClass({
     }
   },
   dateSelectChange: function(event, picker) {
+    var newRanges = _.pick(picker, ['startDate', 'endDate']);
+    var oldRanges = _.pick(this.props, ['startDate', 'endDate'] );
+    var isNewDateRange = false;
+
+    newRanges.endDate = newRanges.endDate.add(1, 'days');
+
+    _.each(newRanges, function (value, key) {
+      if ( value.format('YYYY-MM-DD') !== moment(oldRanges[key]).format('YYYY-MM-DD')) {
+        isNewDateRange = true;
+      }
+    });
+
+    if (!isNewDateRange) return;
+
     this.props.onDateRangeSelect(picker.startDate, picker.endDate);
   },
   renderToggles: function() {
