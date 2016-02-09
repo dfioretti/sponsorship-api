@@ -19,7 +19,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     {
       fillColor: "rgba(80,227,194,0)",
       strokeColor: "#50e3c2",
-      pointColor: "#50e3c2",
+      pointColor: "#fff",
       pointStrokeColor: "#50e3c2",
       pointHighlightFill: "#fff",
       pointHighlightStroke: "#50e3c2",
@@ -27,7 +27,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     {
       fillColor: "rgba(231,105,89,0)",
       strokeColor: "#e76959",
-      pointColor: "#e76959",
+      pointColor: "#fff",
       pointStrokeColor: "#e76959",
       pointHighlightFill: "#fff",
       pointHighlightStroke: "#e76959"
@@ -98,7 +98,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
       customTooltips: function (tooltip) {
         if (!self.isTooltip(tooltip)) return;
 
-        var dateOfToolTip = data[0].points[self.getLabels(data).indexOf(tooltip.title)].date;
+        var dateOfToolTip = data[0].points[self.getLabels(props, data).indexOf(tooltip.title)].date;
         self.renderTooltip(tooltip, dateOfToolTip.format('MMMM Do, YYYY'), chartData);
       }
     });

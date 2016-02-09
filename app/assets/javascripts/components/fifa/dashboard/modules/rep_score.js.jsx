@@ -46,7 +46,7 @@ var RepScore = React.createClass({
       social.push(point.social_score ? point.social_score.toFixed(1) : null);
     }.bind(this));
 
-    this.renderChart(news, social, repScores, this.getLabels(repScores.raw));
+    this.renderChart(news, social, repScores, this.getLabels(repScores.raw), props);
   },
   renderLegend: function () {
     if (!this.state.data) return;
@@ -63,7 +63,7 @@ var RepScore = React.createClass({
     if (!this.props.repScores) return;
     return(<div className="pull-right overall-trend-score"><span className={this.getTrendClass()}>{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
-  renderChart: function(news, social, repScores, labels) {
+  renderChart: function(news, social, repScores, labels, props) {
     var ctx  = $("#rep-score-chart").get(0).getContext("2d");
     var self = this;
 
@@ -119,7 +119,7 @@ var RepScore = React.createClass({
       customTooltips: function (tooltip) {
         if (!self.isTooltip(tooltip)) return;
 
-        var rawData = self.props.repScores.raw;
+        var rawData = props.repScores.raw;
         var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
 
         self.renderTooltip(tooltip, moment(dateOfToolTip).format('MMMM Do, YYYY'), data);
