@@ -1,5 +1,8 @@
 var RepScore = React.createClass({
-  mixins: [RepScoreMixin],
+  mixins: [
+    RepScoreMixin,
+    ChartTooltipHandler
+  ],
   getInitialState: function () {
     return {};
   },
@@ -43,7 +46,7 @@ var RepScore = React.createClass({
       social.push(point.social_score ? point.social_score.toFixed(1) : null);
     }.bind(this));
 
-    this.renderChart(news, social, repScores, this.getLabels(repScores.raw));
+    this.renderChart(news, social, repScores, this.getLabels(repScores.raw), props);
   },
   renderLegend: function () {
     if (!this.state.data) return;
@@ -60,7 +63,7 @@ var RepScore = React.createClass({
     if (!this.props.repScores) return;
     return(<div className="pull-right overall-trend-score"><span className={this.getTrendClass()}>{this.props.repScores.overallAvg.toFixed(1)}</span><div className={this.getTrendIconClass()}></div></div>);
   },
-  renderChart: function(news, social, repScores, labels) {
+  renderChart: function(news, social, repScores, labels, props) {
     var ctx  = $("#rep-score-chart").get(0).getContext("2d");
     var self = this;
 
@@ -114,44 +117,12 @@ var RepScore = React.createClass({
       scaleStartValue : 1,
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
-        var tooltipEl = $('#chartjs-tooltip');
+        if (!self.isTooltip(tooltip)) return;
 
-         if (!tooltip) {
-             tooltipEl.css({
-                 opacity: 0
-             });
-             return;
-         }
+        var rawData = props.repScores.raw;
+        var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
 
-         var rawData = self.props.repScores.raw;
-         var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
-
-
-         var innerHtml = '';
-         innerHtml+= '<h6>' + moment(dateOfToolTip).format('MMMM Do, YYYY')  + '</h6>';
-         for (var i = tooltip.labels.length - 1; i >= 0; i--) {
-
-          // Needed to Handle datapoints with missing values
-          var strokeColor = tooltip.legendColors[i].stroke;
-          var dataset = _.find(data.datasets, function (dataset) { return strokeColor === dataset.strokeColor;  })
-
-          innerHtml += [
-            '<div class="chartjs-tooltip-section">',
-            ' <span class="chartjs-tooltip-key" style="background-color:' + dataset.strokeColor + '"></span>',
-            ' <span class="chartjs-tooltip-value">' + dataset.label + ': ' + tooltip.labels[i] + '</span>',
-            '<div class="arrow-down"></div>',
-            '</div>'
-          ].join('');
-         }
-         tooltipEl.html(innerHtml);
-         tooltipEl.css({
-             opacity: 1,
-             left: (tooltip.x - 65) + 'px',
-             top: (tooltip.y - 72) + 'px',
-             fontFamily: tooltip.fontFamily,
-             fontSize: tooltip.fontSize,
-             fontStyle: tooltip.fontStyle,
-         });
+        self.renderTooltip(tooltip, moment(dateOfToolTip).format('MMMM Do, YYYY'), data);
       }
     });
 
@@ -175,7 +146,7 @@ var RepScore = React.createClass({
             {this.renderLegend()}
           </div>
           <canvas id="rep-score-chart" width="380px" height="240px"></canvas>
-          <div id="chartjs-tooltip"></div>
+          <div ref="chartjsTooltip" id="chartjs-tooltip"></div>
         </div>
       </div>
     );

@@ -2,87 +2,33 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var FifaDashboard = React.createClass({
-  mixins: [DashboardMixin],
+  mixins: [
+    DashboardMixin,
+    DateRangeMixin
+  ],
   getInitialState: function() {
-    var dateRange = this.getInitialDateRange();
-    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
-    return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
+    return {};
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
   },
   componentWillReceiveProps: function(newProps) {
+    var initialState = {};
+    var dateRange = this.getInitialDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
+    var defaults =  _.extend({dashboardLoaded: false}, dateRange, {cadence: cadence});
+
     DashboardsStore.getFifa().then(function(dashboard) {
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-      this.handleChange();
-      this.setupGrid();
-      $('.modules-container').trigger('ss-rearrange');
     }.bind(this))
     .then(function () {
-      this.getRepScores();
-    }.bind(this));
-  },
-  defaultStartInverval: 35,
-  defaultStartDate: moment().subtract(this.defaultStartInverval, 'days').toDate(),
-  getInitialDateRange: function (selectedRange) {
-    var daysAgo = selectedRange || this.defaultStartInverval;
-    var endDate = moment(new Date()).add(1, 'days').toDate();
-    var startDate = moment(endDate).subtract( daysAgo, 'days').toDate();
+      this.getRepScores(defaults).then(function (repScores) {
+        var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
+        this.setState(state);
 
-    return {
-      endDate: endDate,
-      startDate: startDate
-    };
-  },
-  getDateRangeCadence: function (numberOfDays) {
-    var cadence = 'daily';
-
-    if (numberOfDays > 60) {
-      cadence = 'monthly';
-    } else if (numberOfDays > 21) {
-      cadence = 'weekly';
-    }
-
-    return cadence;
-  },
-  onDateRangeSelect: function (startDate, endDate) {
-    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
-    var cadence = this.getDateRangeCadence(numberOfDays);
-    var config = {
-      startDate: startDate,
-      endDate: moment(endDate).add(1, 'days').toDate(),
-      cadence: cadence
-    };
-
-    this.setState(config, function () {
-      this.getRepScores();
-    }.bind(this));
-  },
-  getRepScores: function () {
-    var params = {
-      start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
-      end_date: moment(this.state.endDate).format('YYYY-MM-DD'),
-      cadence: this.state.cadence
-    };
-
-    RepScoresStore.list(params).then(function (data) {
-      var socialAvg, newsAvg, overallAvg, avgTrend;
-      data = _.sortBy(data, 'date');
-
-      socialAvg = RepScoresStore.getRepScoreAvg('social_score', data);
-      newsAvg = RepScoresStore.getRepScoreAvg('news_score', data);
-      overallAvg = (socialAvg + newsAvg) / 2;
-      avgTrend = RepScoresStore.getAvgTrend(data);
-
-      this.setState({
-        repScores: {
-          raw: data,
-          socialAvg: socialAvg,
-          newsAvg: newsAvg,
-          overallAvg: overallAvg,
-          avgTrend: avgTrend
-        }
-      });
+        this.handleChange();
+        this.setupGrid();
+        $('.modules-container').trigger('ss-rearrange');
+      }.bind(this));
     }.bind(this));
   },
   mapModule: function(name, state) {

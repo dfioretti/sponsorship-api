@@ -23,10 +23,10 @@ var DashboardMixin = {
   handleToggle: function(values, e) {
     var state;
     if (values.value == "on") {
-      state = {value: "off", module: values.module}
+      state = {value: "off", module: values.module};
       this.updateDashboardUI("off", values.module);
     } else {
-      state = {value: "on", module: values.module}
+      state = {value: "on", module: values.module};
       this.updateDashboardUI("on", values.module);
     }
   },
@@ -43,11 +43,11 @@ var DashboardMixin = {
     var dashboardState = {};
 
     $('.modules-container').children().each(function() {
-      var toggle = $(this).is(":visible") ? "on" : "off"
-      dashboardState[$(this).attr('id')] = {index: $(this).index(), toggle: toggle}
+      var toggle = $(this).is(":visible") ? "on" : "off";
+      dashboardState[$(this).attr('id')] = {index: $(this).index(), toggle: toggle};
     });
 
-    var did = DashboardsStore.getState().current.id
+    var did = DashboardsStore.getState().current.id;
     return {id: did, state: dashboardState};
   },
   updateDashboardState: function(state) {
