@@ -20,6 +20,8 @@ var DateRangeMixin = {
       cadence = 'weekly';
     }
 
+    console.log(cadence)
+    console.log(numberOfDays)
     return cadence;
   },
   onDateRangeSelect: function (startDate, endDate) {

@@ -9,9 +9,6 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     this.chartId = uuid.v4();
   },
   componentWillReceiveProps: function (newProps) {
-    // console.log("receive newProps -------")
-    // console.log(newProps)
-    // console.log('------------')
     if (this.state.chart) {
       this.state.chart.destroy();
     }
@@ -36,11 +33,12 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
       pointHighlightStroke: "#e76959"
     }
   ],
-  getLabels: function (data) {
+  getLabels: function (props, data) {
+
     return _.map(data[0].points, function (entry) {
       var label;
 
-      if (this.props.cadence === "monthly") {
+      if (props.cadence === "monthly") {
         label = moment(entry.date).format('MMMM');
       } else {
         label = moment(entry.date).format('MMM D');
@@ -69,7 +67,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     if (!props.data) return;
 
     var data = props.data;
-    var labels = this.getLabels(data);
+    var labels = this.getLabels(props, data);
     var topIssues = _.clone(data).splice(0,2);
     var chartConfig = this.chartConfig;
     var self = this;

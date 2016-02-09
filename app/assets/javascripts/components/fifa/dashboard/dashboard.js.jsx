@@ -7,22 +7,28 @@ var FifaDashboard = React.createClass({
     DateRangeMixin
   ],
   getInitialState: function() {
-    var dateRange = this.getInitialDateRange();
-    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
-    return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
+    return {};
   },
   componentWillMount: function() {
     this.props.setTitle('fifa');
   },
   componentWillReceiveProps: function(newProps) {
+    var initialState = {};
+    var dateRange = this.getInitialDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
+    var defaults =  _.extend({dashboardLoaded: false}, dateRange, {cadence: cadence});
+
     DashboardsStore.getFifa().then(function(dashboard) {
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-      this.handleChange();
-      this.setupGrid();
-      $('.modules-container').trigger('ss-rearrange');
     }.bind(this))
     .then(function () {
-      this.getRepScores(this.state);
+      this.getRepScores(defaults).then(function (repScores) {
+        var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
+        this.setState(state);
+
+        this.handleChange();
+        this.setupGrid();
+        $('.modules-container').trigger('ss-rearrange');
+      }.bind(this));
     }.bind(this));
   },
   mapModule: function(name, state) {

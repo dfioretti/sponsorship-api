@@ -14,10 +14,7 @@ var FifaDetail = React.createClass({
     var defaults = _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
 
     this.getRepScores(defaults).then(function (repScores) {
-      this.skipDetailRender = true;
-      this.setState(_.extend(defaults, repScores), function () {
-        delete this.skipDetailRender;
-      }.bind(this));
+      this.setState(_.extend(defaults, repScores));
     }.bind(this));
   },
   getSubNavTitle: function () {
