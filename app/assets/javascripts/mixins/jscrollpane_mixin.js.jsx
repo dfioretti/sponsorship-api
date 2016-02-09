@@ -4,12 +4,12 @@ var jScrollpaneMixin = {
 
     if (scrollContainer) {
       // TODO -- use reinitialize
-      if ($(scrollContainer).data('jsp')) {
-        $(scrollContainer).data('jsp').destroy();
-      }
+      // if ($(scrollContainer).data('jsp')) {
+      //   $(scrollContainer).data('jsp').destroy();
+      // }
 
-      var scroller = $(scrollContainer).jScrollPane()
-      scroller.data('jsp').addHoverFunc();
+      // var scroller = $(scrollContainer).jScrollPane()
+      // scroller.data('jsp').addHoverFunc();
       // scroller.reinitialise();
       // scroller;
       // $(scrollContainer).addHoverFunc()

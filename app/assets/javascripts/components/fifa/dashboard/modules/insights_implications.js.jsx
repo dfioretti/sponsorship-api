@@ -37,13 +37,16 @@ var InsightsImplications = React.createClass({
     });
 
     (function poll(){
-      var timeoutId = setTimeout(function(){
+      self.timeoutId = setTimeout(function(){
         InsightsStore.poll(self.props.company_id).then(function(insights){
           self.addInsight();
           poll();
         });
       }, 10000);
     })();
+  },
+  componentWillUnmount: function () {
+    clearTimeout(this.timeoutId);
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
