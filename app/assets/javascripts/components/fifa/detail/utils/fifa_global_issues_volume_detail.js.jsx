@@ -1,33 +1,52 @@
 var FifaGlobalIssuesVolumeDetail = React.createClass({
+  mixins: [
+    ChartTooltipHandler
+  ],
+  getInitialState: function () {
+    return {};
+  },
   componentWillMount: function () {
     this.chartId = uuid.v4();
   },
-  componentDidUpdate: function () {
-    this.renderChart(this.props);
+  componentWillReceiveProps: function (props) {
+    console.log("receive props")
+    if (this.state.chart) {
+      console.log('destroy chart')
+      this.state.chart.destroy();
+    }
+
+    this.renderChart(props);
   },
   chartConfig: [
     {
-      fillColor: "rgba(80,227,194,0.2)",
+      fillColor: "rgba(80,227,194,0)",
       strokeColor: "#50e3c2",
       pointColor: "#50e3c2",
-      pointStrokeColor: "#fff",
+      pointStrokeColor: "#50e3c2",
       pointHighlightFill: "#fff",
       pointHighlightStroke: "#50e3c2",
     },
     {
-      fillColor: "rgba(231,105,89,0.2)",
+      fillColor: "rgba(231,105,89,0)",
       strokeColor: "#e76959",
       pointColor: "#e76959",
-      pointStrokeColor: "#fff",
+      pointStrokeColor: "#e76959",
       pointHighlightFill: "#fff",
       pointHighlightStroke: "#e76959"
     }
   ],
   getLabels: function (data) {
-    // assume daily cadence for now, need to refactor for multiple cadences
-    return _.map(data[0].points, function (point) {
-      return moment(point.date).format('MMM D');
-    });
+    return _.map(data[0].points, function (entry) {
+      var label;
+
+      if (this.props.cadence === "monthly") {
+        label = moment(entry.date).format('MMMM');
+      } else {
+        label = moment(entry.date).format('MMM D');
+      }
+
+      return label;
+    }.bind(this));
   },
   renderLegend: function () {
     if (!this.props.data) return;
@@ -52,6 +71,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     var labels = this.getLabels(data);
     var topIssues = data.splice(0,2);
     var chartConfig = this.chartConfig;
+    var self = this;
 
     var chartData = {
       labels: labels,
@@ -68,18 +88,29 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
     var ctx = $("#" + this.chartId).get(0).getContext("2d");
 
     // TODO Add labels
-    new Chart(ctx).Line(chartData, {
+    var chart = new Chart(ctx).Line(chartData, {
+      animation: false,
       tooltipFontSize: 9,
       tooltipFillColor: 'rgba(255,255,255,0.8)',
       tooltipFontStyle: 'Avenir-Book',
       tooltipFontColor: '#333',
       tooltipTitleFontColor: '#333',
-      scaleLabel: "<%= ' ' + value%>"
+      scaleLabel: "<%= ' ' + value%>",
+      customTooltips: function (tooltip) {
+        if (!self.isTooltip(tooltip)) return;
+
+        var dateOfToolTip = data[0].points[self.getLabels(data).indexOf(tooltip.title)].date;
+        self.renderTooltip(tooltip, dateOfToolTip.format('MMMM Do, YYYY'), chartData);
+      }
+    });
+
+    this.setState({
+      chart: chart
     });
   },
   render: function () {
     return (
-      <div className="detail-module detail-chart">
+      <div className="detail-module detail-chart volume-chart">
         <div className="top">
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.moduleTitle}</div>
@@ -89,6 +120,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
             {this.renderLegend()}
           </ul>
           <canvas width="570px" height="300px" id={this.chartId}></canvas>
+          <div ref="chartjsTooltip" id="chartjs-tooltip" ></div>
         </div>
       </div>
     );

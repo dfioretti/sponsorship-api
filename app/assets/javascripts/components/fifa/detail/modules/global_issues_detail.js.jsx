@@ -21,11 +21,22 @@ var GlobalIssuesDetail = React.createClass({
   componentDidUpdate: function () {
     this.setGrid();
   },
+  componentWillReceiveProps: function () {
+    this.getDetails();
+  },
   getDetails: function () {
     var self = this;
-    var chartData, topNewsIssues, topSocialIssues, socialIssueVolumeChartData;
+    var chartData, topNewsIssues, topSocialIssues, socialIssueVolumeChartData, params;
 
-    GlobalIssuesStore.list().then(function (data) {
+    params = {
+      cadence: this.props.cadence,
+      start_date: this.props.startDate,
+      end_date: this.endDate
+    };
+
+    console.log(params)
+
+    GlobalIssuesStore.list(params).then(function (data) {
       var periodBreakdown = data.period_breakdown;
 
       chartData = self.getChartData(periodBreakdown);

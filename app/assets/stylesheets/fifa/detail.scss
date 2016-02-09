@@ -34,6 +34,13 @@
     border-radius: 50%;
     margin-right: 5px;
   }
+
+  &.volume-chart {
+
+    #chartjs-tooltip {
+      margin-left: 15px;
+    }
+  }
 }
 
 .company-detail {

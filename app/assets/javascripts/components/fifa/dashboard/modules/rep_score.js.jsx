@@ -1,5 +1,8 @@
 var RepScore = React.createClass({
-  mixins: [RepScoreMixin],
+  mixins: [
+    RepScoreMixin,
+    ChartTooltipHandler
+  ],
   getInitialState: function () {
     return {};
   },
@@ -114,44 +117,12 @@ var RepScore = React.createClass({
       scaleStartValue : 1,
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
-        var tooltipEl = $('#chartjs-tooltip');
+        if (!self.isTooltip(tooltip)) return;
 
-         if (!tooltip) {
-             tooltipEl.css({
-                 opacity: 0
-             });
-             return;
-         }
+        var rawData = self.props.repScores.raw;
+        var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
 
-         var rawData = self.props.repScores.raw;
-         var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
-
-
-         var innerHtml = '';
-         innerHtml+= '<h6>' + moment(dateOfToolTip).format('MMMM Do, YYYY')  + '</h6>';
-         for (var i = tooltip.labels.length - 1; i >= 0; i--) {
-
-          // Needed to Handle datapoints with missing values
-          var strokeColor = tooltip.legendColors[i].stroke;
-          var dataset = _.find(data.datasets, function (dataset) { return strokeColor === dataset.strokeColor;  })
-
-          innerHtml += [
-            '<div class="chartjs-tooltip-section">',
-            ' <span class="chartjs-tooltip-key" style="background-color:' + dataset.strokeColor + '"></span>',
-            ' <span class="chartjs-tooltip-value">' + dataset.label + ': ' + tooltip.labels[i] + '</span>',
-            '<div class="arrow-down"></div>',
-            '</div>'
-          ].join('');
-         }
-         tooltipEl.html(innerHtml);
-         tooltipEl.css({
-             opacity: 1,
-             left: (tooltip.x - 65) + 'px',
-             top: (tooltip.y - 72) + 'px',
-             fontFamily: tooltip.fontFamily,
-             fontSize: tooltip.fontSize,
-             fontStyle: tooltip.fontStyle,
-         });
+        self.renderTooltip(tooltip, moment(dateOfToolTip).format('MMMM Do, YYYY'), data);
       }
     });
 
@@ -175,7 +146,7 @@ var RepScore = React.createClass({
             {this.renderLegend()}
           </div>
           <canvas id="rep-score-chart" width="380px" height="240px"></canvas>
-          <div id="chartjs-tooltip"></div>
+          <div ref="chartjsTooltip" id="chartjs-tooltip"></div>
         </div>
       </div>
     );

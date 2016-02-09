@@ -2,8 +2,24 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var FifaDetail = React.createClass({
+  mixins: [
+    DateRangeMixin
+  ],
   getInitialState: function() {
-    return {};
+    var dateRange = this.getInitialDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
+    return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
+  },
+  onDateRangeSelect: function (startDate, endDate) {
+    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
+    var cadence = this.getDateRangeCadence(numberOfDays);
+    var config = {
+      startDate: startDate,
+      endDate: moment(endDate).add(1, 'days').toDate(),
+      cadence: cadence
+    };
+
+    this.setState(config);
   },
   getSubNavTitle: function () {
     var titles = {
@@ -28,7 +44,7 @@ var FifaDetail = React.createClass({
   renderDetails: function() {
     var self = this;
     var supportedDetailModules = {
-      global_issues: <GlobalIssuesDetail />,
+      global_issues: <GlobalIssuesDetail startDate={this.state.startDate} endDate={this.state.endDate} cadence={this.state.cadence}/>,
       global_influencers: <GlobalInfluencersDetail />
     };
 
@@ -38,7 +54,7 @@ var FifaDetail = React.createClass({
   render: function() {
     return (
       <div className="company-detail fifa-detail">
-        <Sidebar {...this.props} dashboardType="fifa" minimal />
+        <Sidebar {...this.props} dashboardType="fifa" minimal startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
         {this.renderSubnav()}
         <div className="details-box">
           {this.renderDetails()}

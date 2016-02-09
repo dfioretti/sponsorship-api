@@ -2,7 +2,10 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var FifaDashboard = React.createClass({
-  mixins: [DashboardMixin],
+  mixins: [
+    DashboardMixin,
+    DateRangeMixin
+  ],
   getInitialState: function() {
     var dateRange = this.getInitialDateRange();
     var cadence = this.getDateRangeCadence(this.defaultStartInverval);
@@ -19,42 +22,6 @@ var FifaDashboard = React.createClass({
       $('.modules-container').trigger('ss-rearrange');
     }.bind(this))
     .then(function () {
-      this.getRepScores();
-    }.bind(this));
-  },
-  defaultStartInverval: 35,
-  defaultStartDate: moment().subtract(this.defaultStartInverval, 'days').toDate(),
-  getInitialDateRange: function (selectedRange) {
-    var daysAgo = selectedRange || this.defaultStartInverval;
-    var endDate = moment(new Date()).add(1, 'days').toDate();
-    var startDate = moment(endDate).subtract( daysAgo, 'days').toDate();
-
-    return {
-      endDate: endDate,
-      startDate: startDate
-    };
-  },
-  getDateRangeCadence: function (numberOfDays) {
-    var cadence = 'daily';
-
-    if (numberOfDays > 60) {
-      cadence = 'monthly';
-    } else if (numberOfDays > 21) {
-      cadence = 'weekly';
-    }
-
-    return cadence;
-  },
-  onDateRangeSelect: function (startDate, endDate) {
-    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
-    var cadence = this.getDateRangeCadence(numberOfDays);
-    var config = {
-      startDate: startDate,
-      endDate: moment(endDate).add(1, 'days').toDate(),
-      cadence: cadence
-    };
-
-    this.setState(config, function () {
       this.getRepScores();
     }.bind(this));
   },
@@ -83,6 +50,19 @@ var FifaDashboard = React.createClass({
           avgTrend: avgTrend
         }
       });
+    }.bind(this));
+  },
+  onDateRangeSelect: function (startDate, endDate) {
+    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
+    var cadence = this.getDateRangeCadence(numberOfDays);
+    var config = {
+      startDate: startDate,
+      endDate: moment(endDate).add(1, 'days').toDate(),
+      cadence: cadence
+    };
+
+    this.setState(config, function () {
+      this.getRepScores();
     }.bind(this));
   },
   mapModule: function(name, state) {
