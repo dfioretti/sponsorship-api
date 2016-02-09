@@ -22,47 +22,7 @@ var FifaDashboard = React.createClass({
       $('.modules-container').trigger('ss-rearrange');
     }.bind(this))
     .then(function () {
-      this.getRepScores();
-    }.bind(this));
-  },
-  getRepScores: function () {
-    var params = {
-      start_date: moment(this.state.startDate).format('YYYY-MM-DD'),
-      end_date: moment(this.state.endDate).format('YYYY-MM-DD'),
-      cadence: this.state.cadence
-    };
-
-    RepScoresStore.list(params).then(function (data) {
-      var socialAvg, newsAvg, overallAvg, avgTrend;
-      data = _.sortBy(data, 'date');
-
-      socialAvg = RepScoresStore.getRepScoreAvg('social_score', data);
-      newsAvg = RepScoresStore.getRepScoreAvg('news_score', data);
-      overallAvg = (socialAvg + newsAvg) / 2;
-      avgTrend = RepScoresStore.getAvgTrend(data);
-
-      this.setState({
-        repScores: {
-          raw: data,
-          socialAvg: socialAvg,
-          newsAvg: newsAvg,
-          overallAvg: overallAvg,
-          avgTrend: avgTrend
-        }
-      });
-    }.bind(this));
-  },
-  onDateRangeSelect: function (startDate, endDate) {
-    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
-    var cadence = this.getDateRangeCadence(numberOfDays);
-    var config = {
-      startDate: startDate,
-      endDate: moment(endDate).add(1, 'days').toDate(),
-      cadence: cadence
-    };
-
-    this.setState(config, function () {
-      this.getRepScores();
+      this.getRepScores(this.state);
     }.bind(this));
   },
   mapModule: function(name, state) {

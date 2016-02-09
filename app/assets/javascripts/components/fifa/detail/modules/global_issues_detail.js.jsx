@@ -16,25 +16,25 @@ var GlobalIssuesDetail = React.createClass({
   },
   componentDidMount: function () {
     this.setGrid();
-    this.getDetails();
+    this.getDetails(this.props);
   },
-  componentDidUpdate: function () {
-    this.setGrid();
+  shouldComponentUpdate: function (newProps, props) {
+    return !this.skipRender && !!newProps.startDate;
   },
-  componentWillReceiveProps: function () {
-    this.getDetails();
+  componentWillReceiveProps: function (props) {
+    this.getDetails(props);
   },
-  getDetails: function () {
+  getDetails: function (props) {
+    this.skipRender = true;
+
     var self = this;
     var chartData, topNewsIssues, topSocialIssues, socialIssueVolumeChartData, params;
 
     params = {
-      cadence: this.props.cadence,
-      start_date: this.props.startDate,
-      end_date: this.endDate
+      cadence: props.cadence,
+      start_date: moment(props.startDate).format('YYYY-MM-DD'),
+      end_date: moment(props.endDate).format('YYYY-MM-DD')
     };
-
-    console.log(params)
 
     GlobalIssuesStore.list(params).then(function (data) {
       var periodBreakdown = data.period_breakdown;
@@ -43,6 +43,8 @@ var GlobalIssuesDetail = React.createClass({
       topNewsIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('news_issues', periodBreakdown);
       topSocialIssues = GlobalIssuesStore.aggIssuesByWeightedAvgSentiment('social_issues', periodBreakdown);
       socialIssueVolumeChartData = GlobalIssuesStore.getIssuesByVolumeWithCadence('social_issues', periodBreakdown);
+
+      delete self.skipRender;
 
       self.setState({
         topSocialIssues: topSocialIssues,

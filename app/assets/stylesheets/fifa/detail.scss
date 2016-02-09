@@ -36,6 +36,7 @@
   }
 
   &.volume-chart {
+    overflow: auto;
 
     #chartjs-tooltip {
       margin-left: 15px;

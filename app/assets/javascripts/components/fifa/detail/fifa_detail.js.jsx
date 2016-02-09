@@ -6,20 +6,19 @@ var FifaDetail = React.createClass({
     DateRangeMixin
   ],
   getInitialState: function() {
-    var dateRange = this.getInitialDateRange();
-    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
-    return _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
+    return {};
   },
-  onDateRangeSelect: function (startDate, endDate) {
-    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
-    var cadence = this.getDateRangeCadence(numberOfDays);
-    var config = {
-      startDate: startDate,
-      endDate: moment(endDate).add(1, 'days').toDate(),
-      cadence: cadence
-    };
+  componentDidMount: function () {
+    var dateRange = this.getInitialDateRange();
+    var cadence  = this.getDateRangeCadence(this.defaultStartInverval);
+    var defaults = _.extend({dashboardLoaded: false}, dateRange, { cadence: cadence });
 
-    this.setState(config);
+    this.getRepScores(defaults).then(function (repScores) {
+      this.skipDetailRender = true;
+      this.setState(_.extend(defaults, repScores), function () {
+        delete this.skipDetailRender;
+      }.bind(this));
+    }.bind(this));
   },
   getSubNavTitle: function () {
     var titles = {
@@ -54,7 +53,7 @@ var FifaDetail = React.createClass({
   render: function() {
     return (
       <div className="company-detail fifa-detail">
-        <Sidebar {...this.props} dashboardType="fifa" minimal startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
+        <Sidebar {...this.props} dashboardType="fifa" minimal repScores={this.state.repScores} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
         {this.renderSubnav()}
         <div className="details-box">
           {this.renderDetails()}

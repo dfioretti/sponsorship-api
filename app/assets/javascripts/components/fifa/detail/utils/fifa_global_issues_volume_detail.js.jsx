@@ -8,14 +8,15 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
   componentWillMount: function () {
     this.chartId = uuid.v4();
   },
-  componentWillReceiveProps: function (props) {
-    console.log("receive props")
+  componentWillReceiveProps: function (newProps) {
+    // console.log("receive newProps -------")
+    // console.log(newProps)
+    // console.log('------------')
     if (this.state.chart) {
-      console.log('destroy chart')
       this.state.chart.destroy();
     }
 
-    this.renderChart(props);
+    this.renderChart(newProps);
   },
   chartConfig: [
     {
@@ -69,7 +70,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
 
     var data = props.data;
     var labels = this.getLabels(data);
-    var topIssues = data.splice(0,2);
+    var topIssues = _.clone(data).splice(0,2);
     var chartConfig = this.chartConfig;
     var self = this;
 

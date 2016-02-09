@@ -21,5 +21,45 @@ var DateRangeMixin = {
     }
 
     return cadence;
+  },
+  onDateRangeSelect: function (startDate, endDate) {
+    var numberOfDays = moment.duration(endDate.diff(startDate)).asDays();
+    var cadence = this.getDateRangeCadence(numberOfDays);
+    var config = {
+      startDate: startDate,
+      endDate: moment(endDate).add(1, 'days').toDate(),
+      cadence: cadence
+    };
+
+    this.getRepScores(config).then(function (repScores) {
+      this.setState(_.extend(config, repScores));
+    }.bind(this));
+  },
+  getRepScores: function (newState) {
+    var params = {
+      start_date: moment(newState.startDate).format('YYYY-MM-DD'),
+      end_date: moment(newState.endDate).format('YYYY-MM-DD'),
+      cadence: newState.cadence
+    };
+
+    return RepScoresStore.list(params).then(function (data) {
+      var socialAvg, newsAvg, overallAvg, avgTrend;
+      data = _.sortBy(data, 'date');
+
+      socialAvg = RepScoresStore.getRepScoreAvg('social_score', data);
+      newsAvg = RepScoresStore.getRepScoreAvg('news_score', data);
+      overallAvg = (socialAvg + newsAvg) / 2;
+      avgTrend = RepScoresStore.getAvgTrend(data);
+
+      return {
+        repScores: {
+          raw: data,
+          socialAvg: socialAvg,
+          newsAvg: newsAvg,
+          overallAvg: overallAvg,
+          avgTrend: avgTrend
+        }
+      };
+    }.bind(this));
   }
 };
