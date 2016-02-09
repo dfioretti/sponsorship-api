@@ -4,7 +4,15 @@ var jScrollpaneMixin = {
 
     if (scrollContainer) {
       // TODO -- use reinitialize
-      $(scrollContainer).jScrollPane().data('jsp').addHoverFunc();
+      if ($(scrollContainer).data('jsp')) {
+        $(scrollContainer).data('jsp').destroy();
+      }
+
+      var scroller = $(scrollContainer).jScrollPane()
+      scroller.data('jsp').addHoverFunc();
+      // scroller.reinitialise();
+      // scroller;
+      // $(scrollContainer).addHoverFunc()
     } else {
       console.error('Please attach a "jScrollContainer" ref to an element');
     }

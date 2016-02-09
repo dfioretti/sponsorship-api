@@ -34,8 +34,8 @@ var News = React.createClass({
       activeFilter: name,
       order: order
     }, function () {
-      $('#top-news').animate({ scrollTop: 0 });
-    });
+      $('.jspPane').animate({ top: 0 });
+    }.bind(this));
   },
   getData: function(params) {
     var self = this;
