@@ -1,6 +1,7 @@
 var Link = ReactRouter.Link;
 
 var GlobalInfluencers = React.createClass({
+  mixins: [jScrollpaneMixin],
   getInitialState: function() {
     return {scrollLoaded: false, influencers: []};
   },
@@ -25,8 +26,7 @@ var GlobalInfluencers = React.createClass({
       FIFAEndpoints.INFLUENCERS,
       {},
       function(data) {
-        this.setState({influencers: data}, function() {
-        }.bind(this));
+        this.setState({influencers: data});
       }.bind(this)
     );
   },
@@ -45,9 +45,11 @@ var GlobalInfluencers = React.createClass({
       );
     });
     return (
-      <ul className="media-list global-influencers-list media-list-scrollable-tall global-influencers-list-container">
-        {list}
-      </ul>
+      <div className="media-list-scrollable-tall global-influencers-list-container" onScroll={this.toggleScrollActive} ref="jScrollContainer">
+        <ul className="media-list global-influencers-list">
+          {list}
+        </ul>
+      </div>
     );
   },
   render: function() {

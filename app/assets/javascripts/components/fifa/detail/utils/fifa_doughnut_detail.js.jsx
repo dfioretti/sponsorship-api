@@ -33,7 +33,7 @@ var FifaDoughnutDetail = React.createClass({
     var doughnutChart = new Chart(ctx).Doughnut(data, {
       tooltipFontSize: 9,
       tooltipFillColor: 'rgba(255,255,255,0.8)',
-      tooltipFontStyle: 'Avenir-Book',
+      tooltipFontStyle: 'Avenir-Medium',
       tooltipFontColor: '#333',
       animationEasing : "easeOutQuart",
       animateRotate: false,

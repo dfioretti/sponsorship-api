@@ -1,4 +1,5 @@
 var InsightsImplications = React.createClass({
+  mixins: [jScrollpaneMixin],
   getInitialState: function() {
     return {scrollLoaded: false, insights: []};
   },
@@ -20,9 +21,11 @@ var InsightsImplications = React.createClass({
       return (<InsightListItem key={item.id} item={item} />);
     });
     return (
-      <ul id="insight-list" className="text-list media-list">
-        {insights}
-      </ul>
+      <div className="media-list-scrollable-tall" ref="jScrollContainer">
+        <ul id="insight-list" className="text-list media-list">
+          {insights}
+        </ul>
+      </div>
     );
   },
   componentDidMount: function () {
@@ -32,13 +35,16 @@ var InsightsImplications = React.createClass({
     });
 
     (function poll(){
-      var timeoutId = setTimeout(function(){
+      self.timeoutId = setTimeout(function(){
         InsightsStore.poll(self.props.company_id).then(function(insights){
           self.addInsight();
           poll();
         });
       }, 10000);
     })();
+  },
+  componentWillUnmount: function () {
+    clearTimeout(this.timeoutId);
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};

@@ -53,9 +53,11 @@ var Notes = React.createClass({
       );
     });
     return (
-      <ul className="text-list notes-list">
-        {notes}
-      </ul>
+      <div className="notes-list">
+        <ul className="text-list media-list">
+          {notes}
+        </ul>
+      </div>
     );
   },
   render: function() {
