@@ -34,7 +34,7 @@ var News = React.createClass({
       activeFilter: name,
       order: order
     }, function () {
-      $('.jspPane').animate({ top: 0 });
+      $(this.refs.scrollContainer).animate({ scrollTop: 0 });
     }.bind(this));
   },
   getData: function(params) {
@@ -75,7 +75,7 @@ var News = React.createClass({
     });
 
     return (
-      <div className="media-list-scrollable-tall" onScroll={this.toggleScrollActive} ref="jScrollContainer">
+      <div className="media-list-scrollable-tall" onScroll={this.toggleScrollActive} ref="scrollContainer">
         <ul id="top-news" className="media-list">
           {list}
         </ul>
