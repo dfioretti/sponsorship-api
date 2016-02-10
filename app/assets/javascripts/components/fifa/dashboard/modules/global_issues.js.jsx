@@ -30,9 +30,7 @@ var GlobalIssues = React.createClass({
 
       self.setState({
         issues: issues
-      }, function () {
-        this.loadJScroll();
-      }.bind(this));
+      });
     }.bind(this));
   },
   renderList: function() {
@@ -52,7 +50,7 @@ var GlobalIssues = React.createClass({
           <div className="top-title">Top Global Issues</div>
         </div>
         <div className="main">
-          <div className="global-issues-list-container" ref="jScrollContainer">
+          <div className="global-issues-list-container" onScroll={this.toggleScrollActive} ref="jScrollContainer">
             <ul className="trend-list light global-issues-list">
               {this.renderList()}
             </ul>

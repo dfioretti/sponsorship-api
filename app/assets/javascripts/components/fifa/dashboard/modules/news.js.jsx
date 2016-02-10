@@ -49,11 +49,7 @@ var News = React.createClass({
           return item;
         });
 
-        this.setState({
-          news: news
-        }, function () {
-          this.loadJScroll();
-        });
+        this.setState({news: news});
 
       }.bind(this)
     );
@@ -79,7 +75,7 @@ var News = React.createClass({
     });
 
     return (
-      <div className="media-list-scrollable-tall" ref="jScrollContainer">
+      <div className="media-list-scrollable-tall" onScroll={this.toggleScrollActive} ref="jScrollContainer">
         <ul id="top-news" className="media-list">
           {list}
         </ul>

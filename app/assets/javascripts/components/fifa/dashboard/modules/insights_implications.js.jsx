@@ -4,9 +4,7 @@ var InsightsImplications = React.createClass({
     return {scrollLoaded: false, insights: []};
   },
   addInsight: function() {
-    this.setState({insights: InsightsStore.getState().insights}, function () {
-      this.loadJScroll();
-    }.bind(this));
+    this.setState({insights: InsightsStore.getState().insights});
   },
   componentWillReceiveProps: function(newProps) {
     this.addInsight();

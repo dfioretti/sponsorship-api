@@ -26,9 +26,7 @@ var GlobalInfluencers = React.createClass({
       FIFAEndpoints.INFLUENCERS,
       {},
       function(data) {
-        this.setState({influencers: data}, function() {
-          this.loadJScroll();
-        }.bind(this));
+        this.setState({influencers: data});
       }.bind(this)
     );
   },
@@ -47,7 +45,7 @@ var GlobalInfluencers = React.createClass({
       );
     });
     return (
-      <div className="media-list-scrollable-tall global-influencers-list-container" ref="jScrollContainer">
+      <div className="media-list-scrollable-tall global-influencers-list-container" onScroll={this.toggleScrollActive} ref="jScrollContainer">
         <ul className="media-list global-influencers-list">
           {list}
         </ul>

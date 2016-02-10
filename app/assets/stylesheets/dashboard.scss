@@ -1043,6 +1043,7 @@
   &#top_global_influencers {
     .media-list-scrollable-tall {
       height: 610px;
+      overflow-y: auto;
     }
   }
   &#top_news {
@@ -1052,6 +1053,7 @@
 
     .media-list-scrollable-tall {
       height: 600px;
+      overflow-y: auto;
     }
 
     .media-list {
