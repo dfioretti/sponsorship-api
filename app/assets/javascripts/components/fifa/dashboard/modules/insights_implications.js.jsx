@@ -21,7 +21,7 @@ var InsightsImplications = React.createClass({
       return (<InsightListItem key={item.id} item={item} />);
     });
     return (
-      <div className="media-list-scrollable-tall" ref="jScrollContainer">
+      <div className="media-list-scrollable-tall" ref="jScrollContainer" onScroll={this.toggleScrollActive}>
         <ul id="insight-list" className="text-list media-list">
           {insights}
         </ul>
