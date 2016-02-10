@@ -31,6 +31,11 @@ var NotableForm = React.createClass({
 
     var file = ReactDOM.findDOMNode(this.refs.file).files[0];
     var args = {body: ReactDOM.findDOMNode(this.refs.body).value, company_id: this.props.company_id};
+
+    if (this.props.tagsEnabled) {
+      args.tag_list = ReactDOM.findDOMNode(this.refs.tagsList).value;
+    }
+
     $('.note-submit').attr('disabled', true);
 
     if (typeof(file) != 'undefined') {
@@ -95,7 +100,7 @@ var NotableForm = React.createClass({
 
     if (this.props.tagsEnabled) {
       var tagsInput = (
-        <input type="text" className="form-control notable-tags-input" id="notable-tags" placeholder="Add tags (separate with commas)..."/>
+        <input type="text" className="form-control notable-tags-input" id="notable-tags" ref="tagsList" placeholder="Add tags (separate with commas)..."/>
       )
     }
 

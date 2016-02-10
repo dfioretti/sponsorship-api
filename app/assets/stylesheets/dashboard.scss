@@ -594,7 +594,22 @@
 
         .insight-item-body {
           padding-bottom: 10px;
-          // border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+        }
+
+        .insight-item-tags-list {
+          list-style: none;
+          border-top: 1px dotted rgba(255, 255, 255, 0.3);
+
+          .insight-tag-item {
+            display: inline-block;
+            background: $med-blue;
+            border-radius: 15px;
+            margin-right: 5px;
+
+            &:first {
+              background: transparent;
+            }
+          }
         }
       }
 
