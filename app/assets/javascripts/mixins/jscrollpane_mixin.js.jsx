@@ -7,6 +7,6 @@ var jScrollpaneMixin = {
       $(e.target).removeClass('scroll-active');
     };
 
-    this.scrollToggleTimeout = setTimeout(removeActive.bind(this), 200);
+    this.scrollToggleTimeout = setTimeout(removeActive.bind(this), 600);
   }
 };
