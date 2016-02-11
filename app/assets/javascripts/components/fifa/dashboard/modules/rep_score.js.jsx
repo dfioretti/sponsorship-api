@@ -20,19 +20,19 @@ var RepScore = React.createClass({
       this.buildChart(newProps);
     }
   },
-  getLabels: function (data) {
+  getLabels: function (props, data) {
     // assume daily cadence for now, need to refactor for multiple cadences
     return _.map(data, function (entry) {
       var label;
 
-      if (this.props.cadence === "monthly") {
+      if (props.cadence === "monthly") {
         label = moment(entry.date).format('MMMM');
       } else {
         label = moment(entry.date).format('MMM D');
       }
 
       return label;
-    }.bind(this));
+    });
   },
   buildChart: function (props) {
     var repScores = props.repScores;
@@ -46,7 +46,7 @@ var RepScore = React.createClass({
       social.push(point.social_score ? point.social_score.toFixed(1) : null);
     }.bind(this));
 
-    this.renderChart(news, social, repScores, this.getLabels(repScores.raw), props);
+    this.renderChart(news, social, repScores, this.getLabels(props, repScores.raw), props);
   },
   renderLegend: function () {
     if (!this.state.data) return;
@@ -120,7 +120,7 @@ var RepScore = React.createClass({
         if (!self.isTooltip(tooltip)) return;
 
         var rawData = props.repScores.raw;
-        var dateOfToolTip = rawData[self.getLabels(rawData).indexOf(tooltip.title)].date;
+        var dateOfToolTip = rawData[labels.indexOf(tooltip.title)].date;
 
         self.renderTooltip(tooltip, moment(dateOfToolTip).format('MMMM Do, YYYY'), data);
       }
