@@ -2,24 +2,20 @@ var GlobalHotspots = React.createClass({
   getInitialState: function () {
     return {};
   },
-  // componentWillMount: function() {
-  // },
   componentDidMount: function() {
     this.createMap();
   },
-  componentWillReceiveProps: function () {
+  componentWillReceiveProps: function (newProps) {
     // .format("YYYY-MM-DD HH:mm:ss")
     // this.createMap();
+    if (this.state.clusterLayer) {
+      this.reloadMap();
+    }
   },
-  createMap: function() {
+  loadClusters: function () {
     var component = this;
-    var map = L.map('map', {center: [20,0], zoom: 1});
-    var accessToken = 'pk.eyJ1IjoiYW1hbmRhY29zdG9udGVuIiwiYSI6ImNpam9wbG81cDAwd2l0OWtvNDYzZXlidzMifQ.7FcC5_qcn4qb2loFvpmgqw';
-
-    L.tileLayer('https://api.mapbox.com/v4/amandacostonten.2fbbf6ba/{z}/{x}/{y}.png?access_token=' + accessToken, {
-        attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
-    }).addTo(map);
-
+    var map = this.state.map;
+    console.log(map)
     var clusterSQL = he.decode($('#sql_template_a').html(), {
       'strict': true
     });
@@ -91,11 +87,29 @@ var GlobalHotspots = React.createClass({
           mapCursor: undefined
         });
       });
+
+      component.setState({clusterLayer: layer});
     })
     .addTo(map);
   },
+  reloadMap: function () {
+    this.state.map.removeLayer(this.state.clusterLayer);
+    this.loadClusters();
+  },
+  createMap: function() {
+    var map = L.map('map', {center: [20,0], zoom: 1});
+    var accessToken = 'pk.eyJ1IjoiYW1hbmRhY29zdG9udGVuIiwiYSI6ImNpam9wbG81cDAwd2l0OWtvNDYzZXlidzMifQ.7FcC5_qcn4qb2loFvpmgqw';
+
+    L.tileLayer('https://api.mapbox.com/v4/amandacostonten.2fbbf6ba/{z}/{x}/{y}.png?access_token=' + accessToken, {
+        attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+    }).addTo(map);
+
+    this.setState({map: map}, function () {
+      this.loadClusters();
+    }.bind(this));
+  },
   renderMap: function() {
-    return <div id="map" ref="map" className="carto-map"}></div>
+    return <div id="map" ref="map" className="carto-map"></div>
   },
   render: function() {
     var cartodbTooltip;
