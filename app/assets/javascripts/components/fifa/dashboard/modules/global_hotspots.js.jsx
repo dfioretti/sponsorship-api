@@ -2,14 +2,18 @@ var GlobalHotspots = React.createClass({
   getInitialState: function () {
     return {};
   },
-  componentWillMount: function() {
-  },
+  // componentWillMount: function() {
+  // },
   componentDidMount: function() {
+    this.createMap();
+  },
+  componentWillReceiveProps: function () {
+    // .format("YYYY-MM-DD HH:mm:ss")
     this.createMap();
   },
   createMap: function() {
     var component = this;
-    var map = L.map('map', {center: [36,0], zoom: 3});
+    var map = L.map('map', {center: [0,0], zoom: 6});
     var accessToken = 'pk.eyJ1IjoiYW1hbmRhY29zdG9udGVuIiwiYSI6ImNpam9wbG81cDAwd2l0OWtvNDYzZXlidzMifQ.7FcC5_qcn4qb2loFvpmgqw';
 
     L.tileLayer('https://api.mapbox.com/v4/amandacostonten.2fbbf6ba/{z}/{x}/{y}.png?access_token=' + accessToken, {
@@ -118,37 +122,38 @@ var GlobalHotspots = React.createClass({
         <script type="sql/html" id="sql_template_a">
           WITH
           hgridA AS (
-              SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 48), greatest(!pixel_width!,!pixel_height!) * 48) as cell
+            SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 48), greatest(!pixel_width!,!pixel_height!) * 48) as cell
           ),
 
           bigs AS (
-              SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
-                  count(i.cartodb_id) as points_count,
-                  1 as cartodb_id,
-                  array_agg(cartodb_id) AS id_list,
-                  round(avg(sentiment_score),2) AS sentiment_score_avg FROM hgridA,
-                  (select * from sojcp0flmlm7rshw6usbx27) i where ST_Intersects(i.the_geom_webmercator, hgridA.cell) GROUP BY hgridA.cell) t WHERE points_count > 100 ),
+            SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
+                sum(i.volume) as points_count,
+                1 as cartodb_id,
+                array_agg(cartodb_id) AS id_list,
+                sum(sentiment*volume) /  sum(volume) AS sentiment_score_avg FROM hgridA,
+                (select * from mojntbffj4biymymwgg8r77) i where ST_Intersects(i.the_geom_webmercator, hgridA.cell) GROUP BY hgridA.cell) t WHERE points_count > 100 ),
 
           hgridB AS (
-              SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 36), greatest(!pixel_width!,!pixel_height!) * 36) as cell),
+            SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 36), greatest(!pixel_width!,!pixel_height!) * 36) as cell),
 
           mids AS (
-              SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
-                  count(i.cartodb_id) as points_count,
-                  1 as cartodb_id, array_agg(cartodb_id) AS id_list, round(avg(sentiment_score),2) AS sentiment_score_avg FROM hgridB,
-                  (select * from sojcp0flmlm7rshw6usbx27) i where ST_Intersects(i.the_geom_webmercator, hgridB.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) GROUP BY hgridB.cell) t WHERE points_count > 25 ),
+            SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
+                sum(i.volume) as points_count,
+                1 as cartodb_id, array_agg(cartodb_id) AS id_list,
+                sum(sentiment*volume) /  sum(volume) AS sentiment_score_avg FROM hgridB,
+                (select * from mojntbffj4biymymwgg8r77) i where ST_Intersects(i.the_geom_webmercator, hgridB.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) GROUP BY hgridB.cell) t WHERE points_count > 25 ),
 
           hgridC AS (
-              SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 12), greatest(!pixel_width!,!pixel_height!) * 12) as cell),
+            SELECT CDB_HexagonGrid(ST_Expand(!bbox!, greatest(!pixel_width!,!pixel_height!) * 12), greatest(!pixel_width!,!pixel_height!) * 12) as cell),
 
           smalls AS (
-              SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
-                  count(i.cartodb_id) as points_count,
-                  1 as cartodb_id, array_agg(cartodb_id) AS id_list,
-                  round(avg(sentiment_score),2) AS sentiment_score_avg FROM hgridC,
-                  (select * from sojcp0flmlm7rshw6usbx27) i where ST_Intersects(i.the_geom_webmercator, hgridC.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM mids) GROUP BY hgridC.cell) t WHERE points_count > 1 )
+            SELECT * FROM (SELECT ST_Centroid(ST_Collect(i.the_geom_webmercator)) as the_geom_webmercator,
+                sum(i.volume) as points_count,
+                1 as cartodb_id, array_agg(cartodb_id) AS id_list,
+                sum(sentiment*volume) /  sum(volume) AS sentiment_score_avg FROM hgridC,
+                (select * from mojntbffj4biymymwgg8r77) i where ST_Intersects(i.the_geom_webmercator, hgridC.cell) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM bigs) AND cartodb_id NOT IN (SELECT unnest(id_list) FROM mids) GROUP BY hgridC.cell) t WHERE points_count > 1 )
 
-          SELECT the_geom_webmercator, 1 points_count, cartodb_id, ARRAY[cartodb_id], sentiment_score AS sentiment_score_avg, 'origin' as src FROM sojcp0flmlm7rshw6usbx27 WHERE cartodb_id NOT IN (select unnest(id_list) FROM bigs) AND cartodb_id NOT IN (select unnest(id_list) FROM mids) AND cartodb_id NOT IN (select unnest(id_list) FROM smalls)
+          SELECT the_geom_webmercator, 1 points_count, cartodb_id, ARRAY[cartodb_id], sentiment AS sentiment_score_avg, 'origin' as src FROM mojntbffj4biymymwgg8r77 WHERE cartodb_id NOT IN (select unnest(id_list) FROM bigs) AND cartodb_id NOT IN (select unnest(id_list) FROM mids) AND cartodb_id NOT IN (select unnest(id_list) FROM smalls)
 
           UNION ALL
           SELECT *, 'bigs' as src FROM bigs
