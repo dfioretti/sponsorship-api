@@ -48,13 +48,13 @@ var Sidebar = React.createClass({
   },
   renderFifa: function() {
     var startDate = moment(this.props.startDate);
-    var endDate = moment(this.props.endDate);
+    var endDate = moment(this.props.endDate).subtract(1, 'days');
     var ranges = {
      'Last 5 Days': [moment().subtract(5, 'days'), moment()],
      'Last 5 Weeks': [moment().subtract(35, 'days'), moment()],
      'Last 5 Months': [moment().subtract(5, 'months'), moment()],
     };
-    var displayedStartDate = endDate.subtract(1, 'days');
+    // var displayedEndDate = endDate.subtract(1, 'days');
 
     if (this.props.dashboardType == "fifa") {
       return (
@@ -63,7 +63,7 @@ var Sidebar = React.createClass({
           {this.renderScore()}
           <div className="range-select">
             <DateRangePicker startDate={startDate} endDate={endDate} autoApply={true} maxDate={moment()} ranges={ranges} onHide={this.dateSelectChange}>
-              <input type="text" name="dashboardDateRangePicker" ref="dashboardDateRangePicker" value={"Range: " + startDate.format('MM/DD/YY') + '-' + displayedStartDate.format('MM/DD/YY')} readOnly={true}/>
+              <input type="text" name="dashboardDateRangePicker" ref="dashboardDateRangePicker" value={"Range: " + startDate.format('MM/DD/YY') + '-' + endDate.format('MM/DD/YY')} readOnly={true}/>
             </DateRangePicker>
           </div>
         </div>
