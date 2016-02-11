@@ -37,7 +37,7 @@ var InsightsImplications = React.createClass({
   handleTagClick: function (tag) {
     this.setState({
       query: tag.name,
-      insights: this.filterInsights(e.target.value)
+      insights: this.filterInsights(tag.target.value)
     });
   },
   updateSearchInput: function (e) {
