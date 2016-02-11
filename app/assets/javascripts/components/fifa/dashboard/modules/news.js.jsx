@@ -15,7 +15,7 @@ var News = React.createClass({
     var order = "DESC";
     var orderedItems = _.sortBy(this.state.news, function (item) {
       if (_.isFunction(customEvaluator)) {
-        return customEvaluator(item);
+        return customEvaluator(item) || 0;
       } else {
         return _.get(item, name) || 0;
       }

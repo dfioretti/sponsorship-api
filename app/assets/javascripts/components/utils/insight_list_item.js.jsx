@@ -26,8 +26,10 @@ var InsightListItem = React.createClass({
   },
   renderTags: function () {
     return _.map(this.props.item.tags, function (tag, i) {
-      return (<li className="insight-tag-item" key={i}>{tag.name}</li>);
-    });
+      var boundClick = this.props.handleTagClick.bind(null, tag);
+
+      return (<li className="insight-tag-item" key={i} onClick={boundClick}>{tag.name}</li>);
+    }.bind(this));
   },
   render: function() {
     var tagsList, itemBody;
