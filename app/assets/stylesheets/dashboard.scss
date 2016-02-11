@@ -380,7 +380,7 @@
           overflow-y: auto;
           list-style: none;
 
-          li {
+          > li {
             padding: 15px 5px;
             border-bottom: 1px solid $dark-blue;
 
@@ -585,36 +585,6 @@
 
             .media-break-text {
               word-wrap: break-word;
-            }
-          }
-        }
-      }
-
-      .insight-item {
-
-        .insight-item-body {
-          padding-bottom: 10px;
-        }
-
-        .insight-item-tags-list {
-          @extend .list-unstyled;
-          list-style: none;
-          border-top: 1px dotted rgba(255, 255, 255, 0.3);
-          padding-top: 7px;
-
-          .insight-tag-item {
-            text-transform: capitalize;
-            display: inline-block;
-            background: $med-blue;
-            border-radius: 15px;
-            margin-right: 5px;
-            padding: 3px 10px;
-            border: 0;
-
-            &:first-of-type {
-              background: transparent;
-              padding-right: 5px;
-              padding-left: 0;
             }
           }
         }
@@ -1043,7 +1013,7 @@
   }
   &#insights_implications {
     .media-list-scrollable-tall {
-      height: 385px;
+      height: 340px;
       overflow: auto;
     }
 
@@ -1183,13 +1153,5 @@
 
   &.asc .caret {
     transform: rotate(180deg);
-  }
-}
-
-.filters {
-  &.media-list-filters {
-    border-bottom: 1px solid $dark-blue;
-    padding: 10px 0;
-    text-align: center;
   }
 }
