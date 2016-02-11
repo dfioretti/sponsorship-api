@@ -5,9 +5,13 @@ class Insight < ActiveRecord::Base
 
   validates :attachment, presence: true
 
+  def tags=(tags)
+    self.tag_list = tags
+  end
+
   def as_json(options={})
     super.merge({
-      tags_list: tags
+      tags: tags
     })
   end
 end
