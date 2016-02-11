@@ -1,10 +1,12 @@
 .detail-chart {
   .doughnut-main-container {
-    padding: 44px 70px;
+    padding: 0 70px;
+    padding-right: 0;
     display: table;
   }
 
   .doughnut-chart-container {
+    padding: 44px 0;
     display: table-cell;
     vertical-align: top;
   }
@@ -17,6 +19,13 @@
     padding: 0;
     padding-left: 55px;
     color: $battleship-grey;
+
+    > li {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 250px;
+    }
   }
 
   .chart-legend {

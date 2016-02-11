@@ -96,7 +96,7 @@ var RepScore = React.createClass({
     };
 
     this.sentimentChart = new Chart(ctx).Line(data, {
-      animation: false,
+      animation: true,
       tooltipFontSize: 11,
       tooltipFillColor: 'rgba(255,255,255,0.6)',
       tooltipFontStyle: 'Avenir-Book',

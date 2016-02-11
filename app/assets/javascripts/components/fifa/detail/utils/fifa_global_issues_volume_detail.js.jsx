@@ -88,7 +88,7 @@ var FifaGlobalIssuesVolumeDetail = React.createClass({
 
     // TODO Add labels
     var chart = new Chart(ctx).Line(chartData, {
-      animation: false,
+      animation: true,
       tooltipFontSize: 9,
       tooltipFillColor: 'rgba(255,255,255,0.8)',
       tooltipFontStyle: 'Avenir-Book',
