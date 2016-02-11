@@ -36,7 +36,7 @@ var GlobalInfluencers = React.createClass({
         <li key={i}>
           <div className="media-image"><img src={item.profile_img}/></div>
           <div className="media-text">
-            <div className="media-header">{item.name} <a href={item.profile} target="_blank">({item.handle})</a></div>
+            <div className="media-header">{item.name} <a href={item.profile} target="_blank">(@{item.handle})</a></div>
             <div>{item.bio}</div>
             <div>Following: {_.toShortenedNum(item.following)}</div>
             <div>Followers: {_.toShortenedNum(item.followers)}</div>

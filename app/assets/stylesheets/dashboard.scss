@@ -380,7 +380,7 @@
           overflow-y: auto;
           list-style: none;
 
-          li {
+          > li {
             padding: 15px 5px;
             border-bottom: 1px solid $dark-blue;
 
@@ -521,7 +521,7 @@
             overflow-y: auto;
           }
 
-          li {
+          > li {
             padding-left: 10px;
             padding-top: 10px;
             padding-bottom: 10px;
@@ -587,14 +587,6 @@
               word-wrap: break-word;
             }
           }
-        }
-      }
-
-      .insight-item {
-
-        .insight-item-body {
-          padding-bottom: 10px;
-          // border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
         }
       }
 
@@ -1021,7 +1013,7 @@
   }
   &#insights_implications {
     .media-list-scrollable-tall {
-      height: 385px;
+      height: 340px;
       overflow: auto;
     }
 
@@ -1161,13 +1153,5 @@
 
   &.asc .caret {
     transform: rotate(180deg);
-  }
-}
-
-.filters {
-  &.media-list-filters {
-    border-bottom: 1px solid $dark-blue;
-    padding: 10px 0;
-    text-align: center;
   }
 }

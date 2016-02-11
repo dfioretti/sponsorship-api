@@ -50,7 +50,7 @@ var FifaDoughnutDetail = React.createClass({
 
       return(
         <li key={i}>
-          <span className="legend-droplet" style={{ borderColor: backgroundColor}}></span>
+          <span className="legend-droplet" style={{borderColor: backgroundColor}}></span>
           <span>{pt.label}</span>
         </li>
       );

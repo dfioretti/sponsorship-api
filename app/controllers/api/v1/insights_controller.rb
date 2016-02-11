@@ -17,6 +17,6 @@ class Api::V1::InsightsController < ApplicationController
   private
 
   def insight_params
-    params.require(:insight).permit(:body, :attachment, :company_id)
+    params.require(:insight).permit(:body, :attachment, :company_id, :tag_list)
   end
 end
