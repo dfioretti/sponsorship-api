@@ -52,6 +52,10 @@ ul.trend-list {
           color: #CED3D9
         }
       }
+
+      &:last-of-type {
+        border: 0;
+      }
     }
   }
 }

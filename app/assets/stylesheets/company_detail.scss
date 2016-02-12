@@ -109,6 +109,23 @@ $subnav-height: 80px;
     border-bottom: 1px solid $light-grey;
     padding: 25px 20px;
 
+    .filters {
+
+      .filters-search-input {
+        @extend .form-control;
+        @include placeholder($light-grey);
+        border-radius: 1000px;
+        border: 1px solid $light-grey;
+        display: inline-block;
+        width: 250px;
+        margin-right: 10px;
+        padding-left: 30px;
+        background: $white image-url("fifa/icon-search.svg") no-repeat;
+        background-position: 10px 10px;
+        background-size: 12px 12px;
+      }
+    }
+
     .details-left-nav {
       float: left;
 

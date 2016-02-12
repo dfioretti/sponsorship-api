@@ -47,7 +47,7 @@ var FifaDashboard = React.createClass({
         el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
       case 'top_global_influencers':
-        el = <GlobalInfluencers hidden={hidden} key={name}/>
+        el = <GlobalInfluencers hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
       case 'top_news':
         el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />

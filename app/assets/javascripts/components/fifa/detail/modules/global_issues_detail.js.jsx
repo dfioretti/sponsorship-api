@@ -68,13 +68,30 @@ var GlobalIssuesDetail = React.createClass({
 
     return chartData;
   },
+  renderSubnav: function() {
+    var link = '/fifa/dashboard';
+
+    return (
+      <div className="details-subnav">
+        <div className="details-left-nav">
+          <Link to={link}><div className="back-icon"></div></Link>
+          <div className="to-dashboard">Top Global Issues</div>
+        </div>
+      </div>
+    );
+  },
   render: function () {
     return (
-      <div className="details-container">
-        <FifaDoughnutDetail moduleTitle="Top Global Issues Social Media" data={this.state.globalIssuesChartData}></FifaDoughnutDetail>
-        <FifaGlobalIssuesCard moduleTitle="Top News Media Issues" issues={this.state.topNewsIssues} />
-        <FifaGlobalIssuesCard moduleTitle="Top Social Media Issues" issues={this.state.topSocialIssues} />
-        <FifaGlobalIssuesVolumeDetail moduleTitle="Volume of Leading Social Media Topics" data={this.state.socialIssueVolumeChartData} cadence={this.props.cadence} />
+      <div style={{height: "100%"}}>
+        {this.renderSubnav()}
+        <div className="details-box">
+          <div className="details-container">
+            <FifaDoughnutDetail moduleTitle="Top Global Issues Social Media" data={this.state.globalIssuesChartData}></FifaDoughnutDetail>
+            <FifaGlobalIssuesCard moduleTitle="Top News Media Issues" issues={this.state.topNewsIssues} />
+            <FifaGlobalIssuesCard moduleTitle="Top Social Media Issues" issues={this.state.topSocialIssues} />
+            <FifaGlobalIssuesVolumeDetail moduleTitle="Volume of Leading Social Media Topics" data={this.state.socialIssueVolumeChartData} cadence={this.props.cadence} />
+          </div>
+        </div>
       </div>
     );
   }
