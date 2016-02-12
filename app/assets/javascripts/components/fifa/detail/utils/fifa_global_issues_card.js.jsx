@@ -1,4 +1,5 @@
 var FifaGlobalIssuesCard = React.createClass({
+  mixins: [jScrollpaneMixin],
   renderList: function () {
     return _.map(this.props.issues, function (issue) {
       return(<GlobalIssuesItem key={issue.title} item={issue} />);
@@ -12,7 +13,7 @@ var FifaGlobalIssuesCard = React.createClass({
           <div className="top-title">{this.props.moduleTitle}</div>
         </div>
         <div className="main main-centered">
-          <ul className="trend-list light global-issues-list">
+          <ul className="trend-list light global-issues-list" onScroll={this.toggleScrollActive}>
             {this.renderList()}
           </ul>
         </div>
