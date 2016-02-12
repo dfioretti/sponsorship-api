@@ -35,7 +35,7 @@ var GlobalIssues = React.createClass({
   },
   renderList: function() {
     return _.map(this.state.issues, function(issue, i) {
-      return(<GlobalIssuesItem key={issue.title} item={issue} />);
+      return(<GlobalIssuesItem key={issue.title} item={issue} showSubTopics={true} />);
     });
   },
   render: function() {

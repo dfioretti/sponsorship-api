@@ -14,49 +14,65 @@ var _GlobalIssuesStore = function (argument) {
     return p;
   };
 
+  this.aggTopics = function (aggIssues, entries, topicKey) {
+    // Aggregate scores by issue
+    _.each(entries, function (issue, key) {
+      if (!issue.topic) issue.topic = key;
+
+      var topicName = issue[topicKey];
+      if (!topicName) return;
+
+      if (aggIssues[topicName]) {
+        aggIssues[topicName].push(issue);
+      } else {
+        aggIssues[topicName] = [issue];
+      }
+    });
+
+    return aggIssues;
+  };
+
+  // Aggregate subtopics in list ordered by volume
+  this.orderedSubtopics = function (entries) {
+    var aggIssues = {};
+    var topicKey = "topic";
+    var orderedSubtopics = [];
+    this.aggTopics(aggIssues, entries, topicKey);
+
+    _.each(aggIssues, function (entries, key) {
+      var totalVolume = _.sumBy(entries, function (entry) { return entry.volume; });
+      var totalWeightedSentiment = _.sumBy(entries, function (entry) { return entry.volume * entry.sentiment; });
+
+      orderedSubtopics.push({
+        title: key,
+        sentiment: totalWeightedSentiment / totalVolume
+      });
+    });
+
+    orderedSubtopics = _.sortBy(orderedSubtopics, function (subTopic) {
+      return subTopic.volume;
+    }).reverse();
+
+    return orderedSubtopics;
+  };
+
   // Aggregate by issue averaging sentiment scores across the period by volume
   // Determine Cadence in this.List() params
   this.aggIssuesByWeightedAvgSentiment = function (issueType, data) {
     var aggIssues = {};
+    var topicKey = "parent_topic";
 
-    // Aggregate scores by issue
     _.each(data, function (entry) {
-      _.each(entry[issueType], function (issue, key) {
-        var parentTopic = issue.parent_topic;
-        if (!parentTopic) return;
-
-        issue.topic = key;
-
-        if (aggIssues[parentTopic]) {
-          aggIssues[parentTopic].push(issue);
-        } else {
-          aggIssues[parentTopic] = [issue];
-        }
-      });
-    });
-
-    // TODO Move to separate function for grouping child topics under parents
-
-    // var agged = {}
-
-    // _.each(aggIssues, function (issues, key) {
-    //     agged[key] = {};
-    //   _.each(issues, function (child) {
-    //     if (agged[key][child.topic]) {
-    //       agged[key][child.topic].push(child);
-    //     } else {
-    //       agged[key][child.topic] = [child];
-    //     }
-    //   });
-    // });
-
-    console.log(aggIssues)
+      this.aggTopics(aggIssues, entry[issueType], topicKey);
+    }.bind(this));
 
     // Calculate the weighted average over the period
     var issuesWithAvgSentiment = [];
 
     _.each(aggIssues, function (issues, key) {
-      var totalVolume = _.sumBy(issues, function (issue) { return issue.volume; });
+      var totalVolume = _.sumBy(issues, function (issue) {
+        return issue.volume;
+      });
       var totalWeightedSentiment = _.sumBy(issues, function (issue) { return issue.volume * issue.sentiment; });
 
       // Generate a linear regression from the cadence points
@@ -69,9 +85,10 @@ var _GlobalIssuesStore = function (argument) {
         title: key,
         volume: totalVolume,
         sentiment: totalWeightedSentiment / totalVolume,
-        trend: data.length > 1 ? trend.equation[0] : 1 // the slope of the linear equation
+        trend: data.length > 1 ? trend.equation[0] : 0, // the slope of the linear equation
+        subTopics: this.orderedSubtopics(issues)
       });
-    });
+    }.bind(this));
 
     // Sort by volume
     issuesWithAvgSentiment = _.sortBy(issuesWithAvgSentiment, function (issue) {
