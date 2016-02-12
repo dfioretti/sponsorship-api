@@ -5,16 +5,7 @@ var GlobalInfluencers = React.createClass({
   getInitialState: function() {
     return {scrollLoaded: false, influencers: []};
   },
-  componentWillMount: function() {
-    this.getData();
-  },
   componentWillReceiveProps: function(newProps) {
-    if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
-      if (!this.state.wait) {
-        this.setState({scrollLoaded: true});
-      }
-    }
-
     this.setState({wait: true}, function(){
       this.getData(newProps);
     }.bind(this));
@@ -22,9 +13,14 @@ var GlobalInfluencers = React.createClass({
   getData: function(props) {
     var p = props ? props : this.props;
 
+    var params = {
+      start_date: moment(p.startDate).format('YYYY-MM-DD'),
+      end_date: moment(p.endDate).format('YYYY-MM-DD')
+    };
+
     Dispatcher.fifaGet(
       FIFAEndpoints.INFLUENCERS,
-      {},
+      params,
       function(data) {
         this.setState({influencers: data});
       }.bind(this)
