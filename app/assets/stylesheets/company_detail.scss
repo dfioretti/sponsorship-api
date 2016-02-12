@@ -139,9 +139,6 @@ $subnav-height: 80px;
     .details-right-nav {
       float: right;
     }
-
-    .filters {
-    }
   }
 
   .charts-box, .details-box {
@@ -178,73 +175,6 @@ $subnav-height: 80px;
 
         &.detail-module-3-col {
           width: 400px;
-          height: 220px;
-
-          .main {
-            height: 110px;
-            display: table;
-            padding: 0 20px;
-
-            > * {
-              display: table-cell;
-              vertical-align: middle;
-            }
-          }
-
-          .media-image {
-            width: 60px;
-
-            > img {
-              max-width: 100%;
-              border-radius: 50%;
-            }
-          }
-
-          .media-text {
-            padding-left: 15px;
-            width: 250px;
-            color: #738694;
-            font-size: 12px;
-          }
-
-          .twitter-handle {
-            color: #0b4487;
-            font-family: 'Avenir-Medium';
-            line-height: 30px;
-            margin-right: 20px;
-          }
-
-          .twitter-stats {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            border-top: 1px solid $light-grey;
-
-            li {
-              float: left;
-              width: 33.3333333333%;
-              text-align: center;
-              color: $battleship-grey;
-              border-right: 1px solid $light-grey;
-              padding: 14px 0;
-
-              &:last-child {
-                border-right: 0;
-              }
-
-              .metric {
-                text-transform: uppercase;
-                font-family: 'Avenir-Medium';
-                font-size: 14px;
-              }
-
-              .metric-label {
-                text-transform: uppercase;
-                font-family: 'Avenir-Medium';
-                font-size: 10px;
-              }
-            }
-          }
         }
 
         &.ss-dragged-child {
