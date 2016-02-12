@@ -594,8 +594,12 @@
         list-style: none;
         padding: 0 20px;
 
+        > li {
+          @extend .clearfix;
+        }
+
         li {
-          height: 65px;
+          height: auto;
           border-bottom: 1px solid $dark-blue;
 
           .trend-text {
@@ -618,6 +622,38 @@
             border-radius: 15px;
             background-color: $dark-blue;
             float: right;
+          }
+
+          .global-issues-subtopics-container {
+            @extend .list-unstyled;
+            margin-top: 10px;
+            padding-left: 38px;
+
+            > .global-issues-subtopic {
+              @extend .clearfix;
+              border: 1px solid $med-blue;
+              border-radius: 6px;
+              padding: 9px;
+              font-size: 12px;
+              margin-bottom: 8px;
+              line-height: 12px;
+
+              &:last-of-type {
+                margin-bottom: 0;
+              }
+
+              .global-issues-subtopic-title {
+                margin: 0;
+              }
+
+              .trend-score {
+                padding: 0;
+                margin: 0;
+                height: auto;
+                min-width: auto;
+                background: none;
+              }
+            }
           }
         }
       }
@@ -1060,7 +1096,7 @@
       ul.global-issues-list {
         height: initial;
 
-        li {
+        > li {
           &:last-child {
             border-bottom: 0;
           }

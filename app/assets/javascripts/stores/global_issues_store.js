@@ -40,11 +40,18 @@ var _GlobalIssuesStore = function (argument) {
     this.aggTopics(aggIssues, entries, topicKey);
 
     _.each(aggIssues, function (entries, key) {
+      var totalVolume = _.sumBy(entries, function (entry) { return entry.volume; });
+      var totalWeightedSentiment = _.sumBy(entries, function (entry) { return entry.volume * entry.sentiment; });
+
       orderedSubtopics.push({
         title: key,
-        volume: _.sumBy(entries, function (entry) { return entry.volume; })
+        sentiment: totalWeightedSentiment / totalVolume
       });
     });
+
+    orderedSubtopics = _.sortBy(orderedSubtopics, function (subTopic) {
+      return subTopic.volume;
+    }).reverse();
 
     return orderedSubtopics;
   };
@@ -58,26 +65,6 @@ var _GlobalIssuesStore = function (argument) {
     _.each(data, function (entry) {
       this.aggTopics(aggIssues, entry[issueType], topicKey);
     }.bind(this));
-
-    // var aggSubTopics = this.aggTopics(data, issueType, "topic")
-    // console.log(data)
-
-    // TODO Move to separate function for grouping child topics under parents
-
-    // var agged = {}
-
-    // _.each(aggIssues, function (issues, key) {
-    //     agged[key] = {};
-    //   _.each(issues, function (child) {
-    //     if (agged[key][child.topic]) {
-    //       agged[key][child.topic].push(child);
-    //     } else {
-    //       agged[key][child.topic] = [child];
-    //     }
-    //   });
-    // });
-
-    console.log(aggIssues)
 
     // Calculate the weighted average over the period
     var issuesWithAvgSentiment = [];
@@ -107,7 +94,6 @@ var _GlobalIssuesStore = function (argument) {
     issuesWithAvgSentiment = _.sortBy(issuesWithAvgSentiment, function (issue) {
       return issue.volume;
     }).reverse();
-
 
     return issuesWithAvgSentiment;
   };
