@@ -49,11 +49,11 @@ var InsightsImplications = React.createClass({
   filterInsights: function (query) {
     var updatedInsights = InsightsStore.getState().insights;
 
-    var isQueryMatch = function (query) {
+    var isQueryMatch = function (keys, query) {
       var isMatch;
       var regex = new RegExp(query, 'i');
 
-      isMatch = _.filter(['attachment_name', 'body'], function (key) {
+      isMatch = _.filter(keys, function (key) {
         return this[key].match(regex);
       }.bind(this)).length > 0;
 
@@ -62,9 +62,11 @@ var InsightsImplications = React.createClass({
 
     if (query && query.length) {
       updatedInsights = _.filter(updatedInsights, function (insight) {
-        var isTagMatch = _.filter(insight.tags, { name: query }).length > 0;
+        var isTagMatch = _.filter(insight.tags, function (tag) {
+          return isQueryMatch.bind(tag, ['name'], query);
+        }).length > 0;
 
-        return isTagMatch || isQueryMatch.bind(insight, query)();
+        return isTagMatch || isQueryMatch.bind(insight, ['attachment_name', 'body'], query)();
       });
     }
 
