@@ -14,13 +14,17 @@ var GlobalInfluencersDetail = React.createClass({
       gutterX: 20,
       gutterY: 20,
       paddingX: 20,
-      paddingY: 20
+      paddingY: 20,
+      colWidth: 400
     });
   },
   getDetails: function () {
     Dispatcher.fifaGet(
       FIFAEndpoints.INFLUENCERS,
-      {},
+      {
+        issue_tags: true,
+        top_news: 3
+      },
       function(data) {
         this.setState({influencers: data}, function() {
         }.bind(this));
