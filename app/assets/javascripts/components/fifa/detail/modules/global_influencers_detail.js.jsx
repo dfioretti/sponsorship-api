@@ -33,6 +33,18 @@ var GlobalInfluencersDetail = React.createClass({
       }.bind(this)
     );
   },
+  renderSubnav: function() {
+    var link = '/fifa/dashboard';
+
+    return (
+      <div className="details-subnav">
+        <div className="details-left-nav">
+          <Link to={link}><div className="back-icon"></div></Link>
+          <div className="to-dashboard">Top Global Influencers</div>
+        </div>
+      </div>
+    );
+  },
   renderList: function () {
     return _.map(this.state.influencers, function (item, i) {
       return (<InfluencerCard key={i} item={item} />);
@@ -40,8 +52,13 @@ var GlobalInfluencersDetail = React.createClass({
   },
   render: function () {
     return (
-      <div className="details-container">
-        {this.renderList()}
+      <div style={{height: "100%"}}>
+        {this.renderSubnav()}
+        <div className="details-box">
+          <div className="details-container">
+            {this.renderList()}
+          </div>
+        </div>
       </div>
     );
   }
