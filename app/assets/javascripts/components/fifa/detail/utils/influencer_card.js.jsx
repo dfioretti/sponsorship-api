@@ -1,6 +1,9 @@
 var InfluencerCard = React.createClass({
   renderIssueTags: function () {
-
+    var topics = _.get(this.props.item, 'issue_tags.subtopics');
+    return _.map(topics, function (topic, i) {
+      return (<li key={i}>{topic.subtopic}</li>);
+    });
   },
   renderNews: function () {
     return _.map(this.props.item.top_news, function (newsItem, i) {
@@ -27,7 +30,7 @@ var InfluencerCard = React.createClass({
         <div className="top">
           <div className="pull-right twitter-handle">{'@' + this.props.item.handle}</div>
           <div className="drag-handle"></div>
-          <div className="top-title">{this.props.item.name}</div>
+          <div className="top-title"><a href={this.props.item.profile} target="_blank">{this.props.item.name}</a></div>
         </div>
         <div className="main">
           <div className="header-container">
@@ -35,6 +38,8 @@ var InfluencerCard = React.createClass({
             <div className="media-text">
               <p>{this.props.item.bio}</p>
               <ul className="detail-influencer-card-tags">
+                {this.renderIssueTags()}
+                <li>Add Tag</li>
               </ul>
             </div>
           </div>
