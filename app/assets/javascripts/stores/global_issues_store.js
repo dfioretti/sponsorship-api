@@ -50,6 +50,8 @@ var _GlobalIssuesStore = function (argument) {
     //   });
     // });
 
+    console.log(aggIssues)
+
     // Calculate the weighted average over the period
     var issuesWithAvgSentiment = [];
 

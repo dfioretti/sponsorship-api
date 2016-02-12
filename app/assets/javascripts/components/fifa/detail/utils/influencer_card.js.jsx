@@ -3,13 +3,13 @@ var InfluencerCard = React.createClass({
 
   },
   renderNews: function () {
-    return _.map(this.props.item.top_news, function (newsItem) {
+    return _.map(this.props.item.top_news, function (newsItem, i) {
       return (
-        <li>
+        <li key={i}>
           <a href={newsItem.link}>
             <h5 className="news-title">{newsItem.title}</h5>
             <div className="news-subheader">via {newsItem.author} | {moment(newsItem.date).format('MMMM Do, YYYY')}</div>
-            <p className="news-text-snippet">newsItem.full_text</p>
+            <p className="news-text-snippet">{newsItem.full_text}</p>
           </a>
         </li>
       );

@@ -41,7 +41,7 @@ var FifaDetail = React.createClass({
     var self = this;
     var supportedDetailModules = {
       global_issues: <GlobalIssuesDetail startDate={this.state.startDate} endDate={this.state.endDate} cadence={this.state.cadence}/>,
-      global_influencers: <GlobalInfluencersDetail />
+      global_influencers: <GlobalInfluencersDetail startDate={this.state.startDate} endDate={this.state.endDate} />
     };
 
     var detailType = this.props.params.detail_type;
