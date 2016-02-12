@@ -97,6 +97,7 @@
           border-radius: 3px;
           border: 1px solid $light-grey;
           color: $silver;
+          text-decoration: none;
 
           &:hover {
             border-color: $battleship-grey;
@@ -112,11 +113,14 @@
           overflow: hidden;
           text-overflow: ellipsis;
           width: 100%;
+          margin: 0;
+          margin-bottom: 2px;
         }
 
         .news-subheader {
           font-family: 'Avenir-Book';
           font-size: 10px;
+          margin-bottom: 5px;
         }
 
         .news-text-snippet {
@@ -124,6 +128,8 @@
           overflow: hidden;
           text-overflow: ellipsis;
           width: 100%;
+          font-size: 12px;
+          margin: 0;
         }
       }
     }

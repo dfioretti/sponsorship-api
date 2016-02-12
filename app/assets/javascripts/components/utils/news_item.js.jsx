@@ -37,4 +37,4 @@ var NewsItem = React.createClass({
       </li>
     );
   }
-});"(TeneoStrategy,Topic,Link,Headline,Translated Headline,StumbleUpon,Reddit,Facebo"
+});
