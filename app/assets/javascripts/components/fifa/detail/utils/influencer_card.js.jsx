@@ -52,7 +52,7 @@ var InfluencerCard = React.createClass({
                 <p>{this.props.item.bio}</p>
                 <ul className="detail-influencer-card-tags">
                   {this.renderIssueTags()}
-                  <li>Add Tag</li>
+                  <li className="add-influencer-tag">Add Tag</li>
                 </ul>
               </div>
             </div>
