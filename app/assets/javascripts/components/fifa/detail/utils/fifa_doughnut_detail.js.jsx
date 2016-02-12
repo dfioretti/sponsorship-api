@@ -1,8 +1,15 @@
 var FifaDoughnutDetail = React.createClass({
+  getInitialState: function () {
+    return {};
+  },
   componentWillMount: function () {
     this.chartId = uuid.v4();
   },
   componentDidUpdate: function () {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
     this.renderChart(this.props);
   },
   backgroundColor: [
@@ -41,6 +48,7 @@ var FifaDoughnutDetail = React.createClass({
       animationSteps: 30
     });
 
+    this.chart = doughnutChart;
   },
   renderLegend: function () {
     var data = this.props.data;
