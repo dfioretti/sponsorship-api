@@ -28,9 +28,9 @@ var InfluencerCard = React.createClass({
     return(
       <div className="detail-module detail-influencer-card detail-module-3-col">
         <div className="top">
-          <div className="pull-right twitter-handle">{'@' + this.props.item.handle}</div>
+          <div className="pull-right twitter-handle"><a href={this.props.item.profile} target="_blank">{'@' + this.props.item.handle}</a></div>
           <div className="drag-handle"></div>
-          <div className="top-title"><a href={this.props.item.profile} target="_blank">{this.props.item.name}</a></div>
+          <div className="top-title">{this.props.item.name}</div>
         </div>
         <div className="main">
           <div className="header-container">

@@ -42,6 +42,14 @@ var GlobalInfluencersDetail = React.createClass({
           <Link to={link}><div className="back-icon"></div></Link>
           <div className="to-dashboard">Top Global Influencers</div>
         </div>
+        <div className="details-right-nav">
+          <div className="filters">
+            <input type="text" className="filters-search-input" placeholder="Search Influencers" />
+            <div className="filter value-filter">Issues<span className="caret"></span></div>
+            <div className="filter severity-filter">Filter by Recency<span className="caret"></span></div>
+            <div className="filter severity-filter">Filter by Reach<span className="caret"></span></div>
+          </div>
+        </div>
       </div>
     );
   },
