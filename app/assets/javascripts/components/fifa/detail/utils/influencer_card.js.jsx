@@ -12,7 +12,7 @@ var InfluencerCard = React.createClass({
 
       return (
         <li key={i}>
-          <a href={newsItem.link}>
+          <a href={newsItem.link} target="_blank">
             <h5 className="news-title">{newsItem.title}</h5>
             <div className="news-subheader">via {newsItem.author} | {moment(newsItem.date).format('MMMM Do, YYYY')}</div>
             {textSnippet}
