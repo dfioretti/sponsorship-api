@@ -62,7 +62,6 @@ var GlobalInfluencersDetail = React.createClass({
       query: query,
       influencers: this.filterInfluencers(query)
     }, function () {
-      console.log('scroll top')
       $(this.refs.mainContainer).animate({ scrollTop: 0 });
     }.bind(this));
   },
@@ -81,9 +80,7 @@ var GlobalInfluencersDetail = React.createClass({
           }).length > 0;
         }
 
-        //TO-DO BIO + Name
-
-        return isTopicMatch;
+        return isTopicMatch || _.isQueryMatch.bind(influencer, ['name', 'bio'], query)();
       });
     }
 
@@ -120,7 +117,7 @@ var GlobalInfluencersDetail = React.createClass({
         </div>
         <div className="details-right-nav">
           <div className="filters">
-            <input type="text" className="filters-search-input" placeholder="Search Influencers" value={this.state.query} />
+            <ModifiableTextInput classNames="filters-search-input" placeholder="Search Influencers" value={this.state.query} handleInputUpdate={this.handleSearchUpdate} />
             <div className="filter value-filter">Issues<span className="caret"></span></div>
             <div className="filter severity-filter">Filter by Recency<span className="caret"></span></div>
             <div className="filter severity-filter">Filter by Reach<span className="caret"></span></div>
