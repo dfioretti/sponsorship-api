@@ -14,7 +14,7 @@ var InfluencerCard = React.createClass({
   renderIssueTags: function () {
     var topics = _.get(this.props.item, 'issue_tags.subtopics');
     return _.map(topics, function (topic, i) {
-      return (<li key={i}>{topic.subtopic}</li>);
+      return (<li key={i}>{topic.subtopic} onClick={this.props.handleTagClick}</li>);
     });
   },
   renderNews: function () {
@@ -51,8 +51,8 @@ var InfluencerCard = React.createClass({
               <div className="media-text">
                 <p>{this.props.item.bio}</p>
                 <ul className="detail-influencer-card-tags">
-                  {this.renderIssueTags()}
                   <li className="add-influencer-tag">Add Tag</li>
+                  {this.renderIssueTags()}
                 </ul>
               </div>
             </div>

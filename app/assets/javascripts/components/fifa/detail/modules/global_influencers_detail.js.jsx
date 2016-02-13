@@ -2,6 +2,9 @@ var GlobalInfluencersDetail = React.createClass({
   getInitialState: function() {
     return {loaded: false, influencers: []};
   },
+  componentDidMount: function () {
+    this.startSpin();
+  },
   componentWillReceiveProps: function (props) {
     this.setState({loaded: false}, function () {
       this.startSpin();
@@ -53,6 +56,12 @@ var GlobalInfluencersDetail = React.createClass({
       this.state.spinner.el.remove();
       this.setState({spinner: null});
     }
+  },
+  handleTagClick: function (tag) {
+    this.setState({
+      query: tag.name,
+      insights: this.filterInsights(tag.name)
+    });
   },
   getDetails: function (props) {
     Dispatcher.fifaGet(

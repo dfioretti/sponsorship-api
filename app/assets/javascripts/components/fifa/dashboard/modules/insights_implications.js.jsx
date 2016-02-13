@@ -40,10 +40,12 @@ var InsightsImplications = React.createClass({
       insights: this.filterInsights(tag.name)
     });
   },
-  updateSearchInput: function (e) {
+  handleSearchUpdate: function (query) {
+    console.log(query)
+
     this.setState({
-      query: e.target.value,
-      insights: this.filterInsights(e.target.value)
+      query: query,
+      insights: this.filterInsights(query)
     });
   },
   filterInsights: function (query) {
@@ -94,7 +96,7 @@ var InsightsImplications = React.createClass({
         </div>
         <div className="main">
           <div className="filters-search-form filters media-list-filters" ref="searchForm">
-            <input className="filters-search-input" placeholder="Filter by Tag" value={this.state.query} onChange={this.updateSearchInput} />
+            <ModifiableTextInput classNames="filters-search-input" placeholder="Filter by Tag" value={this.state.query} handleInputUpdate={this.handleSearchUpdate} />
           </div>
           {this.renderList()}
           <NotableForm company_id={this.props.company_id} saveHandler={this.createInsight} validateFile={true} bodyPlaceholder="Add optional comments..." tagsEnabled={true} />
