@@ -2,6 +2,9 @@ var GlobalInfluencersDetail = React.createClass({
   getInitialState: function() {
     return {loaded: false, influencers: []};
   },
+  componentDidMount: function () {
+    this.startSpin();
+  },
   componentWillReceiveProps: function (props) {
     this.setState({loaded: false}, function () {
       this.startSpin();
@@ -54,6 +57,35 @@ var GlobalInfluencersDetail = React.createClass({
       this.setState({spinner: null});
     }
   },
+  handleSearchUpdate: function (query) {
+    this.setState({
+      query: query,
+      influencers: this.filterInfluencers(query)
+    }, function () {
+      $(this.refs.mainContainer).animate({ scrollTop: 0 });
+    }.bind(this));
+  },
+  filterInfluencers: function (query) {
+    // TO-DO this should be in a Store instead of the component
+    var influencers = this.state.cachedInfluencers;
+
+    if (query && query.length) {
+      influencers = _.filter(influencers, function (influencer) {
+        var subtopics = _.get(influencer, 'issue_tags.subtopics');
+        var isTopicMatch;
+
+        if (subtopics) {
+          isTopicMatch = _.filter(subtopics, function (subtopic) {
+            return _.isQueryMatch.bind(subtopic, ['subtopic'], query)();
+          }).length > 0;
+        }
+
+        return isTopicMatch || _.isQueryMatch.bind(influencer, ['name', 'bio'], query)();
+      });
+    }
+
+    return influencers;
+  },
   getDetails: function (props) {
     Dispatcher.fifaGet(
       FIFAEndpoints.INFLUENCERS,
@@ -65,7 +97,11 @@ var GlobalInfluencersDetail = React.createClass({
       },
       function(data) {
         this.stopSpin();
-        this.setState({influencers: data, loaded: true}, function() {
+        this.setState({
+          influencers: data,
+          cachedInfluencers: data,
+          loaded: true
+        }, function() {
         }.bind(this));
       }.bind(this)
     );
@@ -81,7 +117,7 @@ var GlobalInfluencersDetail = React.createClass({
         </div>
         <div className="details-right-nav">
           <div className="filters">
-            <input type="text" className="filters-search-input" placeholder="Search Influencers" />
+            <ModifiableTextInput classNames="filters-search-input" placeholder="Search Influencers" value={this.state.query} handleInputUpdate={this.handleSearchUpdate} />
             <div className="filter value-filter">Issues<span className="caret"></span></div>
             <div className="filter severity-filter">Filter by Recency<span className="caret"></span></div>
             <div className="filter severity-filter">Filter by Reach<span className="caret"></span></div>
@@ -92,8 +128,8 @@ var GlobalInfluencersDetail = React.createClass({
   },
   renderList: function () {
     return _.map(this.state.influencers, function (item, i) {
-      return (<InfluencerCard key={i} item={item} />);
-    });
+      return (<InfluencerCard key={i} item={item} handleTagClick={this.handleSearchUpdate} />);
+    }.bind(this));
   },
   render: function () {
     var main;
@@ -107,7 +143,7 @@ var GlobalInfluencersDetail = React.createClass({
     return (
       <div style={{height: "100%"}}>
         {this.renderSubnav()}
-        <div className="details-box">
+        <div className="details-box" ref="mainContainer">
           <div className="details-container">
             {main}
           </div>

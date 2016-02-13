@@ -76,7 +76,7 @@ var riskLabel = function(risk) {
 };
 
 
-_.mixin({ toShortenedNum: function (number) {
+_.mixin({toShortenedNum: function (number) {
   var textNumber;
 
   if (!number) number = 0;
@@ -98,6 +98,18 @@ _.mixin({ toShortenedNum: function (number) {
   }
   return textNumber;
 }});
+
+_.mixin({isQueryMatch: function (keys, query) {
+    var isMatch;
+    var regex = new RegExp(query, 'i');
+
+    isMatch = _.filter(keys, function (key) {
+      return this[key].match(regex);
+    }.bind(this)).length > 0;
+
+    return isMatch;
+  }
+});
 
 // Fix Chart tooltip.x reported position in customTooltip callback
 // https://github.com/nnnick/Chart.js/issues/974

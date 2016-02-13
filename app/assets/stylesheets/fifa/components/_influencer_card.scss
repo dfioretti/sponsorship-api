@@ -57,6 +57,14 @@
         &:hover {
           background: $battleship-grey;
         }
+
+        &.add-influencer-tag {
+          padding-left: 30px;
+          background-image: image-url("fifa/icon-add-tag.svg");
+          background-position: 10px 6px;
+          background-repeat: no-repeat;
+          background-size: 16px 8px;
+        }
       }
     }
 

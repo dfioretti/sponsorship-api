@@ -34,39 +34,22 @@ var InsightsImplications = React.createClass({
         self.addInsight();
     });
   },
-  handleTagClick: function (tag) {
+  handleSearchUpdate: function (query) {
     this.setState({
-      query: tag.name,
-      insights: this.filterInsights(tag.name)
-    });
-  },
-  updateSearchInput: function (e) {
-    this.setState({
-      query: e.target.value,
-      insights: this.filterInsights(e.target.value)
+      query: query,
+      insights: this.filterInsights(query)
     });
   },
   filterInsights: function (query) {
     var updatedInsights = InsightsStore.getState().insights;
 
-    var isQueryMatch = function (keys, query) {
-      var isMatch;
-      var regex = new RegExp(query, 'i');
-
-      isMatch = _.filter(keys, function (key) {
-        return this[key].match(regex);
-      }.bind(this)).length > 0;
-
-      return isMatch;
-    };
-
     if (query && query.length) {
       updatedInsights = _.filter(updatedInsights, function (insight) {
         var isTagMatch = _.filter(insight.tags, function (tag) {
-          return isQueryMatch.bind(tag, ['name'], query);
+          return _.isQueryMatch.bind(tag, ['name'], query);
         }).length > 0;
 
-        return isTagMatch || isQueryMatch.bind(insight, ['attachment_name', 'body'], query)();
+        return isTagMatch || _.isQueryMatch.bind(insight, ['attachment_name', 'body'], query)();
       });
     }
 
@@ -74,7 +57,7 @@ var InsightsImplications = React.createClass({
   },
   renderList: function () {
     var insights = $.map(this.state.insights, function(item) {
-      return (<InsightListItem key={item.id} item={item} handleTagClick={this.handleTagClick} />);
+      return (<InsightListItem key={item.id} item={item} handleTagClick={this.handleSearchUpdate} />);
     }.bind(this));
     return (
       <div className="media-list-scrollable-tall" ref="jScrollContainer" onScroll={this.toggleScrollActive}>
@@ -94,7 +77,7 @@ var InsightsImplications = React.createClass({
         </div>
         <div className="main">
           <div className="filters-search-form filters media-list-filters" ref="searchForm">
-            <input className="filters-search-input" placeholder="Filter by Tag" value={this.state.query} onChange={this.updateSearchInput} />
+            <ModifiableTextInput classNames="filters-search-input" placeholder="Filter by Tag" value={this.state.query} handleInputUpdate={this.handleSearchUpdate} />
           </div>
           {this.renderList()}
           <NotableForm company_id={this.props.company_id} saveHandler={this.createInsight} validateFile={true} bodyPlaceholder="Add optional comments..." tagsEnabled={true} />
