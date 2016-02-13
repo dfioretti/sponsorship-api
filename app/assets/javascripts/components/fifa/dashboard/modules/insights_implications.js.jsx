@@ -34,15 +34,7 @@ var InsightsImplications = React.createClass({
         self.addInsight();
     });
   },
-  handleTagClick: function (tag) {
-    this.setState({
-      query: tag.name,
-      insights: this.filterInsights(tag.name)
-    });
-  },
   handleSearchUpdate: function (query) {
-    console.log(query)
-
     this.setState({
       query: query,
       insights: this.filterInsights(query)
@@ -51,24 +43,13 @@ var InsightsImplications = React.createClass({
   filterInsights: function (query) {
     var updatedInsights = InsightsStore.getState().insights;
 
-    var isQueryMatch = function (keys, query) {
-      var isMatch;
-      var regex = new RegExp(query, 'i');
-
-      isMatch = _.filter(keys, function (key) {
-        return this[key].match(regex);
-      }.bind(this)).length > 0;
-
-      return isMatch;
-    };
-
     if (query && query.length) {
       updatedInsights = _.filter(updatedInsights, function (insight) {
         var isTagMatch = _.filter(insight.tags, function (tag) {
-          return isQueryMatch.bind(tag, ['name'], query);
+          return _.isQueryMatch.bind(tag, ['name'], query);
         }).length > 0;
 
-        return isTagMatch || isQueryMatch.bind(insight, ['attachment_name', 'body'], query)();
+        return isTagMatch || _.isQueryMatch.bind(insight, ['attachment_name', 'body'], query)();
       });
     }
 
@@ -76,7 +57,7 @@ var InsightsImplications = React.createClass({
   },
   renderList: function () {
     var insights = $.map(this.state.insights, function(item) {
-      return (<InsightListItem key={item.id} item={item} handleTagClick={this.handleTagClick} />);
+      return (<InsightListItem key={item.id} item={item} handleTagClick={this.handleSearchUpdate} />);
     }.bind(this));
     return (
       <div className="media-list-scrollable-tall" ref="jScrollContainer" onScroll={this.toggleScrollActive}>

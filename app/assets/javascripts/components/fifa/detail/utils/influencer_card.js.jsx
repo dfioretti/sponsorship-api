@@ -14,8 +14,10 @@ var InfluencerCard = React.createClass({
   renderIssueTags: function () {
     var topics = _.get(this.props.item, 'issue_tags.subtopics');
     return _.map(topics, function (topic, i) {
-      return (<li key={i}>{topic.subtopic} onClick={this.props.handleTagClick}</li>);
-    });
+      var boundClick = this.props.handleTagClick.bind(null, topic.subtopic);
+
+      return (<li key={i} onClick={boundClick}>{topic.subtopic}</li>);
+    }.bind(this));
   },
   renderNews: function () {
     return _.map(this.props.item.top_news, function (newsItem, i) {
