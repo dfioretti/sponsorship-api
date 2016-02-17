@@ -31,6 +31,17 @@ class DashboardsStore extends EventEmitter
 
     p
 
+  getAsset: (aid) ->
+    $.ajax
+      type: "GET"
+      contentType: "application/json"
+      url: "/api/v1/apt/asset/dashboards/#{aid}"
+      success: (data) =>
+        @current = Immutable.fromJS(data)
+      error: (data) ->
+        console.log(data)
+
+
   getFifa: () ->
     $.ajax
       type: "GET"
@@ -39,27 +50,6 @@ class DashboardsStore extends EventEmitter
       success: (data) =>
         @current = Immutable.fromJS(data)
       error: (data) ->
-        console.log(data)
-
-
-  getPortfolio: () ->
-    $.ajax
-    type: "GET"
-    contentType: "application/json"
-    url: "/api/v1/apt/portfolio/dashboards/9999"
-    success: (data) =>
-      @current = Immutable.fromJS(data)
-    error: (data) ->
-      console.log(data)
-
-  getAsset: () ->
-    $.ajax
-    type: "GET"
-    contentType: "application/json"
-    url: "/api/v1/apt/asset/dashboards/9999"
-    success: (data) =>
-      @current = Immutable.fromJS(data)
-    error: (data) ->
         console.log(data)
 
   updateFifa: (args) ->

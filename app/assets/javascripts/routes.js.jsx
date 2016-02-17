@@ -14,7 +14,8 @@ this.AppRoutes = (
     <Route name='fifa_detail' handler={FifaDetail} path='fifa/dashboard/:detail_type'/>
     <Route name='users' handler={UsersIndex} path='admin/users'/>
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
-    <Route name='asset_dashboard' handler={AssetDashboard} path='apt/asset/dashboard' />
-    <DefaultRoute handler={AssetDashboard}/>
+    <Route name='asset_dashboard' handler={AssetDashboard} path='apt/asset/dashboard/:id' />
+    <Route name='choose_asset' handler={AssetIndex} path='apt/asset/choose_asset' />
+    <DefaultRoute handler={PortfolioDashboard}/>
   </Route>
 );

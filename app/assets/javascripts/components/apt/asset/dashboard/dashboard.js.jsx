@@ -4,40 +4,44 @@ var RouteHandler = ReactRouter.RouteHandler,
 var AssetDashboard = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    return {dashboardLoaded: false, companyLoaded: false};
+    return {dashboardLoaded: false, assetLoaded: false};
   },
   componentWillMount: function() {
-    this.props.setTitle('Asset Dashboard');
+    this.props.setTitle('apt');
 
-    CompaniesStore.setCurrent(this.props.params.id);
+    AssetsStore.setCurrent(this.props.params.id);
 
     NotesStore.setCompanyId(this.props.params.id);
 
-    DashboardsStore.getCurrent(this.props.params.id).then(function(){
+    DashboardsStore.getAsset(this.props.params.id).then(function(){
+      alert("uh");
       this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
+      console.log(this);
+      console.log(DashboardsStore.getState().current);
 
-      if (this.state.dashboardLoaded && this.state.companyLoaded) {
+      if (this.state.dashboardLoaded && this.state.assetLoaded) {
         this.setupGrid();
       }
     }.bind(this));
 
-    if (CompaniesStore.getState().ready) {
-      this.setState({companyLoaded: true});
+    if (AssetsStore.getState().ready) {
+      this.setState({assetLoaded: true});
     }
 
-    CompaniesStore.on("update", function() {
-      CompaniesStore.setCurrent(this.props.params.id);
-      this.setState({companyLoaded: true});
-      if (this.state.dashboardLoaded && this.state.companyLoaded) {
+    AssetsStore.on("update", function() {
+      AssetsStore.setCurrent(this.props.params.id);
+      this.setState({assetLoaded: true});
+      if (this.state.dashboardLoaded && this.state.assetLoaded) {
         this.setupGrid();
       }
     }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.params.id !== this.props.params.id) {
-      this.props.setTitle('Asset Dashboard');
+      this.props.setTitle('dashboard');
 
-      CompaniesStore.setCurrent(newProps.params.id);
+      AssetsStore.setCurrent(newProps.params.id);
+
       NotesStore.setCompanyId(newProps.params.id);
       DashboardsStore.getCurrent(newProps.params.id).then(function() {
         this.handleChange();
@@ -52,12 +56,33 @@ var AssetDashboard = React.createClass({
 
     var company = CompaniesStore.getState().current;
     switch (name) {
-      case 'social_stats':
-        el = <SocialStats company={company} hidden={hiddne} key={name}/>
+      case 'risk_assessment':
+        el = <RiskAssessment company={company} hidden={hidden} key={name}/>
         break;
-      //case 'risk_assessment':
-      //  el = <RiskAssessment company={company} hidden={hidden} key={name}/>
-      //  break;
+      case 'notes':
+        el = <Notes company={company} hidden={hidden} key={name}/>
+        break;
+      case 'risk_indicators':
+        el = <RiskIndicators company={company} hidden={hidden} key={name}/>
+        break;
+      case 'historical_precedent':
+        el = <HistoricalPrecedent company={company} hidden={hidden} key={name}/>
+        break;
+      case 'likely_attackers':
+        el = <LikelyAttackers company={company} hidden={hidden} key={name}/>
+        break;
+      case 'social_sentiment':
+        el = <SocialSentiment company={company} hidden={hidden} key={name}/>
+        break;
+      case 'key_social_posts':
+        el = <KeySocialPosts company={company} hidden={hidden} key={name}/>
+        break;
+      case 'general_financials':
+        el = <GeneralFinanacials company={company} hidden={hidden} key={name}/>
+        break;
+      case 'iss_governance':
+        el = <IssGovernance company={company} hidden={hidden} key={name}/>
+        break;
     }
     return el
   },
@@ -74,8 +99,7 @@ var AssetDashboard = React.createClass({
   },
   render: function() {
     var dashboardState;
-
-    if (this.state.dashboardLoaded && this.state.companyLoaded) {
+    if (this.state.dashboardLoaded && this.state.assetLoaded) {
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">

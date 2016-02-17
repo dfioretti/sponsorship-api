@@ -25,6 +25,16 @@ var Nav = React.createClass({
     if (CompaniesStore.getState().ready) {
       this.setState({loaded: true});
     }
+
+    AssetsStore.setCurrent();
+
+    AssetsStore.on("update", function() {
+      this.setState({loaded: true});
+    }.bind(this));
+
+    if (AssetsStore.getState().ready) {
+      this.setState({loaded: true});
+    }
   },
   componentWillUnmount: function() {
     PubSub.unsubscribe(this.state.st);
@@ -49,6 +59,25 @@ var Nav = React.createClass({
 
     return matches
   },
+
+  filterAssetsOnQuery: function (assets) {
+    console.log("filter");
+    console.log(assets);
+    var query = this.state.query;
+    if (typeof(query) == "undefined" || query == "") {
+      return assets;
+    }
+    matches = []
+    var substrRegex = new RegExp(query, 'i');
+    $.each(assets, function(i, a) {
+      if (substrRegex.test(a.name)) {
+        matches.push(a)
+      }
+    });
+
+    return matches;
+  },
+
   substringMatcher: function(strs) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
@@ -123,9 +152,43 @@ var Nav = React.createClass({
     return menu;
   },
   renderTitle: function() {
-    if (this.props.title == 'dashboard') {
+    if (false || this.props.title == 'apt') {
+        var assetName, assets;
+        if (this.state.loaded) {
+          var queried = this.filterAssetsOnQuery(AssetsStore.getState().assets);
+          assetName =  "Select Asset";
+          assets = $.map(queried, function(asset) {
+            console.log(asset);
+            var link = '/apt/asset/dashboard/' + asset.id;
+            return (
+            <li key={asset.id}><Link to={link}>{asset.name}</Link></li>
+            );
+          });
+        }
+
+      return (
+        <div>
+          <a href="#" className="company-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {assetName}<span className="caret"></span>
+          </a>
+
+          <div className="dropdown-menu">
+            <div className="dropdown-searchbar">
+              <input type="text" placeholder="Search by Asset Name" value={this.state.query} onChange={this.handleChange}/>
+            </div>
+            <div className="company-list">
+              <ul>
+                {assets}
+              </ul>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    else if (this.props.title == 'dashboard') {
       var companyName, companies;
       if (this.state.loaded) {
+        console.log(CompaniesStore.getState().companies);
         var queried = this.filterCompaniesOnQuery(CompaniesStore.getState().companies);
         companyName = CompaniesStore.getState().current.name,
         companies = $.map(queried, function(company) {
@@ -155,6 +218,7 @@ var Nav = React.createClass({
         </div>
       );
     } else if (this.props.title == 'fifa') {
+      alert("fifa");
       return (
         <div>
           <h3>FIFA</h3>

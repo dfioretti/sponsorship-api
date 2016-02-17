@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :assets, only: [:index]
       resources :notes, only: [:index, :create]
       resources :insights, only: [:index, :create]
       resources :companies, only: [:index]

@@ -1,0 +1,18 @@
+Create reusable dashboard modules
+
+1) Dashboard Module Stats
+2) Dashboard Module LineChart
+3) Dashboard Module PieChart
+4) Dashboard Module Summary
+5) Dashboard Module
+
+-Social Stats
+-Consumer Survey
+-Configure Card Flip
+
+
+https://nnattawat.github.io/flip/
+
+
+Create Card - With All of the Views, hide the ones that it isn't..and
+load specific data...?

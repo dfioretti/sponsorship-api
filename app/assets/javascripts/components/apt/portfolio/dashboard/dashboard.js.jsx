@@ -2,82 +2,58 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var PortfolioDashboard = React.createClass({
-  mixins: [DashboardMixin],
+  mixins: [
+    DashboardMixin,
+    DateRangeMixin
+  ],
   getInitialState: function() {
-    return {dashboardLoaded: false, companyLoaded: false};
+    return {};
   },
   componentWillMount: function() {
-    this.props.setTitle('Portfolio Dashboard');
-
-    CompaniesStore.setCurrent(this.props.params.id);
-
-    NotesStore.setCompanyId(this.props.params.id);
-
-    DashboardsStore.getCurrent(this.props.params.id).then(function(){
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-
-      if (this.state.dashboardLoaded && this.state.companyLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
-
-    if (CompaniesStore.getState().ready) {
-      this.setState({companyLoaded: true});
-    }
-
-    CompaniesStore.on("update", function() {
-      CompaniesStore.setCurrent(this.props.params.id);
-      this.setState({companyLoaded: true});
-      if (this.state.dashboardLoaded && this.state.companyLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
+    this.props.setTitle('apt');
   },
   componentWillReceiveProps: function(newProps) {
-    if (newProps.params.id !== this.props.params.id) {
-      this.props.setTitle('Portfolio Dashboard');
+    var initialState = {};
+    var dateRange = this.getInitialDateRange();
+    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
+    var defaults =  _.extend({dashboardLoaded: false}, dateRange, {cadence: cadence});
 
-      CompaniesStore.setCurrent(newProps.params.id);
-      NotesStore.setCompanyId(newProps.params.id);
-      DashboardsStore.getCurrent(newProps.params.id).then(function() {
+    DashboardsStore.getFifa().then(function(dashboard) {
+    }.bind(this))
+    .then(function () {
+      this.getRepScores(defaults).then(function (repScores) {
+        var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
+        this.setState(state);
+
         this.handleChange();
+        this.setupGrid();
         $('.modules-container').trigger('ss-rearrange');
       }.bind(this));
-    }
+    }.bind(this));
   },
   mapModule: function(name, state) {
     var el, hidden;
     if (state == "off")
       hidden = true;
 
-    var company = CompaniesStore.getState().current;
     switch (name) {
-      case 'risk_assessment':
-        el = <RiskAssessment company={company} hidden={hidden} key={name}/>
+      case 'teneo_rep_score':
+        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
         break;
-      case 'notes':
-        el = <Notes company={company} hidden={hidden} key={name}/>
+      case 'insights_implications':
+        el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
         break;
-      case 'risk_indicators':
-        el = <RiskIndicators company={company} hidden={hidden} key={name}/>
+      case 'global_hotspots':
+        el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
-      case 'historical_precedent':
-        el = <HistoricalPrecedent company={company} hidden={hidden} key={name}/>
+      case 'OFFtop_global_influencers':
+        el = <GlobalInfluencers hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
-      case 'likely_attackers':
-        el = <LikelyAttackers company={company} hidden={hidden} key={name}/>
+      case 'top_news':
+        el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
-      case 'social_sentiment':
-        el = <SocialSentiment company={company} hidden={hidden} key={name}/>
-        break;
-      case 'key_social_posts':
-        el = <KeySocialPosts company={company} hidden={hidden} key={name}/>
-        break;
-      case 'general_financials':
-        el = <GeneralFinanacials company={company} hidden={hidden} key={name}/>
-        break;
-      case 'iss_governance':
-        el = <IssGovernance company={company} hidden={hidden} key={name}/>
+      case 'top_global_issues':
+        el = <GlobalIssues hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
     }
     return el
@@ -96,11 +72,11 @@ var PortfolioDashboard = React.createClass({
   render: function() {
     var dashboardState;
 
-    if (this.state.dashboardLoaded && this.state.companyLoaded) {
+    if (this.state.dashboardLoaded) {
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="portfolio" handleToggle={this.handleToggle}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="fifa" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

@@ -1,9 +1,10 @@
 var SocialStats = React.createClass({
   getInitialState: function() {
+    alert("in social stats");
     return {scrollLoaded: false, items: []};
   },
   componentWillMount: function() {
-    this.getData();
+    //this.getData();
   },
   componentWillReceiveProps: function(newProps) {
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
