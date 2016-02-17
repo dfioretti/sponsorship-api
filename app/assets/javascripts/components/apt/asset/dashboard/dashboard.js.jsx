@@ -14,10 +14,7 @@ var AssetDashboard = React.createClass({
     NotesStore.setCompanyId(this.props.params.id);
 
     DashboardsStore.getAsset(this.props.params.id).then(function(){
-      alert("uh");
       this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-      console.log(this);
-      console.log(DashboardsStore.getState().current);
 
       if (this.state.dashboardLoaded && this.state.assetLoaded) {
         this.setupGrid();
@@ -54,8 +51,13 @@ var AssetDashboard = React.createClass({
     if (state == "off")
       hidden = true;
 
+    // TODO: Kill this
     var company = CompaniesStore.getState().current;
+    var asset = AssetsStore.getState().current;
     switch (name) {
+      case 'asset_overview':
+        el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
+        break;
       case 'risk_assessment':
         el = <RiskAssessment company={company} hidden={hidden} key={name}/>
         break;

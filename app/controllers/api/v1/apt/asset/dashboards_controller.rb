@@ -32,4 +32,5 @@ class Api::V1::Apt::Asset::DashboardsController < ApplicationController
       whitelisted[:state] = params[:dashboard][:state]
     end
   end
+
 end

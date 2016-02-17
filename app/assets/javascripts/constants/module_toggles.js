@@ -20,7 +20,8 @@ const FifaModuleToggles = [
 ]
 
 const AssetModuleToggles = [
-  'notes'
+  'notes',
+  'asset_overview'
 ]
 
 const PortfolioModuleToggles = [

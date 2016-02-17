@@ -72,10 +72,9 @@ var Sidebar = React.createClass({
     }
   },
   renderAsset: function() {
-    alert("redner asset");
     if (this.props.dashboardType == "asset") {
       return (
-        <h1>Asset Sidebar</h1>
+        <p></p>
       );
     }
   },
