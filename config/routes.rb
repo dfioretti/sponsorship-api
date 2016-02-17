@@ -14,6 +14,12 @@ Rails.application.routes.draw do
         get '/teneo_api' => 'teneo_api#get'
       end
 
+      namespace :apt do
+        namespace :asset do
+          resources :dashboards, only: [:show, :update]
+        end
+      end
+
       resources :notes, only: [:index, :create]
       resources :insights, only: [:index, :create]
       resources :companies, only: [:index]

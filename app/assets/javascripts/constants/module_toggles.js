@@ -18,3 +18,12 @@ const FifaModuleToggles = [
   'top_news',
   'top_global_issues'
 ]
+
+const AssetModuleToggles = [
+  'social_stats'
+]
+
+const PortfolioModuleToggles = [
+  //'teneo_portfolio_passion_score',
+  //'portfolio_social_stats'
+]

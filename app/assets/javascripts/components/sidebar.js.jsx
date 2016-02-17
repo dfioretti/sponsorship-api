@@ -17,6 +17,7 @@ var Sidebar = React.createClass({
     var arrowStyle = {borderTop: "20px solid " + color}
     var toggles;
 
+    // TODO: pull this out of here
     if (this.props.dashboardType !== "fifa") {
       return (
         <div className={cn} onMouseLeave={this.hideTooltip}>
@@ -70,6 +71,20 @@ var Sidebar = React.createClass({
       );
     }
   },
+  renderAsset: function() {
+    if (this.props.dashboardType == "asset") {
+      return (
+        <h1>Asset Sidebar</h1>
+      );
+    }
+  },
+  renderPortfolio: function() {
+    if (this.props.dashboardType == "portfolio") {
+      return (
+        <h1>Portfolio Sidebar</h1>
+      );
+    }
+  },
   dateSelectChange: function(event, picker) {
     var newRanges = _.pick(picker, ['startDate', 'endDate']);
     var oldRanges = _.pick(this.props, ['startDate', 'endDate'] );
@@ -95,6 +110,12 @@ var Sidebar = React.createClass({
         break;
       case 'fifa':
         toggles = FifaModuleToggles;
+        break;
+      case 'asset':
+        toggles = AssetModuleToggles;
+        break;
+      case 'portfolio':
+        toggles = PortfolioModuleToggles;
         break;
     }
     var toggles = $.map(toggles, function(name){
@@ -149,6 +170,8 @@ var Sidebar = React.createClass({
       <div className="sidebar">
         {this.renderEWS()}
         {this.renderFifa()}
+        {this.renderAsset()}
+        {this.renderPortfolio()}
         {toggles}
       </div>
     );
