@@ -20,8 +20,6 @@ var SocialStats = React.createClass({
       url: "/api/v1/apt/asset/mock_data",
       data: {"type":"social", "id": this.props.asset.id},
       success: function(data, status, xhr) {
-        console.log("return data");
-        console.log(data);
         this.setState({socialStats: data.stats});
       }.bind(this),
       error: function(xhr, status, error) {
