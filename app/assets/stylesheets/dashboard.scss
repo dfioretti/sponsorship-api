@@ -261,7 +261,7 @@
           &.risk_indicators, &.asset_overview {
             background-image: image-url("dashboard/icon-risk-indicators.svg");
           }
-          &.social_sentiment {
+          &.social_sentiment, &.social_stats {
             background-image: image-url("dashboard/icon-social-sentiment.svg");
           }
           &.iss_governance {

@@ -3,12 +3,10 @@ var AssetOverview = React.createClass({
     $(this.refs.flipper).flip();
   },
   componentWillReceiveProps: function(newProps) {
-    console.log("props");
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
-    console.log("render");
 
     return (
       <div id="asset_overview" className="dashboard-module" style={hiddenStyle}>
@@ -19,18 +17,18 @@ var AssetOverview = React.createClass({
         <div className="main" ref="flipper">
           <div id="card">
             <div className="large-logo front">
-              <img src="/assets/logos/colin.jpg"/>
+              <img src={asset.image_url}/>
               <ul className="card-metrics">
                 <li>
-                  <div className="metric">3/13/2018</div>
+                  <div className="metric">{asset.pretty_renewal}</div>
                   <div className="metric-label">Renewal</div>
                 </li>
                 <li>
-                  <div className="metric">$3.5M</div>
+                  <div className="metric">{asset.pretty_cost}</div>
                   <div className="metric-label">Cost</div>
                 </li>
                 <li>
-                  <div className="metric">5 Years</div>
+                  <div className="metric">{asset.pretty_term}</div>
                   <div className="metric-label">Term</div>
                 </li>
               </ul>

@@ -1,5 +1,53 @@
 /*i'm lazy and hate css, so all my shit is going in here*/
 
+.social-stats-list {
+  ul {
+    list-style: none;
+    padding: 0 20px;
+
+    > li {
+      @extend .clearfix;
+    }
+
+    li {
+      height: auto;
+      border-bottom: 1px solid $dark-blue;
+      padding-top: 15px;
+      padding-bottom: 15px;
+
+      .stat-header {
+          font-size: 16px;
+          float: left;
+          margin-left: 20px;
+          margin-top: 4px;
+      }
+
+      .stat-metric {
+        text-align: center;
+        min-width: 100px;
+        padding: 6px 12px;
+        margin-left: 10px;
+        border-radius: 15px;
+        background-color: $dark-blue;
+        float: right;
+      }
+
+      .stat-image {
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          float: left;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+      }
+    }
+  }
+
+}
+
 .large-logo {
   img {
     margin-top: 30px;

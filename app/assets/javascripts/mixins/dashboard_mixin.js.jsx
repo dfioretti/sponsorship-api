@@ -48,11 +48,24 @@ var DashboardMixin = {
     });
 
     var did = DashboardsStore.getState().current.id;
-    return {id: did, state: dashboardState};
+    var item_id = DashboardsStore.getState().current.item_id
+    if (item_id == null) {
+      return {id: did, state: dashboardState, asset: false};
+    }
+    return {id: did, state: dashboardState, asset: true};
   },
   updateDashboardState: function(state) {
-    DashboardsStore.update(state).then(function(dashboard){
-      this.handleChange();
-    }.bind(this));
+    console.log("logging state");
+    console.log(state.asset);
+    if (state.asset) {
+      DashboardsStore.updateAsset(state).then(function(dashboard){
+        this.handleChange();
+      }.bind(this));
+    }
+    else {
+      DashboardsStore.update(state).then(function(dashboard){
+        this.handleChange();
+      }.bind(this));
+    }
   }
 };

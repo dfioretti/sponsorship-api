@@ -186,6 +186,7 @@ var Nav = React.createClass({
       );
     }
     else if (this.props.title == 'dashboard') {
+      alert("yo why dash?");
       var companyName, companies;
       if (this.state.loaded) {
         console.log(CompaniesStore.getState().companies);

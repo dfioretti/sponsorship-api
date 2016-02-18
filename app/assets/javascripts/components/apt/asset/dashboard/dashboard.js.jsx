@@ -35,12 +35,12 @@ var AssetDashboard = React.createClass({
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.params.id !== this.props.params.id) {
-      this.props.setTitle('dashboard');
+      this.props.setTitle('apt');
 
       AssetsStore.setCurrent(newProps.params.id);
 
       NotesStore.setCompanyId(newProps.params.id);
-      DashboardsStore.getCurrent(newProps.params.id).then(function() {
+      DashboardsStore.getAsset(newProps.params.id).then(function() {
         this.handleChange();
         $('.modules-container').trigger('ss-rearrange');
       }.bind(this));
@@ -51,44 +51,24 @@ var AssetDashboard = React.createClass({
     if (state == "off")
       hidden = true;
 
-    // TODO: Kill this
+    // TODO: Kill companies to fix notes
     var company = CompaniesStore.getState().current;
     var asset = AssetsStore.getState().current;
     switch (name) {
       case 'asset_overview':
         el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
         break;
-      case 'risk_assessment':
-        el = <RiskAssessment company={company} hidden={hidden} key={name}/>
-        break;
       case 'notes':
         el = <Notes company={company} hidden={hidden} key={name}/>
         break;
-      case 'risk_indicators':
-        el = <RiskIndicators company={company} hidden={hidden} key={name}/>
-        break;
-      case 'historical_precedent':
-        el = <HistoricalPrecedent company={company} hidden={hidden} key={name}/>
-        break;
-      case 'likely_attackers':
-        el = <LikelyAttackers company={company} hidden={hidden} key={name}/>
-        break;
-      case 'social_sentiment':
-        el = <SocialSentiment company={company} hidden={hidden} key={name}/>
-        break;
-      case 'key_social_posts':
-        el = <KeySocialPosts company={company} hidden={hidden} key={name}/>
-        break;
-      case 'general_financials':
-        el = <GeneralFinanacials company={company} hidden={hidden} key={name}/>
-        break;
-      case 'iss_governance':
-        el = <IssGovernance company={company} hidden={hidden} key={name}/>
+      case 'social_stats':
+        el = <SocialStats asset={asset} hidden={hidden} key={name}/>
         break;
     }
     return el
   },
   renderModules: function(dashboardState) {
+    console.log(dashboardState);
     var modules = $.map(dashboardState, function(v, k){
       return this.mapModule(k, v.toggle);
     }.bind(this));
