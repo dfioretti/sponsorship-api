@@ -55,8 +55,6 @@ var DashboardMixin = {
     return {id: did, state: dashboardState, asset: true};
   },
   updateDashboardState: function(state) {
-    console.log("logging state");
-    console.log(state.asset);
     if (state.asset) {
       DashboardsStore.updateAsset(state).then(function(dashboard){
         this.handleChange();
