@@ -258,7 +258,7 @@
           &.risk_assessment, &.top_global_issues {
             background-image: image-url("dashboard/icon-risk-assessment.svg");
           }
-          &.risk_indicators {
+          &.risk_indicators, &.asset_overview {
             background-image: image-url("dashboard/icon-risk-indicators.svg");
           }
           &.social_sentiment {

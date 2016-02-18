@@ -33,6 +33,7 @@
 //= require react_date_picker
 
 //= require components
+//= require flip
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;

@@ -1,0 +1,62 @@
+/*i'm lazy and hate css, so all my shit is going in here*/
+
+.large-logo {
+  img {
+    margin-top: 30px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.large-text {
+  margin-top: 20px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+
+.small-padding {
+  padding: 20px;
+}
+
+.overview-container {
+  position: relative;
+}
+
+.card-metrics {
+  @extend .clearfix;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 25px;
+  border-top: 1px solid $light-blue;
+
+  li {
+    float: left;
+    width: 33.3333333333%;
+    text-align: center;
+    color: $white;
+    border-right: 1px solid $light-blue;
+    padding: 14px 0;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    .metric {
+      text-transform: uppercase;
+      font-family: 'Avenir-Medium';
+      font-style: 14px;
+    }
+
+    .metric-label {
+      text-transform: uppercase;
+      font-family: 'Avenir-Medium';
+      font-size: 10px;
+    }
+  }
+}
