@@ -34,6 +34,8 @@ var AssetDashboard = React.createClass({
     }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
+    // TODO: FIGURE THIS SHIT OUT HERE...!
+    // probably why it isn't saving state...
     if (newProps.params.id !== this.props.params.id) {
       this.props.setTitle('apt');
 

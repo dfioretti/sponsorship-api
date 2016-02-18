@@ -152,7 +152,7 @@ var Nav = React.createClass({
     return menu;
   },
   renderTitle: function() {
-    if (false || this.props.title == 'apt') {
+    if (this.props.title == 'apt') {
         var assetName, assets;
         if (this.state.loaded) {
           var queried = this.filterAssetsOnQuery(AssetsStore.getState().assets);
@@ -186,7 +186,6 @@ var Nav = React.createClass({
       );
     }
     else if (this.props.title == 'dashboard') {
-      alert("yo why dash?");
       var companyName, companies;
       if (this.state.loaded) {
         console.log(CompaniesStore.getState().companies);
@@ -219,7 +218,6 @@ var Nav = React.createClass({
         </div>
       );
     } else if (this.props.title == 'fifa') {
-      alert("fifa");
       return (
         <div>
           <h3>FIFA</h3>

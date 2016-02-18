@@ -2,6 +2,11 @@ var SocialStats = React.createClass({
   getInitialState: function() {
     return {socialStats: {}};
   },
+  /*
+   * This is all hacky as fuck
+   * but i'm not building a real API
+   * until we have a data model
+   */
   componentDidMount: function() {
     this.loadData();
   },
