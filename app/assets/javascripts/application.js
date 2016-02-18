@@ -34,6 +34,7 @@
 
 //= require components
 //= require flip
+//= require go
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;

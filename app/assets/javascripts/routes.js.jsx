@@ -16,6 +16,7 @@ this.AppRoutes = (
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
     <Route name='asset_dashboard' handler={AssetDashboard} path='apt/asset/dashboard/:id' />
     <Route name='choose_asset' handler={AssetIndex} path='apt/asset/choose_asset' />
+    <Route name='score_builder' handler={ScoreBuilder} path='apt/score_builder' />
     <DefaultRoute handler={PortfolioDashboard}/>
   </Route>
 );
