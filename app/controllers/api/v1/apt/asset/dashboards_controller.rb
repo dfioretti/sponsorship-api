@@ -22,9 +22,16 @@ class Api::V1::Apt::Asset::DashboardsController < ApplicationController
     user.dashboards.create(
       item_id: item_id,
       state: {
-        notes: {index: 0, toggle: "on"}
+        asset_overview: {index: 0, toggle: "on"},
+        social_stats: {index: 1, toggle: "on"},
+        consumer_survey: {index: 2, toggle: "on"},
+        notes: {index: 3, toggle: "on"}
       }
     )
+  end
+
+  def self.reset_dashboard(did)
+
   end
 
   def dashboard_params

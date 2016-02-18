@@ -34,8 +34,6 @@ var AssetDashboard = React.createClass({
     }.bind(this));
   },
   componentWillReceiveProps: function(newProps) {
-    // TODO: FIGURE THIS SHIT OUT HERE...!
-    // probably why it isn't saving state...
     if (newProps.params.id !== this.props.params.id) {
       this.props.setTitle('apt');
 
@@ -65,6 +63,14 @@ var AssetDashboard = React.createClass({
         break;
       case 'social_stats':
         el = <SocialStats asset={asset} hidden={hidden} key={name}/>
+        break;
+      case 'consumer_survey':
+        el = <ConsumerSurvey asset={asset} hiddine={hidden} key={name}/>
+        break;
+      case 'top_news':
+        var start = new Date(2016, 1, 1);
+        var end = new Date(2016, 1, 15);
+        el = <News hidden={hidden} key={name} startDate={start} endDate={end} />
         break;
     }
     return el

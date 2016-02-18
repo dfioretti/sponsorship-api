@@ -37,8 +37,6 @@ class DashboardsStore extends EventEmitter
       contentType: "application/json"
       url: "/api/v1/apt/asset/dashboards/#{aid}"
       success: (data) =>
-        console.log("getting asset");
-        console.log(data);
         @current = Immutable.fromJS(data)
       error: (data) ->
         console.log(data)

@@ -16,9 +16,7 @@ var DashboardMixin = {
     }.bind(this));
   },
   handleChange: function() {
-    this.setState({dashboardState: DashboardsStore.getState().current}, function () {
-      this.setupGrid();
-    }.bind(this));
+    this.setState({dashboardState: DashboardsStore.getState().current});
   },
   handleToggle: function(values, e) {
     var state;
@@ -48,22 +46,11 @@ var DashboardMixin = {
     });
 
     var did = DashboardsStore.getState().current.id;
-    var item_id = DashboardsStore.getState().current.item_id
-    if (item_id == null) {
-      return {id: did, state: dashboardState, asset: false};
-    }
-    return {id: did, state: dashboardState, asset: true};
+    return {id: did, state: dashboardState};
   },
   updateDashboardState: function(state) {
-    if (state.asset) {
-      DashboardsStore.updateAsset(state).then(function(dashboard){
-        this.handleChange();
-      }.bind(this));
-    }
-    else {
-      DashboardsStore.update(state).then(function(dashboard){
-        this.handleChange();
-      }.bind(this));
-    }
+    DashboardsStore.update(state).then(function(dashboard){
+      this.handleChange();
+    }.bind(this));
   }
 };

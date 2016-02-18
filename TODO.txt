@@ -1,5 +1,18 @@
 Create reusable dashboard modules
 
+-Clean up some of that company shit in my dashboard
+-Map notes so it actually works
+-Swap Klout with Instagram?
+
+SportRadarAPI: david.fioretti, davefio40
+
+Hacks:
+-notes dependency on Company
+-generic bar lists don't animate when changing
+-fix the dashboard update stuff...
+-make the social stats chart make sense
+
+
 1) Dashboard Module Stats
 2) Dashboard Module LineChart
 3) Dashboard Module PieChart
