@@ -27,16 +27,12 @@ function initilizeScoreCanvas() {
   var data = [
     {
       "id": 0,
-      "name": "None (Has Children)"
-    },
-    {
-      "id": 1,
       "name": "Syndicated", "list": [
           { "id": 1, "name": "Scarborough", "list": [
-            { "id": 1, "name": "Avid Fan Index"},
-            { "id": 2, "name": "Avid Fan Count"},
-            { "id": 3, "name": "Casual Fan Index"},
-            { "id": 4, "name": "Casual Fan Count"}
+            { "id": 100, "name": "Avid Fan Index"},
+            { "id": 101, "name": "Avid Fan Count"},
+            { "id": 102, "name": "Casual Fan Index"},
+            { "id": 103, "name": "Casual Fan Count"}
           ] },
           { "id": 2, "name": "Nielsen" },
           { "id": 3, "name": "Simmons" },
@@ -44,9 +40,9 @@ function initilizeScoreCanvas() {
       ]
     },
     {
-      "id": 2,
+      "id": 5,
       "name": "Social", "list": [
-        { "id": 1, "name": "Twitter", "list": [
+        { "id": 5, "name": "Twitter", "list": [
             { "id": 1, "name": "Follower Count" },
             { "id": 2, "name": "Post Frequency" },
             { "id": 3, "name": "Average Retweets" }
@@ -130,35 +126,85 @@ function initilizeScoreCanvas() {
 
   // when a node is double-clicked, add a child to it
   function nodeDoubleClick(e, obj) {
+    // TODO: make this setup properly...
     var clicked = obj.part;
     if (clicked !== null) {
       var thisemp = clicked.data;
-      myDiagram.startTransaction("add employee");
+      myDiagram.startTransaction("add component");
       var nextkey = (myDiagram.model.nodeDataArray.length + 1).toString();
       var newemp = { key: nextkey, name: "(new person)", title: "", parent: thisemp.key };
       myDiagram.model.addNodeData(newemp);
-      myDiagram.commitTransaction("add employee");
+      myDiagram.commitTransaction("add component");
       myDiagram.contentAlignment = go.Spot.Center;
     }
   }
 
+  function closeNode(e, obj) {
+    if (myDiagram.nodes.count == 1) {
+      alert("ERROR: Scores require at least one componenet!");
+      return;
+    }
+    var clicked = obj.part;
+    myDiagram.remove(clicked);
+    myDiagram.contentAlignment = go.Spot.Center;
+    // todo - do i want to recurively delete all nodes?
+    /*
+    if (clicked !== null) {
+      var childNodes = getChildNodes(clicked);
+      console.log(childNodes);
+      $.each(childNodes, function() {
+        myDiagram.remove(this);
+      });
+    }*/
+  }
+
+  function getChildNodes(deleteNode) {
+    var children = [];
+    var allConnected = deleteNode.findNodesConnected();
+
+    while (allConnected.next()) {
+      var child = allConnected.value;
+
+      if (isChildNode(deleteNode, child)) {
+        children.push(child);
+        var subChildren = getChildNodes(child);
+        $.each(subChildren, function() {
+          children.push(this);
+        });
+      }
+    }
+    return children;
+  }
+
+  function isChildNode(currNode, currChild) {
+    var links = myDiagram.links.iterator;
+    while (links.next()) {
+      var currentLinkModel = links.value.data;
+      if (currentLinkModel.from === currNode.data.key && currentLinkModel.to === currChild.data.key) {
+        return true;
+      }
+    }
+    return false;
+  }
   function nodeClick(e, obj) {
-    var docloc=e.diagram.lastInput.documentPoint
-	  var viewloc=myDiagram.transformDocToView(docloc);
-    var x = parseInt(viewloc.x.toFixed(0));// + 250;// + $(".sidebar").width();
-    var y = parseInt(viewloc.y.toFixed(0));// + 40;// + $("#navbar").height();;
-    //console.log(x);
-    //console.log(y);
-    var newCoords = {
-      top: 500,
-      left: 500
-    };
-    $('#node_form').offset(newCoords);
-    $('#node_form').css("position", "absolute");
-    //$('.dashboard').append($("#node_form"));
-    $('#node_form').css('z-index', 9999);
-    $('#node_form').show();
-    //alert(viewloc.x.toFixed(0) + " " + viewloc.y.toFixed(0));
+    var node = e.diagram.selection.first();
+
+    if (node instanceof go.Node) {
+      $('#component-name').val(node.data.component)
+      var x = $("#weight-slider").slider();
+      x.slider('setValue', node.data.weight);
+    //  updateProperties(node.data);
+    } else {
+    //  updateProperties(null);
+    }
+
+    //$('#component-name').val("NAME");
+    //$(".update").click(function() {
+    //document.getElementById("name").value = data.name || "";
+
+    //    x.slider('setValue', 10);
+    //});
+
   }
 
   // this is used to determine feedback during drags
@@ -175,11 +221,18 @@ function initilizeScoreCanvas() {
     return { font: "9pt Avenir-Medium", stroke: "white" };
   }
 
+  function findIcon(icon) {
+    alert(icon);
+    if (icon === "/sum.png")
+      return "/sum.png";
+    if (icon === "/divide.png")
+      return "/divide.png"
+  }
   // This converter is used by the Picture.
   function findHeadShot(key) {
-    return "";
-    if (key > 16) return ""; // There are only 16 images on the server
-    return "images/HS" + key + ".png"
+    //return "";
+    //if (key > 16) return ""; // There are only 16 images on the server
+    return "/cancel-button.png";
   };
 
 
@@ -226,6 +279,7 @@ function initilizeScoreCanvas() {
               diagram.toolManager.linkingTool.insertLink(node, node.port, selnode, selnode.port);
             }
           }
+          myDiagram.contentAlignment = go.Spot.Center;
         }
       },
       // for sorting, have the Node.text be the data.name
@@ -238,72 +292,36 @@ function initilizeScoreCanvas() {
           width: 200, height: 100,
           name: "SHAPE", fill: "white", stroke: null,
           // set the port properties:
-          portId: "", fromLinkable: false, toLinkable: false, cursor: "move"
+          portId: "", fromLinkable: false, toLinkable: false, cursor: "move",
         }),
-      _$(go.Panel, "Horizontal",
-        _$(go.Picture,
-          {
-            //name: 'Picture',
-            //desiredSize: new go.Size(39, 50),
-            //margin: new go.Margin(6, 8, 6, 10),
-          },
-          new go.Binding("source", "key", findHeadShot)),
-        // define the panel where the text will appear
-        _$(go.Panel, "Table",
-          {
-            maxSize: new go.Size(150, 999),
-            margin: new go.Margin(6, 10, 0, 3),
-            defaultAlignment: go.Spot.Left
-          },
-          _$(go.RowColumnDefinition, { column: 2, width: 6 }),
-          _$(go.TextBlock, textStyle(),  // the name
+        _$(go.Panel,
+          { width: 200, height: 100 }, // panel is the main container
+          _$(go.Picture, { click: closeNode }, { position: new go.Point(175, 5), desiredSize: new go.Size(16, 16), source: '/cancel-button.png' }), // end picture
+          _$(go.TextBlock, "Component", textStyle(),
             {
-              row: 0, column: 0, columnSpan: 5,
-              cursor: "move",
-              font: "12pt Avenir-Medium",
-              editable: false, isMultiline: false,
-              minSize: new go.Size(10, 16)
+              position: new go.Point(10, 10),
+              desiredSize: new go.Size(160, 20),
+              font: "14pt Avenir-Medium",
+              textAlign: "center"
             },
-            new go.Binding("text", "name").makeTwoWay()),
-          _$(go.TextBlock, "Weight:", textStyle(),
-            {
-              row: 1, column: 0,
-              cursor: "move"
-            }),
-          _$(go.TextBlock, textStyle(),
-            {
-              row: 1, column: 1, columnSpan: 4,
-              editable: false, isMultiline: false,
-              minSize: new go.Size(10, 14),
-              cursor: "move",
-              margin: new go.Margin(0, 0, 0, 3)
-            },
-            new go.Binding("text", "title").makeTwoWay()),
-          _$(go.TextBlock, textStyle(),
-            {
-              row: 2, column: 0,
-              cursor: "move"
-            },
-            new go.Binding("text", "key", function(v) {return "ID: " + v;})),
-          _$(go.TextBlock, textStyle(),
-            {
-              row: 2, column: 3,
-              cursor: "move"
-            },
-            new go.Binding("text", "parent", function(v) {return "Boss: " + v;})),
-          _$(go.TextBlock, textStyle(),  // the comments
-            {
-              row: 3, column: 0, columnSpan: 5,
-              font: "9pt Avenir-Medium",
-              wrap: go.TextBlock.WrapFit,
-              editable: false,  // by default newlines are allowed
-              cursor: "move",
-              minSize: new go.Size(10, 14)
-            },
-            new go.Binding("text", "comments").makeTwoWay())
-        )  // end Table Panel
-      ) // end Horizontal Panel
-    );  // end Node
+            new go.Binding("text", "component").makeTwoWay()),
+            _$(go.Picture, {
+              name: '/divide.png',
+              position: new go.Point(79, 44),
+              desiredSize: new go.Size(32, 32),
+              //icon: '/divide.png'
+              // i think i can bind the source to a key or ID or something
+              //source: '/divide.png'
+            }, new go.Binding('source', 'name', findIcon)),
+            _$(go.TextBlock, "100%", textStyle(),
+              {
+                position: new go.Point(10, 80),
+                desiredSize: new go.Size(85, 20),
+                font: "11pt Avenir-Medium",
+              },
+            new go.Binding("text", "weight").makeTwoWay())
+        )
+      );
 
   // define the Link template
   myDiagram.linkTemplate =
@@ -355,17 +373,28 @@ function onTextEdited(e) {
 // Update the data fields when the text is changed
 function updateData(text, field) {
   var node = myDiagram.selection.first();
+  if (node === null) {
+    return;
+  }
   // maxSelectionCount = 1, so there can only be one Part in this collection
   var data = node.data;
   if (node instanceof go.Node && data !== null) {
     var model = myDiagram.model;
     model.startTransaction("modified " + field);
-    if (field === "name") {
-      model.setDataProperty(data, "name", text);
-    } else if (field === "title") {
-      model.setDataProperty(data, "title", text);
+    if (field === "sum")
+      model.setDataProperty(data, "name", "/sum.png");
+    else if (field === "div")
+      model.setDataProperty(data, "name", "/divide.png");
+    if (field === "component") {
+      model.setDataProperty(data, "component", text);
+    } else if (field === "weight") {
+      model.setDataProperty(data, "weight", text);
     } else if (field === "comments") {
       model.setDataProperty(data, "comments", text);
+    } else if (field === "icon") {
+      if (text === "sum") {
+
+      }
     }
     model.commitTransaction("modified " + field);
   }
@@ -376,6 +405,16 @@ function save() {
   document.getElementById("mySavedModel").value = myDiagram.model.toJson();
   myDiagram.isModified = false;
 }
+
+function zoomIn() {
+  var currentScale = myDiagram.scale;
+  myDiagram.scale = (currentScale + 0.1);
+}
+
+function zoomOut() {
+  myDiagram.scale = myDiagram.scale - 0.1;
+}
+
 function load() {
   //myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
   // TODO: update this to a dummy node placeholder
@@ -383,8 +422,9 @@ function load() {
   var nodeDataArray = [];
   var node = {};
   node['key'] = 1;
-  node['name'] = "(Select to Configure)";
-  node['title'] = "";
+  node['component'] = "Component";
+  node['icon'] = 'divide.png';
+  node['weight'] = "50";
   nodeDataArray.push(node);
   model['class'] = "go.TreeModel";
   model['nodeDataArray'] = nodeDataArray;
