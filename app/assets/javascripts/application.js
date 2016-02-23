@@ -35,6 +35,9 @@
 //= require components
 //= require flip
 //= require go
+//= require score
+//= require bootstrap-drilldown-select
+//= require bootstrap-slider
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;
@@ -149,4 +152,3 @@ Chart.MultiTooltip.prototype.initialize = function(){
   //   this.x += this.xOffset;
   // }
 };
-

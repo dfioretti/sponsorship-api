@@ -12,6 +12,12 @@ class ApplicationController < ActionController::Base
     @location_path = "/#{params[:path]}"
   end
 
+  def score_builder
+  end
+
+  def asset_select
+  end
+
   protected
 
   def configure_permitted_parameters

@@ -17,8 +17,6 @@ class AssetsStore extends EventEmitter
         @current = Immutable.fromJS(@findBy('id', aid))
       else
         @current = Immutable.fromJS({})
-    console.log("current next")
-    console.log(@current)
 
   findBy: (field, aid) ->
     a = @assets.find (asset) ->

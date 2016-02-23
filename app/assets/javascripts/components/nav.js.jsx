@@ -61,8 +61,6 @@ var Nav = React.createClass({
   },
 
   filterAssetsOnQuery: function (assets) {
-    console.log("filter");
-    console.log(assets);
     var query = this.state.query;
     if (typeof(query) == "undefined" || query == "") {
       return assets;

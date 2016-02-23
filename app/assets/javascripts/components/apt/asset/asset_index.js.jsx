@@ -98,8 +98,6 @@ var AssetIndex = React.createClass({
   },
   renderList: function() {
     var assets = this.filterAssetsOnQuery(this.state.assets);
-    console.log("assets in render");
-    console.log(assets);
     if (this.state.orderBy) {
       assets.sort(function(c1, c2){
         var order;
@@ -178,4 +176,3 @@ var AssetIndex = React.createClass({
     );
   }
 });
-

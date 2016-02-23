@@ -1,7 +1,7 @@
 var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
-var AssetDashboard = React.createClass({
+var ScoreEditor = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
     return {dashboardLoaded: false, assetLoaded: false};
@@ -76,25 +76,31 @@ var AssetDashboard = React.createClass({
     return el
   },
   renderModules: function(dashboardState) {
-    var modules = $.map(dashboardState, function(v, k){
-      return this.mapModule(k, v.toggle);
-    }.bind(this));
+    //console.log(dashboardState);
+    //var modules = $.map(dashboardState, function(v, k){
+    //  return this.mapModule(k, v.toggle);
+    //}.bind(this));
 
     return (
       <div className="modules-container">
-        {modules}
+        <ScoreTree />
+        <ComponentPane />
       </div>
     );
   },
   render: function() {
     var dashboardState;
+    var asset = AssetsStore.getState().current;
+    var textAreaStyle = {
+      display: 'none'
+    };
     if (this.state.dashboardLoaded && this.state.assetLoaded) {
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
           <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="asset" handleToggle={this.handleToggle}/>
           <div className="modules-box">
-            {this.renderModules(dashboardState.state)}
+            {this.renderModules(null)}
           </div>
         </div>
       );
