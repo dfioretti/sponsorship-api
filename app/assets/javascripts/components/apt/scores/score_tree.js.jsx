@@ -23,7 +23,7 @@ var ScoreTree = React.createClass({
             <div className="drag-handle">
             </div>
             <div className="top-title">
-              Tree Editor
+              Score Builder
             </div>
           </div>
           <div className="main">
@@ -34,6 +34,9 @@ var ScoreTree = React.createClass({
             <span onClick={this.zoomIn} style={iconStyle} className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
             <br />
             <span onClick={this.zoomOut} style={iconStyle} className="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+          </div>
+          <div id="message" className="editor-alert">
+            Alert: This is a message to be displayed in the editor!
           </div>
       </div>
     );

@@ -14,16 +14,16 @@
       textBack: 'Back...', // text for go back link
       /** function that will be called on select of final element */
       onSelected: function(event) {
-        console.log(event);
-        console.log($(event.target));
-      	//alert($(event.target).data('id'));
+        var id = $(event.target).data('id');
+        var path = $(event.target).data('path');
+        $('#drill-data').data('id', id);
+        $('#drill-data').data('path', path);
       }
     };
     /** @type {Object} extend defauls */
     var params = $.extend(defaults, params);
     /** @type {Boolean} flag to define if  */
     var isVisible = false;
-
     /** Hook function on each element */
     return this.each(function(options) {
       /** get this element */
@@ -53,6 +53,12 @@
      * @param  {Boolean} show    show or not a menu
      */
     function makeDropdown(element, event, path, show) {
+      console.log("make drop start");
+      console.log(element);
+      console.log(event);
+      console.log("path " + path);
+      console.log("show " + show);
+      console.log("make drop end");
       path += '';
       var pathArray = (path != null && path != '') ? (path).split(',') : [];
       var data = defaults.data;

@@ -49,7 +49,7 @@
 }
 
 #myDiagram {
-  height: 660px;
+  height: 609px;
   width: 800px;
 }
 .commands {
@@ -57,12 +57,24 @@
   border-radius: 3px;
   top: 60px;
   left: 10px;
-  z-index: 10000;
+  z-index: 20000;
   width: 170px;
   padding: 10px;
   height: 70px;
   background: #2d64a5;
 }
+
+.editor-alert {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  font-size: 20px;
+  display: none;
+  text-align: center;
+  color: $positive-color;
+  z-index: 10000;
+}
+
 /*
 .drag-handle {
   width: 16px;
