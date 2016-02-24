@@ -5,6 +5,9 @@ HEROKU -
     heroku config - database info
     heroku pg - db config - heroku pg:psql- db terminal
     heroku run rake db:migrate
+    heroku logs --tail
+!!!!!pg_dump --no-acl --no-owner -h localhost teneo_ews_development | heroku
+pg:psql
 
 FUCK -
 [x] FIX BROKEN SEARCH DROP DOWN [ the apt.scss dropdown was overrideing ]
