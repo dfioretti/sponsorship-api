@@ -1,6 +1,41 @@
 
-FIX BROKEN SEARCH DROP DOWN...
-FIX TOO BIG FONTS ON DASH
+HEROKU -
+[ ] Config environment variables // heroku config:set VAR=10
+    heroku run rails console
+    heroku config - database info
+    heroku pg - db config - heroku pg:psql- db terminal
+    heroku run rake db:migrate
+
+FUCK -
+[x] FIX BROKEN SEARCH DROP DOWN [ the apt.scss dropdown was overrideing ]
+[x] FIX TOO BIG FONTS ON DASH [ same deal ]
+[x] Why is only the Colin K dashboard working [ dependency a card ]
+
+TODO -
+[ ] Portfolio views [top/bottom performers, allocation treemap, coverage
+    map, chart of scores for set, portfolio list -> asset page, top
+    social, top news, files)
+[ ] Load more data (excel file import)
+[ ] Asset multiselect - maybe just high charts on a full size card?
+[ ] Asset set card view, same idea as score
+[ ] Need sidebar content? nav menu? [ MANAGE ] show data upload / entry?
+    Browse content? - browse data, etc.
+[ ] Need to update menu bar also
+[ ] Card state? configuration..?- could add to dashboard?
+[ ] Clean up create score, connect real asset sets?
+    define asset sets based on some groups..
+[ ] Fix default routes
+[ ] Get better data
+[ ] Somewhere to deploy?
+
+
+
+IDEAS -
+
+
+
+
+
 
 
 Create reusable dashboard modules
