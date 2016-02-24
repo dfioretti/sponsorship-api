@@ -46,6 +46,9 @@ var Dashboard = React.createClass({
     }
   },
   mapModule: function(name, state) {
+    console.log("state then name");
+    console.log(state);
+    console.log(name);
     var el, hidden;
     if (state == "off")
       hidden = true;

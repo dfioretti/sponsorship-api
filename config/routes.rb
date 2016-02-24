@@ -19,7 +19,7 @@ Rails.application.routes.draw do
           resources :mock_data, only: [:index]
           resources :dashboards, only: [:show, :update]
         end
-        resources :scores, only: [:index, :create, :show, :update]
+        resources :scores, only: [:index, :new, :show, :update]
       end
 
       resources :assets, only: [:index]

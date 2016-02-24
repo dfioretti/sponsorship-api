@@ -81,7 +81,7 @@ var ScoreEditor = React.createClass({
   render: function() {
     return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={""} dashboardType="scores" />
+          <Sidebar {...this.props} dashboardState={""} dashboardType="score-editor" />
           <div className="modules-box">
             {this.renderModules(null)}
           </div>

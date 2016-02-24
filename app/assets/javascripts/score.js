@@ -17,8 +17,8 @@ function getDrillButtonText() {
 }
 
 function resetDrillData() {
-  $('#drill-data').data('id', null);
-  $('#drill-data').data('path', null);
+  //$('#drill-data').data('id', null);
+  //$('#drill-data').data('path', null);
   var data = [{
     "id": 0,
     "name": "Survey",
@@ -367,7 +367,7 @@ function initilizeScoreCanvas(savedModel) {
           // i think i can bind the source to a key or ID or something
           //source: '/divide.png'
         }, new go.Binding('source', 'name', findIcon)),
-        _$(go.TextBlock, "100%", textStyle(), {
+        _$(go.TextBlock, "", textStyle(), {
             position: new go.Point(10, 80),
             desiredSize: new go.Size(85, 20),
             font: "11pt Avenir-Medium",
@@ -408,10 +408,12 @@ function onSelectionChanged(e) {
     $('#normalization-select').val(node.data.normalization);
     setDrillButtonText(node.data.dataname)
     var x = $("#weight-slider").slider();
-    x.slider('setValue', node.data.weight);
+    if (!isNaN(node.data.weight))
+      x.slider('setValue', node.data.weight);
     if (node.data.mode === 'parent') {
       $('#parent-click').click();
     } else if (node.data.mode === 'value') {
+      $('#drill-data').data('id', node.data.name);
       $('#value-click').click();
     } else {
       $('.score-component-radio input').removeAttr('checked');
@@ -421,7 +423,7 @@ function onSelectionChanged(e) {
   } else {
       $('#score-data').show();
       $('#component-data').hide();
-    updateComponentDetails();
+    //pdateComponentDetails();
   }
 }
 
@@ -487,19 +489,19 @@ function zoomOut() {
 function load(savedModel) {
   if ( savedModel != null ) {
     myDiagram.model = go.Model.fromJson(JSON.stringify(savedModel));
-  } else {
+  } else { // i'm bad at escaping strings in javascript literals, so what fuck you
     var model = {};
     var nodeDataArray = [];
     var node = {};
     node['key'] = 1;
-    node['icon'] = '';
+    node['name'] = 'null';
     node['weight'] = "100";
     node['mode'] = "";
-    node['operation'] = -1;
+    node['operation'] = "";
     nodeDataArray.push(node);
     model['class'] = "go.TreeModel";
     model['nodeDataArray'] = nodeDataArray;
-    myDiagram.model = go.Model.fromJson(JSON.stringify(savedModel));
+    myDiagram.model = go.Model.fromJson(JSON.stringify(model));
   }
 }
 

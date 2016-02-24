@@ -2,6 +2,9 @@ var ComponentPane = React.createClass({
   componentDidMount: function() {
     weightSlider = $("#weight-slider").slider({min: 0, max: 100, value: 100});
     var savedModel = this.props.score.score;
+    $('#score-name').val(this.props.score.name);
+    $('#score-asset-set').val(this.props.score.asset_set_name);
+
     window.setTimeout(initilizeScoreCanvas(savedModel), 1200);
   },
   componentWillMount: function() {
@@ -30,6 +33,10 @@ var ComponentPane = React.createClass({
     var scoreImage = myDiagram.makeImageData();
     score['score'] = myDiagram.model.toJson();
     score['image'] = scoreImage;
+    score['name'] = $('#score-name').val();
+    score['asset_set_name']= $('#score-asset-set').find(":selected").text();
+
+    // i don't know why these callbacks don't work, guess i should probably figure out how react works?
     ScoresStore.update(score, function(score) {
       setAlert("Score model saved2", "notice");
       this.handleChange();
@@ -96,11 +103,11 @@ var ComponentPane = React.createClass({
   render: function() {
     // for some reason 100% doesn't work?
     var sliderStyle = {
-      width: "360px",
+      width: "336px",
       marginBottom: "20px"
     };
     var cssSucks = {
-      marginTop: "15px"
+      marginTop: "10px"
     };
     var hidden = {
       display: "none"
@@ -116,9 +123,20 @@ var ComponentPane = React.createClass({
       padding: "10px"
     };
     var saveScoreOverride = {
-      marginTop: "-10px",
-      width: "100%",
-      padding: "10px"
+      marginTop: "25px",
+      width: "85%",
+      marginLeft: "30px"
+    };
+    var fuckHR = {
+      //marginTop: "0px",
+      width: "88%"
+    };
+
+    var firstHR = {
+      margin: "10px"
+    };
+    var padForm = {
+      marginTop: "10px"
     };
 
     return (
@@ -139,22 +157,21 @@ var ComponentPane = React.createClass({
                 </div>
                 <label>Asset Set</label>
                 <select id="score-asset-set" className="form-control">
-                  <option>
+                  <option value="Regional Sports">
                     Regional Sports
                   </option>
-                  <option>
+                  <option value="National Assets">
                     National Assets
                   </option>
-                  <option>
+                  <option value="All Assets">
                     All Assets
                   </option>
-                  <option>
+                  <option value="Celebrities">
                     Celebrities
                   </option>
                 </select>
               </form>
-              <br />
-              <hr />
+              <hr sytle={firstHR}/>
               <button  style={buttonStyle} onClick={this.zoomToFit} className="btn btn-primary" type="submit">Zoom to Fit</button>
               <br /><br />
               <button  style={buttonStyle} onClick={this.centerDiagram} className="btn btn-info" type="submit">Reset Alignment</button>
@@ -166,7 +183,7 @@ var ComponentPane = React.createClass({
           </div>
           <div style={hidden} id="component-data" className="main">
             <div className="score-component-form">
-              <form>
+              <form style={padForm}>
                 <div className="form-group">
                   <label>Component Name</label>
                   <input type="text" id="component-name" className="form-control" ref="component-name" placeholder="Enter Name"/>
@@ -188,14 +205,14 @@ var ComponentPane = React.createClass({
                 <div className="score-component-radio">
                   <ul>
                     <li onClick={this.parentClick}>
-                      <input type="radio" id="parent-opt" name="selector"/>
                       <label id="parent-click" htmlFor="parent-opt">Parent</label>
+                      <input type="radio" id="parent-opt" name="selector"/>
                       <div className="check"></div>
                     </li>
                     <li onClick={this.valueClick}>
-                      <input type="radio" id="value-opt" name="selector"/>
                       <label id="value-click" htmlFor="value-opt">Value</label>
-                      <div className="check"></div>
+                      <input type="radio" id="value-opt" name="selector"/>
+                      <div id="value-check" className="check2"></div>
                     </li>
                   </ul>
                 </div>
@@ -219,15 +236,21 @@ var ComponentPane = React.createClass({
                 </div>
                 <div id="value" style={hidden} className="component-default">
                   <label style={cssSucks}>Data Point</label>
-                  <button className="btn primay btn-block drilldown" id="drill-button" data-toggle="dropdown">
+                  <button className="btn btn-info btn-block drilldown" id="drill-button" data-toggle="dropdown">
                     <span className="text" placeholder="Select...">Test</span>
                   </button>
                 </div>
               </form>
-              <button id="save-score-btn" onClick={this.updateComponent} className="btn primary" type="submit">Update</button>
+
+
 
             </div>
+            <div className="updateComponentButton">
+              <hr style={fuckHR} />
+              <button id="save-score-btn" onClick={this.updateComponent} className="btn btn-primary" type="submit">Update Selected</button>
+            </div>
           </div>
+
           <div className="drill-data" id="drill-data" style={hidden}/>
           <textarea style={hidden} id="mySavedModel"></textarea>
         </div>

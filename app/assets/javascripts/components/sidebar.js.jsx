@@ -17,8 +17,18 @@ var Sidebar = React.createClass({
     var arrowStyle = {borderTop: "20px solid " + color}
     var toggles;
 
-    // TODO: pull this out of here
-    if (this.props.dashboardType !== "fifa") {
+    var link = '/apt/scores/score_index';
+    var backText = "< Back to Score List";
+    if (this.props.dashboardType == "score-editor") {
+      return (
+          <div className="top">
+            <Link to={link}>
+              <div className="top-title">{backText}</div>
+            </Link>
+          </div>
+      );
+    }
+    else if (this.props.dashboardType !== "fifa") {
       return (
         <div className={cn} onMouseLeave={this.hideTooltip}>
           <div className="top-title">Risk Overview</div>
