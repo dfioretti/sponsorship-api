@@ -38,6 +38,7 @@
 //= require score
 //= require bootstrap-drilldown-select
 //= require bootstrap-slider
+//= require datatables
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;
