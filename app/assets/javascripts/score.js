@@ -225,35 +225,6 @@ function initilizeScoreCanvas(savedModel) {
 
   function findIcon(icon) {
     return "/icons-blue/" + icon + ".png";
-    // operation icons
-    if (icon === "sum") {
-      return "/icons/sum.png";
-    }
-    else if (icon === "divide") {
-      return "/icons/divide.png";
-    }
-    else if (icon === "multiple") {
-      return "/icons/multiply.png";
-    }
-    else if (icon === "subtract") {
-      return "/icons/subtract.png";
-    }
-    else if (icon === "average") {
-      return "/icons/average.png";
-    }
-    else if (icon === "twitter") {
-      return "/icons/twitter.png";
-    }
-    else if (icon === "facebook") {
-      return "/icons/facebook.png";
-    }
-    else if (icon === "syndicated") {
-      return "/icons/syndicated.png";
-    }
-    else if (icon === "stats") {
-      return "/icons/stats.png";
-    }
-
   }
   // This converter is used by the Picture.
   function findHeadShot(key) {
