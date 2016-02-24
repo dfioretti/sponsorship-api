@@ -24,7 +24,7 @@ var Sidebar = React.createClass({
       link = '/apt/scores/score_index';
     } else {
       backTex = '< To to Asset Dashboard';
-      link = '/apt/asset/dashboard/6'
+      link = '/apt/asset/dashboard/6';
     }
 
     //var backText = "< Back to Score List";
