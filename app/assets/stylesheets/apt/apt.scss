@@ -1,27 +1,22 @@
 /*i'm lazy and hate css, so all my shit is going in here*/
-
 .social-stats-list {
   ul {
     list-style: none;
     padding: 0 20px;
-
     > li {
       @extend .clearfix;
     }
-
     li {
       height: auto;
       border-bottom: 1px solid $dark-blue;
       padding-top: 15px;
       padding-bottom: 15px;
-
       .stat-header {
-          font-size: 16px;
-          float: left;
-          margin-left: 20px;
-          margin-top: 4px;
+        font-size: 16px;
+        float: left;
+        margin-left: 20px;
+        margin-top: 4px;
       }
-
       .stat-metric {
         text-align: center;
         min-width: 100px;
@@ -31,7 +26,6 @@
         background-color: $dark-blue;
         float: right;
       }
-
       .stat-image {
         img {
           width: 30px;
@@ -41,16 +35,22 @@
           margin-left: auto;
           margin-right: auto;
         }
-
       }
     }
   }
-
 }
-
 #myDiagram {
   height: 609px;
   width: 800px;
+}
+
+#save-score-btn {
+  margin-top: -20px;
+}
+
+.fixedButton {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .commands {
   position: absolute;
@@ -63,7 +63,6 @@
   height: 70px;
   background: #2d64a5;
 }
-
 .editor-alert {
   position: absolute;
   top: 60px;
@@ -74,7 +73,6 @@
   color: $positive-color;
   z-index: 10000;
 }
-
 /*
 .drag-handle {
   width: 16px;
@@ -102,19 +100,24 @@
   font-size: 14px;
 }
 */
-select[disabled] { background-color: blue; }
-
+select[disabled] {
+  background-color: blue;
+}
 .form-control[disabled] {
   background-color: $battleship-grey;
   border-color: $battleship-grey;
 }
-
 .score-component-form {
   padding: 20px;
+  .dropdown-menu {
+    position: static;
+  }
+  li {
+    font-size: 20px;
+  }
 }
 .score-component-radio {
   //padding: 20px;
-
   ul {
     list-style: none;
     height: 100%;
@@ -124,7 +127,6 @@ select[disabled] { background-color: blue; }
     margin-left: 40px;
     margin-bottom: 20px;
   }
-
   ul li {
     color: $white;
     //display: inline-block;
@@ -133,12 +135,11 @@ select[disabled] { background-color: blue; }
     width: 50%;
     //height: 100px;
   }
-  ul li input[type=radio]{
+  ul li input[type=radio] {
     position: absolute;
     visibility: hidden;
   }
-
-  ul li label{
+  ul li label {
     //display: inline-block;
     position: relative;
     //font-weight: 300;
@@ -154,10 +155,9 @@ select[disabled] { background-color: blue; }
     -webkit-transition: all 0.25s linear;
   }
   ul li:hover label {
-  	color: #FFFFFF;
+    color: #FFFFFF;
   }
-
-  ul li .check{
+  ul li .check {
     //display: inline-block;
     position: absolute;
     border: 5px solid $white;
@@ -168,37 +168,32 @@ select[disabled] { background-color: blue; }
     width: 25px;
     top: 30px;
     left: 20px;
-  	z-index: 5;
-  	transition: border .25s linear;
-  	-webkit-transition: border .25s linear;
+    z-index: 5;
+    transition: border 0.25s linear;
+    -webkit-transition: border 0.25s linear;
   }
-
   ul li:hover .check {
     border: 5px solid #FFFFFF;
   }
-
   ul li .check::before {
     //display: inline-block;
     position: absolute;
-  	content: '';
+    content: '';
     border-radius: 100%;
     height: 14px;
     width: 14px;
     top: 1.7px;
-  	left: 1.5px;
+    left: 1.5px;
     margin: auto;
-  	transition: background 0.25s linear;
-  	-webkit-transition: background 0.25s linear;
+    transition: background 0.25s linear;
+    -webkit-transition: background 0.25s linear;
   }
-
   input[type=radio]:checked ~ .check {
     border: 5px solid $positive-color;
   }
-
-  input[type=radio]:checked ~ .check::before{
+  input[type=radio]:checked ~ .check::before {
     background: $positive-color;
   }
-
   input[type=radio]:checked ~ label {
     color: $positive-color;
   }
@@ -208,7 +203,6 @@ select[disabled] { background-color: blue; }
   font-family: 'Avenir-Medium';
   font-style: 14px;
 }
-
 //tr {
 //  border: 1px solid $dark-blue;
 //  padding: 5px;
@@ -218,14 +212,11 @@ select[disabled] { background-color: blue; }
   font-family: 'Avenir-Medium';
   font-style: 14px;
 }
-
-
 .tree-multiselect {
   color: white;
   font-family: 'Avenir-Medium';
   font-style: 14px;
 }
-
 #editor-card {
   top: 20px;
   left: 840px;
@@ -244,13 +235,11 @@ select[disabled] { background-color: blue; }
   height: 800px;
   width: 800px;
 }
-
 #social-chart {
   padding-top: 10px;
   display: block;
   margin: 0 auto;
 }
-
 .large-logo {
   img {
     margin-top: 30px;
@@ -262,33 +251,22 @@ select[disabled] { background-color: blue; }
     margin-right: auto;
   }
 }
-
 .large-text {
   margin-top: 20px;
   color: white;
   font-size: 20px;
   text-align: center;
 }
-
 .small-padding {
   padding: 20px;
 }
-
 select {
   //margin-bottom: 20px;
 }
-
 .overview-container {
   position: relative;
 }
 
-.dropdown-menu {
-    position: static;
-
-  }
-  li {
-    font-size: 20px;
-  }
 .card-metrics {
   @extend .clearfix;
   list-style: none;
@@ -296,7 +274,6 @@ select {
   padding: 0;
   margin-top: 25px;
   border-top: 1px solid $light-blue;
-
   li {
     float: left;
     width: 33.3333333333%;
@@ -304,17 +281,14 @@ select {
     color: $white;
     border-right: 1px solid $light-blue;
     padding: 14px 0;
-
     &:last-child {
       border-right: 0;
     }
-
     .metric {
       text-transform: uppercase;
       font-family: 'Avenir-Medium';
       font-style: 14px;
     }
-
     .metric-label {
       text-transform: uppercase;
       font-family: 'Avenir-Medium';

@@ -2,7 +2,9 @@ var ScoreTree = React.createClass({
   componentDidMount: function() {
     // hack to make sure the dom is rendered
     // before i setup the canvas, call to score.js
-    window.setTimeout(initilizeScoreCanvas, 2000);
+    // moving this to component because that's where i'm doing
+    // the updates..
+    //window.setTimeout(initilizeScoreCanvas, 2000);
   },
   // wrappers for code in score.js
   zoomIn: function() {
@@ -12,7 +14,7 @@ var ScoreTree = React.createClass({
     zoomOut();
   },
   render: function(){
-    var hiddenStyle = {};
+    var hiddenStyle = { };
     var iconStyle = {
       fontSize: "20px"
     };

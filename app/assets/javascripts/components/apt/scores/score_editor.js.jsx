@@ -4,34 +4,23 @@ var RouteHandler = ReactRouter.RouteHandler,
 var ScoreEditor = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    return {dashboardLoaded: false, assetLoaded: false};
+    return { scoreLoaded: false };
   },
   componentWillMount: function() {
-    this.props.setTitle('apt');
+    this.props.setTitle('Score Editor');
+    ScoresStore.setCurrent(this.props.params.id);
 
-    AssetsStore.setCurrent(this.props.params.id);
-
-    NotesStore.setCompanyId(this.props.params.id);
-
-    DashboardsStore.getAsset(this.props.params.id).then(function(){
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-
-      if (this.state.dashboardLoaded && this.state.assetLoaded) {
-        this.setupGrid();
-      }
+    ScoresStore.getCurrent(this.props.params.id).then(function(current) {
+      this.setState({scoreLoaded: ScoresStore.getState().ready, score: current });
+        if (this.state.scoreLoaded) {
+          this.setupGrid();
+        }
     }.bind(this));
 
-    if (AssetsStore.getState().ready) {
-      this.setState({assetLoaded: true});
-    }
-
-    AssetsStore.on("update", function() {
-      AssetsStore.setCurrent(this.props.params.id);
-      this.setState({assetLoaded: true});
-      if (this.state.dashboardLoaded && this.state.assetLoaded) {
-        this.setupGrid();
-      }
+    ScoresStore.on("update", function() {
+      alert("updated!");
     }.bind(this));
+    //ScoresStore.setCurrent()
   },
   componentWillReceiveProps: function(newProps) {
     if (newProps.params.id !== this.props.params.id) {
@@ -80,34 +69,23 @@ var ScoreEditor = React.createClass({
     //var modules = $.map(dashboardState, function(v, k){
     //  return this.mapModule(k, v.toggle);
     //}.bind(this));
+    var score = ScoresStore.getState().current;
 
     return (
       <div className="modules-container">
         <ScoreTree />
-        <ComponentPane />
+        <ComponentPane score={score}/>
       </div>
     );
   },
   render: function() {
-    var dashboardState;
-    var asset = AssetsStore.getState().current;
-    var textAreaStyle = {
-      display: 'none'
-    };
-    if (this.state.dashboardLoaded && this.state.assetLoaded) {
-      var dashboardState = this.state.dashboardState;
-      return (
+    return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="asset" handleToggle={this.handleToggle}/>
+          <Sidebar {...this.props} dashboardState={""} dashboardType="scores" />
           <div className="modules-box">
             {this.renderModules(null)}
           </div>
         </div>
       );
-    } else {
-      return (
-        <div className="dashboard"></div>
-      );
     }
-  }
 });

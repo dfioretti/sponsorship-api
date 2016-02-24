@@ -156,7 +156,6 @@ var Nav = React.createClass({
           var queried = this.filterAssetsOnQuery(AssetsStore.getState().assets);
           assetName =  "Select Asset";
           assets = $.map(queried, function(asset) {
-            console.log(asset);
             var link = '/apt/asset/dashboard/' + asset.id;
             return (
             <li key={asset.id}><Link to={link}>{asset.name}</Link></li>
@@ -186,7 +185,6 @@ var Nav = React.createClass({
     else if (this.props.title == 'dashboard') {
       var companyName, companies;
       if (this.state.loaded) {
-        console.log(CompaniesStore.getState().companies);
         var queried = this.filterCompaniesOnQuery(CompaniesStore.getState().companies);
         companyName = CompaniesStore.getState().current.name,
         companies = $.map(queried, function(company) {

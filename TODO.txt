@@ -1,3 +1,8 @@
+
+FIX BROKEN SEARCH DROP DOWN...
+FIX TOO BIG FONTS ON DASH
+
+
 Create reusable dashboard modules
 
 -Clean up some of that company shit in my dashboard

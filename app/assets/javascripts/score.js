@@ -96,7 +96,7 @@ function resetDrillData() {
 }
 
 // all gojs code
-function initilizeScoreCanvas() {
+function initilizeScoreCanvas(savedModel) {
   resetDrillData();
   if (window.goSamples) goSamples(); // init for these samples -- you don't need to call this
   var _$ = go.GraphObject.make; // for conciseness in defining templates
@@ -105,6 +105,8 @@ function initilizeScoreCanvas() {
     _$(go.Diagram, "myDiagram", // must be the ID or reference to div
       {
         initialContentAlignment: go.Spot.Center,
+        initialAutoScale: go.Diagram.Uniform,
+        allowDelete: false,
         // make sure users can only create trees
         validCycle: go.Diagram.CycleDestinationTree,
         // users can select only one part at a time
@@ -176,10 +178,16 @@ function initilizeScoreCanvas() {
       };
       myDiagram.model.addNodeData(newemp);
       myDiagram.commitTransaction("add component");
+      //myDiagram.initialContentAlignment = go.Spot.Center;
+      //initialContentAlignment: go.Spot.Center,
+      myDiagram.commandHandler.zoomToFit();
       myDiagram.contentAlignment = go.Spot.Center;
-      setAlert('New subcomponent added!')
+
+      //myDiagram.contentAlignment = go.Spot.Center;
+      setAlert('New subcomponent added!', "notice");
     }
   }
+
 
   /*
   * Removes the selected node on close clicked
@@ -192,6 +200,7 @@ function initilizeScoreCanvas() {
     }
     var clicked = obj.part;
     myDiagram.remove(clicked);
+    myDiagram.commandHandler.zoomToFit();
     myDiagram.contentAlignment = go.Spot.Center;
     setAlert('Successfully deleted component!', 'notice');
   }
@@ -380,7 +389,7 @@ function initilizeScoreCanvas() {
       })); // the link shape
 
   // read in the JSON-format data from the "mySavedModel" element
-  load();
+  load(savedModel);
 }
 
 /*
@@ -391,6 +400,8 @@ function initilizeScoreCanvas() {
 function onSelectionChanged(e) {
   var node = e.diagram.selection.first();
   if (node instanceof go.Node) {
+    $('#score-data').hide();
+    $('#component-data').show();
     resetDrillData();
     $('#operation').val(node.data.operation);
     $('#component-name').val(node.data.component);
@@ -408,6 +419,8 @@ function onSelectionChanged(e) {
       $('#value').hide();
     }
   } else {
+      $('#score-data').show();
+      $('#component-data').hide();
     updateComponentDetails();
   }
 }
@@ -457,6 +470,11 @@ function save() {
   myDiagram.isModified = false;
 }
 
+function reload() {
+  save();
+  myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+}
+
 function zoomIn() {
   var currentScale = myDiagram.scale;
   myDiagram.scale = (currentScale + 0.1);
@@ -466,24 +484,23 @@ function zoomOut() {
   myDiagram.scale = myDiagram.scale - 0.1;
 }
 
-function load() {
-  //myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-  // TODO: update this to a dummy node placeholder
-  var model = {};
-  var nodeDataArray = [];
-  var node = {};
-  node['key'] = 1;
-  node['icon'] = '';
-  node['weight'] = "100";
-  node['mode'] = "";
-  node['operation'] = -1;
-  nodeDataArray.push(node);
-  model['class'] = "go.TreeModel";
-  model['nodeDataArray'] = nodeDataArray;
-
-  myDiagram.model = go.Model.fromJson(JSON.stringify(model));
-
-  //go.Model.fromJson('"{ "class": "go.TreeModel","nodeDataArray":[{"key":"1", "name":"Stella Payne Diaz", "title":"CEO"},]}"');
+function load(savedModel) {
+  if ( savedModel != null ) {
+    myDiagram.model = go.Model.fromJson(JSON.stringify(savedModel));
+  } else {
+    var model = {};
+    var nodeDataArray = [];
+    var node = {};
+    node['key'] = 1;
+    node['icon'] = '';
+    node['weight'] = "100";
+    node['mode'] = "";
+    node['operation'] = -1;
+    nodeDataArray.push(node);
+    model['class'] = "go.TreeModel";
+    model['nodeDataArray'] = nodeDataArray;
+    myDiagram.model = go.Model.fromJson(JSON.stringify(savedModel));
+  }
 }
 
 /*
