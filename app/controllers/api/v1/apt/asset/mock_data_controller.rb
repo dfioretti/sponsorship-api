@@ -15,7 +15,7 @@ class Api::V1::Apt::Asset::MockDataController < ApplicationController
           "google" => 1281
         }
         data['stats'] = social
-      else 
+      elsif (params[:id].to_i == 7)
         social = {
           "twitter" => 121818,
           "facebook" => 817218,
