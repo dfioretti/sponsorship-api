@@ -57,6 +57,56 @@
   height: 100%;
 }
 
+
+table.dataTable.asset-table {
+  text-align: center;
+  .asset-selected {
+    background-color: $positive-color;
+  }
+  color: $light-blue;
+  tbody {
+    cursor: pointer;
+  }
+  tr:last-child td:first-child {
+      -moz-border-radius-bottomleft:3px;
+      -webkit-border-bottom-left-radius:3px;
+      border-bottom-left-radius:3px
+  }
+  tr:first-child th:first-child {
+      -moz-border-radius-topleft:3px;
+      -webkit-border-top-left-radius:3px;
+      border-top-left-radius:3px
+  }
+
+  tbody tr {
+    background-color: white;
+  }
+  thead {
+    text-align: center;
+    color: white;
+    background-color: $light-blue;
+  }
+  thead tr {
+    text-align: center;
+  }
+  tr:first-child th:last-child {
+    -moz-border-radius-topright:3px;
+    -webkit-border-top-right-radius:3px;
+    border-top-right-radius:3px
+  }
+
+  tr:last-child td:last-child {
+    -moz-border-radius-bottomright:3px;
+    -webkit-border-bottom-right-radius:3px;
+    border-bottom-right-radius:3px
+  }
+}
+.asset-table-container {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 20px;
+}
+
 #save-score-btn {
   width: 90%;
   margin-left: 20px;
@@ -88,6 +138,9 @@
   padding: 10px;
   height: 70px;
   background: #2d64a5;
+}
+.asset-selected {
+  background-color: $positive-color;
 }
 .editor-alert {
   position: absolute;
