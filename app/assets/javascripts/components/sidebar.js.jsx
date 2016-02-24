@@ -16,10 +16,19 @@ var Sidebar = React.createClass({
     var tooltipStyle = {left: left, backgroundColor: color}
     var arrowStyle = {borderTop: "20px solid " + color}
     var toggles;
+    var link;
+    var backText;
 
-    var link = '/apt/scores/score_index';
-    var backText = "< Back to Score List";
     if (this.props.dashboardType == "score-editor") {
+      backTex = '< Back to Score List';
+      link = '/apt/scores/score_index';
+    } else {
+      backTex = '< To to Asset Dashboard';
+      link = '/apt/asset/dashboard/6'
+    }
+
+    //var backText = "< Back to Score List";
+    if (this.props.dashboardType == "score-editor" || this.props.dashboardType='score-index') {
       return (
           <div className="top">
             <Link to={link}>
