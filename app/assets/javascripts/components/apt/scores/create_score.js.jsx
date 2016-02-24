@@ -20,7 +20,7 @@ var CreateScore = React.createClass({
       width: "128px",
       top: "100px",
       left: "130px",
-      cursor: "pointer"
+      cursor: "pointer",
     };
 
     //var link = "/apt/scores/score_editor/" + this.props.score.id;
@@ -34,7 +34,10 @@ var CreateScore = React.createClass({
           </div>
         </div>
         <div onClick={this.handleClick} className="main">
-            <img style={imageSize} src="/assets/icons/add.png" />
+          <div className="icon-wrapper" style={imageSize}>
+              <div className="module-new-icon">
+              </div>
+          </div>
         </div>
       </div>
     );
