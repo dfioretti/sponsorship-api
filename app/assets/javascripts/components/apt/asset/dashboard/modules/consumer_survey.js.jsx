@@ -13,8 +13,10 @@ var ConsumerSurvey = React.createClass({
   componentDidMount: function() {
     this.loadData();
   },
-  componentWillReceiveProps: function() {
-    this.loadData();
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.asset.id != this.props.asset.id) {
+      this.loadData();
+    }
   },
   loadData: function() {
     // this is going to trigger the render of componenets
@@ -46,7 +48,7 @@ var ConsumerSurvey = React.createClass({
       var dataType = item['data_type_display_name'];
       var probability = item['importance'];
       var value = item['value']
-      return <GenericBarListItem key={i} link={true} rightText={value} title={dataType} probability={probability} companyId={70} />
+      return <GenericBarListItem key={i} id={this.props.asset.id} link={true} rightText={value} title={dataType} probability={probability} companyId={70} />
     }.bind(this));
 
     return (

@@ -40,7 +40,6 @@ class AssetsStore extends EventEmitter
       contentType: "application/json"
       url: "/api/v1/assets"
       success: (data) =>
-        console.log(data)
         p.resolve data.assets
       error: (data) ->
         console.log(data)

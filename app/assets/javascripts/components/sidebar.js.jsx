@@ -129,10 +129,6 @@ var Sidebar = React.createClass({
         break;
     }
     var toggles = $.map(toggles, function(name){
-      console.log(toggles);
-      console.log(name);
-      console.log(this.props);
-
       var cn = "icon " + name,
       title = name.replace(/_/g, ' '),
       state = this.props.dashboardState,
