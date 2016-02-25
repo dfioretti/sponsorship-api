@@ -26,7 +26,7 @@ var Nav = React.createClass({
       this.setState({loaded: true});
     }
 
-    AssetsStore.setCurrent();
+    //AssetsStore.setCurrent();
 
     AssetsStore.on("update", function() {
       this.setState({loaded: true});

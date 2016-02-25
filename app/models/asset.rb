@@ -21,6 +21,21 @@ class Asset < ActiveRecord::Base
              ).save
   end
 
+  def self.new_create_assets
+    file = File.join(Rails.root, 'config', 'asset_data.json')
+    json = File.read(file)
+    data_hash = JSON.parse(json)
+    data_hash.each do |item|
+      asset = Asset.new(item)
+      asset.pretty_renewal = "10/31/2018"
+      asset.pretty_term = "2 Years"
+      asset.pretty_cost = "$4 M"
+      asset.score = 0.071
+      asset.save
+    end
+
+  end
+
   def self.create_new (name, logo, subcategory)
       Asset.new(
         :name => name.strip,

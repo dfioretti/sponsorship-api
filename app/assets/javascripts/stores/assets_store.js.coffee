@@ -6,7 +6,7 @@ class AssetsStore extends EventEmitter
     @list().then (assets) =>
       @assets = Immutable.fromJS(assets)
       @ready = true
-      @emit = "update"
+      @emit "update"
 
   getState: (aid) ->
     {assets: @assets.toJS(), ready: @ready, current: @current.toJS()}

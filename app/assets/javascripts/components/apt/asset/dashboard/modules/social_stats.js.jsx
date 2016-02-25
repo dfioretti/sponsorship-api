@@ -2,17 +2,26 @@ var SocialStats = React.createClass({
   getInitialState: function() {
     return {socialStats: {}};
   },
-  /*
-   * This is all hacky as fuck
-   * but i'm not building a real API
-   * until we have a data model
-   */
   componentDidMount: function() {
-    $(this.refs.flipper).flip();
-    this.loadData();
+      this.animate();
   },
-  componentWillReceiveProps: function() {
-    this.loadData();
+  componentDidUpdate: function() {
+    this.animate();
+  },
+  animate: function() {
+    var stats = ReactDOM.findDOMNode(this.refs.stats);
+    $('.stat-metric', stats).effect("highlight", {"color": "#50e3c2"}, 1500, function() {
+      this.setState({loaded: true});
+    }.bind(this));
+  },
+  commaSeparateNumber: function commaSeparateNumber(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+    }
+    return val;
+  },
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return nextProps.asset.id != this.props.asset.id;
   },
   loadData: function() {
     $.ajax({
@@ -74,6 +83,12 @@ var SocialStats = React.createClass({
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
 
+    var twitter = asset.twitter_followers ? (this.commaSeparateNumber(asset.twitter_followers)) : "N/A";
+    var facebook = asset.facebook_fans ? (this.commaSeparateNumber(asset.facebook_fans)) : "N/A"
+    var klout = asset.klout_score ? (asset.klout_score) : "N/A"
+    var convo = asset.facebook_conversation ? (this.commaSeparateNumber(asset.facebook_conversation)) : "N/A"
+
+
     return (
       <div id="social_stats" className="dashboard-module" ref="flipper" style={hiddenStyle}>
         <div className="top">
@@ -81,35 +96,35 @@ var SocialStats = React.createClass({
           <div className="top-title">Socal Stats</div>
         </div>
         <div className="front">
-          <div className="main social-stats-list">
+          <div className="main social-stats-list" ref="stats">
             <ul>
               <li>
                 <div className="stat-image">
                   <img src="https://logo.clearbit.com/www.twitter.com"/>
                 </div>
                 <div className="stat-header">Twitter Followers</div>
-                <div className="stat-metric">{stats.twitter}</div>
-              </li>
-              <li>
-                <div className="stat-image">
-                  <img src="https://logo.clearbit.com/www.plus.google.com" />
-                </div>
-                <div className="stat-header">Google+ Followers</div>
-                <div className="stat-metric">{stats.google}</div>
+                <div className="stat-metric">{twitter}</div>
               </li>
               <li>
                 <div className="stat-image">
                   <img src="https://logo.clearbit.com/www.facebook.com" />
                 </div>
                 <div className="stat-header">Facebook Fans</div>
-                <div className="stat-metric">{stats.facebook}</div>
+                <div className="stat-metric">{facebook}</div>
               </li>
               <li>
                 <div className="stat-image">
                   <img src="https://logo.clearbit.com/www.klout.com" />
                 </div>
                 <div className="stat-header">Klout Score</div>
-                <div className="stat-metric">{stats.klout}</div>
+                <div className="stat-metric">{klout}</div>
+              </li>
+              <li>
+                <div className="stat-image">
+                  <img src="https://logo.clearbit.com/www.facebook.com" />
+                </div>
+                <div className="stat-header">Talking About</div>
+                <div className="stat-metric">{convo}</div>
               </li>
             </ul>
           </div>
@@ -123,4 +138,3 @@ var SocialStats = React.createClass({
     );
   }
 });
-

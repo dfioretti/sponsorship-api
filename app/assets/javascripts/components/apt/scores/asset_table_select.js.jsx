@@ -52,6 +52,7 @@ var AssetTableSelect = React.createClass({
       fontSize: "20px",
     };
 
+    
     return (
       <div className="dashboard-module huge" style={overrideStyle}>
         <div className="top">

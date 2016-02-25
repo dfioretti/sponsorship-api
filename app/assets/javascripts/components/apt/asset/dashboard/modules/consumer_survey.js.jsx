@@ -38,7 +38,9 @@ var ConsumerSurvey = React.createClass({
     });
   },
   renderList: function() {
-
+    var overrideMargin = {
+        marginLeft: "-20px"
+    };
     var consumerSurvey = this.state.consumerSurvey
     var list = $.map(consumerSurvey, function(item, i) {
       var dataType = item['data_type_display_name'];
@@ -49,7 +51,7 @@ var ConsumerSurvey = React.createClass({
 
     return (
       <div className="risk-indicator-list-container">
-        <ul className="probability-list risk-indicator-list">
+        <ul style={overrideMargin} className="probability-list risk-indicator-list">
           {list}
         </ul>
       </div>
@@ -73,4 +75,3 @@ var ConsumerSurvey = React.createClass({
     );
   }
 });
-

@@ -8,7 +8,11 @@ var AssetDashboard = React.createClass({
   },
   componentWillMount: function() {
     this.props.setTitle('apt');
+    alert(this.props.params.id);
 
+    if (AssetsStore.getState().ready) {
+      this.setState({assetLoaded: true, assets: AssetsStore.getState().assets })
+    }
     AssetsStore.setCurrent(this.props.params.id);
 
     NotesStore.setCompanyId(this.props.params.id);
