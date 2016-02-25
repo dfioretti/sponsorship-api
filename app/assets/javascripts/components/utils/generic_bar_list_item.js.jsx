@@ -1,12 +1,23 @@
 var GenericBarListItem = React.createClass({
   getInitialState: function() {
-    return {loaded: false};
+    return {loaded: false, animate: true};
+  },
+  componentWillUpdate: function() {
+    this.setState({animate: true});
+  },
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return nextProps.id != this.props.id;
+  },
+  animate: function(newProps) {
+    if (this.state.animate) {
+      console.log("XX do anim");
+      var bar = ReactDOM.findDOMNode(this.refs.bar);
+      $(bar).animate({width: newProps.probability * 100}, 1000);
+      this.setState({animate: false});
+    }
   },
   componentWillReceiveProps: function(newProps) {
-    var bar = ReactDOM.findDOMNode(this.refs.bar);
-    $(bar).animate({width: newProps.probability * 100}, 1000, function() {
-      this.setState({loaded: true});
-    }.bind(this));
+    this.animate(newProps);
   },
   showTooltip: function(e) {
     var tooltip = $('.li-tooltip');
@@ -47,6 +58,7 @@ var GenericBarListItem = React.createClass({
     return text;
   },
   renderProbability: function() {
+    console.log("XX - render prop");
     var probabilityBar;
     if (this.props.probability) {
       var probabilityStyle = {backgroundColor: riskColor(this.props.probability)};
@@ -90,4 +102,3 @@ var GenericBarListItem = React.createClass({
     );
   }
 });
-
