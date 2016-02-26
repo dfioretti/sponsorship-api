@@ -9,10 +9,10 @@ var App = React.createClass({
   },
   componentDidMount: function() {
     PubSub.subscribe('auth.signIn.success', function(ev, user) {
-      this.transitionTo('/ews/choose_company');
+      this.transitionTo('/apt/portfolio/dashboard');
     }.bind(this));
     PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
-      this.transitionTo('/ews/choose_company');
+      this.transitionTo('/apt/portfolio/dashboard');
     }.bind(this));
     PubSub.subscribe('auth.signOut.success', function(ev, user) {
       this.transitionTo('/account_login');

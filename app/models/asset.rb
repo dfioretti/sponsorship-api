@@ -33,7 +33,13 @@ class Asset < ActiveRecord::Base
       asset.score = 0.071
       asset.save
     end
+  end
 
+  def self.add_local_filenames
+    Asset.all.each do |a|
+      a.image = "/images/#{a.name.gsub(/\s+/, '')}.jpg"
+      a.save
+    end
   end
 
   def self.create_new (name, logo, subcategory)
@@ -46,6 +52,14 @@ class Asset < ActiveRecord::Base
         :renewal => Date.new(2020, 1, 1),
         :score => 0.08
       ).save
+  end
+
+  def self.cache_asset_images
+    Asset.all.each do |a|
+      file_name = a.name.gsub(/\s+/, '')
+      url = a.image_url
+      system("exec wget -O #{file_name}.jpg #{url} ")
+    end
   end
 
   def self.create_nationals

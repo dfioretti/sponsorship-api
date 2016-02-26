@@ -1,4 +1,7 @@
+Top Global Issues - /global_issues has donut chart..
 
+
+gem 'font-awesome-rails'
 HEROKU -
 [ ] Config environment variables // heroku config:set VAR=10
     heroku run rails console

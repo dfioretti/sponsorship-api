@@ -17,7 +17,7 @@ var AssetOverview = React.createClass({
         <div className="main" ref="flipper">
           <div id="card">
             <div className="large-logo front">
-              <img src={asset.image_url}/>
+              <img src={asset.image}/>
               <ul className="card-metrics">
                 <li>
                   <div className="metric">{asset.pretty_renewal}</div>

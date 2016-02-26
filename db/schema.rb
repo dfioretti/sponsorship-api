@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160225051434) do
+ActiveRecord::Schema.define(version: 20160225232220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160225051434) do
     t.integer  "twitter_followers"
     t.float    "klout_score"
     t.integer  "total_stats"
+    t.string   "image"
   end
 
   create_table "companies", force: :cascade do |t|
