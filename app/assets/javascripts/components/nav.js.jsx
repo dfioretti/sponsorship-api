@@ -5,6 +5,11 @@ var Nav = React.createClass({
   getInitialState: function() {
     return {loaded: false};
   },
+  enableSearch: function() {
+    if($('#search_input').length) {
+      $('#search_input').fastLiveFilter('#search_list');
+    }
+  },
   componentWillMount: function() {
     var st = PubSub.subscribe('auth.validation.success', function(ev, user) {
       this.setState({name: user.name, image: user.image, permissions: user.permissions});
@@ -155,16 +160,35 @@ var Nav = React.createClass({
     if (this.props.title == 'apt') {
         var assetName, assets;
         if (this.state.loaded) {
-          var queried = this.filterAssetsOnQuery(AssetsStore.getState().assets);
+          // need faster search to render images
+          //var queried = this.filterAssetsOnQuery(AssetsStore.getState().assets);
+          var queried = AssetsStore.getState().assets;
           assetName =  "Select Asset";
           assets = $.map(queried, function(asset) {
+            var image = "/images/" + asset.id + ".jpg";
+            var imgStyle = {
+              height: "50px",
+              width: "50px",
+              borderRadius: "50%"
+            };
             var link = '/apt/asset/dashboard/' + asset.id;
             return (
-            <li key={asset.id}><Link to={link}>{asset.name}</Link></li>
+              <div key={asset.id} className="asset-nav-list">
+                <Link className="asset-link" to={link}>
+                <ul>
+                  <li className="thumb">
+                    <img style={imgStyle} src={image} />
+                  </li>
+                  <li className="asset-name">
+                    {asset.name}
+                  </li>
+                </ul>
+              </Link>
+              </div>
             );
           });
         }
-
+        //value={this.state.query} onChange={this.handleChange}/>
       return (
         <div>
           <a href="#" className="company-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -173,10 +197,10 @@ var Nav = React.createClass({
 
           <div className="dropdown-menu">
             <div className="dropdown-searchbar">
-              <input type="text" placeholder="Search by Asset Name" value={this.state.query} onChange={this.handleChange}/>
+              <input id="search_input" type="text" placeholder="Search by Asset Name" />
             </div>
             <div className="company-list">
-              <ul>
+              <ul id="search_list">
                 {assets}
               </ul>
             </div>
@@ -229,6 +253,7 @@ var Nav = React.createClass({
     }
   },
   render: function() {
+    this.enableSearch();
     return (
       <nav id="navbar" className="nav navbar-default navbar-fixed-top">
         <div className="nav-center">{this.renderTitle()}</div>

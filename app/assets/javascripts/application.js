@@ -39,6 +39,7 @@
 //= require bootstrap-drilldown-select
 //= require bootstrap-slider
 //= require datatables
+//= require jquery.fastLiveFilter
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;
