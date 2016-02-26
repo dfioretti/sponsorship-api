@@ -1,4 +1,132 @@
 /*i'm lazy and hate css, so all my shit is going in here*/
+
+
+.asset-nav-list {
+  ul {
+    list-style: none;
+    height: 60px;
+    width: 100%;
+    > li {
+      @extend .clearfix;
+    }
+
+    li.thumb {
+      height: 50px;
+      width: 20%;
+      float: left;
+    }
+    li.asset-name {
+      font-size: 17px;
+      padding-top: 12px;
+      height: 50px;
+      width: 80%;
+      float: right;
+    }
+  }
+}
+#tableWrapper {
+  position: relative;
+  left: 245px;
+  top: 90px;
+}
+
+.dataTables_scrollHead {
+  background: white;
+  height: 6px;
+  border-radius: 3px;
+  margin-top: -30px;
+  display: none;
+
+}
+
+.dataTables_scrollBody {
+  padding-bottom: 10px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background: transparent;
+}
+
+
+.dataTables_length select {
+  background: red;
+}
+
+input.form-control.input-sm {
+  //width: 500px;
+}
+.dataTables_filter input[type=search] {
+  //width: 400px;
+  display: none;
+  height: 50px;
+  padding: 3px 42px 3px 20px;
+  border: none;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  outline: none;
+  background-size: 20px 20px;
+  background-image: image-url("dashboard/Icon-SearchLightGrey@2x");
+  background-repeat: no-repeat;
+  background-position: center right 20px;
+
+  &:focus {
+    background-image: image-url("dashboard/Icon-SearchGrey@2x");
+  }
+};
+
+#searchTable {
+  border-collapse:separate;
+  border-spacing: 0 5px;
+  //text-align: center;
+  //color: $light-blue;
+  tbody {
+    cursor: pointer;
+  }
+  th { text-align: center }
+  tr:last-child td:first-child {
+      -moz-border-radius-bottomleft:3px;
+      -webkit-border-bottom-left-radius:3px;
+      border-bottom-left-radius:3px
+  }
+  tr:first-child td:first-child {
+      -moz-border-radius-topleft:3px;
+      -webkit-border-top-left-radius:3px;
+      border-top-left-radius:3px
+  }
+
+  tbody tr {
+    background-color: white;
+    height: 50px;
+    text-align: left;
+    font-size: 16px;
+  }
+  tbody tr td {
+    padding-left:20px;
+  }
+  thead {
+    text-align: center;
+    color: white;
+    background-color: $light-blue;
+  }
+
+  tr:first-child td:last-child {
+    -moz-border-radius-topright:3px;
+    -webkit-border-top-right-radius:3px;
+    border-top-right-radius:3px
+  }
+
+  tr:last-child td:last-child {
+    -moz-border-radius-bottomright:3px;
+    -webkit-border-bottom-right-radius:3px;
+    border-bottom-right-radius:3px
+  }
+}
+#searchTable_wrapper {
+  width: 300px;
+  margin: 0px;
+  padding: 0px;
+}
+
 .social-stats-list {
   ul {
     list-style: none;
@@ -398,6 +526,13 @@ select[disabled] {
     margin-right: auto;
   }
 }
+
+.asset-nav {
+  height: 40px;
+}
+
+
+
 .large-text {
   margin-top: 20px;
   color: white;

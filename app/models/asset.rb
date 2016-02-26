@@ -54,12 +54,30 @@ class Asset < ActiveRecord::Base
       ).save
   end
 
+  def self.thumb_images
+    path = Rails.root.join('public', 'images')
+    Dir.glob("#{path}/*.jpg") do |img|
+      out = File.basename img, '.jpg'
+      outfile = Rails.root.join('public', 'images', 'thumbs', "#{out}.jpg")
+      system("convert -resize 50x50 #{img} #{outfile} ")
+    end
+  end
   def self.cache_asset_images
     Asset.all.each do |a|
-      file_name = a.name.gsub(/\s+/, '')
+      file_name = a.id
       url = a.image_url
       system("exec wget -O #{file_name}.jpg #{url} ")
     end
+  end
+
+  def self.save_encoded_thumb
+    Asset.all.each do |a|
+      data = Base64.encode64(File.read("public/images/thumbs/#{a.id}.jpg")).gsub("\n", '')
+      uri  = "data:image/jpg;base64,#{data}"
+      a.thumb = uri
+      a.save
+    end
+
   end
 
   def self.create_nationals

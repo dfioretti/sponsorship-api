@@ -18,12 +18,18 @@ var AssetTableSelect = React.createClass({
   },
   renderList: function() {
     var assets = AssetsStore.getState().assets;
-    console.log(assets);
+    var imgStyle = {
+      height: "50px",
+      width: "50px",
+      borderRadius: "50%"
+    };
 
     var list = $.map(assets, function(asset) {
-      console.log(asset);
       return (
         <tr>
+          <td>
+            <img style={imgStyle}src={asset.thumb}/>
+          </td>
           <td>
             {asset.name}
           </td>
@@ -52,7 +58,7 @@ var AssetTableSelect = React.createClass({
       fontSize: "20px",
     };
 
-    
+
     return (
       <div className="dashboard-module huge" style={overrideStyle}>
         <div className="top">
@@ -66,6 +72,7 @@ var AssetTableSelect = React.createClass({
           <table id="asset-table" className="table table-hover asset-table" cellspacing="2" width="100%">
             <thead>
               <tr>
+                <th></th>
                 <th>Asset</th>
                 <th>Scope</th>
                 <th>Category</th>

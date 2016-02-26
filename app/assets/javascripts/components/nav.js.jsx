@@ -69,7 +69,9 @@ var Nav = React.createClass({
     var substrRegex = new RegExp(query, 'i');
     $.each(assets, function(i, a) {
       if (substrRegex.test(a.name)) {
-        matches.push(a)
+        console.log(a);
+        console.log(a.id);
+        matches.push(a);
       }
     });
 
