@@ -21,6 +21,17 @@ class Asset < ActiveRecord::Base
              ).save
   end
 
+  def self.add_scope_to_assets
+    Asset.all.each do |a|
+      if a.category == "Sports Team"
+        a.scope = "Regional"
+      else
+        a.scope = "National"
+      end
+      a.save
+    end
+  end
+
   def self.new_create_assets
     file = File.join(Rails.root, 'config', 'asset_data.json')
     json = File.read(file)

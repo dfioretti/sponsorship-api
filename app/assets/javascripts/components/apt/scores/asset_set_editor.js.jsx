@@ -25,6 +25,7 @@ var AssetSetEditor = React.createClass({
     return (
       <div className="modules-container">
         <AssetTableSelect />
+        <SelectedAssets />
       </div>
     );
   },
