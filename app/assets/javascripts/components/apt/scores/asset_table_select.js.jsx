@@ -145,7 +145,9 @@ var AssetTableSelect = React.createClass({
 
     var buttonStyle = {
       width: "130px",
-      marginBottom: "-40px"
+      marginBottom: "-50px",
+      fontSize: "9px",
+      height: "30px"
     };
 
 

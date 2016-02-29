@@ -44,6 +44,9 @@ var SelectedAssets = React.createClass({
 
     var buttonStyle = {
       width: "130px",
+      height: "30px",
+      marginTop: "10px",
+      fontSize: "9px"
       //marginBottom: "-40px"
     };
     var saveStyle = {
