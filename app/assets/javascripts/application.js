@@ -40,6 +40,9 @@
 //= require bootstrap-slider
 //= require datatables
 //= require jquery.fastLiveFilter
+//= require highcharts
+//= require modules/treemap
+//= require modules/heatmap
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;

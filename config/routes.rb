@@ -20,6 +20,7 @@ Rails.application.routes.draw do
           resources :dashboards, only: [:show, :update]
         end
         resources :scores, only: [:index, :new, :show, :update]
+        resources :asset_sets, only: [:index, :new, :show, :update]
       end
 
       resources :assets, only: [:index]

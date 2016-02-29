@@ -11,11 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226034837) do
+ActiveRecord::Schema.define(version: 20160229221007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "asset_set_items", force: :cascade do |t|
+    t.integer  "asset_set_id"
+    t.integer  "asset_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "asset_sets", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "portfolio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "assets", force: :cascade do |t|
     t.string   "name"

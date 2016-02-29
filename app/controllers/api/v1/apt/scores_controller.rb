@@ -20,7 +20,7 @@ class Api::V1::Apt::ScoresController < ApplicationController
     if @score.save
       render json: @score
     else
-      render json: {errors: score.errors.full_messages}, status: :bad_request
+      render json: {errors: @score.errors.full_messages}, status: :bad_request
     end
 
   end

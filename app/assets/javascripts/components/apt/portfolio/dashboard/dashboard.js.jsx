@@ -38,13 +38,15 @@ var PortfolioDashboard = React.createClass({
 
     switch (name) {
       case 'teneo_rep_score':
-        el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
+        el = <ScoreTrend hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
+        //el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
         break;
       case 'insights_implications':
         el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
         break;
       case 'global_hotspots':
-        el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
+        el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
+        //el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
       case 'OFFtop_global_influencers':
         el = <GlobalInfluencers hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
@@ -76,7 +78,7 @@ var PortfolioDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="fifa" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
+          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="apt" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>
@@ -89,4 +91,3 @@ var PortfolioDashboard = React.createClass({
     }
   }
 });
-
