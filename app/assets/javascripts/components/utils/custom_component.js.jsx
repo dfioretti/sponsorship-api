@@ -4,37 +4,47 @@ var CustomComponent = React.createClass({
   mixins: [
     ChartTooltipHandler
   ],
+  componentWillMount: function() {
+    console.log("component will mount");
+    Dispatcher.componentGet(
+      "show",
+      {id: 1},
+      function(data) {
+        console.log("Component Data: " + data);
+      }.bind(this)
+    );
+  },
   getInitialState: function() {
     return {};
   },
   renderBarChart: function() {
     return (
-      <BarChart />
+      <BarChart {...this.props} />
     );
   },
   renderLineChart: function() {
     return (
-      <LineChart />
+      <LineChart {...this.props} />
     );
   },
   renderDoughnutChart: function() {
     return (
-      <RoundChart type="doughnut" />
+      <RoundChart {...this.props} type="doughnut" />
     );
   },
   renderPieChart: function() {
     return (
-      <RoundChart type="pie" />
+      <RoundChart {...this.props} type="pie" />
     );
   },
   renderValueList: function() {
     return (
-        <DataList type="value" componentId="10"/>
+        <DataList {...this.props} type="value" componentId="10"/>
     );
   },
   renderBarList: function() {
     return (
-      <DataList type="bar" componentId="10"/>
+      <DataList {...this.props} type="bar" componentId="10"/>
     );
   },
   renderContent: function() {

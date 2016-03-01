@@ -5,21 +5,17 @@ var DashboardDetail = React.createClass({
   getInitialState: function() {
     return {};
   },
-  renderModules: function() {
+  renderDetails: function() {
     return (
-      <div className="modules-container">
-        <CreateComponent />
-      </div>
+      <CreateComponent />
     );
   },
   render: function() {
-      <div className="company-detail">
+    return (
+      <div className="company-detail fifa-detail">
         <AptSidebar title="Create Component" />
-        <div className="modules-box">
-          {this.renderModules()}
-        </div>
+        {this.renderDetails()}
       </div>
+    );
   }
-
-
 });

@@ -20,7 +20,7 @@ this.AppRoutes = (
     <Route name='score_index' handler={ScoreIndex} path='apt/scores/score_index' />
     <Route name='asset_set_editor' handler={AssetSetEditor} path='apt/scores/asset_set_editor/:id' />
     <Route name='asset_set_index' handler={AssetSetIndex} path='apt/scores/asset_set_index' />
-    <Route name='dashboard_detail' handler={DashboardDetail} path='apt/dashboard_component' />
+    <Route name='dashboard_detail' handler={DashboardDetail} path='apt/dashboard_detail' />
     <DefaultRoute handler={PortfolioDashboard} />
   </Route>
 );

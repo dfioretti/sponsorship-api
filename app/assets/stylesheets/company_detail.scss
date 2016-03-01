@@ -193,7 +193,9 @@ $subnav-height: 80px;
         &.detail-module-3-col {
           width: 400px;
         }
-
+        &.tall {
+          height: 780px;
+        }
         &.ss-dragged-child {
           border: 1px solid $dark-blue;
         }

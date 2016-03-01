@@ -14,6 +14,23 @@ var Dispatcher = {
       }
     });
   },
+  componentGet: function(path, params, successCallback) {
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: "/api/v1/apt/componets/show",
+      data: JSON.stringify(params),
+      success: function(data) {
+        console.log(data);
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
+
+  },
   apiGet: function(path, params, successCallback) {
     $.ajax({
       type: "GET",
