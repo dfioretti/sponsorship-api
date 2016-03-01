@@ -1,4 +1,4 @@
-var LineChart = React.createClass({
+var BarChart = React.createClass({
   mixins: [
     ChartTooltipHandler
   ],
@@ -43,7 +43,7 @@ var LineChart = React.createClass({
   renderChart: function() {
     var self = this;
     console.log("Render Chart");
-    var ctx = $("#custom-line-chart").get(0).getContext("2d");
+    var ctx = $("#custom-bar-chart").get(0).getContext("2d");
     var labels = this.getLabels();
     var nyy = [ 92.3, 84.4, 84.1, 98.2, 58.2, 87.4];
     var nym = [ 82.3, 94.4, 94.1, 88.2, 78.2, 77.4];
@@ -61,7 +61,7 @@ var LineChart = React.createClass({
       datasets: dataSets,
     }
 
-    this.lineChart = new Chart(ctx).Line(data, {
+    this.barChart = new Chart(ctx).Bar(data, {
       animation: true,
       tooltipFontSize: 11,
       tooltipFillColor: 'rgba(255,255,255,0.6)',
@@ -94,7 +94,7 @@ var LineChart = React.createClass({
 
     this.setState({
       data: data,
-      chart: this.lineChart
+      chart: this.barChart
     });
 
   },
@@ -102,7 +102,7 @@ var LineChart = React.createClass({
     colors = ["#50e3c2", "#f5a623", "#e76959", "#ffd300" ,"#97c93c"]
     return {
         label: label,
-        fillColor: "rgba(0,0,0,0)",
+        fillColor: colors[index],
         strokeColor: colors[index],
         pointColor: "#fff",
         pointStrokeColor: colors[index],
@@ -116,10 +116,10 @@ var LineChart = React.createClass({
 
       return (
         <div>
-          <div display="none" className="chart-legend">
+          <div className="chart-legend">
             {this.renderLegend()}
           </div>
-          <canvas id="custom-line-chart" width="380px" height="240px"></canvas>
+          <canvas id="custom-bar-chart" width="380px" height="240px"></canvas>
           <div ref="chartjsTooltip" id="chartjs-tooltip"></div>
        </div>
       );

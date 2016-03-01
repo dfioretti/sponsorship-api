@@ -2,36 +2,39 @@ var Link = ReactRouter.Link;
 
 var CustomComponent = React.createClass({
   mixins: [
-    jScrollpaneMixin,
     ChartTooltipHandler
   ],
   getInitialState: function() {
     return {};
   },
   renderBarChart: function() {
-    console.log("Rendering Bar Chart");
     return (
       <BarChart />
     );
   },
   renderLineChart: function() {
-    console.log("Rendering Line Chart");
     return (
-      <LineChart go="yes" />
+      <LineChart />
+    );
+  },
+  renderDoughnutChart: function() {
+    return (
+      <RoundChart type="doughnut" />
+    );
+  },
+  renderPieChart: function() {
+    return (
+      <RoundChart type="pie" />
     );
   },
   renderValueList: function() {
-    console.log("Rendering Value List");
-
     return (
-        <ValueList />
+        <DataList type="value" componentId="10"/>
     );
   },
   renderBarList: function() {
-    console.log("Rendering Bar List");
-
     return (
-      <BarList />
+      <DataList type="bar" componentId="10"/>
     );
   },
   renderContent: function() {
@@ -48,13 +51,19 @@ var CustomComponent = React.createClass({
       case 'barList':
         return this.renderBarList();
         break;
+      case 'doughnutChart':
+        return this.renderDoughnutChart();
+        break;
+      case 'pieChart':
+        return this.renderPieChart();
+        break;
     }
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
-
+    // old id was teneo_rep_score
       return (
-        <div id="custom_component" className="dashboard-module" style={hiddenStyle}>
+        <div id="top_global_issues" className="dashboard-module" style={hiddenStyle}>
             <div className="top">
               <div className="drag-handle"></div>
               <div className="top-title">{this.props.title}</div>
