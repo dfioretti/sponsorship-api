@@ -1,20 +1,22 @@
 class Api::V1::Apt::AssetSetsController < ApplicationController
+    def index
+        @asset_sets = AssetSet.all.order(name: :asc)
+        render json: { asset_sets: @asset_sets } , include: 'asset_set_items'
+        #render json: {asset_sets: AssetSet.all.order(name: :asc), :includes => [:asset_set_items]}
+    end
 
     def show
-        @asset_set = Score.find(params[:id])
-        render json: @asset_set
+        @asset_set = AssetSet.find(params[:id])
+        render json: @asset_set, include: 'asset_set_items'
     end
 
     def update
         @asset_set = AssetSet.find(params[:id])
+        Rails.logger.debug("YYY : " + params.to_s)
+        # delete all the nested attributes and rebuild
+        @asset_set.asset_set_items.delete_all
         if @asset_set.update_attributes(asset_set_params)
-            @asset_set.asset_set_items.delete_all
-            params[:asset_set_times].each do |i|
-                AssetSetItem.new(:asset_set_id => @asset_set.id,
-                                 :asset_id => i['asset_id']).save
-            end
-
-            render json: @asset_set
+            render json: @asset_set, include: 'asset_set_items'
         else
             render json: {errors: @asset_set.errors.full_messages}, status: :bad_request
         end
@@ -23,7 +25,7 @@ class Api::V1::Apt::AssetSetsController < ApplicationController
     def new
       @asset_set = AssetSet.new(:user_id => current_user.id)
       if @asset_set.save
-        render json: @sset_set
+          render json: @asset_set, include: 'asset_set_items'
       else
         render json: {errors: @asset_set.errors.full_messages,}, status: :bad_request
       end
@@ -31,6 +33,6 @@ class Api::V1::Apt::AssetSetsController < ApplicationController
 
     private
     def asset_set_params
-        params.require(:asset_set).permit(:name)
+        params.require(:asset_set).permit(:name, :user_id, :updated_at, :asset_set_items_attributes => [ :asset_id, :_destroy ] )
     end
 end

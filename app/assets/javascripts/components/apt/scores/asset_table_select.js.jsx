@@ -65,7 +65,7 @@ var AssetTableSelect = React.createClass({
     var list = $.map(assets, function(asset) {
       return (
         <tr data-id={asset.id}>
-          <td data-id={asset.id}>
+          <td>
             <img style={imgStyle}src={asset.thumb}/>
           </td>
           <td>
@@ -115,23 +115,6 @@ var AssetTableSelect = React.createClass({
         ]).draw(false).node();
         $(node).attr('data-id', id);
         var rows = $('tr', '#selected-table');
-        //console.log("row count " + rowCount.length);
-        //$(rows[1]).attr('data-id', id);
-        //var tableRows = $('tr', '#selected-table');
-        //var rows = $('tr', '#selected-table');
-        //$(rows[rows.length]).attr('data-id', id);
-        //var tds = $('td', rows[i + 1]);
-        //$(tds[0]).data('id', id);
-        //console.log("ROWS: " + rows.length);
-        //var selectedRow = (rows[i + 1]);
-        //var data = $('td', selectedRow);
-        //console.log("selected row? " + selectedRow);
-        //$(selectedRow).data('asset', id);
-        //$(selectedRow).attr('data-id', id);
-        //console.log(data);
-        //$(data[0]).data('id', id).draw(false);
-
-        //$(rows[i + 1]).data('id', id);
         $('#asset-table').DataTable().row(tr).remove().draw(false);
         //$(tr).remove().draw(false);
       }

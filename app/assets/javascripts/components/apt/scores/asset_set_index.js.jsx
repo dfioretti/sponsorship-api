@@ -4,41 +4,41 @@ var RouteHandler = ReactRouter.RouteHandler,
 var AssetSetIndex = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    return { scoresLoaded: false };
+    return { assetSetsLoaded: false };
   },
   componentWillMount: function() {
-    this.props.setTitle('Scores');
+    this.props.setTitle('Asset Sets');
     // TODO - make this work
-    ScoresStore.on("update", function() {
-      this.setState({ scoresLoaded: true });
-      if (this.state.scoresLoaded) {
+    AssetSetsStore.on("update", function() {
+      this.setState({ assetSetsLoaded: true });
+      if (this.state.assetSetsLoaded) {
         this.setupGrid();
       }
     }.bind(this));
 
-    ScoresStore.list().then(function() {
-      this.setState({ scoresLoaded: ScoresStore.getState().ready });
-      if (this.state.scoresLoaded) {
+    AssetSetsStore.list().then(function() {
+      this.setState({ assetSetsLoaded: AssetSetsStore.getState().ready });
+      if (this.state.assetSetsLoaded) {
         this.setupGrid();
       }
     }.bind(this));
   },
   renderModules: function() {
-    var scores = ScoresStore.getState().scores;
+    var sets = AssetSetsStore.getState().asset_sets;
     // this is lazy, but i don't really feel like
     // fucking with this anymore
     return (
       <div className="modules-container">
-        <CreateScore />
-        {scores.map(function(score) {
-          return <ScoreCard score={score} />
+        <CreateAssetSet />
+        {sets.map(function(set) {
+          return <AssetSetCard asset_set={set} />
         })}
       </div>
     );
   },
   render: function() {
     console.log(this.state);
-    if (this.state.scoresLoaded) {
+    if (this.state.assetSetsLoaded) {
       return (
         <div className="dashboard">
           <Sidebar {...this.props} dashboardState={""} dashboardType="scores" />

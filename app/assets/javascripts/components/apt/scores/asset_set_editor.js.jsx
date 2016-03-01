@@ -4,13 +4,23 @@ var RouteHandler = ReactRouter.RouteHandler,
 var AssetSetEditor = React.createClass({
   mixins: [DashboardMixin],
   getInitialState: function() {
-    return { assetsLoaded: false };
+    return { assetSetLoaded: false };
   },
   componentWillMount: function() {
     this.props.setTitle('Asset Set Editor');
-    DashboardsStore.getAsset(7).then(function() {
-      this.setupGrid();
+    AssetSetsStore.setCurrent(this.props.params.id);
+    AssetSetsStore.getCurrent(this.props.params.id).then(function(current) {
+      this.setState({assetSetLoaded: AssetSetsStore.getState().ready, assetSet: current});
+      if (this.state.assetSetLoaded) {
+        this.setupGrid();
+      }
     }.bind(this));
+
+    AssetSetsStore.on("update", function() {
+      alert("set update");
+
+    }.bind(this));
+
   },
   componentWillReceiveProps: function(newProps) {
     DashboardsStore.getAsset(newProps.params.id).then(function() {
@@ -22,10 +32,11 @@ var AssetSetEditor = React.createClass({
 
   },
   renderModules: function(dashboardState) {
+    var set = AssetSetsStore.getState().current;
     return (
       <div className="modules-container">
-        <AssetTableSelect />
-        <SelectedAssets />
+        <AssetTableSelect asset_set={set} />
+        <SelectedAssets asset_set={set} />
       </div>
     );
   },
