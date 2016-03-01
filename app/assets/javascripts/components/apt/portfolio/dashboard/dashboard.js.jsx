@@ -74,12 +74,13 @@ var PortfolioDashboard = React.createClass({
   },
   render: function() {
     var dashboardState;
+    //<Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="apt" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
 
     if (this.state.dashboardLoaded) {
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="apt" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
+          <AptSidebar title="Portfolio Dashboard" />
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>
