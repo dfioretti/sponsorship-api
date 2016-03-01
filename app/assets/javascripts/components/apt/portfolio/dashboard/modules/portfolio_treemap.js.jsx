@@ -61,33 +61,37 @@ var PortfolioTreemap = React.createClass({
   },
   renderChart: function () {
     $('#tree-map').highcharts({
+        chart: {
+          height: 230,
+        },
         series: [{
             type: "treemap",
             data: [{
-                name: 'A',
+                name: 'Sports',
                 value: 6
             }, {
-                name: 'B',
+                name: 'Ent',
                 value: 6
             }, {
-                name: 'C',
+                name: 'MLB',
                 value: 4
             }, {
-                name: 'D',
+                name: 'NFL',
                 value: 3
             }, {
-                name: 'E',
+                name: 'NASCAR',
                 value: 2
             }, {
-                name: 'F',
+                name: 'Music',
                 value: 2
             }, {
-                name: 'G',
+                name: 'NHL',
                 value: 1
             }]
         }],
         title: {
-            text: 'Highcharts Treemap'
+            text: 'Portfolio Allocation',
+            margin: 2
         }
     });
   },

@@ -67,6 +67,7 @@ class DashboardsStore extends EventEmitter
         console.log(data)
 
   updateFifa: (args) ->
+    return;
     p = $.Deferred()
     $.ajax
       url: "/api/v1/fifa/dashboards/fifa"

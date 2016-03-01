@@ -55,7 +55,8 @@ var PortfolioDashboard = React.createClass({
         el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'top_global_issues':
-        el = <GlobalIssues hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
+        el = <CustomComponent type="lineChart" hidden={hidden} title="Custom Component" />
+        //el = <GlobalIssues hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
     }
     return el
