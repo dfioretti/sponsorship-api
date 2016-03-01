@@ -6,25 +6,23 @@ var AssetSetEditor = React.createClass({
   getInitialState: function() {
     return { assetSetLoaded: false };
   },
+  componentDidMount: function() {
+      this.setupGrid();
+  },
   componentWillMount: function() {
+    console.log("set editor will mount");
     this.props.setTitle('Asset Set Editor');
-    AssetSetsStore.setCurrent(this.props.params.id);
-    AssetSetsStore.getCurrent(this.props.params.id).then(function(current) {
-      this.setState({assetSetLoaded: AssetSetsStore.getState().ready, assetSet: current});
-      if (this.state.assetSetLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
-
+    this.setState({assetSetId: this.props.params.id});
+    /*
     AssetSetsStore.on("update", function() {
       alert("set update");
 
     }.bind(this));
+    */
 
   },
   componentWillReceiveProps: function(newProps) {
     DashboardsStore.getAsset(newProps.params.id).then(function() {
-      this.handleChange();
       $('.modules-container').trigger('ss-rearrange');
     }.bind(this));
   },
@@ -32,11 +30,12 @@ var AssetSetEditor = React.createClass({
 
   },
   renderModules: function(dashboardState) {
-    var set = AssetSetsStore.getState().current;
+    var set = this.state.assetSet;
+    var assets = this.state.assets
     return (
       <div className="modules-container">
-        <AssetTableSelect asset_set={set} />
-        <SelectedAssets asset_set={set} />
+        <AssetTableSelect />
+        <SelectedAssets assetSetId={this.state.assetSetId} />
       </div>
     );
   },

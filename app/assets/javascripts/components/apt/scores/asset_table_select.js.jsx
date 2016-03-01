@@ -3,7 +3,7 @@ var AssetTableSelect = React.createClass({
     addAsset: function(aid) {
       console.log('called add asset' + aid);
       //var asset = AssetsStore.find(aid);
-      var assets = AssetsStore.getState().assets;
+      var assets = this.state.assets;
       var asset;
       var i = 0;
       for (i; i < assets.length; i++) {
@@ -48,14 +48,17 @@ var AssetTableSelect = React.createClass({
     });
   },
   componentWillMount: function() {
-    AssetsStore.setCurrent();
+    console.log("table will mount");
+    if (AssetsStore.getState().ready) {
+        this.setState({assets: AssetsStore.getState().assets})
+    }
 
     AssetsStore.on("update", function() {
-      this.setState({loaded: true});
+      this.setState({loaded: true, assets: AssetsStore.getState().assets});
     }.bind(this));
   },
   renderList: function() {
-    var assets = AssetsStore.getState().assets;
+    var assets = this.state.assets;
     var imgStyle = {
       height: "50px",
       width: "50px",
