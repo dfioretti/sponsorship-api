@@ -2,7 +2,6 @@ class Api::V1::Apt::AssetSetsController < ApplicationController
     def index
         @asset_sets = AssetSet.all.order(name: :asc)
         render json: { asset_sets: @asset_sets } , include: 'asset_set_items'
-        #render json: {asset_sets: AssetSet.all.order(name: :asc), :includes => [:asset_set_items]}
     end
 
     def show
@@ -12,8 +11,6 @@ class Api::V1::Apt::AssetSetsController < ApplicationController
 
     def update
         @asset_set = AssetSet.find(params[:id])
-        Rails.logger.debug("YYY : " + params.to_s)
-        # delete all the nested attributes and rebuild
         @asset_set.asset_set_items.delete_all
         if @asset_set.update_attributes(asset_set_params)
             render json: @asset_set, include: 'asset_set_items'
