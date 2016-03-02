@@ -162,7 +162,7 @@ $subnav-height: 80px;
     position: relative;
     height: calc(100% - #{$subnav-height});
     margin-left: 250px;
-    background-color: #FAFBFD;
+    background-color: $light-blue;//#FAFBFD;
     overflow: scroll;
 
     .charts-container, .details-container {
@@ -222,7 +222,7 @@ $subnav-height: 80px;
           .top-title {
             line-height: 30px;
             font-size: 14px;
-            color: #738694;
+            color: $darker-grey;//#738694;
           }
 
           .filters {

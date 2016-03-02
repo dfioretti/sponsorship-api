@@ -4,13 +4,15 @@
   background-color: $dark-grey;
   position: absolute;
   border-right: 1px solid #1c1c1c;
-
-  .top {
-//    height: 98px;
-    //padding: 41px 20px 36px;
+  .hack-top {
     padding-top: 23.5px;
-    padding-bottom: 23.5px;
     padding-left: 20px;
+    padding-bottom: 20px;
+    background-color: $darkest-grey;
+  }
+  .top {
+    height: 98px;
+    padding: 41px 20px 36px;
     background-color: $darkest-grey;
 
     &.light {
@@ -282,7 +284,7 @@
     position: relative;
     height: 100%;
     margin-left: 250px;
-    background-color: $dark-blue;
+    background-color: $dark-blue;//#FAFBFD;
     overflow: auto;
 
     .modules-container {

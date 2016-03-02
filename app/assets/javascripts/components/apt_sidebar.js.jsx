@@ -28,7 +28,7 @@ var AptSidebar = React.createClass({
     //<button  style={{width: "100%"}} className="btn btn-primary">Create Component</button>
 
     return (
-      <div className="top">
+      <div className="hack-top">
       <div style={{margin: "10px"}}>
         <button onClick={this.toggleMenu}type="button" className="invisible-button"  aria-label="Menu Hamburger">
           <span style={{color: "white", fontSize: "22px", textAlign: "center"}}className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>

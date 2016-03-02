@@ -17,6 +17,7 @@ class DashboardsStore extends EventEmitter
         console.log(data)
 
   update: (args) ->
+    return;
     p = $.Deferred()
     $.ajax
       url: "/api/v1/ews/dashboards/#{args.id}"
@@ -42,6 +43,7 @@ class DashboardsStore extends EventEmitter
         console.log(data)
 
   updateAsset: (args) ->
+    return;
     p = $.Deferred()
     $.ajax
       type: "PUT"

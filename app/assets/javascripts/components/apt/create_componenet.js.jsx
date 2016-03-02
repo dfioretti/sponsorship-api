@@ -15,7 +15,8 @@ var CreateComponent = React.createClass({
   },
   componentWillUnmount: function() {
     var table = $('#component-data-table').DataTable();
-    table.destroy();
+    
+    //table.destroy();
   },
   componentDidMount: function() {
     this.setGrid();

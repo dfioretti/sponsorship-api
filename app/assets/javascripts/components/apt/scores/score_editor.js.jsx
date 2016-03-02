@@ -7,10 +7,12 @@ var ScoreEditor = React.createClass({
     return { scoreLoaded: false };
   },
   componentWillMount: function() {
-    this.props.setTitle('Score Editor');
-    ScoresStore.setCurrent(this.props.params.id);
+    //this.props.setTitle('Score Editor');
+    //ScoresStore.setCurrent(this.props.params.id);
+    ScoresStore.setCurrent(3);
 
-    ScoresStore.getCurrent(this.props.params.id).then(function(current) {
+    //ScoresStore.getCurrent(this.props.params.id).then(function(current) {
+    ScoresStore.getCurrent(3).then(function(current) {
       this.setState({scoreLoaded: ScoresStore.getState().ready, score: current });
         if (this.state.scoreLoaded) {
           this.setupGrid();
@@ -78,10 +80,25 @@ var ScoreEditor = React.createClass({
       </div>
     );
   },
+  renderTop: function() {
+    console.log("CALLED SUB");
+    var link = '/apt/portfolio/dashboard';
+    return (
+      <div className="details-subnav">
+        <div className="details-left-nav">
+          <Link to={link}>
+            <div className="back-icon"></div>
+          </Link>
+          <div className="to-dashboard">Back</div>
+        </div>
+      </div>
+    );
+  },
   render: function() {
     return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={""} dashboardType="score-editor" />
+          <AptSidebar {...this.props} dashboardState={""} dashboardType="score-editor" />
+            {this.renderTop()}
           <div className="modules-box">
             {this.renderModules(null)}
           </div>
