@@ -41,7 +41,7 @@ var PortfolioDashboard = React.createClass({
     var el, hidden;
     if (state == "off")
       hidden = true;
-    el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
+    el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portfolio Allocation" cadence={this.state.cadence} />
 
     switch (name) {
       case 'teneo_rep_score':
@@ -52,7 +52,7 @@ var PortfolioDashboard = React.createClass({
         //el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
         break;
       case 'global_hotspots':
-        el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
+        el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portolio Alloc 2" cadence={this.state.cadence} />
         //el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
       case 'OFFtop_global_influencers':
@@ -62,7 +62,7 @@ var PortfolioDashboard = React.createClass({
         //el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'top_global_issues':
-        el = <CustomComponent type="doughnutChart" hidden={hidden} title="Custom Bar" />
+        el = <CustomComponent hidden={hidden} />
         //el = <GlobalIssues hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
     }

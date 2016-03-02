@@ -3,12 +3,21 @@ var LineChart = React.createClass({
     ChartTooltipHandler
   ],
   getInitialState: function() {
-    console.log("Get Initial State");
     return {};
   },
   componentDidUpdate: function() {
     if (!this.state.chart) return;
     this.state.chart.update();
+  },
+  componentWillMount: function() {
+    this.setState({ chartData: this.props.chartData });
+    this.setState({ dataLoaded: true});
+    this.setState({ component: this.props.component });
+  },
+  componentDidMount: function() {
+    if (this.state.dataLoaded) {
+      this.buildChart(null);
+    }
   },
   componentWillReceiveProps: function(newProps) {
     console.log("Will Prop");
@@ -21,13 +30,10 @@ var LineChart = React.createClass({
     }
   },
   buildChart: function(props) {
-    console.log("Build Chart");
-    // TODO: - all the chart data stuff
-
     this.renderChart();
   },
   getLabels: function() {
-    return ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5", "Label 6"];
+    return this.state.chartData.labels;
   },
   renderLegend: function () {
     if (!this.state.data) return;
@@ -44,17 +50,14 @@ var LineChart = React.createClass({
     var self = this;
     console.log("Render Chart");
     var ctx = $("#custom-line-chart").get(0).getContext("2d");
-    var labels = this.getLabels();
-    var nyy = [ 92.3, 84.4, 84.1, 98.2, 58.2, 87.4];
-    var nym = [ 82.3, 94.4, 94.1, 88.2, 78.2, 77.4];
-    var nyi = [ 72.3, 74.4, 74.1, 78.2, 88.2, 97.4];
-    var nyg = [ 62.3, 64.4, 44.1, 38.2, 38.2, 57.4];
-    var nyj = [ 52.3, 44.4, 64.1, 68.2, 38.2, 67.4]
 
-    var rawData = [nyy, nym, nyi, nyg, nyj];
+    var labels = this.getLabels();
+    var rawData = this.state.chartData.chartData;
+    var names = this.state.chartData.assets;
     var dataSets = [];
+
     for (var i = 0; i < rawData.length; i++) {
-      dataSets.push(this.dataSetForIndex(i, "label" + i, rawData[i]));
+      dataSets.push(this.dataSetForIndex(i, names[i], rawData[i]));
     }
     var data = {
       labels: labels,
@@ -84,10 +87,6 @@ var LineChart = React.createClass({
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
         if (!self.isTooltip(tooltip)) return;
-
-        //var rawData = props.repScores.raw;
-        //var dateOfToolTip = rawData[labels.indexOf(tooltip.title)].date;
-
         self.renderTooltip(tooltip, "Title", data);
       }
     });
@@ -115,14 +114,13 @@ var LineChart = React.createClass({
   render: function() {
 
       return (
-        <div>
-          <div display="none" className="chart-legend">
+        <div className="main">
+          <div className="chart-legend">
             {this.renderLegend()}
           </div>
           <canvas id="custom-line-chart" width="380px" height="240px"></canvas>
-          <div ref="chartjsTooltip" id="chartjs-tooltip"></div>
+          <div ref="chartjsTooltip" id="linechart-tooltip"></div>
        </div>
       );
   }
-
 });

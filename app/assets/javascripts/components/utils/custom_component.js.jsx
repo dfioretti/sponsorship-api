@@ -6,20 +6,23 @@ var CustomComponent = React.createClass({
   ],
   componentWillMount: function() {
     console.log("component will mount");
+
     Dispatcher.componentGet(
       1,
       function(data) {
-        Dispatcher.componentDataGet(
-          1,
-          function(data) {
-            console.log(data);
-          }
-        )
-      }.bind(this)
-    );
+        console.log("Data!" + data);
+        this.setState({ componentLoaded: true, component: data });
+    }.bind(this));
+
+    Dispatcher.componentDataGet(
+      1,
+      function(data) {
+        console.log("Data 2!" + data);
+        this.setState({dataLoaded: true, componentData: data});
+    }.bind(this));
   },
   getInitialState: function() {
-    return {};
+    return { componentLoaded: false, dataLoaded: false};
   },
   renderBarChart: function() {
     return (
@@ -28,7 +31,7 @@ var CustomComponent = React.createClass({
   },
   renderLineChart: function() {
     return (
-      <LineChart {...this.props} />
+      <LineChart {...this.props} chartData={this.state.componentData} componentData={this.state.component} />
     );
   },
   renderDoughnutChart: function() {
@@ -52,40 +55,46 @@ var CustomComponent = React.createClass({
     );
   },
   renderContent: function() {
-    switch (this.props.type) {
-      case 'barChart':
-        return this.renderBarChart();
-        break;
-      case 'lineChart':
-        return this.renderLineChart();
-        break;
-      case 'valueList':
-        return this.renderValueList();
-        break;
-      case 'barList':
-        return this.renderBarList();
-        break;
-      case 'doughnutChart':
-        return this.renderDoughnutChart();
-        break;
-      case 'pieChart':
-        return this.renderPieChart();
-        break;
+    if (this.state.dataLoaded && this.state.componentLoaded) {
+      console.log("going to render content...");
+      switch (this.state.component.view) {
+        case 'barChart':
+          return this.renderBarChart();
+          break;
+        case 'lineChart':
+          return this.renderLineChart();
+          break;
+        case 'valueList':
+          return this.renderValueList();
+          break;
+        case 'barList':
+          return this.renderBarList();
+          break;
+        case 'doughnutChart':
+          return this.renderDoughnutChart();
+          break;
+        case 'pieChart':
+          return this.renderPieChart();
+          break;
+      }
     }
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
-    // old id was teneo_rep_score
+    if (this.state.dataLoaded && this.state.componentLoaded) {
       return (
-        <div id="top_global_issues" className="dashboard-module" style={hiddenStyle}>
+        <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
             <div className="top">
               <div className="drag-handle"></div>
-              <div className="top-title">{this.props.title}</div>
+              <div className="top-title">{this.state.component.name}</div>
             </div>
-            <div className="main">
-                {this.renderContent()}
-            </div>
+            {this.renderContent()}
         </div>
-      )
+      );
+    } else {
+      return (
+        <div className="dashboard-module"></div>
+      );
+    }
   }
 });

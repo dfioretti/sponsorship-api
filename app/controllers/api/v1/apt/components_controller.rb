@@ -8,8 +8,23 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   # non-RESTful query for component render data
   def data
+    @component = CustomComponent.find(params[:id])
+    @data = nil;
     Rails.logger.debug("XXX")
-    render json: {:success => true}
+    if (params[:type] == 'lineChart')
+      @data = @component.buildLineChartData
+    elsif (params[:type] == 'barChart')
+
+    elsif (params[:type] == 'valueList')
+
+    elsif (params[:type] == 'barList')
+
+    elsif (params[:type] == 'doughnutChart')
+
+    elsif (params[:type] == 'pieChart')
+
+    end
+    render json: @data
   end
 
 

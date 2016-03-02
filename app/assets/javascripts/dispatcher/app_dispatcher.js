@@ -6,6 +6,7 @@ var Dispatcher = {
       url: path,
       data: JSON.stringify(params),
       success: function(data) {
+        console.log(data);
         successCallback(data);
       },
       error: function(xhr, status, error) {
@@ -18,7 +19,7 @@ var Dispatcher = {
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: '/api/v1/apt/components/data/' + cid,
+      url: '/api/v1/apt/components/data/' + cid + "?type=lineChart",
       success: function(data) {
         console.log(data);
         successCallback(data);
@@ -30,13 +31,11 @@ var Dispatcher = {
     });
   },
   componentGet: function(cid, successCallback) {
-    console.log("XXX")
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: "/api/v1/apt/components/" + cid + "?type=lineChart",
+      url: "/api/v1/apt/components/" + cid,
       success: function(data) {
-        console.log(data);
         successCallback(data);
       },
       error: function(xhr, status, error) {
