@@ -6,8 +6,11 @@
   border-right: 1px solid #1c1c1c;
 
   .top {
-    height: 98px;
-    padding: 41px 20px 36px;
+//    height: 98px;
+    //padding: 41px 20px 36px;
+    padding-top: 23.5px;
+    padding-bottom: 23.5px;
+    padding-left: 20px;
     background-color: $darkest-grey;
 
     &.light {
