@@ -19,6 +19,7 @@ Rails.application.routes.draw do
           resources :mock_data, only: [:index]
           resources :dashboards, only: [:show, :update]
         end
+        get '/components/data/:id' => 'components#data'
         resources :components, only: [:show, :new, :update, :index]
         resources :scores, only: [:index, :new, :show, :update]
         resources :asset_sets, only: [:index, :new, :show, :update]
@@ -32,7 +33,6 @@ Rails.application.routes.draw do
       get '/sign_upload' => 's3#sign_upload'
     end
   end
-
   get '/score_builder' => 'application#score_builder'
   root 'application#app'
   get '/*path' => 'application#app'

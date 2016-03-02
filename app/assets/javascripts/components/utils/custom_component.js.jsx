@@ -7,10 +7,14 @@ var CustomComponent = React.createClass({
   componentWillMount: function() {
     console.log("component will mount");
     Dispatcher.componentGet(
-      "show",
-      {id: 1},
+      1,
       function(data) {
-        console.log("Component Data: " + data);
+        Dispatcher.componentDataGet(
+          1,
+          function(data) {
+            console.log(data);
+          }
+        )
       }.bind(this)
     );
   },

@@ -18,23 +18,30 @@ var PortfolioDashboard = React.createClass({
     var cadence = this.getDateRangeCadence(this.defaultStartInverval);
     var defaults =  _.extend({dashboardLoaded: false}, dateRange, {cadence: cadence});
 
-    DashboardsStore.getFifa().then(function(dashboard) {
-    }.bind(this))
-    .then(function () {
-      this.getRepScores(defaults).then(function (repScores) {
-        var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-        this.setState(state);
-
-        this.handleChange();
+    DashboardsStore.getFifa().then(function() {
+      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
+      if (this.state.dashboardLoaded) {
         this.setupGrid();
-        $('.modules-container').trigger('ss-rearrange');
-      }.bind(this));
+      }
     }.bind(this));
+    //DashboardsStore.getFifa().then(function(dashboard) {
+    //}.bind(this))
+    //.then(function () {
+      //this.getRepScores(defaults).then(function (repScores) {
+      //  var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
+      //  this.setState(state);
+
+    //    this.handleChange();
+  //      this.setupGrid();
+  //      $('.modules-container').trigger('ss-rearrange');
+      //}.bind(this));
+  //  }.bind(this));
   },
   mapModule: function(name, state) {
     var el, hidden;
     if (state == "off")
       hidden = true;
+    el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
 
     switch (name) {
       case 'teneo_rep_score':
@@ -42,17 +49,17 @@ var PortfolioDashboard = React.createClass({
         //el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
         break;
       case 'insights_implications':
-        el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
+        //el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
         break;
       case 'global_hotspots':
         el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
         //el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
       case 'OFFtop_global_influencers':
-        el = <GlobalInfluencers hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
+        //el = <GlobalInfluencers hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
         break;
       case 'top_news':
-        el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
+        //el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
         break;
       case 'top_global_issues':
         el = <CustomComponent type="doughnutChart" hidden={hidden} title="Custom Bar" />

@@ -14,12 +14,27 @@ var Dispatcher = {
       }
     });
   },
-  componentGet: function(path, params, successCallback) {
+  componentDataGet: function(cid, successCallback) {
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: "/api/v1/apt/componets/show",
-      data: JSON.stringify(params),
+      url: '/api/v1/apt/components/data/' + cid,
+      success: function(data) {
+        console.log(data);
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
+  },
+  componentGet: function(cid, successCallback) {
+    console.log("XXX")
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: "/api/v1/apt/components/" + cid + "?type=lineChart",
       success: function(data) {
         console.log(data);
         successCallback(data);
