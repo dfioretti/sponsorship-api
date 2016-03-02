@@ -21,6 +21,13 @@ class Asset < ActiveRecord::Base
              ).save
   end
 
+  def self.set_random_dates
+    Asset.all.each do |a|
+      a.renewal = rand(Date.civil(2016, 5, 1)..Date.civil(2025, 12, 31))
+      a.save
+    end
+  end
+
   def self.add_scope_to_assets
     Asset.all.each do |a|
       if a.category == "Sports Team"

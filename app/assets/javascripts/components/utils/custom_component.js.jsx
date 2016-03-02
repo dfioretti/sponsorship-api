@@ -5,19 +5,15 @@ var CustomComponent = React.createClass({
     ChartTooltipHandler
   ],
   componentWillMount: function() {
-    console.log("component will mount");
-
     Dispatcher.componentGet(
       1,
       function(data) {
-        console.log("Data!" + data);
         this.setState({ componentLoaded: true, component: data });
     }.bind(this));
 
     Dispatcher.componentDataGet(
       1,
       function(data) {
-        console.log("Data 2!" + data);
         this.setState({dataLoaded: true, componentData: data});
     }.bind(this));
   },
@@ -56,7 +52,6 @@ var CustomComponent = React.createClass({
   },
   renderContent: function() {
     if (this.state.dataLoaded && this.state.componentLoaded) {
-      console.log("going to render content...");
       switch (this.state.component.view) {
         case 'barChart':
           return this.renderBarChart();

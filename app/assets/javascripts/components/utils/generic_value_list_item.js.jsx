@@ -10,7 +10,8 @@ var GenericValueListItem = React.createClass({
   },
   componentWillReceiveProps: function(newProps) {
     if(newProps.value !== this.props.value) {
-      this.animate(newProps);
+      if (newProps.reAnimate)
+        this.animate(newProps);
     }
   },
   animate: function(newProps) {
@@ -23,14 +24,16 @@ var GenericValueListItem = React.createClass({
     return nextProps.value != this.props.value;
   },
   render: function() {
-    //var itemId = "value-list-item-" + this.props.key;
+    var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
     return (
-      <li>
-        <div className="stat-image">
-          <img src={this.props.statImage} />
-        </div>
-        <div className="stat-header">{this.props.statHeader}</div>
-        <div id={this.itemId} className="stat-metric">{this.props.statMetric}</div>
+      <li style={liStyle}>
+        <Link to={this.props.link} >
+          <div className="stat-image">
+            <img src={this.props.statImage} />
+          </div>
+          <div className="stat-header">{this.props.statHeader}</div>
+          <div id={this.itemId} className="stat-metric">{this.props.statMetric}</div>
+        </Link>
       </li>
     )
   }

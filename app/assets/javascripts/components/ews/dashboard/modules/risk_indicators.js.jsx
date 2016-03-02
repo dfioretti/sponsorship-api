@@ -6,6 +6,7 @@ var RiskIndicators = React.createClass({
     this.getData();
   },
   componentWillReceiveProps: function(newProps) {
+    console.log("will rec prop");
     if (this.props.hidden != newProps.hidden && !newProps.hidden && !this.state.scrollLoaded) {
       if (!this.state.wait) {
         this.setState({scrollLoaded: true});
@@ -20,6 +21,7 @@ var RiskIndicators = React.createClass({
     }
   },
   getData: function(props) {
+    console.log("get data");
     var p = props ? props : this.props;
     Dispatcher.apiGet(
       APIEndpoints.RISK_INDICATORS,

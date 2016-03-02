@@ -1,0 +1,93 @@
+filter by tag to create asset set
+
+
+WORKS FOR SIDEBYSIDE COMPARE
+
+Create New Dashboard:
+  [ ] Create drops you in a new dashboard
+  [ ] Maybe Just a Modal that you give it a name
+        - then it drops you there
+  [ ] On back of all cards, have the option to add to board
+  [ ] Then Just iterate through all and render...
+      Only issue is same boards on different - maybe I add
+      a feild alled custom board - and that one uses
+      a json string that takes an
+        portfolio/asset, asset_id, a card name,
+
+Porfolio Dashboard:
+  [ ] Create portoflio detail card:
+        - tall, has portoflio assets
+        - filter, sort -> basic stats
+        - can reuse some componenet i think
+  [ ] Tall Score Standing for built in score
+        - can link to a madeup demo score
+        - should have a ranking bar (risk indicators)
+  [ ] Portfolio Summary ? - spend breakdown by category
+        - can be a detail view of the tree map?
+  [ ] Portfolio Map
+        - can be jsut regional?
+        - toggle category, individual assets
+        - cencus heatmap?
+        - detail is just larger map - side container to toggle
+  [ ] Create Dashboard -
+        - select existing cards
+        - actually not too hard...just render
+        - eh interface might be annoying...
+        - Asset Components - set asset
+        - portolio componenets 
+
+Asset Dashboard:
+  [ ] Portfolio Rank - risk assessment - single score
+  [ ] Social Breakdown
+        - pie or doughnut of social followers
+  [ ] Bar Chart
+        - different scores
+        - passion, performance, fit?
+  [ ] Line Chart
+        - social engagement
+  [ ] Tall Survey - lost of demos
+
+Both:
+  [ ] Notes
+  [ ] Top Tweets / Recent Tweets?
+  [ ] Contract data ?
+  [ ] Detail views...
+  [ ] Configure custom componenet?
+        - gear to change
+        - interval, [bar/line], [pie/doughnut]
+Issues:
+  [ ] Fix Editors New
+        - don't create new records on edit
+  [ ] Fix Navigation
+        - get consistent, use details
+  [ ] Cut out Old Code
+        - get rid of unused code in copied componenets
+  [ ] Consistent Nav / Sidebars
+        - does the sidbar not work outside of portofolio
+  [ ] Connect Real Data
+        - Save in DB all data (datum)
+        - create a single entry, do diff for
+        - national / regional (essentially just teams)
+        - set bounds for random # generation
+        - setup mock data controllers
+  [ ] Connect create componenet
+        - get sidebars working,
+        - render all components for dash
+  [ ] Menu Subs
+        - contextual menu
+        - grouped submenus
+        - fake menu items -> Manage Data
+                          -> Upload Data
+  [ ] Fip Card to Configure
+        - i like in line updating
+        - some can be mocked - use flip
+
+  [ ] Detail Views!
+        - at least something?
+
+
+
+
+
+
+

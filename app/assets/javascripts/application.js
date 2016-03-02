@@ -40,9 +40,13 @@
 //= require bootstrap-slider
 //= require datatables
 //= require jquery.fastLiveFilter
+//= require proj4
 //= require highcharts
+//= require highcharts-more
+//= require map
 //= require modules/treemap
 //= require modules/heatmap
+//= require us-all
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;

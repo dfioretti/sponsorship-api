@@ -18,6 +18,7 @@ var PortfolioDashboard = React.createClass({
     var cadence = this.getDateRangeCadence(this.defaultStartInverval);
     var defaults =  _.extend({dashboardLoaded: false}, dateRange, {cadence: cadence});
 
+    // I think there is an issue with this? error for not settign state...
     DashboardsStore.getFifa().then(function() {
       this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
       if (this.state.dashboardLoaded) {
@@ -41,9 +42,15 @@ var PortfolioDashboard = React.createClass({
     var el, hidden;
     if (state == "off")
       hidden = true;
-    el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portfolio Allocation" cadence={this.state.cadence} />
+    //el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portfolio Allocation" cadence={this.state.cadence} />
 
     switch (name) {
+      case 'portfolio_map':
+        el = <PortfolioMap hidden={hidden} key={name} />
+        break;
+      case 'portfolio_summary':
+        el = <PortfolioSummary hidden={hidden} key={name} />
+        break;
       case 'teneo_rep_score':
         el = <ScoreTrend hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
         //el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
