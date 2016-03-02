@@ -13,8 +13,8 @@ const APIEndpoints = {
 };
 
 const FIFAEndpoints = {
-  REP_SCORE: "http://dashapi.teneodigital.com:8080/rep_score",
-  GLOBAL_ISSUES: "http://dashapi.teneodigital.com:8080/global_issues",
-  INFLUENCERS: "http://dashapi.teneodigital.com:8080/influencers",
-  NEWS: "http://dashapi.teneodigital.com:8080/news"
+  REP_SCORE: "https://dashapi.teneodigital.com:8080/rep_score",
+  GLOBAL_ISSUES: "https://dashapi.teneodigital.com:8080/global_issues",
+  INFLUENCERS: "https://dashapi.teneodigital.com:8080/influencers",
+  NEWS: "https://dashapi.teneodigital.com:8080/news"
 };

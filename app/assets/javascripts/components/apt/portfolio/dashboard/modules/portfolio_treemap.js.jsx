@@ -13,52 +13,71 @@ var PortfolioTreemap = React.createClass({
     this.renderChart();
   },
   renderChart: function () {
+    var colors = ["#3c88d1", "#e76959", "#f5a623", "#124c93", "#50e3c2", "#03387a", "#738694"];
+    // TODO: http://www.highcharts.com/demo/treemap-large-dataset
+    // levels
+
     $('#tree-map').highcharts({
         chart: {
-          height: 230,
+          style: {
+              fontFamily:'Avenir-Book'
+          },
+          height: 270,
+          spacing: [0, 0, 0, 0],
+          backgroundColor: "#2d64a5",
+          borderColor: "#2d64a5",
         },
         series: [{
+            borderColor: "#2d64a5",
             type: "treemap",
+            layoutAlgorithm: 'squarified',
             data: [{
                 name: 'Sports',
-                value: 6
+                value: 6,
+                color: colors[0]
             }, {
                 name: 'Ent',
-                value: 6
+                value: 6,
+                color: colors[1]
             }, {
                 name: 'MLB',
-                value: 4
-            }, {
-                name: 'NFL',
-                value: 3
+                value: 4,
+                color: colors[2]
             }, {
                 name: 'NASCAR',
-                value: 2
+                value: 3,
+                color: colors[3]
+            }, {
+                name: 'NFL',
+                value: 2,
+                color: colors[4]
             }, {
                 name: 'Music',
-                value: 2
+                value: 2,
+                color: colors[5]
             }, {
                 name: 'NHL',
-                value: 1
+                value: 1,
+                color: colors[6]
             }]
         }],
         title: {
-            text: 'Portfolio Allocation',
-            margin: 2
+            text: null//'Portfolio Allocation',
+            //margin: 2
         }
     });
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     return (
-      <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
+      <div id="global_hotspots" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
           <a className="expand-handle"></a>
           <div className="drag-handle"></div>
-          <div className="top-title">{this.props.title}</div>
+          <div className="top-title">Portfolio Allocation</div>
         </div>
         <div className="main">
-          <div id="tree-map">
+          <div style={{paddingTop: "0px"}}id="tree-map">
             {this.renderChart()}
           </div>
         </div>

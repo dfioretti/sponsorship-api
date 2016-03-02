@@ -28,12 +28,29 @@ var PortfolioMap = React.createClass({
 
     chart = new H.Map({
             chart: {
-                renderTo: 'container'
+                style: {
+                  fontFamily: 'Avenir-Book'
+                },
+                renderTo: 'map',
+                spacing: [2, 0, 0, 0],
+                backgroundColor: "#2d64a5",
+                mapZoom: (2, 100, 100)
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                map: {
+                  color: "#3c88d1",
+                }
             },
             title: {
-                text: 'Highmaps lat/lon demo'
+                text: null
             },
-
+            mapNavigation: {
+                enableButtons: true
+                //enableDoubleClickZoom: true
+            },
             tooltip: {
                 pointFormat: '{point.capital}, {point.parentState}<br>' +
                     'Lat: {point.lat}<br>' +
@@ -62,14 +79,16 @@ var PortfolioMap = React.createClass({
             series: [{
                 name: 'Basemap',
                 mapData: map,
+                color: "#3c88d1",
                 borderColor: '#606060',
-                nullColor: 'rgba(200, 200, 200, 0.2)',
+                nullColor: "#3c88d1",
+                //nullColor: 'rgba(200, 200, 200, 0.2)',
                 showInLegend: false
             }, {
                 name: 'Separators',
                 type: 'mapline',
                 data: H.geojson(map, 'mapline'),
-                color: '#101010',
+                color: '#4a4a4a',
                 enableMouseTracking: false,
                 showInLegend: false
             }, {
@@ -81,7 +100,7 @@ var PortfolioMap = React.createClass({
                 name: 'Cities',
                 data: data,
                 maxSize: '12%',
-                color: H.getOptions().colors[0]
+                color: "#50e3c2"//H.getOptions().colors[0]
             }]
         });
 
@@ -92,14 +111,17 @@ var PortfolioMap = React.createClass({
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     return (
-      <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
+      <div id="global_hotspots" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
           <a className="expand-handle"></a>
           <div className="drag-handle"></div>
-          <div className="top-title">{this.props.title}</div>
+          <div className="top-title">Portfolio Map</div>
         </div>
-        <div className="main">
-          <div style={{height: "230px"}} id="container">
+        <div style={{paddingLeft: "0px", paddingRight: "0px", paddingBottom: "0px"}}className="main">
+          <div className="legend">
+            <div className="legend-item"><div className="legend-point legend-color-6"></div>City Population</div>
+          </div>
+          <div style={{height: "230px", width: "400px", marginTop: "0px"}} id="map">
             {this.renderChart()}
           </div>
         </div>

@@ -706,7 +706,7 @@
 .dashboard-module {
   .legend {
     padding: 14px 0px 12px;
-    border-bottom: 1px solid $dark-blue;
+    //border-bottom: 1px solid $dark-blue;
     font-size: 10px;
     text-align: center;
 
@@ -1074,6 +1074,13 @@
     .main {
       #map {
         height: 229px;
+        outline: none;
+        overflow: hidden;
+        z-index: 0;
+        border-radius: 3px;
+      }
+      #tree-map {
+        height: 270px;
         outline: none;
         overflow: hidden;
         z-index: 0;
