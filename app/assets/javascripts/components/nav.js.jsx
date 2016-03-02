@@ -163,7 +163,7 @@ var Nav = React.createClass({
           // need faster search to render images
           //var queried = this.filterAssetsOnQuery(AssetsStore.getState().assets);
           var queried = AssetsStore.getState().assets;
-          assetName =  "Select Asset";
+          assetName =  "Go To Asset";
           assets = $.map(queried, function(asset) {
             var image = "/images/" + asset.id + ".jpg";
             var imgStyle = {

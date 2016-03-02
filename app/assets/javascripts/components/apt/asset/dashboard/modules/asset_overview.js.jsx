@@ -7,7 +7,7 @@ var AssetOverview = React.createClass({
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
-
+    var imageUrl = "/images/" + asset.id + ".jpg";
     return (
       <div id="asset_overview" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
@@ -17,7 +17,7 @@ var AssetOverview = React.createClass({
         <div className="main" ref="flipper">
           <div id="card">
             <div className="large-logo front">
-              <img src={asset.image}/>
+              <img src={imageUrl} />
               <ul className="card-metrics">
                 <li>
                   <div className="metric">{asset.pretty_renewal}</div>

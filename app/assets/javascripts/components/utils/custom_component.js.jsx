@@ -88,7 +88,9 @@ var CustomComponent = React.createClass({
               <div className="drag-handle"></div>
               <div className="top-title">{this.state.component.name}</div>
             </div>
-            {this.renderContent()}
+            <div className="main">
+              {this.renderContent()}
+            </div>
         </div>
       );
     } else {

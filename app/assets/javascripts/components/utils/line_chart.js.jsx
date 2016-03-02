@@ -114,7 +114,7 @@ var LineChart = React.createClass({
   render: function() {
 
       return (
-        <div className="main">
+        <div>
           <div className="chart-legend">
             {this.renderLegend()}
           </div>
