@@ -13,6 +13,10 @@ var CreateComponent = React.createClass({
       </div>
     );
   },
+  componentWillUnmount: function() {
+    var table = $('#component-data-table').DataTable();
+    table.destroy();
+  },
   componentDidMount: function() {
     this.setGrid();
     $('#component-data-table').DataTable(
