@@ -106,7 +106,7 @@ var Nav = React.createClass({
   renderLogo: function() {
     var logo;
     if (typeof(this.state.name) !== 'undefined' && this.state.name !== null) {
-      logo = <div className="nav navbar-nav navbar-left nav-brand"><Link to="choose_company">Teneo</Link></div>
+      logo = <div className="nav navbar-nav navbar-left nav-brand"><Link to="/">Teneo</Link></div>
     } else {
       logo = <div className="nav navbar-nav navbar-left nav-brand"><Link to="account_login">Teneo</Link></div>
     }
