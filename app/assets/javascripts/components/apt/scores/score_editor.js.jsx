@@ -6,6 +6,12 @@ var ScoreEditor = React.createClass({
   getInitialState: function() {
     return { scoreLoaded: false };
   },
+  componentDidMount: function() {
+    $("#hackback").click(function(e) {
+      ReactRouter.HashLocation.pop();
+      //Navigation.goBack();
+    });
+  },
   componentWillMount: function() {
     //this.props.setTitle('Score Editor');
     //ScoresStore.setCurrent(this.props.params.id);
@@ -80,16 +86,20 @@ var ScoreEditor = React.createClass({
       </div>
     );
   },
+  goBack: function(e) {
+    console.log("IN E");
+    console.log(e);
+    //window.history.back();
+    //ReactRouter.History.back();
+  },
   renderTop: function() {
     console.log("CALLED SUB");
     var link = '/apt/portfolio/dashboard';
     return (
       <div className="details-subnav">
-        <div className="details-left-nav">
-          <Link to={link}>
-            <div className="back-icon"></div>
-          </Link>
-          <div className="to-dashboard">Back</div>
+        <div  className="details-left-nav">
+            <div id="hackback"  className="back-icon"></div>
+            <div className="to-dashboard">Back</div>
         </div>
       </div>
     );

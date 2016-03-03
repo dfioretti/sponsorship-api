@@ -1,7 +1,8 @@
 class Api::V1::NotesController < ApplicationController
   def index
-    notes = Note.includes(:user).recent_by_company(params[:company_id])
-    render json: notes.to_json(include: :user)
+    #notes = Note.includes(:user).recent_by_company(params[:company_id])
+    #render json: notes.to_json(include: :user)
+    render json: {notes: Note.all}
   end
 
   def create

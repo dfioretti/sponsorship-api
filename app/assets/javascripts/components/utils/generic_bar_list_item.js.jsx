@@ -48,11 +48,18 @@ var GenericBarListItem = React.createClass({
     }
     return tooltip;
   },
+  commaSeparateNumber: function commaSeparateNumber(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+    }
+    return val;
+  },
   renderRightText: function() {
     var text;
     if (this.props.rightText) {
+      var formatText = this.commaSeparateNumber(this.props.rightText);
       text = (
-        <div className="li-right-text">{this.props.rightText}</div>
+        <div className="li-right-text">{formatText}</div>
       );
     }
     return text;
@@ -76,13 +83,14 @@ var GenericBarListItem = React.createClass({
     //TODO: update this with better my links
     var link = '/ews/dashboard/' + this.props.companyId + '/detail',
     main;
+    var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
 
     if (this.props.link) {
       main = (
         <Link to={link}>
           {this.renderProbability()}
           {this.renderRightText()}
-          <div className="li-title">{this.props.title}</div>
+          <div style={liStyle} className="li-title">{this.props.title}</div>
         </Link>
       )
     } else {
@@ -90,12 +98,12 @@ var GenericBarListItem = React.createClass({
         <div>
           {this.renderProbability()}
           {this.renderRightText()}
-          <div className="li-title">{this.props.title}</div>
+          <div style={liStyle} className="li-title">{this.props.title}</div>
         </div>
       );
     }
     return (
-      <li className="probability-list-item">
+      <li style={liStyle} className="probability-list-item">
         {main}
       </li>
     );

@@ -59,6 +59,31 @@ var AptSidebar = React.createClass({
     </div>
     );
   },
+  renderToggles: function() {
+    var toggles = AssetModuleToggles;
+
+    var toggles = $.map(toggles, function(name){
+      var cn = "icon " + name,
+      title = name.replace(/_/g, ' '),
+      state = this.props.dashboardState,
+      toggleValue;
+
+      if (state[name])
+        toggleValue = state[name]["toggle"];
+
+      return (
+        <li key={name}>
+          <Toggle toggleValue={toggleValue} module={name} handleToggle={this.props.handleToggle}/>
+          <div className={cn}>{title}</div>
+        </li>
+      );
+    }.bind(this));
+    return (
+      <ul className="toggle-list">
+        {toggles}
+      </ul>
+    );
+  },
   render: function() {
     //{this.renderTop()}
 
@@ -66,6 +91,9 @@ var AptSidebar = React.createClass({
         <div className="sidebar">
           {this.renderMenu()}
           {this.renderContent()}
+          <div className="module-toggle-container">
+            {this.renderToggles()}
+          </div>
           <div className="print-report">
             <ul>
               <li>

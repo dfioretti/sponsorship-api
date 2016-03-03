@@ -29,16 +29,10 @@ var RoundChart = React.createClass({
     console.log("did prop");
   },
   backgroundColor: [
-    '#cddc39',
-    '#ff9801',
     '#2096f3',
-    '#f44336',
-    '#673ab7',
-    '#124c93',
-    '#50e3c2',
-    '#26a162',
     '#e76959',
-    '#218451',
+    '#50e3c2',
+    '#f5a623',
     '#2d64a5'
   ],
   renderChart: function(props) {
@@ -52,7 +46,7 @@ var RoundChart = React.createClass({
     }.bind(this));
 
     // issue rendering outside of the canvas
-    var strokeWidth = 3;
+    var strokeWidth = 1;
     var ctx = $("#" + this.chartId).get(0).getContext("2d");
     var chartDetail = {
       segmentStrokeWidth: strokeWidth,

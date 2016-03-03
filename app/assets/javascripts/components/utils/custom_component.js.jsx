@@ -41,7 +41,7 @@ var CustomComponent = React.createClass({
   },
   renderDoughnutChart: function() {
     return (
-      <RoundChart {...this.props} type="doughnut" />
+      <RoundChart {...this.props} type="doughnut" viewData={this.state.componentData}/>
     );
   },
   renderPieChart: function() {
@@ -85,9 +85,12 @@ var CustomComponent = React.createClass({
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
+    var cssId = "top_global_issues";
+    if (this.state.componentType == "lineChart")
+      cssId = "teneo_rep_score";
     if (this.state.dataLoaded) {
       return (
-        <div id="top_global_issues" className="dashboard-module" style={hiddenStyle}>
+        <div id={cssId} className="dashboard-module" style={hiddenStyle}>
             <div className="top">
               <div className="drag-handle"></div>
               <div className="top-title">{this.props.componentTitle}</div>

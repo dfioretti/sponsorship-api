@@ -29,14 +29,21 @@ var TextListItem = React.createClass({
     return attachment;
   },
   render: function() {
+    //<div className="li-name">{this.props.user.name}</div>
+
+    var name = "Test User";
+    if (typeof(this.props.user) != 'undefined') {
+      name = this.props.user.name;
+    }
+
     return (
       <li className="probability-list-item">
         <div className="li-info">
           <div className="li-image"></div>
-          <div className="li-name">{this.props.user.name}</div>
+          <div className="li-name">Test User</div>
           {this.renderDate()}
         </div>
-        <div className="li-text">{this.props.body}</div>
+        <div className="li-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer suscipit leo ullamcorper vehicula fermentum. Curabitur mollis nisl et dapibus dictum. Duis cursus nec turpis quis rutrum. Morbi eleifend ante nisl, ultrices facilisis nisi interdum non. Integer tempus ornare suscipit. Nulla vel pharetra velit. Maecenas tincidunt et tellus a feugiat. Phasellus eu dapibus nisl, vel hendrerit ante. Ut ac urna efficitur, scelerisque justo et, porta nulla. Cras sagittis pellentesque nisl at faucibus. Vivamus in leo erat. Integer faucibus, nisi eu tincidunt interdum, libero est imperdiet quam, quis semper sapien purus eget ipsum.</div>
         {this.renderAttachment()}
       </li>
     );

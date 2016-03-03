@@ -18,6 +18,41 @@ class CustomComponent < ActiveRecord::Base
     end
   end
 
+  def buildSingleAssetTrend
+    a = 3.month.ago.strftime("%m-%y")
+    b = 6.month.ago.strftime("%m-%y")
+    c = 12.month.ago.strftime("%m-%y")
+    d = 15.month.ago.strftime("%m-%y")
+    e = 18.month.ago.strftime("%m-%y")
+    f = 21.month.ago.strftime("%m-%y")
+    labels = [f, e, d, c, b, a]
+    chartData = []
+    passion_score = []
+    6.times do |i|
+      passion_score.push(rand(76..95))
+    end
+    performance = []
+    6.times do |i|
+      performance.push(rand(54..75))
+    end
+    special = []
+    6.times do |i|
+      special.push(rand(69..88))
+    end
+    chartData.push(passion_score)
+    chartData.push(performance)
+    chartData.push(special)
+    assets = ["Passion", "Performance", "Fan Engagement"]
+    ret = {
+      :labels => labels,
+      :assets => assets,
+      :chartData => chartData,
+      :minValue => 65,
+      :maxValue => 100
+    }
+    return ret
+  end
+
   def buildLineChartData
     chartData = []
     labels = []

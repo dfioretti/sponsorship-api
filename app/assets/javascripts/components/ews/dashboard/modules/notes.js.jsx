@@ -4,6 +4,7 @@ var Notes = React.createClass({
   },
   componentDidMount: function() {
     var s = this;
+    /*
     (function poll(){
       var timeoutId = setTimeout(function(){
         NotesStore.poll(s.props.company.id).then(function(notes){
@@ -13,7 +14,7 @@ var Notes = React.createClass({
       }, 10000);
       s.setState({timeoutId: timeoutId})
     })();
-
+    */
     if (!this.state.scrollLoaded && !this.props.hidden) {
       $('.notes-list').jScrollPane({contentWidth: '0px'});
       this.setState({scrollLoaded: true});
@@ -48,6 +49,8 @@ var Notes = React.createClass({
   },
   renderNotesList: function() {
     var notes = $.map(this.state.notes, function(note) {
+      console.log("NOTE");
+      console.log(note.body);
       return (
         <TextListItem key={note.id} user={note.user} body={note.body} date={note.created_at} attachment={note.attachment} />
       );

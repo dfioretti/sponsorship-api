@@ -157,7 +157,8 @@ var Nav = React.createClass({
     return menu;
   },
   renderTitle: function() {
-    if (this.props.title == 'apt') {
+    //if (typeof(this.state.name) !== 'undefined' && this.state.name !== null) {
+    if (true) {
         var assetName, assets;
         if (this.state.loaded) {
           // need faster search to render images

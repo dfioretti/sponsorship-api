@@ -12,7 +12,11 @@ class Api::V1::Apt::ComponentsController < ApplicationController
     @data = nil;
     Rails.logger.debug("XXX")
     if (params[:type] == 'lineChart')
-      @data = @component.buildLineChartData
+      if @component.dashboard_id < 0
+        @data = @component.buildSingleAssetTrend
+      else
+        @data = @component.buildLineChartData
+      end
     elsif (params[:type] == 'barChart')
     elsif (params[:type] == 'valueList')
       @data = @component.buildValueListData

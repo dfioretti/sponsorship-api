@@ -83,7 +83,7 @@ var PortfolioDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <AptSidebar title="Portfolio Dashboard" />
+          <AptSidebar title="Portfolio Dashboard" dashboardState={dashboardState.state}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

@@ -9,6 +9,9 @@ var AssetOverview = React.createClass({
     var asset = this.props.asset;
     var imageUrl = "/images/" + asset.id + ".jpg";
     var description = (asset.description == null) ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." : asset.description;
+    var subcat = "N/A";
+    if (asset.subcategory.length > 0)
+      subcat = asset.subcategory;
     return (
       <div id="asset_overview" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
@@ -21,16 +24,16 @@ var AssetOverview = React.createClass({
               <img src={imageUrl} />
               <ul className="card-metrics">
                 <li>
-                  <div className="metric">{asset.pretty_renewal}</div>
-                  <div className="metric-label">Renewal</div>
+                  <div className="metric">{asset.scope}</div>
+                  <div className="metric-label">Scope</div>
                 </li>
                 <li>
-                  <div className="metric">{asset.pretty_cost}</div>
-                  <div className="metric-label">Cost</div>
+                  <div className="metric">{asset.category}</div>
+                  <div className="metric-label">Category</div>
                 </li>
                 <li>
-                  <div className="metric">{asset.pretty_term}</div>
-                  <div className="metric-label">Term</div>
+                  <div className="metric">{subcat}</div>
+                  <div className="metric-label">Subcategory</div>
                 </li>
               </ul>
             </div>

@@ -62,6 +62,9 @@ var AssetDashboard = React.createClass({
       el = <CustomComponent hidden={hidden} componentType={componentType} componentTitle={componentTitle} componentId={componentId} />
     } else {
       switch (name) {
+        case 'passion_score':
+          el = <PassionScore hidden={hidden} />
+          break;
         case 'asset_overview':
           el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
           break;
@@ -100,7 +103,7 @@ var AssetDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <Sidebar {...this.props} dashboardState={dashboardState.state} dashboardType="asset" handleToggle={this.handleToggle}/>
+          <AptSidebar {...this.props} dashboardState={dashboardState.state} dashboardType="asset" handleToggle={this.handleToggle}/>
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

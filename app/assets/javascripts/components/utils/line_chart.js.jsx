@@ -91,7 +91,7 @@ var LineChart = React.createClass({
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
         if (!self.isTooltip(tooltip)) return;
-        self.renderTooltip(tooltip, "Title", data);
+        self.renderTooltip(tooltip, "", data);
       }
     });
 

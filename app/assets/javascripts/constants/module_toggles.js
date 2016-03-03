@@ -24,7 +24,7 @@ const AssetModuleToggles = [
   'asset_overview',
   'social_stats',
   'consumer_survey',
-  'top_news'
+  'top_news',
 ]
 
 const PortfolioModuleToggles = [

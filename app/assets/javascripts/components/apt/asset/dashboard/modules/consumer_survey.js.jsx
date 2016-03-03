@@ -43,6 +43,10 @@ var ConsumerSurvey = React.createClass({
     var overrideMargin = {
         marginLeft: "-20px"
     };
+    var cssOverride = {
+      paddingTop: "20px",
+      paddingBottom: "15px"
+    };
     var consumerSurvey = this.state.consumerSurvey
     var list = $.map(consumerSurvey, function(item, i) {
       var dataType = item['data_type_display_name'];
@@ -65,12 +69,12 @@ var ConsumerSurvey = React.createClass({
     var asset = this.props.asset;
 
     return (
-      <div id="consumer_survey" className="dashboard-module" style={hiddenStyle}>
+      <div id="consumer_survey" className="dashboard-module tall" style={hiddenStyle}>
         <div className="top">
           <div className="drag-handle"></div>
           <div className="top-title">Consumer Survey</div>
         </div>
-        <div className="main">
+        <div style={{paddingTop: "12px"}} className="main">
           {this.renderList()}
         </div>
       </div>
