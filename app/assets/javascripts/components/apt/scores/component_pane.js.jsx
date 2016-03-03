@@ -1,17 +1,23 @@
 var ComponentPane = React.createClass({
   componentDidMount: function() {
     weightSlider = $("#weight-slider").slider({min: 0, max: 100, value: 100});
-    var savedModel = this.props.score.score;
-    $('#score-name').val(this.props.score.name);
-    $('#score-asset-set').val(this.props.score.asset_set_name);
 
-    window.setTimeout(initilizeScoreCanvas(savedModel), 1200);
+    //var savedModel = this.state.score.score;
+    var parent = this.props.parent;
+    parent.noway();
+    this.setState({parent: this.props.parent});
+    //$('#score-name').val(this.state.score.name);
+    //$('#score-asset-set').val(this.state.score.asset_set_name);
+    //initilizeScoreCanvas(savedModel);
+  //  window.setTimeout(initilizeScoreCanvas(savedModel), 1200);
   },
   componentWillMount: function() {
     ScoresStore.on("update", function() {
       setAlert("Score model saved!", "notice");
     }.bind(this));
-
+  },
+  componentWillReceiveProps: function(newProps) {
+    //this.setState({score: newProps.score});
   },
   handleClick: function(e) {
     e.preventDefault();
@@ -24,9 +30,13 @@ var ComponentPane = React.createClass({
     $('#parent').show();
     $('#value').hide();
   },
-  saveScore: function() {
+  saveScore: function(e) {
+    console.log("b4");
+    console.log(e);
+    this.state.parent.saveScore();
     console.log("saving score");
-    var score = this.props.score;
+/*
+    var score = this.state.score;
     var imageParams = {
       "size": new go.Size(290, 220)
     };
@@ -38,10 +48,12 @@ var ComponentPane = React.createClass({
 
     // i don't know why these callbacks don't work, guess i should probably figure out how react works?
     ScoresStore.update(score, function(score) {
+      this.setState({score: score});
       setAlert("Score model saved2", "notice");
       this.handleChange();
     }.bind(this));
     setAlert("Score model saved!", "notice");
+    */
   },
   handleChange: function() {
     console.log("sup");

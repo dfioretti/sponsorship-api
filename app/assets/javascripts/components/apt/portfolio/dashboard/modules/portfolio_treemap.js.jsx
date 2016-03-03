@@ -78,7 +78,7 @@ var PortfolioTreemap = React.createClass({
                     data: [{
                         id: 'S',
                         name: 'Sport',
-                        color: colors[0]
+                        color: colors[3]
                     }, {
                         id: 'E',
                         name: 'Entertainment',
