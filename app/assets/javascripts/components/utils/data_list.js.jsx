@@ -6,7 +6,6 @@ var DataList = React.createClass({
     return {scrollId: uuid.v4(), scrollLoaded: false, viewData: {}};
   },
   componentDidMount: function() {
-    console.log("DID MT");
     if (!this.state.scrollLoaded) {
       console.log("doing scroll");
       this.setState({scrollLoaded: true});
@@ -14,15 +13,12 @@ var DataList = React.createClass({
     }
   },
   componentWillMount: function() {
-    console.log("WILL MT");
     this.setState({ viewData: this.props.viewData });
     this.setState({ dataLoaded: true});
   },
   componentDidRecieveProps: function() {
-      console.log("DID PRO");
   },
   componentWillReceiveProps: function(newProps) {
-    console.log("will props " + newProps);
     if (newProps.componentId != this.props.componentId) {
     }
     if (!this.state.scrollLoaded) {
@@ -32,7 +28,6 @@ var DataList = React.createClass({
     }
   },
   renderBars: function() {
-    console.log("bars?");
     // TODO - fix the generic bars
     var listData = this.state.listData;
     var list = $.map(listData, function(item, i) {
@@ -61,8 +56,6 @@ var DataList = React.createClass({
     return val;
   },
   renderValues: function() {
-    console.log("render values !");
-    console.log(this.state.viewData);
     var listData = this.state.viewData;
 
     listData.sort(function(i1, i2){
@@ -74,7 +67,6 @@ var DataList = React.createClass({
     }.bind(this));
 
     var list = $.map(listData, function(item, i) {
-      console.log("item in render " + item);
       var assetLink = "/apt/asset/dashboard/" + item.asset_id;
       return <GenericValueListItem key={i} trend={item.trend} link={assetLink} statImage={item.image} statHeader={item.name} statMetric={item.metric} />
     }.bind(this));

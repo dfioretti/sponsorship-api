@@ -13,8 +13,21 @@ var CustomComponent = React.createClass({
         this.setState({dataLoaded: true, componentData: data});
     }.bind(this));
   },
+  componentWillUpdate: function() {
+    console.log("will up");
+  },
   getInitialState: function() {
     return { dataLoaded: false};
+  },
+  componentWillReceiveProps: function(newProps) {
+    this.setState({dataLoaded: false});
+    this.setState({componentId: newProps.componentId, componentType: newProps.componentType});
+    Dispatcher.componentDataGet(
+      this.state.componentType,
+      this.state.componentId,
+      function(data) {
+        this.setState({dataLoaded: true, componentData: data});
+      }.bind(this));
   },
   renderBarChart: function() {
     return (
@@ -33,7 +46,7 @@ var CustomComponent = React.createClass({
   },
   renderPieChart: function() {
     return (
-      <RoundChart {...this.props} type="pie" />
+      <RoundChart {...this.props} type="pie" viewData={this.state.componentData} />
     );
   },
   renderValueList: function() {

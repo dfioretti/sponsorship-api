@@ -49,7 +49,7 @@ var AssetDashboard = React.createClass({
       }.bind(this));
     }
   },
-  mapModule: function(name, state) {
+  mapModule: function(name, state, componentId, componentType, componentTitle) {
     var el, hidden;
     if (state == "off")
       hidden = true;
@@ -57,30 +57,35 @@ var AssetDashboard = React.createClass({
     // TODO: Kill companies to fix notes
     var company = CompaniesStore.getState().current;
     var asset = AssetsStore.getState().current;
-    switch (name) {
-      case 'asset_overview':
-        el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
-        break;
-      case 'notes':
-        el = <Notes company={company} hidden={hidden} key={name}/>
-        break;
-      case 'social_stats':
-        el = <SocialStats asset={asset} hidden={hidden} key={name}/>
-        break;
-      case 'consumer_survey':
-        el = <ConsumerSurvey asset={asset} hiddine={hidden} key={name}/>
-        break;
-      case 'top_news':
-        var start = new Date(2016, 1, 1);
-        var end = new Date(2016, 1, 15);
-        el = <News hidden={hidden} key={name} startDate={start} endDate={end} />
-        break;
+
+    if (name.indexOf('custom_component') > -1 ) {
+      el = <CustomComponent hidden={hidden} componentType={componentType} componentTitle={componentTitle} componentId={componentId} />
+    } else {
+      switch (name) {
+        case 'asset_overview':
+          el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
+          break;
+        case 'notes':
+          el = <Notes company={company} hidden={hidden} key={name}/>
+          break;
+        case 'social_stats':
+          el = <SocialStats asset={asset} hidden={hidden} key={name}/>
+          break;
+        case 'consumer_survey':
+          el = <ConsumerSurvey asset={asset} hiddine={hidden} key={name}/>
+          break;
+        case 'top_news':
+          var start = new Date(2016, 1, 1);
+          var end = new Date(2016, 1, 15);
+          el = <News hidden={hidden} key={name} startDate={start} endDate={end} />
+          break;
+      }
     }
     return el
   },
   renderModules: function(dashboardState) {
     var modules = $.map(dashboardState, function(v, k){
-      return this.mapModule(k, v.toggle);
+      return this.mapModule(k, v.toggle, v.component_id, v.component_type, v.title);
     }.bind(this));
 
     return (

@@ -1,5 +1,8 @@
 filter by tag to create asset set
 
+TODO - fix the tooltip on lineChart - i changed the class of
+CustomComponent
+
 
 WORKS FOR SIDEBYSIDE COMPARE
 
@@ -15,7 +18,7 @@ Create New Dashboard:
         portfolio/asset, asset_id, a card name,
 
 Porfolio Dashboard:
-  [ ] Create portoflio detail card:
+  [x] Create portoflio detail card:
         - tall, has portoflio assets
         - filter, sort -> basic stats
         - can reuse some componenet i think
@@ -24,7 +27,7 @@ Porfolio Dashboard:
         - should have a ranking bar (risk indicators)
   [ ] Portfolio Summary ? - spend breakdown by category
         - can be a detail view of the tree map?
-  [ ] Portfolio Map
+  [x] Portfolio Map
         - can be jsut regional?
         - toggle category, individual assets
         - cencus heatmap?

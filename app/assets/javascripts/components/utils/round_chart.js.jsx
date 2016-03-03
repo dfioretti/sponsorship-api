@@ -1,30 +1,32 @@
 var RoundChart = React.createClass({
   getInitialState: function() {
-    var d1 = { label: "First Label", value: 3234 };
-    var d2 = { label: "Second Label", value: 2342 };
-    var d3 = { label: "Third Label", value: 1231 };
-    var d4 = { label: "Fourth Label", value: 4231 };
-    var d5 = { label: "Fifth Label", value: 2222 };
-    var d6 = { label: "Sixth Label", value: 3928 };
-
-    var data = [];
-    data.push(d1);
-    data.push(d2);
-    data.push(d3);
-    data.push(d4);
-    data.push(d5);
-    data.push(d6);
-
-    return { data: data };
+    return {};
   },
   componentWillMount: function() {
+    this.setState({viewData: this.props.viewData});
+    this.setState({dataLoaded: true});
     this.chartId = uuid.v4();
   },
+  componentDidMount: function() {
+    this.renderChart(null)
+  },
   componentDidUpdate: function() {
+    console.log("did");
+
     if (this.chart) {
       this.chart.destroy();
     }
     this.renderChart(this.props);
+  },
+  componentWillReceiveProps: function(newProps) {
+    this.setState({viewData: this.props.viewData});
+      console.log("will prop");
+  },
+  componentDidUpdate: function() {
+    console.log("did update");
+  },
+  componentDidReceiveProps: function() {
+    console.log("did prop");
   },
   backgroundColor: [
     '#cddc39',
@@ -40,8 +42,9 @@ var RoundChart = React.createClass({
     '#2d64a5'
   ],
   renderChart: function(props) {
+    console.log("RENDER CHART");
     //if (!props.data) return;
-    var data = this.state.data;
+    var data = this.state.viewData;
 
     data = _.map(data, function(dataset, i) {
       dataset.color = this.backgroundColor[i];
@@ -75,7 +78,7 @@ var RoundChart = React.createClass({
   },
   renderLegend: function() {
     //var data = this.props.data;
-    var data = this.state.data;
+    var data = this.state.viewData;
     return _.map(data, function(pt, i) {
       var backgroundColor = this.backgroundColor[i];
       return (
@@ -87,12 +90,14 @@ var RoundChart = React.createClass({
     }.bind(this));
   },
   render: function() {
+    console.log("render");
     return (
       <div style={{paddingTop: "35px", paddingLeft: "20px"}}>
         <div className="" style={{display: "inline-block", padding: "5px"}}>
           <canvas id={this.chartId} width="190" height="190" style={{width: "190px", height: "190px", padding: "5px"}}></canvas>
         </div>
-        <ul className="chart-legend" style={{display: "inline-block", position: "absolute", top: "100px", left: "250px"}}>
+        <ul className="chart-legend" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "250px"}}>
+          <h5>Chart Legend</h5>
           {this.renderLegend()}
         </ul>
       </div>

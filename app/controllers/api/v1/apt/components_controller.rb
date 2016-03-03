@@ -21,7 +21,7 @@ class Api::V1::Apt::ComponentsController < ApplicationController
     elsif (params[:type] == 'doughnutChart')
 
     elsif (params[:type] == 'pieChart')
-
+      @data = @component.buildPieChartData
     end
     render json: @data
   end

@@ -1,7 +1,8 @@
 class Api::V1::Apt::Asset::DashboardsController < ApplicationController
 
   def show
-    dashboard = current_user.dashboards.find_by_item_id params[:id]
+    #dashboard = current_user.dashboards.find_by_item_id params[:id]
+    dashboard = current_user.dashboards.find_by_kind 'asset'
     dashboard = create_dashboard(params[:id], current_user) if dashboard.nil?
 
     render json: dashboard

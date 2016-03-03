@@ -12,6 +12,9 @@ var LineChart = React.createClass({
   componentWillMount: function() {
     this.setState({ viewData: this.props.viewData });
     this.setState({ dataLoaded: true});
+    this.setState({ min: this.props.viewData.minValue });
+    this.setState({ max: this.props.viewData.maxValue });
+
   },
   componentDidMount: function() {
     if (this.state.dataLoaded) {
@@ -62,6 +65,9 @@ var LineChart = React.createClass({
       datasets: dataSets,
     }
 
+    var start = this.state.min - (this.state.min * 0.2);
+    var max = this.state.max;
+    var step = 5;
     this.lineChart = new Chart(ctx).Line(data, {
       animation: true,
       tooltipFontSize: 11,
@@ -78,10 +84,10 @@ var LineChart = React.createClass({
       scaleLabel: "<%= ' ' + value%>",
       scaleFontSize: 11,
       scaleShowVerticalLines: false,
-      scaleOverride : true,
-      scaleSteps : 4,
-      scaleBeginAtZero: true,
-      scaleStepWidth : 25,
+      scaleOverride : false,
+      //scaleSteps : 4,
+      //scaleBeginAtZero: true,
+      //scaleStepWidth : 25,
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
         if (!self.isTooltip(tooltip)) return;
