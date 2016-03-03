@@ -38,46 +38,35 @@ var PortfolioDashboard = React.createClass({
       //}.bind(this));
   //  }.bind(this));
   },
-  mapModule: function(name, state) {
+  mapModule: function(name, state, componentId, componentType, componentTitle) {
     var el, hidden;
     if (state == "off")
       hidden = true;
     //el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portfolio Allocation" cadence={this.state.cadence} />
-
-    switch (name) {
-      case 'portfolio_map':
-        el = <PortfolioMap hidden={hidden} key={name} />
-        break;
-      case 'portfolio_summary':
-        el = <PortfolioSummary hidden={hidden} key={name} />
-        break;
-      case 'teneo_rep_score':
-        el = <ScoreTrend hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
-        //el = <RepScore hidden={hidden} key={name} repScores={this.state.repScores} cadence={this.state.cadence} />
-        break;
-      case 'insights_implications':
-        //el = <InsightsImplications hidden={hidden} key={name} company_id={this.state.dashboardState.company_id}/>
-        break;
-      case 'global_hotspots':
-        el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portolio Alloc 2" cadence={this.state.cadence} />
-        //el = <GlobalHotspots hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
-        break;
-      case 'OFFtop_global_influencers':
-        //el = <GlobalInfluencers hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate}/>
-        break;
-      case 'top_news':
-        //el = <News hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
-        break;
-      case 'top_global_issues':
-        el = <CustomComponent hidden={hidden} />
-        //el = <GlobalIssues hidden={hidden} key={name} startDate={this.state.startDate} endDate={this.state.endDate} />
-        break;
+    if (name.indexOf('custom_component') > -1) {
+      el = <CustomComponent hidden={hidden} componentType={componentType} componentTitle={componentTitle} componentId={componentId} />
     }
+    else {
+      switch (name) {
+        case 'portfolio_map':
+          el = <PortfolioMap hidden={hidden} key={name} />
+          break;
+        case 'portfolio_summary':
+          el = <PortfolioSummary hidden={hidden} key={name} />
+          break;
+        case 'score_trend':
+          el = <ScoreTrend hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
+          break;
+        case 'portfolio_tree_map':
+          el = <PortfolioTreemap hidden={hidden} key={name} />
+          break;
+    }
+  }
     return el
   },
   renderModules: function(dashboardState) {
     var modules = $.map(dashboardState, function(v, k){
-      return this.mapModule(k, v.toggle);
+      return this.mapModule(k, v.toggle, v.component_id, v.component_type, v.title);
     }.bind(this));
 
     return (

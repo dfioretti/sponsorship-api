@@ -23,15 +23,35 @@ var GenericValueListItem = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
     return nextProps.value != this.props.value;
   },
+  showTooltip: function() {
+
+  },
+  hideToolip: function() {
+
+  },
+  getTrendIconClass: function () {
+    if (!this.props.trend) return "";
+    var trendCN = "trend-image ";
+    if (this.props.trend > 0) {
+      trendCN += "up";
+    } else if (this.props.trend < 0) {
+      trendCN += "down";
+    } else {
+      trendCN += "no-change";
+    }
+
+    return trendCN;
+  },
   render: function() {
     var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
     return (
-      <li style={liStyle}>
+      <li style={liStyle} onMouseOver={this.showTooltip} onMouseLeave={this.hideToolip}>
         <Link to={this.props.link} >
           <div className="stat-image">
             <img src={this.props.statImage} />
           </div>
           <div className="stat-header">{this.props.statHeader}</div>
+          <div id="iconOverride" className={this.getTrendIconClass()}></div>
           <div id={this.itemId} className="stat-metric">{this.props.statMetric}</div>
         </Link>
       </li>

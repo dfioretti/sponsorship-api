@@ -3,42 +3,36 @@ var DataList = React.createClass({
     jScrollpaneMixin
   ],
   getInitialState: function() {
-    return {scrollLoaded: false, listData: {}};
+    return {scrollId: uuid.v4(), scrollLoaded: false, viewData: {}};
   },
   componentDidMount: function() {
-    this.loadData();
+    console.log("DID MT");
+    if (!this.state.scrollLoaded) {
+      console.log("doing scroll");
+      this.setState({scrollLoaded: true});
+      $('#testme').jScrollPane();
+    }
+  },
+  componentWillMount: function() {
+    console.log("WILL MT");
+    this.setState({ viewData: this.props.viewData });
+    this.setState({ dataLoaded: true});
+  },
+  componentDidRecieveProps: function() {
+      console.log("DID PRO");
   },
   componentWillReceiveProps: function(newProps) {
+    console.log("will props " + newProps);
     if (newProps.componentId != this.props.componentId) {
-      this.loadData();
     }
     if (!this.state.scrollLoaded) {
       console.log("loading scroll...");
       this.setState({scrollLoaded: true});
-      $('.data-list-container').jScrollPane();
+      $('#' + this.state.scrollId).jScrollPane();
     }
-  //  if (newProps.component.id != this.props.component.id) {
-  //    this.loadData();
-  //  }
-  },
-  loadData: function() {
-    $.ajax({
-      type: "GET",
-      contentType: "application/json",
-      url: "/api/v1/apt/asset/mock_data",
-      data: {"type" : "survey"},
-      success: function(data, status, xhr) {
-        this.setState({listData: data.survey}, function() {
-          this.setState({wait: false});
-
-        }.bind(this));
-      }.bind(this),
-      error: function(xhr, status, error) {
-        console.log(error);
-      }
-    });
   },
   renderBars: function() {
+    console.log("bars?");
     // TODO - fix the generic bars
     var listData = this.state.listData;
     var list = $.map(listData, function(item, i) {
@@ -67,17 +61,30 @@ var DataList = React.createClass({
     return val;
   },
   renderValues: function() {
-    var listData = this.state.listData;
+    console.log("render values !");
+    console.log(this.state.viewData);
+    var listData = this.state.viewData;
+
+    listData.sort(function(i1, i2){
+      var order;
+      var field1 = i1['metric']
+      var field2 = i2['metric']
+      order = field1 < field2 ? 1 : -1
+      return order;
+    }.bind(this));
+
     var list = $.map(listData, function(item, i) {
-      var statImage = "https://logo.clearbit.com/www.twitter.com";
-      var statHeader = "Test Header"
-      var statMetric = this.commaSeparateNumber(23423423);
-      return <GenericValueListItem key={i} statImage={statImage} statHeader={statHeader} statMetric={statMetric} />
+      console.log("item in render " + item);
+      var assetLink = "/apt/asset/dashboard/" + item.asset_id;
+      return <GenericValueListItem key={i} trend={item.trend} link={assetLink} statImage={item.image} statHeader={item.name} statMetric={item.metric} />
     }.bind(this));
 
     // was social-stats-list in a div
+    // <ul className="trend-list light global-issues-list probability-list risk-indicator-list">
+    // deleted probabilyt list..
+
     return (
-        <ul className="trend-list light global-issues-list">
+        <ul className="generic-list">
           {list}
         </ul>
     );
@@ -88,7 +95,7 @@ var DataList = React.createClass({
   },
   render: function() {
     return (
-      <div className="global-issues-list-container" onScroll={this.toggleScrollActive}>
+      <div id={this.state.scrollId} className="global-issues-list-container" onScroll={this.toggleScrollActive} ref="jScrollContainer" >
         {this.renderList()}
       </div>
     );

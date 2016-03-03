@@ -15,11 +15,12 @@ var Dispatcher = {
       }
     });
   },
-  componentDataGet: function(cid, successCallback) {
+  componentDataGet: function(componentType, cid, successCallback) {
+    console.log("DEBUG - componenetDataGet: " + componentType + " : " + cid);
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: '/api/v1/apt/components/data/' + cid + "?type=lineChart",
+      url: '/api/v1/apt/components/data/' + cid + "?type=" + componentType,
       success: function(data) {
         console.log(data);
         successCallback(data);

@@ -21,15 +21,15 @@ var FifaDashboard = React.createClass({
     DashboardsStore.getFifa().then(function(dashboard) {
     }.bind(this))
     .then(function () {
-      //this.getRepScores(defaults).then(function (repScores) {
-        var repScores = [];
+        this.getRepScores(defaults).then(function (repScores) {
+        //var repScores = [];
         var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
         this.setState(state);
 
         this.handleChange();
         this.setupGrid();
         $('.modules-container').trigger('ss-rearrange');
-      //}.bind(this));
+      }.bind(this));
     }.bind(this));
   },
   mapModule: function(name, state) {

@@ -5,20 +5,16 @@ var CustomComponent = React.createClass({
     ChartTooltipHandler
   ],
   componentWillMount: function() {
-    Dispatcher.componentGet(
-      1,
-      function(data) {
-        this.setState({ componentLoaded: true, component: data });
-    }.bind(this));
-
+    this.setState({componentId: this.props.componentId, componentType: this.props.componentType});
     Dispatcher.componentDataGet(
-      1,
+      this.props.componentType,
+      this.props.componentId,
       function(data) {
         this.setState({dataLoaded: true, componentData: data});
     }.bind(this));
   },
   getInitialState: function() {
-    return { componentLoaded: false, dataLoaded: false};
+    return { dataLoaded: false};
   },
   renderBarChart: function() {
     return (
@@ -27,7 +23,7 @@ var CustomComponent = React.createClass({
   },
   renderLineChart: function() {
     return (
-      <LineChart {...this.props} chartData={this.state.componentData} componentData={this.state.component} />
+      <LineChart {...this.props} viewData={this.state.componentData}  />
     );
   },
   renderDoughnutChart: function() {
@@ -42,7 +38,7 @@ var CustomComponent = React.createClass({
   },
   renderValueList: function() {
     return (
-        <DataList {...this.props} type="value" componentId="10"/>
+      <DataList {...this.props} type="value" viewData={this.state.componentData} />
     );
   },
   renderBarList: function() {
@@ -51,8 +47,8 @@ var CustomComponent = React.createClass({
     );
   },
   renderContent: function() {
-    if (this.state.dataLoaded && this.state.componentLoaded) {
-      switch (this.state.component.view) {
+    if (this.state.dataLoaded) {
+      switch (this.state.componentType) {
         case 'barChart':
           return this.renderBarChart();
           break;
@@ -76,12 +72,12 @@ var CustomComponent = React.createClass({
   },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
-    if (this.state.dataLoaded && this.state.componentLoaded) {
+    if (this.state.dataLoaded) {
       return (
-        <div id="teneo_rep_score" className="dashboard-module" style={hiddenStyle}>
+        <div id="top_global_issues" className="dashboard-module" style={hiddenStyle}>
             <div className="top">
               <div className="drag-handle"></div>
-              <div className="top-title">{this.state.component.name}</div>
+              <div className="top-title">{this.props.componentTitle}</div>
             </div>
             <div className="main">
               {this.renderContent()}

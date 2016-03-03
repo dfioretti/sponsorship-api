@@ -1,5 +1,8 @@
 /*i'm lazy and hate css, so all my shit is going in here*/
 
+#generic-list-item {
+
+}
 .details-subnav {
   height: 80px;
   margin-left: 250px;
@@ -236,6 +239,44 @@
   border-radius: 50%;
   margin-right: 5px;
 }
+
+ul.generic-list {
+  list-style: none;
+  li {
+    height: 70px;
+    margin-left: -20px;
+    padding-top: 20px;
+    border-bottom: 1px solid $dark-blue;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+      }
+
+    .stat-image {
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+    }
+    #iconOverride {
+      background-repeat: initial;
+      padding-top: 5px;
+    }
+    .stat-header {
+      width: 170px;
+    }
+    .stat-value {
+
+    }
+  }
+}
+
 .stat-image {
   img {
     width: 30px;

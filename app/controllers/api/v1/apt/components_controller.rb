@@ -14,9 +14,8 @@ class Api::V1::Apt::ComponentsController < ApplicationController
     if (params[:type] == 'lineChart')
       @data = @component.buildLineChartData
     elsif (params[:type] == 'barChart')
-
     elsif (params[:type] == 'valueList')
-
+      @data = @component.buildValueListData
     elsif (params[:type] == 'barList')
 
     elsif (params[:type] == 'doughnutChart')

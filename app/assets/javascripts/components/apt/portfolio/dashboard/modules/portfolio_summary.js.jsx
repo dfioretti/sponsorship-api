@@ -61,8 +61,8 @@ var PortfolioSummary = React.createClass({
       var imageLink = "/images/" + asset.id + ".jpg";
       var assetLink = "/apt/asset/dashboard/" + asset.id;
       var styleOverride = {
-        height: "50px",
-        paddingTop: "10px"
+        height: "70px",
+        paddingTop: "20px"
       };
       return <GenericValueListItem key={i} reAnimate={false} link={assetLink} statImage={imageLink} value={asset.id} statHeader={asset.name} styleOverride={styleOverride} statMetric={asset.renewal} />
     }.bind(this));

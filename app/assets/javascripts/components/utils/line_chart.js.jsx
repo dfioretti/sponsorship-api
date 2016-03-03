@@ -10,9 +10,8 @@ var LineChart = React.createClass({
     this.state.chart.update();
   },
   componentWillMount: function() {
-    this.setState({ chartData: this.props.chartData });
+    this.setState({ viewData: this.props.viewData });
     this.setState({ dataLoaded: true});
-    this.setState({ component: this.props.component });
   },
   componentDidMount: function() {
     if (this.state.dataLoaded) {
@@ -20,7 +19,6 @@ var LineChart = React.createClass({
     }
   },
   componentWillReceiveProps: function(newProps) {
-    console.log("Will Prop");
     if (this.state.chart) this.state.chart.destroy();
 
     if (this.props.hidden !== newProps.hidden) {
@@ -33,27 +31,27 @@ var LineChart = React.createClass({
     this.renderChart();
   },
   getLabels: function() {
-    return this.state.chartData.labels;
+    return this.state.viewData.labels;
   },
   renderLegend: function () {
     if (!this.state.data) return;
+    //<span className="legend-color" style={{backgroundColor: dataset.pointStrokeColor}}></span><span>{dataset.label} ({dataset.summaryNumber.toFixed(1)})</span>
 
     return _.map(this.state.data.datasets, function (dataset, i) {
       return(
         <div key={i} className="company-legend">
-          <span className="legend-color" style={{backgroundColor: dataset.pointStrokeColor}}></span><span>{dataset.label} ({dataset.summaryNumber.toFixed(1)})</span>
+          <span className="legend-color" style={{backgroundColor: dataset.pointStrokeColor}}></span><span>{dataset.label}</span>
         </div>
       );
     });
   },
   renderChart: function() {
     var self = this;
-    console.log("Render Chart");
     var ctx = $("#custom-line-chart").get(0).getContext("2d");
 
     var labels = this.getLabels();
-    var rawData = this.state.chartData.chartData;
-    var names = this.state.chartData.assets;
+    var rawData = this.state.viewData.chartData;
+    var names = this.state.viewData.assets;
     var dataSets = [];
 
     for (var i = 0; i < rawData.length; i++) {
@@ -112,7 +110,6 @@ var LineChart = React.createClass({
     };
   },
   render: function() {
-
       return (
         <div>
           <div className="chart-legend">
