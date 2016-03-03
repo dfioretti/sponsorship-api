@@ -1,3 +1,6 @@
+var RouteHandler = ReactRouter.RouteHandler,
+    Link = ReactRouter.Link;
+
 var AptSidebar = React.createClass({
   renderTop: function() {
     return (
@@ -86,13 +89,13 @@ var AptSidebar = React.createClass({
   },
   render: function() {
     //{this.renderTop()}
+    //{this.renderToggles()}
 
       return (
         <div className="sidebar">
           {this.renderMenu()}
           {this.renderContent()}
           <div className="module-toggle-container">
-            {this.renderToggles()}
           </div>
           <div className="print-report">
             <ul>
