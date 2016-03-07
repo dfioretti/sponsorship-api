@@ -119,6 +119,10 @@
 .subnav {
   background-color: $light-grey;
   height: 70px;
+  line-height: 70px;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .none {
@@ -142,38 +146,39 @@
     padding: 0px;
     height: calc(100% - 20px);
     background-color: $white;
-
-      .input-heading {
-        width: 100%;
-        height: 60px;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: $blue;
-        padding-top: 17px;
-        font-size: 16px;
-        text-align: center;
-        border-bottom: 1px solid $dark-grey-opacity;
-      }
-
-      .form-content {
-        padding-top: 20px;
-        margin-left: 25px;
-        margin-right: 25px;
-        textarea {
-          color: $dark-grey-opacity;
-          width: 100%;
-          height: 125px;
-          border-radius: 3px;
-          font-size: 14px;
-          border: 1px solid #ccc;
-        }
-        img {
-          height: 241px;
-          width: 357px;
-          margin-left: 45px;
-        }
     }
+  .editor-data {
+    padding-top: 15px;
   }
+  .input-heading {
+    width: 100%;
+    height: 45px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: $blue;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid $dark-grey-opacity;
+  }
+
+  .form-content {
+    padding-top: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+    textarea {
+      color: $dark-grey-opacity;
+      width: 100%;
+      height: 125px;
+      border-radius: 3px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+    }
+    img {
+      height: 241px;
+      width: 357px;
+      margin-left: 45px;
+    }
+}
 
   .editor-views {
     margin: 0px;

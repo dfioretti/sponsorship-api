@@ -4,7 +4,6 @@ var AddedData = React.createClass({
     return flux.store("ComponentStore").getState();
   },
   handleRemoveData: function(e) {
-    console.log(e.target);
     this.getFlux().actions.removeData(e.target.id);
   },
   render: function() {
@@ -14,16 +13,12 @@ var AddedData = React.createClass({
       <div className="added-data">
         <label>Chart Data</label>
         <table>
-          <thead>
-          </thead>
-          <tbody>
-            {this.getStateFromFlux().data.map(function(item) {
-              return (<tr id={item.index}><td>{item.source.name}</td><td>{item.point.name}</td><td>{item.data_id}</td>
-              <td id={item.index} onClick={this.handleRemoveData}>
-                X
-              </td> </tr>);
-            }.bind(this))}
-          </tbody>
+          {this.getStateFromFlux().data.map(function(item) {
+            return (<tr id={item.index}><td>{item.source.name}</td><td>{item.point.name}</td><td>{item.data_id}</td>
+            <td id={item.index} onClick={this.handleRemoveData}>
+              X
+            </td> </tr>);
+          }.bind(this))}
         </table>
       </div>
     );
@@ -42,22 +37,19 @@ var EditorData = React.createClass({
   render: function() {
     return (
       <div className="editor-data">
-        <div className="component">
+        <div className="input-heading">
+          Component Settings
+        </div>
           <div className="row">
             <div className="col-md-6">
               <ul>
-                <li>
-                  {this.getStateFromFlux().title}
-                </li>
-                <li>
-                  {this.getStateFromFlux().chartType}
-                </li>
+                <li>{this.getStateFromFlux().title}</li>
+                <li>{this.getStateFromFlux().chartType}</li>
               </ul>
             </div>
             <div className="col-md-6">
               <AddedData />
             </div>
-          </div>
         </div>
       </div>
     );

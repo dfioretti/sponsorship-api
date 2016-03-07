@@ -94,11 +94,11 @@ var AssetSearch = React.createClass({
       var image = "/images/" + item.id + ".jpg";
       list.push(
         <div className="container filter-content">
-          <div id={item.id} className="row nospace">
-            <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 nospace">
+          <div id={item.id} className="row filter-row">
+            <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
             </div>
-            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 nospace">
+            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 filter-row">
               {item.name}
             </div>
           </div>
@@ -142,11 +142,11 @@ var DataListForSelected = React.createClass({
       var image = "/icons-blue/0.png";
       list.push(
         <div className="container filter-content">
-          <div id={item.id} className="row nospace">
-            <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 nospace">
+          <div id={item.id} className="row filter-row">
+            <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
             </div>
-            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 nospace">
+            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 filter-row">
               {item.name}
             </div>
           </div>
@@ -283,8 +283,15 @@ var ConfigurationPane = React.createClass({
 
   render: function() {
     return (
-      <div>
-        Config Pane
+      <div className="editor-pane">
+        <div className="input-heading">
+          Configuration
+        </div>
+        <div className="form-content">
+          <div className="form-group">
+            <label>Configuration Unavailable</label>
+          </div>
+        </div>
       </div>
     );
   }

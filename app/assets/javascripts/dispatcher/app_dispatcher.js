@@ -31,6 +31,20 @@ var Dispatcher = {
       }
     });
   },
+  componentSave: function(component, successCallback) {
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json",
+      url: "/api/v1/apt/components/",
+      success: function(data) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
+  },
   componentGet: function(cid, successCallback) {
     $.ajax({
       type: "GET",
@@ -44,7 +58,6 @@ var Dispatcher = {
         console.log(error);
       }
     });
-
   },
   apiGet: function(path, params, successCallback) {
     $.ajax({

@@ -7,7 +7,8 @@ var constants = {
   FILTER_DATA: "FILTER_DATA",
   ASSET_SELECT: "ASSET_SELECT",
   DATA_SELECT: "DATA_SELECT",
-  REMOVE_DATA: "REMOVE_DATA"
+  REMOVE_DATA: "REMOVE_DATA",
+  SAVE_COMPONENT: "SAVE_COMPONENT"
 };
 
 
@@ -36,7 +37,8 @@ var ComponentStore = Fluxxor.createStore({
       constants.FILTER_DATA, this.onFilterData,
       constants.ASSET_SELECT, this.onAssetSelected,
       constants.DATA_SELECT, this.onDataSelected,
-      constants.REMOVE_DATA, this.onDataRemoved
+      constants.REMOVE_DATA, this.onDataRemoved,
+      constants.SAVE_COMPONENT, this.onSaveComponent
     )
   },
   loadData: function() {
@@ -57,7 +59,9 @@ var ComponentStore = Fluxxor.createStore({
     this.title = payload.title;
     this.emit("change");
   },
+  onSaveComponent: function() {
 
+  },
   onDataAdded: function(payload) {
     this.data.push({index: this.dataIndex,
                     source: this.selectedAsset,
@@ -66,7 +70,7 @@ var ComponentStore = Fluxxor.createStore({
     this.dataIndex++;
     this.selectedData = null;
     this.selectedAsset = null;
-    this.filteredList = this.startList;
+    this.filteredList = [];//= this.startList;
     this.filteredDataPointList = this.dataPointList;
     this.filterText = "";
     this.dataFilterText = "";
@@ -198,7 +202,9 @@ var actions = {
   removeData: function(index) {
     this.dispatch(constants.REMOVE_DATA, { index: index });
   },
-
+  saveComponent: function() {
+    this.dispatch(constants.SAVE_COMPONENT);
+  }
 
 };
 
