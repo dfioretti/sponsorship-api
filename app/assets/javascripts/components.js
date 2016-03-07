@@ -1,4 +1,5 @@
 //= require pubsub
+//= require fluxxor
 
 //= require_tree ./mixins
 //= require_tree ./constants

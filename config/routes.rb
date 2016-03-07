@@ -20,6 +20,7 @@ Rails.application.routes.draw do
           resources :dashboards, only: [:show, :update]
         end
         get '/components/data/:id' => 'components#data'
+        resources :cards, only: [:index, :new, :show, :update]
         resources :components, only: [:show, :new, :update, :index]
         resources :scores, only: [:index, :new, :show, :update]
         resources :asset_sets, only: [:index, :new, :show, :update]

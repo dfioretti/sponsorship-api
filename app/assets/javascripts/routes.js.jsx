@@ -21,6 +21,8 @@ this.AppRoutes = (
     <Route name='asset_set_editor' handler={AssetSetEditor} path='apt/scores/asset_set_editor/:id' />
     <Route name='asset_set_index' handler={AssetSetIndex} path='apt/scores/asset_set_index' />
     <Route name='dashboard_detail' handler={DashboardDetail} path='apt/dashboard_detail' />
+    <Route name='editor' handler={Editor} path='/apt/editor' />
+    <Route name='component_editor' handler={ComponentEditor} path='/apt/component_editor' />
     <DefaultRoute handler={PortfolioDashboard} />
   </Route>
 );
