@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         end
         get '/components/data/:id' => 'components#data'
         resources :cards, only: [:index, :new, :show, :update]
-        resources :components, only: [:show, :new, :update, :index]
+        resources :components, only: [:show, :new, :update, :index, :create]
         resources :scores, only: [:index, :new, :show, :update]
         resources :asset_sets, only: [:index, :new, :show, :update]
       end

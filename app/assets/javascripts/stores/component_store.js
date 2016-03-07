@@ -45,7 +45,6 @@ var ComponentStore = Fluxxor.createStore({
     this.startList = AssetsStore.getState().assets;
     this.filteredList = this.startList;
   },
-
   onChangePane: function(payload) {
     this.editorPane = payload.editorPane;
     this.emit("change");
@@ -54,13 +53,41 @@ var ComponentStore = Fluxxor.createStore({
     this.chartType = payload.chartType;
     this.emit("change");
   },
-
   onUpdateTitle: function(payload) {
     this.title = payload.title;
     this.emit("change");
   },
   onSaveComponent: function() {
-
+    var c = new Object( {
+        id: 9,
+        name: "UPDATED",
+        view: "lineChart",
+        model: {
+          title: "Test Title",
+          type: "lineChart",
+          interval: "weekly",
+          data: [
+            {
+              entity: "asset",
+              entity_id: 943,
+              source: "twitter",
+              source_id: 432
+              point: "facebook_fans",
+              point_id: 343
+            },
+            {
+              entity: "asset",
+              entity_id: 853,
+              source: "twitter",
+              source_id: 212
+            }
+          ]
+        }
+    });
+    ComponentClient.updateComponent(c, function(data) {
+      alert(data);
+      console.log(data);
+    });
   },
   onDataAdded: function(payload) {
     this.data.push({index: this.dataIndex,

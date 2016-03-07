@@ -1,5 +1,5 @@
 class CustomComponent < ActiveRecord::Base
-
+  
   def buildPieChartData
     if self.id == 5
       data = []

@@ -6,6 +6,25 @@ class Api::V1::Apt::ComponentsController < ApplicationController
     render json: @component
   end
 
+
+  def create
+    @component = CustomComponent.new(component_params)
+    if @component.save
+      render json: @component
+    else
+      render json: {errors: @component.errors.full_messages}, status: :bad_request
+    end
+  end
+
+  def update
+    @component = CustomComponent.find(params[:id])
+    if @component.update_attributes(component_params)
+      render json: @component
+    else
+      render json: {errors: @component.errors.full_messages}, status: :bad_request
+    end
+  end
+
   # non-RESTful query for component render data
   def data
     @component = CustomComponent.find(params[:id])
@@ -40,8 +59,10 @@ class Api::V1::Apt::ComponentsController < ApplicationController
   end
 
 
-  # update a component
-  def update
+  private
+  def component_params
+    params.require(:component).permit(:name, :view).tap do |whitelisted|
+      whitelisted[:model] = params[:component][:model]
+    end
   end
-
 end
