@@ -98,8 +98,16 @@ var ComponentStore = Fluxxor.createStore({
     var ff = new Object();
     ff.id = 2;
     ff.name = "Facebook Fans";
+    var ig = new Object();
+    ig.id = 3;
+    ig.name = "Instagram Followers";
+    var gp = new Object();
+    gp.id = 4;
+    gp.name = "Google+ Followers";
     this.dataPointList.push(ff);
     this.dataPointList.push(tf);
+    this.dataPointList.push(ig);
+    this.dataPointList.push(gp);
     this.filteredDataPointList = this.dataPointList;
     this.emit("change");
   },

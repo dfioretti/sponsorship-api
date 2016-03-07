@@ -171,7 +171,7 @@ var DataListForSelected = React.createClass({
         <div>
           <label>Select Data</label><br />
           <input type="text" placeholder="Filter avilable data" className="form-control" value={this.getStateFromFlux().dataFilterText} onChange={this.handleDataFilterChange} />
-          <ul className="filter-list" onClick={this.handleDataSelect} style={{height: "200px", overflowY: "scroll"}} >
+          <ul className="filter-list" onClick={this.handleDataSelect} >
             {dataPointList}
           </ul>
         </div>
@@ -244,7 +244,7 @@ var AddDataButton = React.createClass({
   render: function() {
     if (this.getStateFromFlux().selectedData !== null) {
       return (
-        <button onClick={this.handleAddData} className="btn btn-primary">
+        <button onClick={this.handleAddData} className="btn btn-primary editor-button">
           Add Data
         </button>
       );
