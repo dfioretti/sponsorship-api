@@ -1,9 +1,22 @@
 var url = {
   COMPONENT_URL: "/api/v1/apt/components/",
-}
-
+};
 
 var ComponentClient = {
+  getComponents: function(successCallback) {
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: url.COMPONENT_URL,
+      success: function(data) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(errror);
+      }
+    });
+  },
   createComponent: function(component, successCallback) {
     $.ajax({
       type: "POST",
@@ -48,5 +61,6 @@ var ComponentClient = {
       }
     });
   }
-
 };
+
+window.ComponentClient = ComponentClient;

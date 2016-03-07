@@ -5,7 +5,7 @@ var FluxMixin = Fluxxor.FluxMixin(React),
   StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ComponentEditor = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("ComponentStore")],
+  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
   getInitialState: function() {
     return {};
@@ -13,7 +13,7 @@ var ComponentEditor = React.createClass({
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
 
   renderSubNav: function() {

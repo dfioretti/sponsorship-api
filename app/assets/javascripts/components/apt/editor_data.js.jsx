@@ -1,13 +1,12 @@
 var AddedData = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   handleRemoveData: function(e) {
     this.getFlux().actions.removeData(e.target.id);
   },
   render: function() {
-    console.log(this.getStateFromFlux().data);
     var i = 0;
     return (
       <div className="added-data">
@@ -32,7 +31,7 @@ var EditorData = React.createClass({
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   render: function() {
     return (

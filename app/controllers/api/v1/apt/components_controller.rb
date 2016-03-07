@@ -52,6 +52,8 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   # cheating for now, should create something else
   def index
+    @components = CustomComponent.all
+    render json: @components
   end
 
   # create a new component
@@ -61,7 +63,7 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   private
   def component_params
-    params.require(:component).permit(:name, :view).tap do |whitelisted|
+    params.require(:component).permit(:name, :view, :interval).tap do |whitelisted|
       whitelisted[:model] = params[:component][:model]
     end
   end

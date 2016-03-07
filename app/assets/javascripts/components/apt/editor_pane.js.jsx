@@ -2,7 +2,7 @@ var EditorPane = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
     var flux = this.getFlux();
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   renderPaneForState: function() {
     switch(this.getStateFromFlux().editorPane) {

@@ -1,27 +1,22 @@
-var constants = {
-  UPDATE_TYPE: "UPDATE_TYPE",
-  UPDATE_TITLE: "UPDATE_TITLE",
-  ADD_DATA: "ADD_DATA",
-  CHANGE_PANE: "CHANGE_PANE",
-  FILTER_LIST: "FILTER_LIST",
-  FILTER_DATA: "FILTER_DATA",
-  ASSET_SELECT: "ASSET_SELECT",
-  DATA_SELECT: "DATA_SELECT",
-  REMOVE_DATA: "REMOVE_DATA",
-  SAVE_COMPONENT: "SAVE_COMPONENT"
-};
-
-
-var ComponentStore = Fluxxor.createStore({
+var ComponentEditorStore = Fluxxor.createStore({
 
   initialize: function() {
+    // component object
+    this.id = null;
     this.title = "New Component";
+    this.data = [];
     this.chartType = "lineChart";
+    this.interval = "weekly";
+
+    // ui data
     this.editorPane = "general";
+    this.message = "";
     this.selectedAsset = null;
     this.selectedData = null;
+    this.error = null;
+    this.loading = false;
+    this.saving = false;
     this.startList = [];
-    this.data = [];
     this.dataIndex = 0;
     this.filteredList = [];
     this.dataPointList= [];
@@ -38,8 +33,28 @@ var ComponentStore = Fluxxor.createStore({
       constants.ASSET_SELECT, this.onAssetSelected,
       constants.DATA_SELECT, this.onDataSelected,
       constants.REMOVE_DATA, this.onDataRemoved,
-      constants.SAVE_COMPONENT, this.onSaveComponent
+      constants.SAVE_COMPONENT, this.onSaveComponent,
+      constants.SAVE_SUCCESS, this.onSaveSuccess,
+      constants.SAVE_FAIL, this.onSaveFail,
+      constants.UPDATE_COMPONENT, this.onUpdateComponent,
+      constants.UPDATE_SUCCESS, this.onUpdateSuccess,
+      constants.UPDATE_FAIL, this.onUpdateFail,
+      constants.NEW_COMPONENT, this.onNewComponent
     )
+  },
+  getObject: function() {
+    return {
+      id: this.id,
+      name: this.title,
+      view: this.chartType,
+      interval: this.interval,
+      model: {
+        title: this.title,
+        type: this.chartType,
+        interval: this.interval,
+        data: this.data
+      }
+    };
   },
   loadData: function() {
     this.startList = AssetsStore.getState().assets;
@@ -58,36 +73,32 @@ var ComponentStore = Fluxxor.createStore({
     this.emit("change");
   },
   onSaveComponent: function() {
-    var c = new Object( {
-        id: 9,
-        name: "UPDATED",
-        view: "lineChart",
-        model: {
-          title: "Test Title",
-          type: "lineChart",
-          interval: "weekly",
-          data: [
-            {
-              entity: "asset",
-              entity_id: 943,
-              source: "twitter",
-              source_id: 432
-              point: "facebook_fans",
-              point_id: 343
-            },
-            {
-              entity: "asset",
-              entity_id: 853,
-              source: "twitter",
-              source_id: 212
-            }
-          ]
-        }
-    });
-    ComponentClient.updateComponent(c, function(data) {
-      alert(data);
-      console.log(data);
-    });
+    this.saving = true;
+    this.emit("change");
+  },
+  onSaveSuccess: function(payload) {
+    this.id = payload.component.id;
+    this.saving = false;
+    this.message = "Component saved!";
+    this.emit("change");
+  },
+  onSaveFail: function(error) {
+    this.message = "Failed saving component!";
+    this.emit("change");
+  },
+  onUpdateComponent: function() {
+    this.saving = true;
+    this.emit("change");
+  },
+  onUpdateSuccess: function(payload) {
+    this.message = "Component saved!";
+    this.id = payload.component.id;
+    this.saving = false;
+    this.emit("change");
+  },
+  onUpdateFail: function(error) {
+    this.message = "Failed saviing component";
+    this.emit("change");
   },
   onDataAdded: function(payload) {
     this.data.push({index: this.dataIndex,
@@ -119,8 +130,7 @@ var ComponentStore = Fluxxor.createStore({
     if (payload.selectedAsset === null || payload.selectedAsset.length < 1)
       return;
     this.selectedAsset = AssetsStore.find(payload.selectedAsset);
-    //this.filterText = "";
-    //this.filteredList = [];
+
     // hacky setup until i load data into db
     this.dataPointList = [];
     var tf = new Object();
@@ -142,7 +152,15 @@ var ComponentStore = Fluxxor.createStore({
     this.filteredDataPointList = this.dataPointList;
     this.emit("change");
   },
-
+  onNewComponent: function() {
+    this.id = null;
+    this.title = "";
+    this.chartType = 'lineChart';
+    this.data = [];
+    this.interval = "weekly";
+    this.message = "New Component";
+    this.emit("change");
+  },
   findSelectedData: function(id) {
     for (var i = 0; i < this.dataPointList.length; i++) {
       if (parseInt(id) === this.dataPointList[i].id) {
@@ -153,11 +171,9 @@ var ComponentStore = Fluxxor.createStore({
   onDataSelected: function(payload) {
     if (payload.selectedData === null || payload.selectedData.length < 1)
       return;
-    console.log("on sel" + this.findSelectedData(payload.selectedData));
     this.selectedData = this.findSelectedData(payload.selectedData);
     this.emit("change");
   },
-
   onFilterData: function(payload) {
     this.dataFilterText = payload.filterText;
     var filteredList = [];
@@ -184,9 +200,9 @@ var ComponentStore = Fluxxor.createStore({
     this.filteredList = filteredList;
     this.emit("change");
   },
-
   getState: function() {
     return {
+      id: this.id,
       title: this.title,
       chartType: this.chartType,
       editorPane: this.editorPane,
@@ -196,45 +212,8 @@ var ComponentStore = Fluxxor.createStore({
       selectedData: this.selectedData,
       dataPointList: this.dataPointList,
       filteredDataPointList: this.filteredDataPointList,
+      message: this.message,
       data: this.data
     };
   }
 });
-
-var actions = {
-  updateTitle: function(title) {
-    this.dispatch(constants.UPDATE_TITLE, { title: title });
-  },
-  updateType: function(chartType) {
-    this.dispatch(constants.UPDATE_TYPE, { chartType: chartType });
-  },
-  changePane: function(pane) {
-    this.dispatch(constants.CHANGE_PANE, { editorPane: pane});
-  },
-  filterList: function(filterText) {
-    this.dispatch(constants.FILTER_LIST, { filterText: filterText});
-  },
-  filterData: function(filterText) {
-    this.dispatch(constants.FILTER_DATA, { filterText: filterText});
-  },
-  selectedAsset: function(selectedAsset) {
-    this.dispatch(constants.ASSET_SELECT, { selectedAsset: selectedAsset});
-  },
-  dataSelected: function(selectedData) {
-    this.dispatch(constants.DATA_SELECT, { selectedData: selectedData});
-  },
-  addData: function() {
-    this.dispatch(constants.ADD_DATA);
-  },
-  removeData: function(index) {
-    this.dispatch(constants.REMOVE_DATA, { index: index });
-  },
-  saveComponent: function() {
-    this.dispatch(constants.SAVE_COMPONENT);
-  }
-
-};
-
-var stores = {
-  ComponentStore: new ComponentStore()
-};

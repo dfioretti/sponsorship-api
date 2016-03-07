@@ -1,7 +1,7 @@
 var GeneralPane = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   handleTitleChange: function(e) {
     this.getFlux().actions.updateTitle(e.target.value);
@@ -31,7 +31,7 @@ var ChartTypePane = React.createClass({
   mixins: [FluxMixin],
 
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   handleChartTypeChange: function(e) {
     this.getFlux().actions.updateType(e.target.value);
@@ -45,7 +45,7 @@ var ChartTypePane = React.createClass({
                     ];
     var typeList = [];
     chartTypes.map(function(item) {
-      typeList.push(<option id={item.id}>{item.name}</option>);
+      typeList.push(<option value={item.id}>{item.name}</option>);
     }.bind(this));
     return (
       <div className="editor-pane">
@@ -71,13 +71,13 @@ var AssetSearch = React.createClass({
   mixins: [FluxMixin],
 
   componentDidMount: function() {
-    flux.store("ComponentStore").loadData();
+    flux.store("ComponentEditorStore").loadData();
   },
   getState: function() {
     return {};
   },
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   handleFilterChange: function(e) {
     this.getFlux().actions.filterList(e.target.value);
@@ -127,7 +127,7 @@ var DataListForSelected = React.createClass({
   mixins: [FluxMixin],
 
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
 
   getDataPointList: function() {
@@ -184,7 +184,7 @@ var DataPane = React.createClass({
   mixins: [FluxMixin],
 
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
 
   renderSelectedAsset: function() {
@@ -235,7 +235,7 @@ var DataPane = React.createClass({
 var AddDataButton = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
 
   handleAddData: function(e) {
@@ -257,7 +257,7 @@ var AddDataButton = React.createClass({
 var AppearancePane = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
   render: function() {
     return (
@@ -278,7 +278,7 @@ var ConfigurationPane = React.createClass({
   mixins: [FluxMixin],
 
   getStateFromFlux: function() {
-    return flux.store("ComponentStore").getState();
+    return flux.store("ComponentEditorStore").getState();
   },
 
   render: function() {
