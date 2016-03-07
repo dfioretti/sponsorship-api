@@ -19,7 +19,10 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.startList = [];
     this.dataIndex = 0;
     this.filteredList = [];
-    this.dataPointList= [];
+    this.dataPointList = [];
+    DataClient.getData(function(data) {
+        this.dataPointList = data;
+    }.bind(this));
     this.filteredDataPointList = [];
     this.filterText = "";
     this.dataFilterText = "";

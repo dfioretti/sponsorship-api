@@ -8,7 +8,6 @@ var AppSidebar = React.createClass({
     return {};
   },
   getStateFromFlux: function() {
-    var flux = this.getFlux();
     return flux.store("ComponentEditorStore").getState();
   },
 
@@ -71,6 +70,9 @@ var AppSidebar = React.createClass({
     }
   },
   renderContent: function() {
+    if (this.props.view === "dashboard") {
+      return null;
+    }
     return (
       <div className="context-menu">
         <div className="editor-menu">

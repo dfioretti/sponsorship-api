@@ -76,9 +76,17 @@ var App = React.createClass({
   render: function() {
     var cn = "logged-out",
       main;
+    var flux = new Fluxxor.Flux(stores, actions);
+    window.flux = flux;
+
+    flux.on("dispatch", function(type, payload) {
+      if (console && console.log) {
+        console.log("[Dispatch]", type, payload);
+      }
+    });
 
     if (this.state.loaded) {
-      main = <RouteHandler {...this.props} setTitle={this.setTitle}/>
+      main = <RouteHandler {...this.props} flux={flux} setTitle={this.setTitle}/>
     } else {
       main = <div id="spinner"></div>
     }
