@@ -1025,6 +1025,41 @@
       }
     }
   }
+  &#chart-view {
+    overflow: visible;
+
+    .top {
+      .overall-trend-score {
+        margin-top: -3px;
+        font-size: 18px;
+        display: table;
+
+        span {
+          vertical-align: top;
+          display: table-cell;
+          padding-right: 10px;
+        }
+      }
+      .trend-image {
+        float: none;
+        display: inline-block;
+
+      }
+    }
+    .main {
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-left: 8px;
+      padding-bottom: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      position: relative;
+    }
+    .chart-legend {
+      right: 15px;
+      color: $white;
+    }
+  }
   &#teneo_rep_score {
     overflow: visible;
 

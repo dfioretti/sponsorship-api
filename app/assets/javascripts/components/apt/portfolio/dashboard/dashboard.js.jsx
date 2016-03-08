@@ -4,10 +4,14 @@ var RouteHandler = ReactRouter.RouteHandler,
 var PortfolioDashboard = React.createClass({
   mixins: [
     DashboardMixin,
-    DateRangeMixin
+    DateRangeMixin,
+    FluxMixin
   ],
   getInitialState: function() {
     return {};
+  },
+  getComponentFromFlux: function(cid) {
+    return flux.store("ComponentsStore").getComponent(cid);
   },
   componentWillMount: function() {
     this.props.setTitle('apt');
@@ -25,48 +29,17 @@ var PortfolioDashboard = React.createClass({
         this.setupGrid();
       }
     }.bind(this));
-    //DashboardsStore.getFifa().then(function(dashboard) {
-    //}.bind(this))
-    //.then(function () {
-      //this.getRepScores(defaults).then(function (repScores) {
-      //  var state = _.extend(initialState, defaults, repScores, {dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-      //  this.setState(state);
-
-    //    this.handleChange();
-  //      this.setupGrid();
-  //      $('.modules-container').trigger('ss-rearrange');
-      //}.bind(this));
-  //  }.bind(this));
   },
-  mapModule: function(name, state, componentId, componentType, componentTitle) {
-    var el, hidden;
-    if (state == "off")
-      hidden = true;
-    //el = <PortfolioTreemap hidden={hidden} key={name} repScores={this.state.repScores} title="Portfolio Allocation" cadence={this.state.cadence} />
+  mapModule: function(name, state) {
     if (name.indexOf('custom_component') > -1) {
-      el = <CustomComponent hidden={hidden} componentType={componentType} componentTitle={componentTitle} componentId={componentId} />
+      var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
+      el = <DynamicComponent component={component} />
     }
-    else {
-      switch (name) {
-        case 'portfolio_map':
-          el = <PortfolioMap hidden={hidden} key={name} />
-          break;
-        case 'portfolio_summary':
-          el = <PortfolioSummary hidden={hidden} key={name} />
-          break;
-        case 'score_trend':
-          el = <ScoreTrend hidden={hidden} key={name} repScores={this.state.repScores} title="Top 5 Passion Scores" cadence={this.state.cadence} />
-          break;
-        case 'portfolio_tree_map':
-          el = <PortfolioTreemap hidden={hidden} key={name} />
-          break;
-    }
-  }
-    return el
+    return el;
   },
   renderModules: function(dashboardState) {
     var modules = $.map(dashboardState, function(v, k){
-      return this.mapModule(k, v.toggle, v.component_id, v.component_type, v.title);
+      return this.mapModule(k, v.toggle);
     }.bind(this));
 
     return (
@@ -77,13 +50,11 @@ var PortfolioDashboard = React.createClass({
   },
   render: function() {
     var dashboardState;
-    //<Sidebar {...this.props} dashboardState={dashboardState.state} repScores={this.state.repScores} dashboardType="apt" handleToggle={this.handleToggle} startDate={this.state.startDate} endDate={this.state.endDate} onDateRangeSelect={this.onDateRangeSelect}/>
-
     if (this.state.dashboardLoaded) {
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <AptSidebar title="Portfolio Dashboard" dashboardState={dashboardState.state}/>
+          <AppSidebar view="dashboard" />
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

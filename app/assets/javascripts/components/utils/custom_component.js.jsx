@@ -1,5 +1,3 @@
-var Link = ReactRouter.Link;
-
 var CustomComponent = React.createClass({
   mixins: [
     ChartTooltipHandler

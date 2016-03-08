@@ -1,26 +1,27 @@
 var RoundChart = React.createClass({
   getInitialState: function() {
-    return {};
+    return { chartId: uuid.v4() };
   },
   componentWillMount: function() {
-    this.setState({viewData: this.props.viewData});
-    this.setState({dataLoaded: true});
-    this.chartId = uuid.v4();
+    this.buildDataState(this.props.component);
+  },
+  buildDataState: function(params) {
+    var dataSets = [],
+        i = 0;
+    params.state.data.forEach(function(d) {
+      dataSets.push(this.dataSetForIndex(i, d.metric, d.value));
+      i++
+    }.bind(this));
+    this.setState({ dataSets: dataSets });
   },
   componentDidMount: function() {
-    this.renderChart(null)
+    this.renderChart();
   },
   componentDidUpdate: function() {
     console.log("did");
-
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    this.renderChart(this.props);
   },
   componentWillReceiveProps: function(newProps) {
-    this.setState({viewData: this.props.viewData});
-      console.log("will prop");
+    console.log("will prop");
   },
   componentDidUpdate: function() {
     console.log("did update");
@@ -35,19 +36,9 @@ var RoundChart = React.createClass({
     '#f5a623',
     '#2d64a5'
   ],
-  renderChart: function(props) {
-    console.log("RENDER CHART");
-    //if (!props.data) return;
-    var data = this.state.viewData;
-
-    data = _.map(data, function(dataset, i) {
-      dataset.color = this.backgroundColor[i];
-      return dataset;
-    }.bind(this));
-
-    // issue rendering outside of the canvas
+  renderChart: function() {
     var strokeWidth = 1;
-    var ctx = $("#" + this.chartId).get(0).getContext("2d");
+    var ctx = $("#" + this.state.chartId).get(0).getContext("2d");
     var chartDetail = {
       segmentStrokeWidth: strokeWidth,
       tooltipFontSize: 9,
@@ -61,24 +52,30 @@ var RoundChart = React.createClass({
     };
 
     var roundChart;
-    console.log(this.props.type);
-    if(this.props.type === "doughnut") {
-      roundChart = new Chart(ctx).Doughnut(data, chartDetail);
+    if(this.props.component.view === "doughnutChart") {
+      roundChart = new Chart(ctx).Doughnut(this.state.dataSets, chartDetail);
     } else {
-      roundChart = new Chart(ctx).Pie(data, chartDetail);
+      roundChart = new Chart(ctx).Pie(this.state.dataSets, chartDetail);
     }
     roundChart.outerRadius -= (strokeWidth/2);
     this.chart = roundChart;
   },
+  dataSetForIndex: function(index, label, value) {
+    return {
+      label: label.split("_").join(" "),
+      value: value,
+      color: this.backgroundColor[index]
+    };
+  },
   renderLegend: function() {
-    //var data = this.props.data;
-    var data = this.state.viewData;
+    var data = this.props.component.state.data;
     return _.map(data, function(pt, i) {
       var backgroundColor = this.backgroundColor[i];
+      var label = pt.metric.split("_").join(" ");
       return (
         <li key={i}>
           <span className="legend-droplet" style={{borderColor: backgroundColor}}></span>
-          <span>{pt.label}</span>
+          <span>{label}</span>
         </li>
       );
     }.bind(this));
@@ -88,15 +85,13 @@ var RoundChart = React.createClass({
     return (
       <div style={{paddingTop: "35px", paddingLeft: "20px"}}>
         <div className="" style={{display: "inline-block", padding: "5px"}}>
-          <canvas id={this.chartId} width="190" height="190" style={{width: "190px", height: "190px", padding: "5px"}}></canvas>
+          <canvas id={this.state.chartId} width="190" height="190" style={{width: "190px", height: "190px", padding: "5px"}}></canvas>
         </div>
-        <ul className="chart-legend" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "250px"}}>
-          <h5>Chart Legend</h5>
+        <ul className="chart-legend" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "225px", fontSize: "12px", width: "155px", textTransform: "capitalize"}}>
+          <h5>Legend</h5>
           {this.renderLegend()}
         </ul>
       </div>
     )
   }
-
-
 });

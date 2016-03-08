@@ -1,5 +1,6 @@
 //= require pubsub
 //= require fluxxor
+//= require react_bootstrap
 
 //= require_tree ./mixins
 //= require_tree ./constants

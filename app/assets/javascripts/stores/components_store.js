@@ -25,7 +25,7 @@ var ComponentsStore = Fluxxor.createStore({
    * @params {integer} cid - the component id
    * @return {Object} - the component
    */
-  getState: function(cid) {
+  getComponent: function(cid) {
     return this.components[cid];
   }
 
