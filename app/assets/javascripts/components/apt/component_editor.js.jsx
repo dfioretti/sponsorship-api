@@ -1,64 +1,47 @@
-var RouteHandler = ReactRouter.RouteHandler,
-  Link = ReactRouter.Link;
+StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-var FluxMixin = Fluxxor.FluxMixin(React),
-  StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var EditorPreview = React.createClass({
+  mixins: [FluxMixin, StoreWatchMixin("EditorPreviewStore")],
+
+  getStateFromFlux: function() {
+    return flux.store("EditorPreviewStore").getState();
+  },
+  render: function() {
+    var component = this.getStateFromFlux().component;
+    if (component == null) {
+      component = flux.store("ComponentEditorStore").getPreview();
+    }
+    return (
+      <div>
+        <div style={{height: "65px", color: "white", fontSize: "16px", paddingTop: "20px"}}className="input-heading">
+          Component Preview
+        </div>
+        <div style={{marginLeft: "90px", paddingTop: "40px"}}>
+          <DynamicComponent component={component}  />
+        </div>
+      </div>
+    );
+  }
+});
+
 
 var ComponentEditor = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
-
-  getInitialState: function() {
-    return {};
-  },
+  mixins: [FluxMixin],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return flux.store("ComponentEditorStore").getState();
   },
-
-  renderSubNav: function() {
-    return (
-      <div className="subnav">
-
-      </div>
-    );
-  },
-  renderViews: function () {
-    return (
-      <div className="">
-        <div className="editor-preview">
-        </div>
-        <div className="editor-data">
-        </div>
-      </div>
-    );
-
-  },
   renderPreview: function() {
+    var component = this.getFlux().store("ComponentEditorStore").getPreview();
     return (
       <div className="editor-preview">
-        <div className="preview-title">
-          Component Preview
-        </div>
-        <div className="module-preview">
-          <div className="ptop">
-            <div className="pdrag-handle">
-            </div>
-            <div className="ptop-title">
-              Component Title
-            </div>
-          </div>
-        </div>
+        <EditorPreview component={component}/>
       </div>
     );
   },
 
   render: function() {
-    // #FAFBFD - color of dashboard in detail-module
-    // $dark-blue - color of regualr dash
-    //{this.renderInput()}
-    //                 {this.renderData()}
-
     return (
       <div className="editor-box">
         <EditorSubNav />

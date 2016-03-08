@@ -13,7 +13,7 @@ var ComponentClient = {
       },
       error: function(xhr, status, error) {
         console.log(status);
-        console.log(errror);
+        console.log(error);
       }
     });
   },
@@ -22,7 +22,22 @@ var ComponentClient = {
       type: "POST",
       contentType: "application/json",
       url: url.COMPONENT_URL,
-      data: JSON.stringify({ component: component }),
+      data: JSON.stringify({ component: component, preview: false }),
+      success: function(data) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
+  },
+  generatePreviewData: function(component, successCallback) {
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url: url.COMPONENT_URL,
+      data: JSON.stringify({ component: component, preview: true }),
       success: function(data) {
         successCallback(data);
       },

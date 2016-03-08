@@ -27,6 +27,9 @@ var ComponentsStore = Fluxxor.createStore({
    */
   getComponent: function(cid) {
     return this.components[cid];
+  },
+  getComponents: function() {
+    return this.components;
   }
 
   /*

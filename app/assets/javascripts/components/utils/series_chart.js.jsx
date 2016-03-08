@@ -5,23 +5,27 @@ var SeriesChart = React.createClass({
   getInitialState: function() {
     return { chartId: uuid.v4() };
   },
-  componentWillMount: function() {
-    this.buildDataState(this.props.component);
+  componentDidUpdate: function() {
+    if(!this.state.chart) return;
+    this.state.chart.update();
   },
-  buildDataState: function(params) {
-    var labels = params.state.labels;
+  componentWillReceiveProps: function(newProps) {
+    if (this.state.chart) this.state.chart.destroy();
+    this.buildChart(newProps)
+  },
+  buildChart: function(props) {
+    if (!props.component.state) return;
+    var labels = props.component.state.labels;
     var dataSets = [],
         i = 0;
-    params.state.data.forEach(function(d) {
+    props.component.state.data.forEach(function(d){
       dataSets.push(this.dataSetForIndex(i, d.entity, d.values));
       i++;
     }.bind(this));
-    this.setState({ data: { labels: labels, datasets: dataSets } });
-  },
-  componentDidMount: function() {
-    this.renderChart();
+    this.renderChart(labels, dataSets);
   },
   renderLegend: function () {
+    if (typeof(this.params) === 'undefined' || typeof(this.params.component.state) === 'undefined') return;
     return _.map(this.state.data.datasets, function (dataset, i) {
       return(
         <div key={i} className="company-legend">
@@ -30,9 +34,15 @@ var SeriesChart = React.createClass({
       );
     });
   },
-  renderChart: function() {
+  renderChart: function(labels, dataSets) {
     var self = this;
     var ctx = $("#" + this.state.chartId).get(0).getContext("2d");
+
+    var data = {
+      labels: labels,
+      datasets: dataSets
+    };
+
     var chartSettings = {
       animation: true,
       tooltipFontSize: 11,
@@ -53,18 +63,18 @@ var SeriesChart = React.createClass({
       pointDotRadius : 3,
       customTooltips: function (tooltip) {
         if (!self.isTooltip(tooltip)) return;
-        console.log(self.state);
-        console.log(self.state.data);
         self.renderTooltip(tooltip, "", self.state.data);
       }
     };
-    console.log(this.props.component.view);
     if (this.props.component.view === 'lineChart') {
-      this.chart = new Chart(ctx).Line(this.state.data, chartSettings);
+      this.chart = new Chart(ctx).Line(data, chartSettings);
     } else {
-      this.chart = new Chart(ctx).Bar(this.state.data, chartSettings);
+      this.chart = new Chart(ctx).Bar(data, chartSettings);
     }
-    this.setState({ chart: this.chart });
+    this.setState({
+      chart: this.chart,
+      data: data
+    });
   },
   dataSetForIndex: function(index, label, dataSet) {
     colors = ["#50e3c2", "#f5a623", "#e76959", "#ffd300" ,"#97c93c"];

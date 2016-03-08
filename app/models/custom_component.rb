@@ -2,7 +2,7 @@ class CustomComponent < ActiveRecord::Base
 
 
 
-  def cache_view_data
+  def cache_view_data(save = true)
     state = Hash.new
     state['title'] = self.name
     state['type'] = self.view
@@ -27,7 +27,9 @@ class CustomComponent < ActiveRecord::Base
       end
     end
     self.state = state
-    self.save
+    if save
+      self.save
+    end
   end
 
   # Mock data for a list component

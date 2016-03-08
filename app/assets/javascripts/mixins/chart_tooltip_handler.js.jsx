@@ -11,6 +11,7 @@ var ChartTooltipHandler = {
     return tooltip;
   },
   renderTooltip: function (tooltip, tooltipTitle, chartData) {
+    if (typeof(tooltip.labels) === 'undefined') return;
     var tooltipEl = $(this.refs.chartjsTooltip);
 
      var innerHtml = '';

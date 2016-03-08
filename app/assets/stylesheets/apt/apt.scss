@@ -215,8 +215,75 @@
   background: transparent;
 }
 
+.dashboard-module {
+  color: $white;
+  position: absolute;
+  overflow: hidden;
+  width: 400px;
+  height: 320px;
+  background-color: $blue;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  font-size: 14px;
 
+  &.tall {
+    height: 660px;
+  }
 
+  &.huge {
+    height: 660px;
+    width: 800px;
+  }
+  &.full {
+    width: 1200px;
+  }
+
+  .top {
+    height: 50px;
+    padding-top: 17px;
+    padding-bottom: 11px;
+    border-bottom: 1px solid $dark-blue;
+
+    .drag-handle {
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-left: 20px;
+      cursor: pointer;
+      background-image: image-url("dashboard/icon-move.svg");
+    }
+
+    .top-title {
+      font-size: 14px;
+      color: $white;
+      width: 382px;
+      text-align: left;
+      margin-left: 57px;
+    }
+
+    .expand-handle {
+      line-height: 24px;
+      width: 24px;
+      height: 24px;
+      float: right;
+      margin-right: 20px;
+      cursor: pointer;
+      background-image: image-url("fifa/icon-expand.svg");
+      position: relative;
+      top: -3px;
+
+      &:hover, &:focus {
+        background-image: image-url("fifa/icon-expand-hover.svg");
+      }
+    }
+  }
+}
+
+.modal-body {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: -20px;
+}
 
 #tableWrapper {
   position: relative;

@@ -28,7 +28,7 @@ var GeneralPane = React.createClass({
 });
 
 var ChartTypePane = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
   getStateFromFlux: function() {
     return flux.store("ComponentEditorStore").getState();
@@ -37,6 +37,7 @@ var ChartTypePane = React.createClass({
     this.getFlux().actions.updateType(e.target.value);
   },
   render: function() {
+    console.log("HERE");
     var chartTypes = [{id: 'lineChart', name: 'Line Chart'},
                       {id: 'barChart', name: "Bar Chart"},
                       {id: 'pieChart', name: "Pie Chart"},
@@ -47,6 +48,11 @@ var ChartTypePane = React.createClass({
     chartTypes.map(function(item) {
       typeList.push(<option value={item.id}>{item.name}</option>);
     }.bind(this));
+    var chartImage = "/edit/line.png";
+    console.log(this.getStateFromFlux().view);
+    if (this.getStateFromFlux().view === 'barChart') {
+      chartImage = "/edit/bar.png";
+    }
     return (
       <div className="editor-pane">
         <div className="input-heading">
@@ -55,12 +61,12 @@ var ChartTypePane = React.createClass({
         <div className="form-content">
           <div className="form-group">
             <label>Chart Type &nbsp;&nbsp;&nbsp;</label>
-            <select onChange={this.handleChartTypeChange} value={this.getStateFromFlux().chartType}>
+            <select onChange={this.handleChartTypeChange} value={this.getStateFromFlux().view}>
               {typeList}
             </select>
           </div>
           <div className="form-group">
-            <img src="/edit/chart.png" />
+            <img src={chartImage} />
           </div>
         </div>
       </div>
@@ -151,7 +157,7 @@ var DataListForSelected = React.createClass({
             <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
             </div>
-            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 filter-row data-item">
+            <div id={item.id} style={{height: "50px", paddingTop: "20px"}} className="col-md-5 filter-row data-item">
               {name}
             </div>
           </div>
@@ -244,6 +250,7 @@ var AddDataButton = React.createClass({
   },
   handleAddData: function(e) {
     this.getFlux().actions.addData();
+    this.getFlux().actions.generatePreviewData();
   },
   render: function() {
     if (this.getStateFromFlux().selectedData !== null) {

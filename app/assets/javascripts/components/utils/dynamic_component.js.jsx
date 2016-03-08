@@ -1,15 +1,18 @@
 var DynamicComponent = React.createClass({
   mixins: [
     FluxMixin,
-    ChartTooltipHandler
+    ChartTooltipHandler,
+    StoreWatchMixin("EditorPreviewStore")
   ],
 
+  getStateFromFlux: function() {
+    return flux.store("EditorPreviewStore").getState();
+  },
   renderContent: function() {
     switch(this.props.component.view) {
       case 'barChart':
       case 'lineChart':
-        console.log(this.props.component.view);
-        return <SeriesChart {...this.props} />
+        return <SeriesChart {...this.props}  />
         break;
       case 'doughnutChart':
       case 'pieChart':

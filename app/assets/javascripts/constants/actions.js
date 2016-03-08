@@ -3,8 +3,8 @@ var actions = {
   updateTitle: function(title) {
     this.dispatch(constants.UPDATE_TITLE, { title: title });
   },
-  updateType: function(chartType) {
-    this.dispatch(constants.UPDATE_TYPE, { chartType: chartType });
+  updateType: function(view) {
+    this.dispatch(constants.UPDATE_TYPE, { view: view });
   },
   changePane: function(pane) {
     this.dispatch(constants.CHANGE_PANE, { editorPane: pane});
@@ -45,5 +45,13 @@ var actions = {
   },
   newComponent: function() {
     this.dispatch(constants.NEW_COMPONENT);
-  }
+  },
+  generatePreviewData: function() {
+    this.dispatch(constants.PREVIEW_DATA);
+    ComponentClient.generatePreviewData(flux.store("ComponentEditorStore").getObject(), function(data) {
+      this.dispatch(constants.PREVIEW_SUCCESS, { component: data});
+    }.bind(this), function(error) {
+      this.dispatch(constants.PREVIEW_FAIL);
+    }.bind(this));
+  },
 };

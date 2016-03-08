@@ -26,14 +26,9 @@ var AppSidebar = React.createClass({
           <div id="app-menu">
             <ul>
               <li>
-                <CreateDashboardModal id="someid"/>
                 Dashboards
-                <ul style={{fontSize: "10px"}}>
-                  <Link to="/" >
-                    <li>
-                      &nbsp;&nbsp;- Create
-                    </li>
-                  </Link>
+                <ul>
+                  <CreateDashboardModal id="someid"/>
                   <Link to="/">
                     <li>
                       &nbsp;&nbsp;- View

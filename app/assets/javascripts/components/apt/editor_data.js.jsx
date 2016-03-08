@@ -1,3 +1,7 @@
+var FluxMixin = Fluxxor.FluxMixin(React),
+  StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+
 var AddedData = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
@@ -23,7 +27,8 @@ var AddedData = React.createClass({
 
 
 var EditorData = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
+
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
@@ -38,8 +43,8 @@ var EditorData = React.createClass({
           <div className="row">
             <div className="col-md-6">
               <ul>
-                <li>{this.getStateFromFlux().title}</li>
-                <li>{this.getStateFromFlux().chartType}</li>
+                <li>{this.getStateFromFlux().title }</li>
+                <li>{this.getStateFromFlux().view }</li>
               </ul>
             </div>
             <div className="col-md-6">

@@ -6,13 +6,23 @@ class Api::V1::Apt::ComponentsController < ApplicationController
     render json: @component
   end
 
-
+  #
+  # Create takes in a second parameter Preview
+  # which will generate data for the defined model
+  # but not persist, this is used for rendering previews
+  # in the editor
+  #
   def create
     @component = CustomComponent.new(component_params)
-    if @component.save && @component.cache_view_data
+    if (params[:preview])
+      @component.cache_view_data(false)
       render json: @component
     else
-      render json: {errors: @component.errors.full_messages}, status: :bad_request
+      if @component.save && @component.cache_view_data
+        render json: @component
+      else
+        render json: {errors: @component.errors.full_messages}, status: :bad_request
+      end
     end
   end
 

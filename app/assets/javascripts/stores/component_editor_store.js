@@ -5,7 +5,8 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.id = null;
     this.title = "New Component";
     this.data = [];
-    this.chartType = "lineChart";
+    //this.chartType = "lineChart";
+    this.view = "lineChart";
     this.interval = "weekly";
 
     // ui data
@@ -26,6 +27,8 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.filteredDataPointList = [];
     this.filterText = "";
     this.dataFilterText = "";
+    this.previewObject = this.getObject();
+    this.state = null;
     this.bindActions(
       constants.UPDATE_TYPE, this.onUpdateType,
       constants.ADD_DATA, this.onDataAdded,
@@ -42,21 +45,25 @@ var ComponentEditorStore = Fluxxor.createStore({
       constants.UPDATE_COMPONENT, this.onUpdateComponent,
       constants.UPDATE_SUCCESS, this.onUpdateSuccess,
       constants.UPDATE_FAIL, this.onUpdateFail,
-      constants.NEW_COMPONENT, this.onNewComponent
+      constants.NEW_COMPONENT, this.onNewComponent,
+      constants.PREVIEW_DATA, this.onPreviewData,
+      constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
+      constants.PREVIEW_FAIL, this.onPreviewFail
     )
   },
   getObject: function() {
     return {
       id: this.id,
       name: this.title,
-      view: this.chartType,
+      view: this.view,
       interval: this.interval,
       model: {
         title: this.title,
-        type: this.chartType,
+        type: this.view,
         interval: this.interval,
         data: this.data
-      }
+      },
+      state: this.state
     };
   },
   loadData: function() {
@@ -68,11 +75,24 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.emit("change");
   },
   onUpdateType: function(payload) {
-    this.chartType = payload.chartType;
+    this.view = payload.view;
+    this.previewObject = this.getObject();
     this.emit("change");
   },
   onUpdateTitle: function(payload) {
     this.title = payload.title;
+    this.previewObject = this.getObject();
+    this.emit("change");
+  },
+  // stub if i need to trigger on async call
+  onPreviewData: function() {
+  },
+  onPreviewSuccess: function(payload) {
+    this.state = payload.component.state;
+    this.emit("change");
+  },
+  onPreviewFail: function(error) {
+    this.message = "Preview failed!";
     this.emit("change");
   },
   onSaveComponent: function() {
@@ -104,8 +124,6 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDataAdded: function(payload) {
-    console.log(this.selectedData.point);
-    console.log(this.selectedData);
     this.data.push({
                     entity: {
                       type: "asset",
@@ -125,10 +143,8 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDataRemoved: function(payload) {
-    console.log(payload);
     var i = 0;
     for (i; i < this.data.length; i++) {
-      console.log(this.data[i].index);
       if (this.data[i].index === parseInt(payload.index))
         break;
     }
@@ -140,27 +156,6 @@ var ComponentEditorStore = Fluxxor.createStore({
     if (payload.selectedAsset === null || payload.selectedAsset.length < 1)
       return;
     this.selectedAsset = AssetsStore.find(payload.selectedAsset);
-
-    // hacky setup until i load data into db
-    /*
-    this.dataPointList = [];
-    var tf = new Object();
-    tf.id = 1;
-    tf.name = "Twitter Followers";
-    var ff = new Object();
-    ff.id = 2;
-    ff.name = "Facebook Fans";
-    var ig = new Object();
-    ig.id = 3;
-    ig.name = "Instagram Followers";
-    var gp = new Object();
-    gp.id = 4;
-    gp.name = "Google+ Followers";
-    this.dataPointList.push(ff);
-    this.dataPointList.push(tf);
-    this.dataPointList.push(ig);
-    this.dataPointList.push(gp);
-    */
     this.filteredDataPointList = this.dataPointList;
     this.emit("change");
   },
@@ -212,11 +207,14 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.filteredList = filteredList;
     this.emit("change");
   },
+  getPreview: function() {
+    return this.getObject();
+  },
   getState: function() {
     return {
       id: this.id,
       title: this.title,
-      chartType: this.chartType,
+      view: this.view,
       editorPane: this.editorPane,
       filterText: this.filterText,
       filteredList: this.filteredList,

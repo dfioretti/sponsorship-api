@@ -1,5 +1,9 @@
+var FluxMixin = Fluxxor.FluxMixin(React),
+  StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+
 var EditorSubNav = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
   getStateFromFlux: function() {
     return flux.store("ComponentEditorStore").getState();

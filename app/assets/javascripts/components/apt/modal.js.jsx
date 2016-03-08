@@ -1,4 +1,5 @@
 var CreateDashboardModal = React.createClass({
+  mixins: [FluxMixin],
 
   getInitialState() {
     return { showModal: false };
@@ -12,46 +13,61 @@ var CreateDashboardModal = React.createClass({
     this.setState({ showModal: true });
   },
 
+  handelAddComponent: function() {
+    console.log("TODO");
+  },
+  renderComponents: function() {
+    var components = flux.store("ComponentsStore").getComponents();
+    var comList = new Array();
+    for (var key in components) {
+      comList.push(components[key]);
+    }
+
+    return (
+      <table style={{height: "200px", overflowY: "scroll"}}>
+        <tbody>
+        {comList.map(function(item) {
+          return (
+          <tr>
+          <td style={{padding: "10px", fontSize: "17px"}}>
+            {item.name}
+          </td>
+          <td style={{padding: "10px", fontSize: "17px", paddingLeft: "60px"}}>
+            <div onClick={this.handelAddComponent} className="glyphicon glyphicon-plus" aria-hidden="true"></div>
+          </td>
+          </tr>)
+        })}
+        </tbody>
+      </table>
+    );
+
+  },
   render() {
-    let popover = <ReactBootstrap.Popover title="popover">very popover. such engagement</ReactBootstrap.Popover>;
-    let tooltip = <ReactBootstrap.Tooltip>wow.</ReactBootstrap.Tooltip>;
+    //let popover = <ReactBootstrap.Popover title="popover">very popover. such engagement</ReactBootstrap.Popover>;
+    //let tooltip = <ReactBootstrap.Tooltip>wow.</ReactBootstrap.Tooltip>;
 
     return (
       <div>
-        <p>Click to get the full Modal experience!</p>
+        <li style={{cursor: "pointer"}}onClick={this.open}>
+          &nbsp;&nbsp; - Create
+        </li>
 
-        <ReactBootstrap.Button
-          bsStyle="primary"
-          bsSize="large"
-          onClick={this.open}
-        >
-          Launch demo modal
-        </ReactBootstrap.Button>
-
-        <ReactBootstrap.Modal show={this.state.showModal} onHide={this.close}>
+        <ReactBootstrap.Modal  show={this.state.showModal} onHide={this.close}>
           <ReactBootstrap.Modal.Header closeButton>
-            <ReactBootstrap.Modal.Title>Modal heading</ReactBootstrap.Modal.Title>
+            <ReactBootstrap.Modal.Title>Create New Dashboard</ReactBootstrap.Modal.Title>
           </ReactBootstrap.Modal.Header>
           <ReactBootstrap.Modal.Body>
-            <h4>Text in a modal</h4>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
-
-            <h4>Popover in a modal</h4>
+            <h4>Dashboard Name</h4>
+            <input type="text" className="form-control" placeholder="Enter Name" />
             <hr />
-
-            <h4>Overflowing text to show scroll behavior</h4>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          </ReactBootstrap.Modal.Body>
+            <h4>Add Components</h4>
+            </ReactBootstrap.Modal.Body>
+            <ReactBootstrap.Modal.Body style={{maxHeight: "400px", overflowY: "scroll"}}>
+              {this.renderComponents()}
+            </ReactBootstrap.Modal.Body>
           <ReactBootstrap.Modal.Footer>
             <ReactBootstrap.Button onClick={this.close}>Close</ReactBootstrap.Button>
+            <ReactBootstrap.Button bsStyle="primary" onClick={this.close}>Save</ReactBootstrap.Button>
           </ReactBootstrap.Modal.Footer>
         </ReactBootstrap.Modal>
       </div>

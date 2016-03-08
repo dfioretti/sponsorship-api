@@ -1,5 +1,10 @@
+var FluxMixin = Fluxxor.FluxMixin(React),
+  StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+
 var EditorPane = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
+
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return flux.store("ComponentEditorStore").getState();
