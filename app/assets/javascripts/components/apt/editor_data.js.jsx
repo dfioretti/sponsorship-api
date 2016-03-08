@@ -7,22 +7,18 @@ var AddedData = React.createClass({
     this.getFlux().actions.removeData(e.target.id);
   },
   render: function() {
-    var i = 0;
     return (
       <div className="added-data">
         <label>Chart Data</label>
         <table>
           {this.getStateFromFlux().data.map(function(item) {
-            return (<tr id={item.index}><td>{item.source.name}</td><td>{item.point.name}</td><td>{item.data_id}</td>
-            <td id={item.index} onClick={this.handleRemoveData}>
-              X
-            </td> </tr>);
+            return (<tr><td>{item.entity.name}</td><td>{item.metric.point}</td>
+                    <td onClick={this.handleRemoveData}>X</td> </tr>);
           }.bind(this))}
         </table>
       </div>
     );
   }
-
 });
 
 

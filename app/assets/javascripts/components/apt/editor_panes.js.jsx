@@ -98,7 +98,7 @@ var AssetSearch = React.createClass({
             <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
             </div>
-            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 filter-row">
+            <div id={item.id} style={{height: "50px", paddingTop: "20px"}} className="col-md-5 filter-row">
               {item.name}
             </div>
           </div>
@@ -129,7 +129,11 @@ var DataListForSelected = React.createClass({
   getStateFromFlux: function() {
     return flux.store("ComponentEditorStore").getState();
   },
-
+  formatData: function(point) {
+    return point.split("_").join(" ");
+    //var newString = point.split("_").join(" ");
+    //return newString.charAt(0).toUpperCase() + newString.slice(1);
+  },
   getDataPointList: function() {
     var list = [];
     var imgStyle = {
@@ -140,14 +144,15 @@ var DataListForSelected = React.createClass({
     };
     this.getStateFromFlux().filteredDataPointList.map(function(item) {
       var image = "/icons-blue/0.png";
+      var name = this.formatData(item.point);
       list.push(
         <div className="container filter-content">
           <div id={item.id} className="row filter-row">
             <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
             </div>
-            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 filter-row">
-              {item.name}
+            <div id={item.id} style={{height: "50px", paddingTop: "20px;"}} className="col-md-5 filter-row data-item">
+              {name}
             </div>
           </div>
         </div>);
@@ -237,7 +242,6 @@ var AddDataButton = React.createClass({
   getStateFromFlux: function() {
     return flux.store("ComponentEditorStore").getState();
   },
-
   handleAddData: function(e) {
     this.getFlux().actions.addData();
   },
@@ -276,11 +280,9 @@ var AppearancePane = React.createClass({
 });
 var ConfigurationPane = React.createClass({
   mixins: [FluxMixin],
-
   getStateFromFlux: function() {
     return flux.store("ComponentEditorStore").getState();
   },
-
   render: function() {
     return (
       <div className="editor-pane">
@@ -295,5 +297,4 @@ var ConfigurationPane = React.createClass({
       </div>
     );
   }
-
 });

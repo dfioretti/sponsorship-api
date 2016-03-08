@@ -11,7 +11,7 @@ class Datum < ActiveRecord::Base
         :source => "facebook",
         :point => f,
         :kind => "social",
-        :icon => "/icons/facebook.png"
+        :icon => "/icons/facebook.png",
       ).save
     end
     twitter = [

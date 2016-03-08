@@ -104,17 +104,24 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDataAdded: function(payload) {
-    this.data.push({index: this.dataIndex,
-                    source: this.selectedAsset,
-                    point: this.selectedData
-    });
-    this.dataIndex++;
+    console.log(this.selectedData.point);
+    console.log(this.selectedData);
+    this.data.push({
+                    entity: {
+                      type: "asset",
+                      entity_id: this.selectedAsset.id,
+                      entity_image: this.selectedAsset.image,
+                      name: this.selectedAsset.name
+                    },
+                    metric: {
+                      type: this.selectedData.kind,
+                      source: this.selectedData.source,
+                      point: this.selectedData.point,
+                      point_id: this.selectedData.id,
+                      point_image: this.selectedData.icon
+                    }
+                  });
     this.selectedData = null;
-    this.selectedAsset = null;
-    this.filteredList = [];//= this.startList;
-    this.filteredDataPointList = this.dataPointList;
-    this.filterText = "";
-    this.dataFilterText = "";
     this.emit("change");
   },
   onDataRemoved: function(payload) {
@@ -135,6 +142,7 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.selectedAsset = AssetsStore.find(payload.selectedAsset);
 
     // hacky setup until i load data into db
+    /*
     this.dataPointList = [];
     var tf = new Object();
     tf.id = 1;
@@ -152,6 +160,7 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.dataPointList.push(tf);
     this.dataPointList.push(ig);
     this.dataPointList.push(gp);
+    */
     this.filteredDataPointList = this.dataPointList;
     this.emit("change");
   },
@@ -181,7 +190,7 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.dataFilterText = payload.filterText;
     var filteredList = [];
     this.dataPointList.forEach(function(item) {
-      if (item['name'].toLowerCase().indexOf(this.dataFilterText) === -1) {
+      if (item['point'].split("_").join(" ").indexOf(this.dataFilterText) === -1) {
         return;
       } else {
         filteredList.push(item);

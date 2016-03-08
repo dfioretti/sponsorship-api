@@ -98,6 +98,9 @@
 .filter-row {
   margin: 0px;
   padding: 0px;
+  .data-item {
+    text-transform: capitalize;
+  }
 }
 
 .filter-content {

@@ -1,5 +1,88 @@
 class CustomComponent < ActiveRecord::Base
-  
+
+
+
+  def cache_view_data
+    state = Hash.new
+    state['title'] = self.name
+    state['type'] = self.view
+    state['data'] = []
+    case self.view
+    when 'lineChart', 'barChart'
+      state['labels'] = CustomComponent.labels_for_interval(self.interval)
+      self.model['data'].each do |d|
+        state['data'].push(CustomComponent.series_for_entity_metric(d['entity'], d['metric']))
+      end
+    when 'pieChart', 'doughnutChart'
+      self.model['data'].each do |d|
+        state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+      end
+    when 'barList'
+      self.model['data'].each do |d|
+        state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+      end
+    when 'valueList'
+      self.model['data'].each do |d|
+        state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+      end
+    end
+    self.state = state
+    self.save
+  end
+
+  # Mock data for a list component
+  def self.data_for_entity_metric(entity, metric)
+    data = Hash.new
+    data['entity'] = entity['name']
+    data['entity_icon'] = entity['entity_image']
+    data['metric'] = metric['point']
+    data['source'] = metric['source']
+    data['metric_icon'] = metric['point_image']
+    data['value'] = rand(75..95)
+    return data
+  end
+
+  # Mock data for a series component
+  def self.series_for_entity_metric(entity, metric)
+    data = Hash.new
+    data['entity'] = entity['name']
+    data['entity_icon'] = entity['entity_image']
+    data['metric'] = metric['point']
+    data['source'] = metric['source']
+    data['metric_icon'] = metric['point_image']
+    data['values'] = []
+    6.times do |i|
+      data['values'].push(rand(76..95))
+    end
+    return data
+  end
+
+
+  def self.labels_for_interval(interval)
+    labels = []
+    if interval == 'weekly'
+      i = 6
+      6.times do
+        labels.push(i.week.ago.strftime("%m/%d/%y"))
+        i = i - 1
+      end
+    elsif interval == 'monthly'
+      i = 6
+      6.times do
+        labels.push(i.month.ago.strftime("%m/%d/%y"))
+        i = i - 1
+      end
+    elsif interval == 'quarterly'
+      i = 6 * 3
+      6.times do
+        labels.push(i.month.ago.strftime("%m/%d/%y"))
+        i = i - 3
+      end
+    end
+    return labels
+  end
+
+
   def buildPieChartData
     if self.id == 5
       data = []

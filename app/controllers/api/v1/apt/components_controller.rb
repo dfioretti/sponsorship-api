@@ -9,7 +9,7 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   def create
     @component = CustomComponent.new(component_params)
-    if @component.save
+    if @component.save && @component.cache_view_data
       render json: @component
     else
       render json: {errors: @component.errors.full_messages}, status: :bad_request
@@ -18,7 +18,7 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   def update
     @component = CustomComponent.find(params[:id])
-    if @component.update_attributes(component_params)
+    if @component.update_attributes(component_params) && @component.cache_view_data
       render json: @component
     else
       render json: {errors: @component.errors.full_messages}, status: :bad_request
