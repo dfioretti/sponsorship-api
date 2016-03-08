@@ -46,7 +46,7 @@ var ChartTypePane = React.createClass({
                     ];
     var typeList = [];
     chartTypes.map(function(item) {
-      typeList.push(<option value={item.id}>{item.name}</option>);
+      typeList.push(<option key={item.id} value={item.id}>{item.name}</option>);
     }.bind(this));
     var chartImage = "/edit/line.png";
     console.log(this.getStateFromFlux().view);
@@ -99,7 +99,7 @@ var AssetSearch = React.createClass({
     this.getStateFromFlux().filteredList.map(function(item) {
       var image = "/images/" + item.id + ".jpg";
       list.push(
-        <div className="container filter-content">
+        <div key={item.id} className="container filter-content">
           <div id={item.id} className="row filter-row">
             <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
@@ -149,10 +149,10 @@ var DataListForSelected = React.createClass({
       marginLeft: "0px"
     };
     this.getStateFromFlux().filteredDataPointList.map(function(item) {
-      var image = "/icons-blue/0.png";
+      var image = item.icon;
       var name = this.formatData(item.point);
       list.push(
-        <div className="container filter-content">
+        <div key={item.id} className="container filter-content">
           <div id={item.id} className="row filter-row">
             <div id={item.id} style={{paddingTop: "10px"}} className="col-md-3 filter-row">
               <img style={imgStyle} src={image} />
@@ -201,20 +201,50 @@ var DataPane = React.createClass({
   renderSelectedAsset: function() {
     var selected = this.getStateFromFlux().selectedAsset;
     if (selected === null) return null;
+    var imgStyle = {
+      height: "50px",
+      width: "50px",
+      borderRadius: "50%",
+      marginLeft: "0px"
+    };
+    var image = "/images/" + selected.id + ".jpg";
+
     return (
-      <div className="form-group">
-        <label>Asset</label>&nbsp;&nbsp;&nbsp;
-        <strong>{selected.name}</strong>
+      <div key={selected.id} className="container filter-content">
+        <div style={{marginBottom: "10px", borderRadius: "3px", color: "white", background: "#3c88d1"}}id={selected.id} className="row filter-row">
+          <div id={selected.id} style={{padding: "10px"}} className="col-md-3 filter-row">
+            <img style={imgStyle} src={image} />
+          </div>
+          <div id={selected.id} style={{height: "50px", paddingTop: "20px"}} className="col-md-5 filter-row">
+            {selected.name}
+          </div>
+        </div>
       </div>
     );
   },
   renderSelectedData: function() {
     var selected = this.getStateFromFlux().selectedData;
     if (selected === null) return null;
+    var image = selected.icon;
+    var name = selected.point.split("_").join(" ");
+
+    var imgStyle = {
+      height: "50px",
+      width: "50px",
+      borderRadius: "50%",
+      marginLeft: "0px"
+    };
+
     return (
-      <div className="form-group">
-        <label>Data</label>&nbsp;&nbsp;&nbsp;
-        <strong>{selected.name}</strong>
+      <div key={selected.id} className="container filter-content">
+        <div style={{marginBottom: "10px", borderRadius: "3px", color: "white", background: "#3c88d1"}}id={selected.id} className="row filter-row">
+          <div id={selected.id} style={{padding: "10px"}} className="col-md-3 filter-row">
+            <img style={imgStyle} src={image} />
+          </div>
+          <div id={selected.id} style={{height: "50px", paddingTop: "20px", textTransform: "capitalize"}} className="col-md-5 filter-row">
+            {name}
+          </div>
+        </div>
       </div>
     );
   },

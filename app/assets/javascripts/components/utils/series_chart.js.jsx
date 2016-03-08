@@ -9,6 +9,9 @@ var SeriesChart = React.createClass({
     if(!this.state.chart) return;
     this.state.chart.update();
   },
+  componentDidMount: function() {
+    this.buildChart(this.props);
+  },
   componentWillReceiveProps: function(newProps) {
     if (this.state.chart) this.state.chart.destroy();
     this.buildChart(newProps)

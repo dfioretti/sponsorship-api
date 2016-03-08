@@ -5,7 +5,6 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.id = null;
     this.title = "New Component";
     this.data = [];
-    //this.chartType = "lineChart";
     this.view = "lineChart";
     this.interval = "weekly";
 
@@ -69,6 +68,7 @@ var ComponentEditorStore = Fluxxor.createStore({
   loadData: function() {
     this.startList = AssetsStore.getState().assets;
     this.filteredList = this.startList;
+    this.emit("change");
   },
   onChangePane: function(payload) {
     this.editorPane = payload.editorPane;
@@ -143,13 +143,7 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.emit("change");
   },
   onDataRemoved: function(payload) {
-    var i = 0;
-    for (i; i < this.data.length; i++) {
-      if (this.data[i].index === parseInt(payload.index))
-        break;
-    }
-    var index = this.data.indexOf(i);
-    this.data.splice(index, 1);
+    this.data.splice(payload.index, 1);
     this.emit("change");
   },
   onAssetSelected: function(payload) {

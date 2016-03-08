@@ -28,7 +28,7 @@ var CreateDashboardModal = React.createClass({
         <tbody>
         {comList.map(function(item) {
           return (
-          <tr>
+          <tr key={item.id}>
           <td style={{padding: "10px", fontSize: "17px"}}>
             {item.name}
           </td>
