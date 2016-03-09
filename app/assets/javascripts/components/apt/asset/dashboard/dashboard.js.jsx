@@ -2,7 +2,7 @@ var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
 var AssetDashboard = React.createClass({
-  mixins: [DashboardMixin],
+  mixins: [DashboardMixin, FluxMixin],
   getInitialState: function() {
     return {dashboardLoaded: false, assetLoaded: false};
   },
@@ -17,6 +17,8 @@ var AssetDashboard = React.createClass({
     NotesStore.setCompanyId(this.props.params.id);
 
     DashboardsStore.getAsset(this.props.params.id).then(function(){
+      console.log(DashboardsStore.getState().current);
+      console.log(DashboardsStore.getState().current.id);
       this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
 
       if (this.state.dashboardLoaded && this.state.assetLoaded) {
@@ -58,6 +60,8 @@ var AssetDashboard = React.createClass({
     var company = CompaniesStore.getState().current;
     var asset = AssetsStore.getState().current;
 
+    console.log("Name: " + name);
+
     if (name.indexOf('custom_component') > -1 ) {
       el = <CustomComponent hidden={hidden} componentType={componentType} componentTitle={componentTitle} componentId={componentId} />
     } else {
@@ -66,6 +70,7 @@ var AssetDashboard = React.createClass({
           el = <PassionScore hidden={hidden} />
           break;
         case 'asset_overview':
+          console.log("asset overview?");
           el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
           break;
         case 'notes':
@@ -103,7 +108,7 @@ var AssetDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <AptSidebar {...this.props} dashboardState={dashboardState.state} dashboardType="asset" handleToggle={this.handleToggle}/>
+          <AppSidebar view="dashboard" />
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>

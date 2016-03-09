@@ -18,6 +18,7 @@ var DynamicComponent = React.createClass({
       case 'pieChart':
         return <RoundChart {...this.props} />
         break;
+      case 'dataList':
       case 'valueList':
       case 'barList':
         return <DataList {...this.props} />
@@ -25,6 +26,7 @@ var DynamicComponent = React.createClass({
     }
   },
   render: function() {
+    var editLink = "/apt/editor/" + this.props.component.id;
     var componentStyle = "top_global_issues";
     if (this.props.component.view === 'lineChart' ||
           this.props.component.view === 'barChart') {
@@ -33,6 +35,7 @@ var DynamicComponent = React.createClass({
     return (
       <div id={componentStyle} className="dashboard-module">
         <div className="top">
+          <Link to={editLink} className="expand-handle"></Link>
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.component.name}</div>
         </div>

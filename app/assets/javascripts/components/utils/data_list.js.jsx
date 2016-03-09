@@ -13,12 +13,13 @@ var DataList = React.createClass({
     }
   },
   componentWillMount: function() {
-    this.setState({ viewData: this.props.viewData });
+    this.setState({ viewData: this.props.state });
     this.setState({ dataLoaded: true});
   },
   componentDidRecieveProps: function() {
   },
   componentWillReceiveProps: function(newProps) {
+    /*
     if (newProps.componentId != this.props.componentId) {
     }
     if (!this.state.scrollLoaded) {
@@ -26,6 +27,7 @@ var DataList = React.createClass({
       this.setState({scrollLoaded: true});
       $('#' + this.state.scrollId).jScrollPane();
     }
+    */
   },
   renderBars: function() {
     // TODO - fix the generic bars
@@ -56,7 +58,10 @@ var DataList = React.createClass({
     return val;
   },
   renderValues: function() {
-    var listData = this.state.viewData;
+    var valueList = this.props.component.state.data;
+
+
+      /*
 
     listData.sort(function(i1, i2){
       var order;
@@ -65,19 +70,25 @@ var DataList = React.createClass({
       order = field1 < field2 ? 1 : -1
       return order;
     }.bind(this));
-
+    */
+/*
     var list = $.map(listData, function(item, i) {
       var assetLink = "/apt/asset/dashboard/" + item.asset_id;
       return <GenericValueListItem key={i} trend={item.trend} link={assetLink} statImage={item.image} statHeader={item.name} statMetric={item.metric} />
     }.bind(this));
-
+*/
     // was social-stats-list in a div
     // <ul className="trend-list light global-issues-list probability-list risk-indicator-list">
     // deleted probabilyt list..
-
+    var i = 0;
+    var link = "/apt/asset/dashboard/1114";
     return (
         <ul className="generic-list">
-          {list}
+          {this.props.component.state.data.map(function(d){
+            return (
+              <GenericValueListItem key={i++} link={link} statImage={d.entity_icon} statHeader={d.metric} statMetric={d.value} />
+            );
+          })}
         </ul>
     );
   },

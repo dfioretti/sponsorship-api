@@ -21,8 +21,9 @@ class CustomComponent < ActiveRecord::Base
       self.model['data'].each do |d|
         state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
       end
-    when 'valueList'
+    when 'valueList', 'dataList'
       self.model['data'].each do |d|
+        Rails.logger.debug(d.inspect)
         state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
       end
     end
@@ -36,7 +37,7 @@ class CustomComponent < ActiveRecord::Base
   def self.data_for_entity_metric(entity, metric)
     data = Hash.new
     data['entity'] = entity['name']
-    data['entity_icon'] = entity['entity_image']
+    data['entity_icon'] = "/images/#{entity['entity_id']}.jpg"
     data['metric'] = metric['point']
     data['source'] = metric['source']
     data['metric_icon'] = metric['point_image']

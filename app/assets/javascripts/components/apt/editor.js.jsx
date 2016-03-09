@@ -2,8 +2,18 @@ var RouteHandler = ReactRouter.RouteHandler,
   Link = ReactRouter.Link;
 
 var Editor = React.createClass({
+  mixins: [FluxMixin],
   getInitialState: function() {
     return {};
+  },
+  componentWillMount: function() {
+    /*
+     * Load the component into the editor for update
+     */
+    if (this.props.params) {
+      var editComponent = this.props.flux.store("ComponentsStore").get(this.props.params.id);
+      this.props.flux.action.loadComponentUpdate(editComponent);
+    }
   },
   toggleMenu: function() {
     $("#app-menu").slideToggle(250);
@@ -11,7 +21,6 @@ var Editor = React.createClass({
   toggleActive: function(e) {
     $('li').removeClass('active-item');
     $(e.target).addClass('active-item');
-
   },
   renderSidebar: function() {
     return (
@@ -109,7 +118,6 @@ var Editor = React.createClass({
   render: function() {
     var flux = new Fluxxor.Flux(stores, actions);
     window.flux = flux;
-
     flux.on("dispatch", function(type, payload) {
       if (console && console.log) {
         console.log("[Dispatch]", type, payload);

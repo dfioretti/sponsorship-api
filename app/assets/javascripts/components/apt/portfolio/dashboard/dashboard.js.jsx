@@ -36,6 +36,7 @@ var PortfolioDashboard = React.createClass({
     if (name.indexOf('custom_component') > -1) {
       console.log(name);
       var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
+      if (typeof(component) == 'undefined') return;
       el = <DynamicComponent key={component.id} component={component} />
     }
     else {

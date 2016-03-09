@@ -47,7 +47,8 @@ var ComponentEditorStore = Fluxxor.createStore({
       constants.NEW_COMPONENT, this.onNewComponent,
       constants.PREVIEW_DATA, this.onPreviewData,
       constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
-      constants.PREVIEW_FAIL, this.onPreviewFail
+      constants.PREVIEW_FAIL, this.onPreviewFail,
+      constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate
     )
   },
   getObject: function() {
@@ -68,6 +69,15 @@ var ComponentEditorStore = Fluxxor.createStore({
   loadData: function() {
     this.startList = AssetsStore.getState().assets;
     this.filteredList = this.startList;
+    this.emit("change");
+  },
+  onLoadComponentUpdate: function(payload) {
+    this.id = payload.component.id;
+    this.title = payload.component.name;
+    this.view = payload.component.view;
+    this.interval = payload.component.interval;
+    this.model = payload.component.model;
+    this.state = payload.component.state;
     this.emit("change");
   },
   onChangePane: function(payload) {

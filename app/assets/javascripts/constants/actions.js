@@ -43,6 +43,9 @@ var actions = {
       this.dispatch(constants.UPDATE_FAIL);
     }.bind(this))
   },
+  loadComponentUpdate: function(component) {
+    this.dispatch(constants.LOAD_COMPONENT_UPDATE, { component: component});
+  },
   newComponent: function() {
     this.dispatch(constants.NEW_COMPONENT);
   },

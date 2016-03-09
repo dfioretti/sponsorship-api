@@ -6,6 +6,7 @@ var Configurable = React.createClass({
   componentWillReceiveProps: function(newProps) {
   },
   render: function() {
+    console.log("WTF CF");
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
 
     return (
