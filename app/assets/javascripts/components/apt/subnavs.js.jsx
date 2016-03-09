@@ -20,6 +20,9 @@ var EditorSubNav = React.createClass({
       this.getFlux().actions.saveComponent();
     }
   },
+  handleBackClick: function() {
+    ReactRouter.HashLocation.pop();
+  },
   render: function() {
     return (
       <div className="subnav">
