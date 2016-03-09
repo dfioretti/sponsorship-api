@@ -43,20 +43,21 @@ var AddRemoveComponentButton = new React.createClass({
     return this.getFlux().store("DashboardCreateStore").getState();
   },
   handleAddComponent: function(e) {
+    console.log(e.target.id);
     this.getFlux().actions.addDashboardComponent(e.target.id);
   },
   handleRemoveComponent: function(e) {
     this.getFlux().actions.removeDashboardComponent(e.target.id);
   },
   render: function() {
-    console.log(this.getStateFromFlux().selectedComponents);
-    if (this.getStateFromFlux().selectedComponents.indexOf(this.props.component.id) > 0) {
+    console.log(this.props.component.id);
+    if (this.getStateFromFlux().selectedComponents.indexOf(this.props.component.id.toString()) != -1) {
       return (
-        <span onClick={this.handleRemoveComponent} id={this.props.component.id} className="glyphicon glyphicon-remove actionable" aria-hidden="true"></span>
+        <span style={{color: "#e76959", padding: "5px"}}onClick={this.handleRemoveComponent} id={this.props.component.id} className="glyphicon glyphicon-remove actionable" aria-hidden="true"></span>
       );
     } else {
       return (
-        <span onClick={this.handleAddComponent} id={this.props.component.id} className="glyphicon glyphicon-plus actionable" aria-hidden="true"></span>
+        <span style={{color: "#50e3c2", padding: "5px"}} onClick={this.handleAddComponent} id={this.props.component.id} className="glyphicon glyphicon-plus actionable" aria-hidden="true"></span>
       );
     }
   }
@@ -65,6 +66,7 @@ var AddRemoveComponentButton = new React.createClass({
 var DashboardEditComponentRow = React.createClass({
   mixins: [FluxMixin],
   render: function () {
+    var i = 1000;
     return (
       <div className="dash-edit-component-row">
         <div className="col-md-5 bs-col">
@@ -76,7 +78,7 @@ var DashboardEditComponentRow = React.createClass({
         <div className="col-md-3 small-round-images bs-col">
           {this.props.component.model.data.map(function(d) {
             return (
-              <img src={d.metric.point_image} />
+              <img key={i--} src={d.metric.point_image} />
             );
           })}
         </div>

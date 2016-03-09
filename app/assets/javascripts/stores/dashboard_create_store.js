@@ -14,16 +14,12 @@ var DashboardCreateStore = Fluxxor.createStore({
     return (this.selectedComponents.indexOf(component_id) !== -1);
   },
   onItemAdded: function(payload) {
-    console.log("ADDD");
-    console.log(payload)
     this.selectedComponents.push(payload.component_id);
+    this.emit("change");
     this.emit("change");
   },
   onItemRemoved: function(payload) {
-    console.log("RMMM");
-    console.log(payload)
-    var index = this.selectedComponents.indexOf(payload.component_id);
-    this.selectedComponents = this.selectedComponents.splice(index, 1);
+    this.selectedComponents.splice(this.selectedComponents.indexOf(payload.component_id), 1);
     this.emit("change");
   },
   onUpdateName: function(payload) {
