@@ -54,4 +54,16 @@ var actions = {
       this.dispatch(constants.PREVIEW_FAIL);
     }.bind(this));
   },
+
+
+  // dashboard create actions
+  updateDashboardName: function(name) {
+    this.dispatch(constants.UPDATE_DASHBOARD_NAME, { name: name});
+  },
+  removeDashboardComponent: function(component_id) {
+    this.dispatch(constants.DASHBOARD_ITEM_REMOVED, { component_id: component_id});
+  },
+  addDashboardComponent: function(component_id) {
+    this.dispatch(constants.DASHBOARD_ITEM_ADDED, { component_id: component_id});
+  }
 };

@@ -1,6 +1,9 @@
 var CreateDashboardModal = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("DashboardCreateStore")],
 
+  getStateFromFlux: function() {
+    return this.getFlux().store("DashboardCreateStore").getState();
+  },
   getInitialState() {
     return { showModal: false };
   },
@@ -46,6 +49,21 @@ var CreateDashboardModal = React.createClass({
     //let popover = <ReactBootstrap.Popover title="popover">very popover. such engagement</ReactBootstrap.Popover>;
     //let tooltip = <ReactBootstrap.Tooltip>wow.</ReactBootstrap.Tooltip>;
 
+
+    /*
+
+    <ReactBootstrap.Button onClick={this.close}>Close</ReactBootstrap.Button>
+    <ReactBootstrap.Button bsStyle="primary" onClick={this.close}>Save</ReactBootstrap.Button>
+    <h4>Dashboard Name</h4>
+    <input type="text" className="form-control" placeholder="Enter Name" />
+    <hr />
+    <h4>Add Components</h4>
+    </ReactBootstrap.Modal.Body>
+    <ReactBootstrap.Modal.Body style={{maxHeight: "400px", overflowY: "scroll"}}>
+      {this.renderComponents()}
+
+    */
+
     return (
       <div>
         <li style={{cursor: "pointer"}}onClick={this.open}>
@@ -54,20 +72,14 @@ var CreateDashboardModal = React.createClass({
 
         <ReactBootstrap.Modal  show={this.state.showModal} onHide={this.close}>
           <ReactBootstrap.Modal.Header closeButton>
-            <ReactBootstrap.Modal.Title>Create New Dashboard</ReactBootstrap.Modal.Title>
+            <h4 className="heading-text">Create New Dashboard</h4>
           </ReactBootstrap.Modal.Header>
           <ReactBootstrap.Modal.Body>
-            <h4>Dashboard Name</h4>
-            <input type="text" className="form-control" placeholder="Enter Name" />
-            <hr />
-            <h4>Add Components</h4>
-            </ReactBootstrap.Modal.Body>
-            <ReactBootstrap.Modal.Body style={{maxHeight: "400px", overflowY: "scroll"}}>
-              {this.renderComponents()}
+            <DashboardEditName />
+            <DashboardEditBody />
             </ReactBootstrap.Modal.Body>
           <ReactBootstrap.Modal.Footer>
-            <ReactBootstrap.Button onClick={this.close}>Close</ReactBootstrap.Button>
-            <ReactBootstrap.Button bsStyle="primary" onClick={this.close}>Save</ReactBootstrap.Button>
+            <DashboardEditFooter />
           </ReactBootstrap.Modal.Footer>
         </ReactBootstrap.Modal>
       </div>
