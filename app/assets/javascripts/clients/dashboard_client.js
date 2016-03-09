@@ -2,11 +2,11 @@ var dashboard_url = {
   DASH_URL: "/api/v1/apt/dashboards/",
 };
 var DashboardClient = {
-  getDashboard: function(did, successCallback) {
+  getDashboards: function(successCallback){
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: data_url.DATA_URL,
+      url: dashboard_url.DASH_URL,
       success: function(data) {
         successCallback(data);
       },

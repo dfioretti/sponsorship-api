@@ -65,5 +65,13 @@ var actions = {
   },
   addDashboardComponent: function(component_id) {
     this.dispatch(constants.DASHBOARD_ITEM_ADDED, { component_id: component_id});
-  }
+  },
+  dashboardCreate: function() {
+    this.dispatch(constants.DASHBOARD_CREATE);
+    DashboardClient.createDashboard(flux.store("DashboardCreateStore").getObject(), function(data) {
+      this.dispatch(constants.DASHBOARD_CREATE_SUCCESS, { dashboard: data });
+    }.bind(this), function(error) {
+      this.dispatch(constants.DASHBOARD_CREATE_FAIL);
+    }.bind(this));
+  },
 };

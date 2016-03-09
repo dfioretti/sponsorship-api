@@ -43,14 +43,12 @@ var AddRemoveComponentButton = new React.createClass({
     return this.getFlux().store("DashboardCreateStore").getState();
   },
   handleAddComponent: function(e) {
-    console.log(e.target.id);
     this.getFlux().actions.addDashboardComponent(e.target.id);
   },
   handleRemoveComponent: function(e) {
     this.getFlux().actions.removeDashboardComponent(e.target.id);
   },
   render: function() {
-    console.log(this.props.component.id);
     if (this.getStateFromFlux().selectedComponents.indexOf(this.props.component.id.toString()) != -1) {
       return (
         <span style={{color: "#e76959", padding: "5px"}}onClick={this.handleRemoveComponent} id={this.props.component.id} className="glyphicon glyphicon-remove actionable" aria-hidden="true"></span>
@@ -92,10 +90,14 @@ var DashboardEditComponentRow = React.createClass({
 
 var DashboardEditFooter = React.createClass({
   mixins: [FluxMixin],
+  handleCreateDashboard: function() {
+    this.getFlux().actions.dashboardCreate();
+    this.props.modal.close();
+  },
   render: function() {
     return (
       <div className="dashboard-edit-footer">
-          Footer
+        <button onClick={this.handleCreateDashboard} className="btn btn-primary dashboard-create">Create</button>
       </div>
     )
   }

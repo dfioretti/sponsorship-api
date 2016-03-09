@@ -79,7 +79,7 @@ var CreateDashboardModal = React.createClass({
             <DashboardEditBody />
             </ReactBootstrap.Modal.Body>
           <ReactBootstrap.Modal.Footer>
-            <DashboardEditFooter />
+            <DashboardEditFooter modal={this} />
           </ReactBootstrap.Modal.Footer>
         </ReactBootstrap.Modal>
       </div>
