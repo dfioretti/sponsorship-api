@@ -6,6 +6,7 @@ var stores = {
   ComponentsStore: ComponentsStore,
   EditorPreviewStore: EditorPreviewStore,
   DashboardCreateStore: DashboardCreateStore,
+  DashboardHomeStore: DashboardHomeStore,
   ComponentEditorStore: new ComponentEditorStore()
 };
 

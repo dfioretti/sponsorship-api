@@ -27,6 +27,11 @@ var DashboardCreateStore = Fluxxor.createStore({
   },
   onDashboardCreate: function() {
   },
+  onDashboardCreateSuccess: function() {
+    this.dashboardName = "";
+    this.selectedComponents = [];
+    this.emit("change");
+  },
   onDashboardCreateFail: function() {
     console.log("failed dashboard create");
   },
@@ -38,6 +43,7 @@ var DashboardCreateStore = Fluxxor.createStore({
       company_id: 9999,
       state: this.getDashboardState(),
       kind: "custom",
+      name: this.dashboardName,
       item_id: -1
     };
   },

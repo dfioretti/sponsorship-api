@@ -1,14 +1,17 @@
 var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link;
 
-var PortfolioDashboard = React.createClass({
+var DashboardHome = React.createClass({
   mixins: [
     DashboardMixin,
-    DateRangeMixin,
-    FluxMixin
+    FluxMixin,
+    StoreWatchMixin("DashboardHomeStore")
   ],
   getInitialState: function() {
     return {};
+  },
+  getStateFromFlux: function() {
+    return flux.store("DashboardHomeStore").getDashboard(this.props.params.id);
   },
   getComponentFromFlux: function(cid) {
     return flux.store("ComponentsStore").getComponent(cid);
@@ -17,23 +20,12 @@ var PortfolioDashboard = React.createClass({
     this.props.setTitle('apt');
   },
   componentWillReceiveProps: function(newProps) {
-    var initialState = {};
-    var dateRange = this.getInitialDateRange();
-    var cadence = this.getDateRangeCadence(this.defaultStartInverval);
-    var defaults =  _.extend({dashboardLoaded: false}, dateRange, {cadence: cadence});
-
-    // I think there is an issue with this? error for not settign state...
-    DashboardsStore.getFifa().then(function() {
-      this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
-      if (this.state.dashboardLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
+    this.setupGrid();
   },
   mapModule: function(name, state) {
     if (name.indexOf('custom_component') > -1) {
       var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
-      el = <DynamicComponent key={component.id} component={component} />
+      el = <DynamicComponent component={component} />
     }
     return el;
   },
@@ -49,21 +41,13 @@ var PortfolioDashboard = React.createClass({
     );
   },
   render: function() {
-    var dashboardState;
-    if (this.state.dashboardLoaded) {
-      var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
           <AppSidebar view="dashboard" />
           <div className="modules-box">
-            {this.renderModules(dashboardState.state)}
+            {this.renderModules(this.getStateFromFlux().state)}
           </div>
         </div>
       );
-    } else {
-      return (
-        <div className="dashboard"></div>
-      );
-    }
   }
 });

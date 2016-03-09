@@ -77,21 +77,27 @@ var AppSidebar = React.createClass({
   },
   renderContent: function() {
     if (this.props.view === "dashboard") {
-      return null;
-    }
-    return (
-      <div className="context-menu">
-        <div className="editor-menu">
-          <ul onClick={this.handleContextChange}>
-            {this.renderContextListItem('general')}
-            {this.renderContextListItem('chartType')}
-            {this.renderContextListItem('data')}
-            {this.renderContextListItem('appearance')}
-            {this.renderContextListItem('configuration')}
-          </ul>
+      return (
+        <div className="context-menu">
+          <DashboardContextMenu />
         </div>
-      </div>
-    )
+      );
+    }
+    else {
+      return (
+        <div className="context-menu">
+          <div className="editor-menu">
+            <ul onClick={this.handleContextChange}>
+              {this.renderContextListItem('general')}
+              {this.renderContextListItem('chartType')}
+              {this.renderContextListItem('data')}
+              {this.renderContextListItem('appearance')}
+              {this.renderContextListItem('configuration')}
+            </ul>
+          </div>
+        </div>
+      );
+    }
   },
   render: function() {
     return (

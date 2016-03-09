@@ -74,4 +74,7 @@ var actions = {
       this.dispatch(constants.DASHBOARD_CREATE_FAIL);
     }.bind(this));
   },
+  loadDashboards: function() {
+    this.dispatch(constants.LOAD_DASHBOARDS);
+  }
 };

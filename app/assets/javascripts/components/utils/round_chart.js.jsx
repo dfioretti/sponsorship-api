@@ -81,7 +81,6 @@ var RoundChart = React.createClass({
     }.bind(this));
   },
   render: function() {
-    console.log("render");
     return (
       <div style={{paddingTop: "35px", paddingLeft: "20px"}}>
         <div className="" style={{display: "inline-block", padding: "5px"}}>
