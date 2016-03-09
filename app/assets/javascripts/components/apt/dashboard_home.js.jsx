@@ -3,10 +3,28 @@ var RouteHandler = ReactRouter.RouteHandler,
 
 var DashboardHome = React.createClass({
   mixins: [
-    DashboardMixin,
     FluxMixin,
     StoreWatchMixin("DashboardHomeStore")
   ],
+  setupGrid: function() {
+    $('.modules-container').shapeshift({
+      selector: ".dashboard-module",
+      handle: ".drag-handle",
+      align: "left",
+      minColumns: 2,
+      autoHeight: false,
+      gutterX: 20,
+      gutterY: 20,
+      paddingX: 20,
+      paddingY: 20
+    });
+
+/*
+    $('.modules-container').on('ss-drop-complete', function(e, selected) {
+      //this.updateDashboardState(this.getDashboardState());
+    }.bind(this));
+*/
+  },
   getInitialState: function() {
     return {};
   },
@@ -22,10 +40,16 @@ var DashboardHome = React.createClass({
   componentWillReceiveProps: function(newProps) {
     this.setupGrid();
   },
+  componentWillUpdate: function() {
+    this.setupGrid();
+  },
+  componentDidUpdate: function() {
+    this.setupGrid();
+  },
   mapModule: function(name, state) {
     if (name.indexOf('custom_component') > -1) {
       var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
-      el = <DynamicComponent component={component} />
+      el = <DynamicComponent key={component.id} component={component} />
     }
     return el;
   },

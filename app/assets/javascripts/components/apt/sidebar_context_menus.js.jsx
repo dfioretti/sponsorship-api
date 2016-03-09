@@ -27,7 +27,7 @@ var DashboardContextMenu = React.createClass({
         <div className="editor-menu">
           <ul>
            {this.getStateFromFlux().customDashboards.map(function(d) {
-             var link = "apt/dashboard/" + d.id;
+             var link = "/apt/dashboard/" + d.id;
              return (
               <Link key={d.id} to={link}>
                 <li>

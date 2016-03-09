@@ -10,12 +10,17 @@ var DashboardHomeStore = Fluxxor.createStore({
     ),
     this.fetchDashboards();
   },
+
+  /**
+   * Why the fuck are things strings sometimes and
+   * ints other times?
+   */
   getDashboard: function(did) {
-    this.dashboards.forEach(function(d) {
-      if (d.id == did) {
-        return d;
+    for (var i = 0; i < this.dashboards.length; i++) {
+      if (this.dashboards[i].id.toString() == did.toString()) {
+        return this.dashboards[i];
       }
-    });
+    }
   },
   getCustomDashboards: function() {
     this.customDashboards = [];

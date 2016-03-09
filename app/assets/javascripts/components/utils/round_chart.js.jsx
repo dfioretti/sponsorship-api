@@ -18,16 +18,12 @@ var RoundChart = React.createClass({
     this.renderChart();
   },
   componentDidUpdate: function() {
-    console.log("did");
   },
   componentWillReceiveProps: function(newProps) {
-    console.log("will prop");
   },
   componentDidUpdate: function() {
-    console.log("did update");
   },
   componentDidReceiveProps: function() {
-    console.log("did prop");
   },
   backgroundColor: [
     '#2096f3',

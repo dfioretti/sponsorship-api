@@ -66,8 +66,8 @@ var CreateDashboardModal = React.createClass({
 
     return (
       <div>
-        <li style={{cursor: "pointer"}}onClick={this.open}>
-          &nbsp;&nbsp; - Create
+        <li style={{cursor: "pointer", fontSize: "13px"}}onClick={this.open}>
+          &nbsp;&nbsp;- Create
         </li>
 
         <ReactBootstrap.Modal  show={this.state.showModal} onHide={this.close}>
