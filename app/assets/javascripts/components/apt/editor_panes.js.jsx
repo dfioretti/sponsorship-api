@@ -37,7 +37,6 @@ var ChartTypePane = React.createClass({
     this.getFlux().actions.updateType(e.target.value);
   },
   render: function() {
-    console.log("HERE");
     var chartTypes = [{id: 'lineChart', name: 'Line Chart'},
                       {id: 'barChart', name: "Bar Chart"},
                       {id: 'pieChart', name: "Pie Chart"},
@@ -49,7 +48,6 @@ var ChartTypePane = React.createClass({
       typeList.push(<option key={item.id} value={item.id}>{item.name}</option>);
     }.bind(this));
     var chartImage = "/edit/line.png";
-    console.log(this.getStateFromFlux().view);
     if (this.getStateFromFlux().view === 'barChart') {
       chartImage = "/edit/bar.png";
     }

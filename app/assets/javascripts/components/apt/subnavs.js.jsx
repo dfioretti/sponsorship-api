@@ -1,7 +1,6 @@
 var FluxMixin = Fluxxor.FluxMixin(React),
   StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-
 var EditorSubNav = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
@@ -9,7 +8,6 @@ var EditorSubNav = React.createClass({
     return flux.store("ComponentEditorStore").getState();
   },
   handleNewClick: function() {
-    console.log("new click");
     this.getFlux().actions.newComponent();
   },
   handleSaveClick: function() {

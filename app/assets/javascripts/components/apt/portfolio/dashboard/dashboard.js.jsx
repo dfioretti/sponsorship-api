@@ -31,9 +31,28 @@ var PortfolioDashboard = React.createClass({
     }.bind(this));
   },
   mapModule: function(name, state) {
+    var el, hidden;
+    hidden = false;
     if (name.indexOf('custom_component') > -1) {
+      console.log(name);
       var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
       el = <DynamicComponent key={component.id} component={component} />
+    }
+    else {
+      switch (name) {
+        case 'portfolio_map':
+          el = <PortfolioMap hidden={hidden} key={name} />
+          break;
+        case 'portfolio_summary':
+          el = <PortfolioSummary hidden={hidden} key={name} />
+          break;
+        case 'score_trend':
+          el = <ScoreTrend hidden={hidden} key={name}  title="Top 5 Passion Scores"  />
+          break;
+        case 'portfolio_tree_map':
+          el = <PortfolioTreemap hidden={hidden} key={name} />
+          break;
+        }
     }
     return el;
   },

@@ -37,7 +37,6 @@ var AssetSetIndex = React.createClass({
     );
   },
   render: function() {
-    console.log(this.state);
     if (this.state.assetSetsLoaded) {
       return (
         <div className="dashboard">

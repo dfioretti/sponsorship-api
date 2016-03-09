@@ -5,7 +5,6 @@ var CreateAssetSet = React.createClass({
         contentType: "application/json",
         "url": "/api/v1/apt/asset_sets/new",
         success: function(data, status, xhr) {
-          console.log("ret data " + data);
           window.location.href = "asset_set_editor/" + data.id;
         },
         error: function(data, status, xhr) {

@@ -9,7 +9,6 @@ var Editor = React.createClass({
     $("#app-menu").slideToggle(250);
   },
   toggleActive: function(e) {
-    console.log(e);
     $('li').removeClass('active-item');
     $(e.target).addClass('active-item');
 
