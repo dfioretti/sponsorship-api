@@ -25,6 +25,7 @@ this.AppRoutes = (
     <Route name='editor_update' handler={Editor} path='/apt/editor/:id' />
     <Route name='component_editor' handler={ComponentEditor} path='/apt/component_editor' />
     <Route name='dashboard_home' handler={DashboardHome} path='/apt/dashboard/:id' />
+    <Route name='fiddle' handler={Fiddle} path='/apt/fiddle' />
     <DefaultRoute handler={PortfolioDashboard} />
   </Route>
 );
