@@ -63,6 +63,11 @@ var CreateDashboardModal = React.createClass({
       {this.renderComponents()}
 
     */
+    if (this.props.mode === 'create') {
+
+    } else {
+
+    }
 
     return (
       <div>

@@ -6,13 +6,15 @@ var Editor = React.createClass({
   getInitialState: function() {
     return {};
   },
-  componentWillMount: function() {
+  componentDidMount: function() {
     /*
      * Load the component into the editor for update
      */
     if (this.props.params) {
-      var editComponent = this.props.flux.store("ComponentsStore").get(this.props.params.id);
-      this.props.flux.action.loadComponentUpdate(editComponent);
+      console.log('da fuck');
+      console.log(this.props);
+      var editComponent = this.props.flux.store("ComponentsStore").getComponent(this.props.params.id);
+      this.getFlux().actions.loadComponentUpdate(editComponent);
     }
   },
   toggleMenu: function() {
