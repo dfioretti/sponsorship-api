@@ -23,16 +23,6 @@ var Nav = React.createClass({
     }.bind(this));
     this.setState({st: st, ut: ut, rt: rt});
 
-    CompaniesStore.on("update", function() {
-      this.setState({loaded: true});
-    }.bind(this));
-
-    if (CompaniesStore.getState().ready) {
-      this.setState({loaded: true});
-    }
-
-    //AssetsStore.setCurrent();
-
     AssetsStore.on("update", function() {
       this.setState({loaded: true});
     }.bind(this));
@@ -49,22 +39,6 @@ var Nav = React.createClass({
   handleChange: function(e) {
     this.setState({query: e.target.value})
   },
-  filterCompaniesOnQuery: function (companies) {
-    var query = this.state.query;
-    if (typeof(query) == "undefined" || query == "") {
-      return companies;
-    }
-    matches = [];
-    var substrRegex = new RegExp(query, 'i');
-    $.each(companies, function(i, c) {
-      if (substrRegex.test(c.name)) {
-        matches.push(c)
-      }
-    });
-
-    return matches
-  },
-
   filterAssetsOnQuery: function (assets) {
     var query = this.state.query;
     if (typeof(query) == "undefined" || query == "") {
@@ -74,29 +48,22 @@ var Nav = React.createClass({
     var substrRegex = new RegExp(query, 'i');
     $.each(assets, function(i, a) {
       if (substrRegex.test(a.name)) {
-        console.log(a);
-        console.log(a.id);
         matches.push(a);
       }
     });
-
     return matches;
   },
 
   substringMatcher: function(strs) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
-
       matches = [];
-
       substrRegex = new RegExp(q, 'i');
-
       $.each(strs, function(i, str) {
         if (substrRegex.test(str)) {
           matches.push(str);
         }
       });
-
       cb(matches);
     };
   },
@@ -114,7 +81,6 @@ var Nav = React.createClass({
   },
   renderMenu: function() {
     var menu;
-
     if (typeof(this.state.name) !== 'undefined' && this.state.name !== null) {
       if (this.state.permissions) {
         var access = $.map(this.state.permissions, function(p, i) {
@@ -124,7 +90,6 @@ var Nav = React.createClass({
           );
         });
       }
-
       menu = (
         <li>
           <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -195,7 +160,6 @@ var Nav = React.createClass({
           <a href="#" className="company-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {assetName}<span className="caret"></span>
           </a>
-
           <div className="dropdown-menu">
             <div className="dropdown-searchbar">
               <input id="search_input" type="text" placeholder="Search by Asset Name" />
@@ -221,13 +185,11 @@ var Nav = React.createClass({
           );
         });
       }
-
       return (
         <div>
           <a href="#" className="company-select" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {companyName} <span className="caret"></span>
           </a>
-
           <div className="dropdown-menu">
             <div className="dropdown-searchbar">
               <input type="text" placeholder="Search by Company Name" value={this.state.query} onChange={this.handleChange}/>

@@ -12,11 +12,11 @@ var EditorPreview = React.createClass({
       component = flux.store("ComponentEditorStore").getPreview();
     }
     return (
-      <div>
-        <div style={{height: "65px", color: "white", fontSize: "16px", paddingTop: "20px"}}className="input-heading">
+      <div className="editor-preview">
+        <div className="preview-heading">
           Component Preview
         </div>
-        <div style={{marginLeft: "90px", paddingTop: "40px"}}>
+        <div className="preview-component">
           <DynamicComponent component={component}  />
         </div>
       </div>
@@ -36,12 +36,14 @@ var ComponentEditor = React.createClass({
     var component = this.getFlux().store("ComponentEditorStore").getPreview();
     return (
       <div className="editor-preview">
-        <EditorPreview component={component}/>
+        <EditorPreview component={component} />
       </div>
     );
   },
 
   render: function() {
+    /* TODO: clean up these styles */
+    var component = this.getFlux().store("ComponentEditorStore").getPreview();
     return (
       <div className="editor-box">
         <EditorSubNav />
@@ -52,7 +54,7 @@ var ComponentEditor = React.createClass({
                 <EditorPane />
               </div>
               <div className="col-md-6 editor-views">
-                {this.renderPreview()}
+                <EditorPreview component={component} />
                 <EditorData />
               </div>
             </div>

@@ -113,5 +113,4 @@ var AppSidebar = React.createClass({
       </div>
     );
   }
-
 });
