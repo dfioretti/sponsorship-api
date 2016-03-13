@@ -52,7 +52,7 @@ var actions = {
   generatePreviewData: function() {
     this.dispatch(constants.PREVIEW_DATA);
     ComponentClient.generatePreviewData(flux.store("ComponentEditorStore").getObject(), function(data) {
-      this.dispatch(constants.PREVIEW_SUCCESS, { component: data});
+      this.dispatch(constants.PREVIEW_SUCCESS, { component: data });
     }.bind(this), function(error) {
       this.dispatch(constants.PREVIEW_FAIL);
     }.bind(this));

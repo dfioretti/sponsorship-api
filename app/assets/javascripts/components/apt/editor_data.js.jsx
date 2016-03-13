@@ -1,53 +1,62 @@
-var FluxMixin = Fluxxor.FluxMixin(React),
-  StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-
-var AddedData = React.createClass({
+var AddedDataRow = React.createClass({
   mixins: [FluxMixin],
-  getStateFromFlux: function() {
-    return flux.store("ComponentEditorStore").getState();
-  },
+
   handleRemoveData: function(e) {
     this.getFlux().actions.removeData(e.target.id);
     this.getFlux().actions.generatePreviewData();
   },
-  formatPoint: function(poing) {
-    return "point";
+  render: function() {
+    return (
+      <div className="added-data-row">
+        <div className="col-md-2 medium-round-images bs-col">
+          <img src={this.props.imageOne} />
+        </div>
+        <div className="col-md-4 bs-col">
+          {this.props.labelOne}
+        </div>
+        <div className="col-md-2 medium-round-images bs-col">
+          <img src={this.props.imageTwo} />
+        </div>
+        <div className="col-md-3 bs-col">
+          {this.props.labelTwo}
+        </div>
+        <div className="col-md-1 bs-col">
+          <span
+            style={{
+              color: "#e76959",
+              padding: "5px",
+              fontSize: "20px"
+            }}
+            onClick={this.handleRemoveData}
+            id={this.props.id}
+            className="glyphicon glyphicon-remove actionable"
+            aria-hidden="true" />
+        </div>
+      </div>
+    );
+  }
+});
+
+var AddedData = React.createClass({
+  mixins: [FluxMixin],
+
+  getStateFromFlux: function() {
+    return flux.store("ComponentEditorStore").getState();
   },
   render: function() {
-    var imgStyle = {
-      height: "40px",
-      width: "40px",
-      borderRadius: "50%",
-      marginLeft: "0px"
-    };
-    var imgSmall = {
-      height: "20px",
-      width: "20px",
-      borderRadius: "50%",
-      marginLeft: "0px",
-      marginTop: "10px",
-      cursor: "pointer"
-    };
-    //target.parentNode.
-    var remove = "/icons-blue/MULTIPLY.png";
     var i = 0;
     return (
-      <div className="row filter-row">
+      <div className="row filter-row editor-data-table">
         {this.getStateFromFlux().data.map(function(item) {
-            return (
-              <div key={i} style={{padding: "10px", marginBottom: "10px", height: "50px", marginRight: "20px", borderTop: "0px solid #3c88d1"}}>
-                <div className="col-md-3 filter-row" style={{height: "40px"}}>
-                  <img style={imgStyle} src={item.metric.point_image} />
-                </div>
-                <div className="col-md-6 filter-row" style={{textTransform: "capitalize", lineHeight: "40px", height: "40px"}}>
-                  {item.metric.point.split("_").pop()}
-                </div>
-                <div className="col-md-3 filter-row" style={{height: "40px"}}>
-                  <img id={i++} onClick={this.handleRemoveData} style={imgSmall} src={remove} />
-                </div>
-              </div>
-                  );
+          var entityImage = '/images/' + item.entity.entity_id + '.jpg';
+          return (
+            <AddedDataRow key={i} id={i++} imageOne={entityImage}
+              imageTwo={item.metric.point_image}
+              labelOne={item.entity.name}
+              labelTwo={item.metric.point.split("_").pop()}
+            />
+          );
         }.bind(this))}
       </div>
     );
@@ -56,8 +65,31 @@ var AddedData = React.createClass({
 
 
 var EditorData = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
+  /*
+  <div className="row">
+    <div style={{marginLeft: "20px"}}className="col-md-5">
+      <h4>Settings</h4>
+      <ul style={{listStyle: "none", paddingLeft: "5px"}}>
+        <li style={{fontSize: "15px", paddingBottom: "5px", textTransform: "uppdercase", letterSpacing: "1.5px"}}>
+          Component Name
+        </li>
+        <li>{this.getStateFromFlux().title }</li>
+        <li style={{fontSize: "15px", paddingTop: "10px", paddingBottom: "5px", textTransform: "uppdercase", letterSpacing: "1.5px"}}>
+          Component Style
+        </li>
+        <li>{this.getStateFromFlux().view }</li>
+      </ul>
+    </div>
+    <div className="col-md-6">
+      <h4>Data</h4>
+      <div style={{height: "250px", overflowY: "scroll"}}className="added-data">
+        <AddedData />
+      </div>
+    </div>
+  </div>
+  */
 
+  mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
@@ -67,31 +99,10 @@ var EditorData = React.createClass({
     return (
       <div className="editor-data">
         <div className="input-heading">
-          Component Settings
+          Selected Data
         </div>
-          <div className="row">
-            <div style={{marginLeft: "20px"}}className="col-md-5">
-              <h4>Settings</h4>
-              <ul style={{listStyle: "none", paddingLeft: "5px"}}>
-                <li style={{fontSize: "15px", paddingBottom: "5px", textTransform: "uppdercase", letterSpacing: "1.5px"}}>
-                  Component Name
-                </li>
-                <li>{this.getStateFromFlux().title }</li>
-                <li style={{fontSize: "15px", paddingTop: "10px", paddingBottom: "5px", textTransform: "uppdercase", letterSpacing: "1.5px"}}>
-                  Component Style
-                </li>
-                <li>{this.getStateFromFlux().view }</li>
-              </ul>
-            </div>
-            <div className="col-md-6">
-              <h4>Data</h4>
-              <div style={{height: "250px", overflowY: "scroll"}}className="added-data">
-                <AddedData />
-              </div>
-            </div>
-          </div>
+        <AddedData />
       </div>
     );
   }
-
 });

@@ -7,24 +7,26 @@ class CustomComponent < ActiveRecord::Base
     state['title'] = self.name
     state['type'] = self.view
     state['data'] = []
-    case self.view
-    when 'lineChart', 'barChart'
-      state['labels'] = CustomComponent.labels_for_interval(self.interval)
-      self.model['data'].each do |d|
-        state['data'].push(CustomComponent.series_for_entity_metric(d['entity'], d['metric']))
-      end
-    when 'pieChart', 'doughnutChart'
-      self.model['data'].each do |d|
-        state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
-      end
-    when 'barList'
-      self.model['data'].each do |d|
-        state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
-      end
-    when 'valueList', 'dataList'
-      self.model['data'].each do |d|
-        Rails.logger.debug(d.inspect)
-        state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+    if self.model['data'] != nil
+      case self.view
+      when 'lineChart', 'barChart'
+        state['labels'] = CustomComponent.labels_for_interval(self.interval)
+        self.model['data'].each do |d|
+          state['data'].push(CustomComponent.series_for_entity_metric(d['entity'], d['metric']))
+        end
+      when 'pieChart', 'doughnutChart'
+        self.model['data'].each do |d|
+          state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+        end
+      when 'barList'
+        self.model['data'].each do |d|
+          state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+        end
+      when 'valueList', 'dataList'
+        self.model['data'].each do |d|
+          Rails.logger.debug(d.inspect)
+          state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+        end
       end
     end
     self.state = state
