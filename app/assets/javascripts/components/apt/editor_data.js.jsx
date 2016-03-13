@@ -65,30 +65,6 @@ var AddedData = React.createClass({
 
 
 var EditorData = React.createClass({
-  /*
-  <div className="row">
-    <div style={{marginLeft: "20px"}}className="col-md-5">
-      <h4>Settings</h4>
-      <ul style={{listStyle: "none", paddingLeft: "5px"}}>
-        <li style={{fontSize: "15px", paddingBottom: "5px", textTransform: "uppdercase", letterSpacing: "1.5px"}}>
-          Component Name
-        </li>
-        <li>{this.getStateFromFlux().title }</li>
-        <li style={{fontSize: "15px", paddingTop: "10px", paddingBottom: "5px", textTransform: "uppdercase", letterSpacing: "1.5px"}}>
-          Component Style
-        </li>
-        <li>{this.getStateFromFlux().view }</li>
-      </ul>
-    </div>
-    <div className="col-md-6">
-      <h4>Data</h4>
-      <div style={{height: "250px", overflowY: "scroll"}}className="added-data">
-        <AddedData />
-      </div>
-    </div>
-  </div>
-  */
-
   mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
   getStateFromFlux: function() {

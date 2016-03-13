@@ -19,6 +19,8 @@ var EditorPreviewStore = Fluxxor.createStore({
    * from the server
    */
   onPreviewSuccess: function(payload) {
+    console.log("success? da faq");
+    console.log(payload.component);
     this.previewComponent = payload.component;
     this.emit("change");
   },

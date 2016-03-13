@@ -3,7 +3,7 @@ var ComponentEditorStore = Fluxxor.createStore({
   initialize: function() {
     // component object
     this.id = null;
-    this.title = "New Component";
+    this.title = "";
     this.data = [];
     this.view = "lineChart";
     this.interval = "weekly";
@@ -78,6 +78,7 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.interval = payload.component.interval;
     this.model = payload.component.model;
     this.state = payload.component.state;
+    this.data = this.model.data;
     this.emit("change");
   },
   onChangePane: function(payload) {
