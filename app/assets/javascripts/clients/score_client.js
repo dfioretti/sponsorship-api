@@ -1,5 +1,5 @@
 var score_url = {
-  SCORE_URL: "/api/v1/apt/scores",
+  SCORE_URL: "/api/v1/apt/scores/",
 };
 
 var ScoreClient = {
@@ -23,6 +23,35 @@ var ScoreClient = {
       contentType: "application/json",
       url: score_url.SCORE_URL,
       data: JSON.stringify({ score: score }),
+      success: function(data) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
+  },
+  updateScore: function(score, successCallback) {
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json",
+      url: score_url.SCORE_URL + score.id,
+      data: JSON.stringify({ score: score }),
+      success: function(data) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
+  },
+  viewScore: function(sid, successCallback) {
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: score_url.SCORE_URL + sid,
       success: function(data) {
         successCallback(data);
       },

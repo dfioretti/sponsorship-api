@@ -1,7 +1,15 @@
 var EditorTree = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ScoreEditorStore")],
   componentDidMount: function() {
-    initilizeScoreCanvas();
+    var score = null;
+    if (this.props.params.id) {
+      ScoreClient.viewScore(this.props.params.id, function(data) {
+        // lazy - should use action
+        this.getFlux().store("ScoreEditorStore").loadSavedScore(data);
+        score = data.score
+      }.bind(this));
+    }
+    initilizeScoreCanvas(score);
   },
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();

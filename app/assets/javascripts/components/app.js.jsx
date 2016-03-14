@@ -1,6 +1,7 @@
 var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link,
     Navigation = ReactRouter.Navigation;
+
 //var FluxMixin = Fluxxor.FluxMixin(React),
   //StoreWatchMixin = Fluxxor.StoreWatchMixin;
 

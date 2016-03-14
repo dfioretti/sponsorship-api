@@ -10,11 +10,21 @@ var ScoreEditor = React.createClass({
     return this.getFlux().store("ScoreEditorStore").getState();
   },
   handleSave: function() {
-    var score = {};
+    // editing or new
+    var score = this.getStateFromFlux().score;
+    if (!score) { score = {} };
+
+    // score data - should move this to store
     score['score'] = myDiagram.model.toJson();
     score['image'] = myDiagram.makeImageData();
     score['name'] = this.getStateFromFlux().scoreTitle;
-    this.getFlux().actions.saveScore(score);
+
+    // update existing, create new
+    if (score.id) {
+      this.getFlux().actions.updateScore(score);
+    } else {
+      this.getFlux().actions.saveScore(score);
+    }
   },
   render: function() {
     return (
@@ -29,7 +39,7 @@ var ScoreEditor = React.createClass({
                 <ScoreEditorPane />
               </div>
               <div className="col-md-7 editor-views">
-                <EditorTree />
+                <EditorTree params={this.props.params}/>
               </div>
             </div>
           </div>

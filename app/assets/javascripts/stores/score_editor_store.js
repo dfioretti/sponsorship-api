@@ -3,8 +3,8 @@ var ScoreEditorStore = Fluxxor.createStore({
     this.id = null;
     this.selectedPane = 'General';
     this.scoreTitle = "";
-    this.editMode = "create";
     this.message = "";
+    this.score = null;
     this.selectedNode = null;
     this.menuItems = ["General", "Assets", "Configure"];
     this.parentOperations = [
@@ -31,8 +31,18 @@ var ScoreEditorStore = Fluxxor.createStore({
       constants.SAVE_SCORE_FAIL, this.onSaveScoreFail
     )
   },
+  loadSavedScore: function(score) {
+    // TODO: clean up
+    this.scoreTitle = score.name;
+    this.score = score;
+    this.id = score.id;
+    if (myDiagram) {
+      load(score.score);
+    }
+    this.emit("change");
+  },
   onSaveScoreSuccess: function(data) {
-    this.editMode = "update";
+    this.score = data.score;
     this.message = "Score Saved!";
     ReactRouter.HistoryLocation.push('/apt/editor_score/' + data.score.id);
     this.emit("change");
@@ -40,7 +50,6 @@ var ScoreEditorStore = Fluxxor.createStore({
   onSaveScoreFail: function() {
   },
   onSaveScore: function(payload) {
-    // starting to save score
   },
   onUpdateNodeData: function(payload) {
     var model = myDiagram.model;
@@ -117,7 +126,9 @@ var ScoreEditorStore = Fluxxor.createStore({
       scoreTitle: this.scoreTitle,
       parentOperations: this.parentOperations,
       dataPointList: this.dataPointList,
-      message: this.message
+      message: this.message,
+      score: this.score,
+      id: this.id
     };
   }
 });

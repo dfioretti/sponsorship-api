@@ -107,6 +107,7 @@ var actions = {
     this.dispatch(constants.UPDATE_NODE_DATA, { data_id: data_id });
   },
   saveScore: function(score) {
+    console.log("doing save");
     this.dispatch(constants.SAVE_SCORE);
     ScoreClient.createScore(score, function(data) {
       this.dispatch(constants.SAVE_SCORE_SUCCESS, { score: data });
@@ -114,4 +115,13 @@ var actions = {
       this.dispatch(constants.SAVE_SCORE_FAIL);
     }.bind(this));
   },
+  updateScore: function(score) {
+    console.log("DOING UPDATE");
+    this.dispatch(constants.SAVE_SCORE);
+    ScoreClient.updateScore(score, function(data) {
+      this.dispatch(constants.SAVE_SCORE_SUCCESS, { score: data });
+    }.bind(this), function(error) {
+      this.dispatch(constants.SAVE_SCORE_FAIL);
+    }.bind(this));
+  }
 };

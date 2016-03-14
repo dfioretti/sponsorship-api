@@ -6,10 +6,6 @@ class Api::V1::Apt::ScoresController < ApplicationController
 
   def show
     score = Score.find(params[:id])
-    Rails.logger.debug(score);
-    # hang on for this
-    #score = create_score(params[:id], current_user) if score.nil?
-
     render json: score
   end
 
