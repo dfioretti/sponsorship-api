@@ -39,6 +39,7 @@ var SeriesChart = React.createClass({
   },
   renderChart: function(labels, dataSets) {
     var self = this;
+    if (!this.state.chartId) return;
     var ctx = $("#" + this.state.chartId).get(0).getContext("2d");
 
     var data = {

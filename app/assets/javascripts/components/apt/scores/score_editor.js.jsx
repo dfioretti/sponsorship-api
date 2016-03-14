@@ -9,6 +9,9 @@ var ScoreEditor = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
   },
+  handleNew: function() {
+    console.log("TODO HANDLE NEW!");
+  },
   handleSave: function() {
     // editing or new
     var score = this.getStateFromFlux().score;

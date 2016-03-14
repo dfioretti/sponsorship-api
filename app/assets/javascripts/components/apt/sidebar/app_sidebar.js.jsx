@@ -26,8 +26,7 @@ var AppSidebar = React.createClass({
               <li>
                 Dashboards
                 <ul>
-                  <CreateDashboardModal id="required" mode="create"/>
-                  <CreateDashboardModal id="other" mode="edit" />
+                  <CreateDashboardModal id="create-dashboard-modal" mode="create"/>
                   <Link to="/">
                     <li>
                       &nbsp;&nbsp;- View

@@ -2,13 +2,16 @@
 
 var DashboardEditName = React.createClass({
   mixins: [FluxMixin],
+  componentWillMount: function() {
+  },
   getStateFromFlux: function() {
-    return this.getFlux().store("DashboardCreateStore").getState();
+    return this.getFlux().store("DashboardEditStore").getState();
   },
   handleNameChange: function(e) {
     this.getFlux().actions.updateDashboardName(e.target.value);
   },
   render: function() {
+
     return (
       <div className="dasboard-edit-name">
         <div className="form-group">
@@ -23,7 +26,7 @@ var DashboardEditName = React.createClass({
 var DashboardEditBody = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
-    return this.getFlux().store("DashboardCreateStore").getState();
+    return this.getFlux().store("DashboardEditStore").getState();
   },
   render: function() {
     return (
@@ -37,10 +40,10 @@ var DashboardEditBody = React.createClass({
 });
 
 var AddRemoveComponentButton = new React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("DashboardCreateStore")],
+  mixins: [FluxMixin, StoreWatchMixin("DashboardEditStore")],
 
   getStateFromFlux: function() {
-    return this.getFlux().store("DashboardCreateStore").getState();
+    return this.getFlux().store("DashboardEditStore").getState();
   },
   handleAddComponent: function(e) {
     this.getFlux().actions.addDashboardComponent(e.target.id);
@@ -97,9 +100,8 @@ var DashboardEditFooter = React.createClass({
   render: function() {
     return (
       <div className="dashboard-edit-footer">
-        <button onClick={this.handleCreateDashboard} className="btn btn-primary dashboard-create">Create</button>
+        <button onClick={this.handleCreateDashboard} className="btn btn-primary dashboard-create">Save</button>
       </div>
     )
   }
-
 });

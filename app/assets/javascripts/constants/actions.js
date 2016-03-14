@@ -71,7 +71,7 @@ var actions = {
   },
   dashboardCreate: function() {
     this.dispatch(constants.DASHBOARD_CREATE);
-    DashboardClient.createDashboard(flux.store("DashboardCreateStore").getObject(), function(data) {
+    DashboardClient.createDashboard(flux.store("DashboardEditStore").getObject(), function(data) {
       this.dispatch(constants.DASHBOARD_CREATE_SUCCESS, { dashboard: data });
     }.bind(this), function(error) {
       this.dispatch(constants.DASHBOARD_CREATE_FAIL);
@@ -79,6 +79,11 @@ var actions = {
   },
   loadDashboards: function() {
     this.dispatch(constants.LOAD_DASHBOARDS);
+  },
+
+  // dashboard edit
+  dashboardEditLoad: function(did) {
+    this.dispatch(constants.LOAD_EDITOR_DASHBOARD, { dashboard_id: did });
   },
 
   // score editor
@@ -107,7 +112,6 @@ var actions = {
     this.dispatch(constants.UPDATE_NODE_DATA, { data_id: data_id });
   },
   saveScore: function(score) {
-    console.log("doing save");
     this.dispatch(constants.SAVE_SCORE);
     ScoreClient.createScore(score, function(data) {
       this.dispatch(constants.SAVE_SCORE_SUCCESS, { score: data });
@@ -116,7 +120,6 @@ var actions = {
     }.bind(this));
   },
   updateScore: function(score) {
-    console.log("DOING UPDATE");
     this.dispatch(constants.SAVE_SCORE);
     ScoreClient.updateScore(score, function(data) {
       this.dispatch(constants.SAVE_SCORE_SUCCESS, { score: data });

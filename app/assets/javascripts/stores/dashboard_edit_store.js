@@ -1,17 +1,44 @@
-var DashboardCreateStore = Fluxxor.createStore({
+var DashboardEditStore = Fluxxor.createStore({
   initialize: function() {
     this.availableComponents = [];
     this.fetchComponents();
     this.dashboardName = "";
+    this.heading = "Create New Dashboard";
     this.selectedComponents = [];
+    this.dashboard = null;
     this.bindActions(
       constants.UPDATE_DASHBOARD_NAME, this.onUpdateName,
       constants.DASHBOARD_ITEM_ADDED, this.onItemAdded,
       constants.DASHBOARD_ITEM_REMOVED, this.onItemRemoved,
       constants.DASHBOARD_CREATE, this.onDashboardCreate,
       constants.DASHBOARD_CREATE_FAIL, this.onDashboardCreateFail,
-      constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess
+      constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
+      constants.LOAD_EDITOR_DASHBOARD, this.onLoadEditorDashboard
     )
+  },
+  /**
+   * Loads a dashboard editor store - if editing
+   * we load the current dashboard state,
+   * otherwise, we clear the state.
+   *
+   * @param payload - dashboard_id, or null
+   */
+  onLoadEditorDashboard(payload) {
+    if (payload.dashboard_id === null) {
+      this.dashboardName = '';
+      this.selectedComponents = [];
+      this.heading = "Create New Dashboard"
+    } else {
+        this.dashboard = flux.store("DashboardHomeStore").getDashboard(payload.dashboard_id);
+        this.dashboardName = this.dashboard.name;
+        this.heading = "Edit Dashboard";
+        $.map(this.dashboard.state, function(v, i) {
+          if (i.indexOf('custom_component') > -1) {
+            var cid = i.split("_").pop();
+            this.selectedComponents.push(cid);
+          }
+      }.bind(this));
+    }
   },
   isComponentSelected: function(component_id) {
     return (this.selectedComponents.indexOf(component_id) !== -1);
@@ -69,8 +96,9 @@ var DashboardCreateStore = Fluxxor.createStore({
     return {
       availableComponents: this.availableComponents,
       dashboardName: this.dashboardName,
-      selectedComponents: this.selectedComponents
+      selectedComponents: this.selectedComponents,
+      heading: this.heading
     };
   }
 });
-window.DashboardCreateStore = new DashboardCreateStore();
+window.DashboardEditStore = new DashboardEditStore();

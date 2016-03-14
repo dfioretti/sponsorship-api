@@ -8,3 +8,26 @@
   font-weight: bolder;
   letter-spacing: 1.5px;
 }
+
+.dropdown-item-wrapper {
+  width: 100%;
+  color: $white;
+  padding-left: 10px;
+  background-color: $darker-grey;
+  li {
+    color: $white;
+    background-color: transparent;
+  }
+  &:hover, &:focus {
+    background-color: $dark-grey;
+  }
+  a {
+    -webkit-appearance: none;
+    background-color: transparent;
+  }
+  .navdrop {
+    background-color: transparent;
+    color: $white;
+    font-size: 14px;
+  }
+}

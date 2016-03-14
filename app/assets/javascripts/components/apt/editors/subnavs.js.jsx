@@ -8,6 +8,10 @@ var EditorSubNav = React.createClass({
     return flux.store("ComponentEditorStore").getState();
   },
   handleNewClick: function() {
+    if (this.props.handleNew !== null) {
+      this.props.handleNew();
+      return;
+    }
     this.getFlux().actions.newComponent();
   },
   handleSaveClick: function() {
