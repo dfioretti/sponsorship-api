@@ -14,6 +14,14 @@ class Api::V1::Apt::DashboardsController < ApplicationController
     render json: @dashboards
   end
 
+  def update
+    @dashboard = Dashboard.find(params[:id])
+    if @dashboard.update_attributes(dashboard_params)
+      render json: @dashboard
+    else
+      render json: {errors: @dashboard.errors.full_messages}, status: :bad_request
+    end
+  end
 
   private
   def dashboard_params

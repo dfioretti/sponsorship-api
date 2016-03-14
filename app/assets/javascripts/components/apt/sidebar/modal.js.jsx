@@ -10,41 +10,27 @@ var CreateDashboardModal = React.createClass({
     return { showModal: false };
   },
 
-  close() {
+  close(e) {
+    // clean up on close
     this.setState({ showModal: false });
+    this.getFlux().actions.dashboardEditLoad(null);
   },
-
   open() {
-    if (this.props.mode === 'edit') {
-      this.getFlux().actions.dashboardEditLoad(this.props.dashboardId);
-    } else {
-      this.getFlux().actions.dashboardEditLoad(null);
-    }
-    this.setState({ showModal: true });
-  },
-
-  handelAddComponent: function() {
-    console.log("TODO");
+    this.setState({showModal: true});
   },
   render() {
     //let popover = <ReactBootstrap.Popover title="popover">very popover. such engagement</ReactBootstrap.Popover>;
     //let tooltip = <ReactBootstrap.Tooltip>wow.</ReactBootstrap.Tooltip>;
-    var style = {};
-    if (this.props.hideTrigger) {
-      style = { display: "none"};
-    }
-
     return (
       <div>
-        <div style={style}>
-          <li id={this.props.id}
+        <div>
+          <li id='dashboard-edit-modal'
               style={{cursor: "pointer", fontSize: "13px"}}
               onClick={this.open}
           >
-            &nbsp;&nbsp;- Create
+            &nbsp;&nbsp; -Create
           </li>
         </div>
-
         <ReactBootstrap.Modal  show={this.state.showModal} onHide={this.close}>
           <ReactBootstrap.Modal.Header closeButton>
             <h4 className="heading-text">{this.getStateFromFlux().heading}</h4>

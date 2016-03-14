@@ -30,6 +30,21 @@ var DashboardClient = {
         console.log(error);
       }
     });
+  },
+  updateDashboard: function(dashboard, successCallback) {
+    $.ajax({
+      type: "PUT",
+      contentType: "application/json",
+      url: dashboard_url.DASH_URL + dashboard.id,
+      data: JSON.stringify({ dashboard: dashboard }),
+      success: function(data) {
+        successCallback(data);
+      },
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
   }
 }
 window.DashboardClient = DashboardClient;

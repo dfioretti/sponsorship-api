@@ -6,6 +6,7 @@ var DashboardEditStore = Fluxxor.createStore({
     this.heading = "Create New Dashboard";
     this.selectedComponents = [];
     this.dashboard = null;
+    this.id = null;
     this.bindActions(
       constants.UPDATE_DASHBOARD_NAME, this.onUpdateName,
       constants.DASHBOARD_ITEM_ADDED, this.onItemAdded,
@@ -28,10 +29,12 @@ var DashboardEditStore = Fluxxor.createStore({
       this.dashboardName = '';
       this.selectedComponents = [];
       this.heading = "Create New Dashboard"
+      this.id = null;
     } else {
         this.dashboard = flux.store("DashboardHomeStore").getDashboard(payload.dashboard_id);
         this.dashboardName = this.dashboard.name;
         this.heading = "Edit Dashboard";
+        this.id = payload.dashboard_id;
         $.map(this.dashboard.state, function(v, i) {
           if (i.indexOf('custom_component') > -1) {
             var cid = i.split("_").pop();
@@ -68,6 +71,7 @@ var DashboardEditStore = Fluxxor.createStore({
     return {
       company_id: 9999, // should clean up db
       state: this.getDashboardState(),
+      id: this.id,
       kind: "custom",
       name: this.dashboardName,
       item_id: -1
@@ -97,7 +101,8 @@ var DashboardEditStore = Fluxxor.createStore({
       availableComponents: this.availableComponents,
       dashboardName: this.dashboardName,
       selectedComponents: this.selectedComponents,
-      heading: this.heading
+      heading: this.heading,
+      id: this.id
     };
   }
 });

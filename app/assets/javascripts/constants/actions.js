@@ -77,6 +77,14 @@ var actions = {
       this.dispatch(constants.DASHBOARD_CREATE_FAIL);
     }.bind(this));
   },
+  dashboardUpdate: function() {
+    this.dispatch(constants.DASHBOARD_CREATE);
+    DashboardClient.updateDashboard(flux.store("DashboardEditStore").getObject(), function(data) {
+      this.dispatch(constants.DASHBOARD_CREATE_SUCCESS, { dashboard: data });
+    }.bind(this), function(error) {
+      this.dispatch(constants.DASHBOARD_CREATE_FAIL);
+    }.bind(this));
+  },
   loadDashboards: function() {
     this.dispatch(constants.LOAD_DASHBOARDS);
   },

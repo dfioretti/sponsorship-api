@@ -19,15 +19,16 @@
     background-color: transparent;
   }
   &:hover, &:focus {
-    background-color: $dark-grey;
+    // todo - figure out state on this shit
+    //background-color: $dark-grey;
   }
-  a {
+  a, a:active, a:focus, a:hover {
     -webkit-appearance: none;
     background-color: transparent;
   }
   .navdrop {
     background-color: transparent;
     color: $white;
-    font-size: 14px;
+    font-size: 12px;
   }
 }

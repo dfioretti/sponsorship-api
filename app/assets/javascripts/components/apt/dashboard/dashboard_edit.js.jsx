@@ -93,8 +93,16 @@ var DashboardEditComponentRow = React.createClass({
 
 var DashboardEditFooter = React.createClass({
   mixins: [FluxMixin],
+  getStateFromFlux: function() {
+    return this.getFlux().store("DashboardEditStore").getState();
+  },
   handleCreateDashboard: function() {
-    this.getFlux().actions.dashboardCreate();
+    console.log(this.getStateFromFlux());
+    if (this.getStateFromFlux().id !== null) {
+      this.getFlux().actions.dashboardUpdate();
+    } else {
+      this.getFlux().actions.dashboardCreate();
+    }
     this.props.modal.close();
   },
   render: function() {
