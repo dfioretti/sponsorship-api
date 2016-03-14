@@ -26,6 +26,12 @@ var EditorSubNav = React.createClass({
     ReactRouter.HashLocation.pop();
   },
   render: function() {
+    var message = ""
+    if (this.props.message === null) {
+      message = this.getStateFromFlux().message;
+    } else {
+      message = this.props.message;
+    }
     return (
       <div className="subnav">
         <div className="filter-row">
@@ -42,7 +48,7 @@ var EditorSubNav = React.createClass({
             <img style={{height: "20px", width: "20px", marginLeft: "8px", marginTop: "-4px"}}src="/edit/vintage.png" />
           </div>
           <div onClick={this.handleSaveClick} style={{cursor: "pointer", float: "right", height: "70px", opacity: "1"}} className="col-md-3">
-            {this.getStateFromFlux().message}
+            {message}
           </div>
         </div>
       </div>

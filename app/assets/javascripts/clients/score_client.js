@@ -1,5 +1,5 @@
 var score_url = {
-  SCORE_URL: "/apt/v1/apt/scores",
+  SCORE_URL: "/api/v1/apt/scores",
 };
 
 var ScoreClient = {

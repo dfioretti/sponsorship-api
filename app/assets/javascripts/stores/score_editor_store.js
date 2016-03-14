@@ -3,6 +3,8 @@ var ScoreEditorStore = Fluxxor.createStore({
     this.id = null;
     this.selectedPane = 'General';
     this.scoreTitle = "";
+    this.editMode = "create";
+    this.message = "";
     this.selectedNode = null;
     this.menuItems = ["General", "Assets", "Configure"];
     this.parentOperations = [
@@ -29,11 +31,13 @@ var ScoreEditorStore = Fluxxor.createStore({
       constants.SAVE_SCORE_FAIL, this.onSaveScoreFail
     )
   },
-  onSaveScoreSuccess: function() {
-    console.log("score save success");
+  onSaveScoreSuccess: function(data) {
+    this.editMode = "update";
+    this.message = "Score Saved!";
+    ReactRouter.HistoryLocation.push('/apt/editor_score/' + data.score.id);
+    this.emit("change");
   },
   onSaveScoreFail: function() {
-
   },
   onSaveScore: function(payload) {
     // starting to save score
@@ -112,7 +116,8 @@ var ScoreEditorStore = Fluxxor.createStore({
       menuItems: this.menuItems,
       scoreTitle: this.scoreTitle,
       parentOperations: this.parentOperations,
-      dataPointList: this.dataPointList
+      dataPointList: this.dataPointList,
+      message: this.message
     };
   }
 });

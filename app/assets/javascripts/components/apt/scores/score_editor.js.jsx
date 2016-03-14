@@ -4,6 +4,7 @@ var RouteHandler = ReactRouter.RouteHandler,
 var ScoreEditor = React.createClass({
   mixins: [
     FluxMixin,
+    StoreWatchMixin("ScoreEditorStore")
   ],
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
@@ -18,7 +19,10 @@ var ScoreEditor = React.createClass({
   render: function() {
     return (
         <div className="editor-box">
-          <EditorSubNav handleSave={this.handleSave} handleNew={this.handleNew} />
+          <EditorSubNav handleSave={this.handleSave}
+                        handleNew={this.handleNew}
+                        message={this.getStateFromFlux().message}
+          />
           <div className="editor-container">
             <div className="row editor-2-col">
               <div className="col-md-4 editor-pane">

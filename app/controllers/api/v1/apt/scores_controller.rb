@@ -23,15 +23,14 @@ class Api::V1::Apt::ScoresController < ApplicationController
   end
 
   def new
-    @score = Score.new(:user_id => current_user.id,
-                       :company_id => 999,
-                       :asset_set => 1)
-    if @score.save
-      render json: @score
-    else
-      render json: {errors: @score.errors.full_messages}, status: :bad_request
-    end
-
+    #@score = Score.new(:user_id => current_user.id,
+  #                     :company_id => 999,
+#                       :asset_set => 1)#
+    #if @score.save
+    #  render json: @score
+    #else
+    #  render json: {errors: @score.errors.full_messages}, status: :bad_request
+    #nd
   end
 
 
