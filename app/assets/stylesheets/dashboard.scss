@@ -353,6 +353,19 @@
               background-image: image-url("fifa/icon-expand-hover.svg");
             }
           }
+          .edit-handle {
+            line-height: 24px;
+            width: 24px;
+            height: 24px;
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+            background-image: image-url("dashboard/Icon-Settings.png");
+            background-repeat: no-repeat;
+            position: relative;
+            top: -3px;
+
+          }
         }
 
         .dashboard-module-footer {

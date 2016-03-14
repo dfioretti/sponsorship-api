@@ -7,6 +7,8 @@ var DashboardHomeStore = Fluxxor.createStore({
     this.bindActions(
       constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreated,
       constants.LOAD_DASHBOARDS, this.onLoadDashboards
+      //constants.SAVE_SCORE, this.onLoadDashboards,
+      //constants.UPDATE_SUCCESS, this.onLoadDashboards
     ),
     this.fetchDashboards();
   },
@@ -36,7 +38,6 @@ var DashboardHomeStore = Fluxxor.createStore({
       this.dashboards = data;
       this.getCustomDashboards();
       this.loaded = true;
-      this.emit("change");
     }.bind(this));
   },
   onLoadDashboards: function() {
