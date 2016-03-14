@@ -25,9 +25,9 @@ var DashboardEditStore = Fluxxor.createStore({
    * @param payload - dashboard_id, or null
    */
   onLoadEditorDashboard(payload) {
+    this.selectedComponents = [];
     if (payload.dashboard_id === null) {
       this.dashboardName = '';
-      this.selectedComponents = [];
       this.heading = "Create New Dashboard"
       this.id = null;
     } else {

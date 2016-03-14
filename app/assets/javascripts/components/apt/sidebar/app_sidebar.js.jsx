@@ -26,7 +26,7 @@ var AppSidebar = React.createClass({
               <li>
                 Dashboards
                 <ul>
-                  <CreateDashboardModal id="create-dashboard-modal" mode="create"/>
+                  <CreateDashboardModal id="create-dashboard-modal" flux={this.getFlux()} />
                   <Link to="/">
                     <li>
                       &nbsp;&nbsp;- View

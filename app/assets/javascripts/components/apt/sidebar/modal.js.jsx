@@ -31,7 +31,7 @@ var CreateDashboardModal = React.createClass({
             &nbsp;&nbsp; -Create
           </li>
         </div>
-        <ReactBootstrap.Modal  show={this.state.showModal} onHide={this.close}>
+        <ReactBootstrap.Modal flux={this.props.flux} show={this.state.showModal} onHide={this.close}>
           <ReactBootstrap.Modal.Header closeButton>
             <h4 className="heading-text">{this.getStateFromFlux().heading}</h4>
           </ReactBootstrap.Modal.Header>
