@@ -1,6 +1,10 @@
 //= require pubsub
+
+/*- my 3rd party includes - */
 //= require fluxxor
 //= require react_bootstrap
+//= require d3
+//= require rubix
 
 //= require_tree ./mixins
 //= require_tree ./constants

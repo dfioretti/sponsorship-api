@@ -44,7 +44,8 @@ var GenericValueListItem = React.createClass({
   },
   render: function() {
     var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
-    console.log(this.props.statImage);
+    //<div id={this.itemId} className="stat-metric">{this.props.statMetric}</div>
+
     return (
       <li style={liStyle} onMouseOver={this.showTooltip} onMouseLeave={this.hideToolip}>
         <Link to={this.props.link} >
@@ -53,7 +54,9 @@ var GenericValueListItem = React.createClass({
           </div>
           <div className="stat-header">{this.props.statHeader.split("_").join(" ")}</div>
           <div id="iconOverride" className={this.getTrendIconClass()}></div>
-          <div id={this.itemId} className="stat-metric">{this.props.statMetric}</div>
+          <ReactBootstrap.Badge>
+            {this.props.statMetric}
+          </ReactBootstrap.Badge>
         </Link>
       </li>
     )

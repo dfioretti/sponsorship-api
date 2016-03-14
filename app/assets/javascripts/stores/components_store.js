@@ -2,7 +2,6 @@
  * ComponentsStore holds all of the component definitions
  * with their cached data state.
  */
-
 var ComponentsStore = Fluxxor.createStore({
   /**
    * Will initialie and load the components from
@@ -19,7 +18,6 @@ var ComponentsStore = Fluxxor.createStore({
       this.loaded = true;
     }.bind(this));
   },
-
   /**
    * Get a specific component.
    * @params {integer} cid - the component id
@@ -28,13 +26,12 @@ var ComponentsStore = Fluxxor.createStore({
   getComponent: function(cid) {
     return this.components[cid];
   },
+  /**
+   * Get all components
+   * @return [] - all components
+   */
   getComponents: function() {
     return this.components;
   }
-
-  /*
-   * TODO: Need to register for the save on editor
-   * to force update.
-   */
 });
 window.ComponentsStore = new ComponentsStore();

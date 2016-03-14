@@ -19,7 +19,6 @@ var DashboardCreateStore = Fluxxor.createStore({
   onItemAdded: function(payload) {
     this.selectedComponents.push(payload.component_id);
     this.emit("change");
-    this.emit("change");
   },
   onItemRemoved: function(payload) {
     this.selectedComponents.splice(this.selectedComponents.indexOf(payload.component_id), 1);
@@ -40,7 +39,7 @@ var DashboardCreateStore = Fluxxor.createStore({
   },
   getObject: function() {
     return {
-      company_id: 9999,
+      company_id: 9999, // should clean up db
       state: this.getDashboardState(),
       kind: "custom",
       name: this.dashboardName,
@@ -73,7 +72,5 @@ var DashboardCreateStore = Fluxxor.createStore({
       selectedComponents: this.selectedComponents
     };
   }
-
 });
-
 window.DashboardCreateStore = new DashboardCreateStore();

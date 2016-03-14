@@ -48,16 +48,14 @@ var ComponentEditor = React.createClass({
       <div className="editor-box">
         <EditorSubNav />
         <div className="editor-container">
-          <div className="container nospace">
             <div className="row editor-2-col">
-              <div className="col-md-5 editor-pane">
+              <div className="col-md-4 editor-pane">
                 <EditorPane />
               </div>
-              <div className="col-md-6 editor-views">
+              <div className="col-md-5 editor-views">
                 <EditorPreview component={component} />
                 <EditorData />
               </div>
-            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,34 @@
+var EditorTree = React.createClass({
+  mixins: [FluxMixin, StoreWatchMixin("ScoreEditorStore")],
+  componentDidMount: function() {
+    initilizeScoreCanvas();
+  },
+  getStateFromFlux: function() {
+    return this.getFlux().store("ScoreEditorStore").getState();
+  },
+  zoomIn: function() {
+    zoomIn();
+  },
+  zoomOut: function() {
+    zoomOut();
+  },
+  render: function() {
+    return (
+      <div className="editor-score">
+        <div className="score-heading">
+          {this.getStateFromFlux().scoreTitle}
+        </div>
+        <div className="editor-tree">
+          <div className="editor-commands">
+            <span onClick={this.zoomIn} style={{fontSize: "20px"}} className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+            <br />
+            <span onClick={this.zoomOut} style={{fontSize: "20px"}} className="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+          </div>
+          <div id="myDiagram">
+          </div>
+          <textarea style={{display: "none"}} id="mySavedModel"></textarea>
+        </div>
+      </div>
+    );
+  }
+});

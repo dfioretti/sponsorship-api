@@ -1,6 +1,8 @@
 var RouteHandler = ReactRouter.RouteHandler,
     Link = ReactRouter.Link,
     Navigation = ReactRouter.Navigation;
+//var FluxMixin = Fluxxor.FluxMixin(React),
+  //StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var App = React.createClass({
   mixins: [ Navigation ],

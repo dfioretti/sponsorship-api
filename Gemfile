@@ -32,6 +32,9 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap-daterangepicker', '~> 2.1.17'
 end
 
+gem 'x-editable-rails'
+
+
 group :production do
   gem 'rails_12factor'
 end

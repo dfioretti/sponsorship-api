@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         resources :data, only: [:index]
         resources :cards, only: [:index, :new, :show, :update]
         resources :components, only: [:show, :new, :update, :index, :create]
-        resources :scores, only: [:index, :new, :show, :update]
+        resources :scores, only: [:index, :create, :show, :update]
         resources :asset_sets, only: [:index, :new, :show, :update]
       end
 

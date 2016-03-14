@@ -224,6 +224,9 @@ function initilizeScoreCanvas(savedModel) {
   }
 
   function findIcon(icon) {
+    if (icon.indexOf('/icon') !== -1) {
+      return icon;
+    }
     return "/icons-blue/" + icon + ".png";
   }
   // This converter is used by the Picture.
@@ -323,7 +326,7 @@ function initilizeScoreCanvas(savedModel) {
           desiredSize: new go.Size(16, 16),
           source: '/cancel-button.png'
         }), // end picture
-        _$(go.TextBlock, "Component", textStyle(), {
+        _$(go.TextBlock, textStyle(), {
             position: new go.Point(10, 10),
             desiredSize: new go.Size(170, 20),
             font: "12pt Avenir-Medium",
@@ -369,6 +372,9 @@ function initilizeScoreCanvas(savedModel) {
  * component detail view
  */
 function onSelectionChanged(e) {
+  flux.actions.scoreNodeChanged(e.diagram.selection.first());
+  return;
+  console.log("selection changed");
   var node = e.diagram.selection.first();
   if (node instanceof go.Node) {
     $('#score-data').hide();
@@ -465,7 +471,8 @@ function load(savedModel) {
     var nodeDataArray = [];
     var node = {};
     node['key'] = 1;
-    node['name'] = 'null';
+    node['component'] = 'New Component';
+    //node['name'] = 'New Element';
     node['weight'] = "100";
     node['mode'] = "";
     node['operation'] = "";

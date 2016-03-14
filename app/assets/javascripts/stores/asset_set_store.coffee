@@ -1,5 +1,6 @@
 class AssetSetsStore extends EventEmitter
   constructor: ->
+    return;
     @ready = false
     @current = Immutable.fromJS({})
     @asset_sets = Immutable.fromJS([])

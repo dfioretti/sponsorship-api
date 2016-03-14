@@ -13,6 +13,15 @@ class Api::V1::Apt::ScoresController < ApplicationController
     render json: score
   end
 
+  def create
+    @score = Score.new(score_params)
+    if @score.save
+      render json: @score
+    else
+      render json: {errors: @score.errors.full_messages}, status: :bad_request
+    end
+  end
+
   def new
     @score = Score.new(:user_id => current_user.id,
                        :company_id => 999,

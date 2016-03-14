@@ -7,7 +7,6 @@ var DataList = React.createClass({
   },
   componentDidMount: function() {
     if (!this.state.scrollLoaded) {
-      console.log("doing scroll");
       this.setState({scrollLoaded: true});
       $('#testme').jScrollPane();
     }

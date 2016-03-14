@@ -7,19 +7,19 @@ var actions = {
     this.dispatch(constants.UPDATE_TYPE, { view: view });
   },
   changePane: function(pane) {
-    this.dispatch(constants.CHANGE_PANE, { editorPane: pane});
+    this.dispatch(constants.CHANGE_PANE, { editorPane: pane });
   },
   filterList: function(filterText) {
-    this.dispatch(constants.FILTER_LIST, { filterText: filterText});
+    this.dispatch(constants.FILTER_LIST, { filterText: filterText });
   },
   filterData: function(filterText) {
-    this.dispatch(constants.FILTER_DATA, { filterText: filterText});
+    this.dispatch(constants.FILTER_DATA, { filterText: filterText });
   },
   selectedAsset: function(selectedAsset) {
-    this.dispatch(constants.ASSET_SELECT, { selectedAsset: selectedAsset});
+    this.dispatch(constants.ASSET_SELECT, { selectedAsset: selectedAsset });
   },
   dataSelected: function(selectedData) {
-    this.dispatch(constants.DATA_SELECT, { selectedData: selectedData});
+    this.dispatch(constants.DATA_SELECT, { selectedData: selectedData });
   },
   addData: function() {
     this.dispatch(constants.ADD_DATA);
@@ -44,7 +44,7 @@ var actions = {
     }.bind(this))
   },
   loadComponentUpdate: function(component) {
-    this.dispatch(constants.LOAD_COMPONENT_UPDATE, { component: component});
+    this.dispatch(constants.LOAD_COMPONENT_UPDATE, { component: component });
   },
   newComponent: function() {
     this.dispatch(constants.NEW_COMPONENT);
@@ -52,7 +52,7 @@ var actions = {
   generatePreviewData: function() {
     this.dispatch(constants.PREVIEW_DATA);
     ComponentClient.generatePreviewData(flux.store("ComponentEditorStore").getObject(), function(data) {
-      this.dispatch(constants.PREVIEW_SUCCESS, { component: data});
+      this.dispatch(constants.PREVIEW_SUCCESS, { component: data });
     }.bind(this), function(error) {
       this.dispatch(constants.PREVIEW_FAIL);
     }.bind(this));
@@ -61,13 +61,13 @@ var actions = {
 
   // dashboard create actions
   updateDashboardName: function(name) {
-    this.dispatch(constants.UPDATE_DASHBOARD_NAME, { name: name});
+    this.dispatch(constants.UPDATE_DASHBOARD_NAME, { name: name });
   },
   removeDashboardComponent: function(component_id) {
-    this.dispatch(constants.DASHBOARD_ITEM_REMOVED, { component_id: component_id});
+    this.dispatch(constants.DASHBOARD_ITEM_REMOVED, { component_id: component_id });
   },
   addDashboardComponent: function(component_id) {
-    this.dispatch(constants.DASHBOARD_ITEM_ADDED, { component_id: component_id});
+    this.dispatch(constants.DASHBOARD_ITEM_ADDED, { component_id: component_id });
   },
   dashboardCreate: function() {
     this.dispatch(constants.DASHBOARD_CREATE);
@@ -79,5 +79,39 @@ var actions = {
   },
   loadDashboards: function() {
     this.dispatch(constants.LOAD_DASHBOARDS);
-  }
+  },
+
+  // score editor
+  scoreNodeChanged: function(node) {
+    this.dispatch(constants.SCORE_NODE_CHANGED, { node: node });
+  },
+  changeScorePane: function(pane) {
+    this.dispatch(constants.SCORE_PANE_CHANGED, { pane: pane });
+  },
+  updateScoreTitle: function(title) {
+    this.dispatch(constants.UPDATE_SCORE_TITLE, { title: title });
+  },
+  updateNodeName: function(name) {
+    this.dispatch(constants.UPDATE_NODE_NAME, { name: name });
+  },
+  updateNodeWeight: function(weight) {
+    this.dispatch(constants.UPDATE_NODE_WEIGHT, { weight: weight });
+  },
+  updateNodeMode: function(mode) {
+    this.dispatch(constants.UPDATE_NODE_MODE, { mode: mode });
+  },
+  updateNodeOperation: function(operation) {
+    this.dispatch(constants.UPDATE_NODE_OPERATION, { operation: operation });
+  },
+  updateNodeData: function(data_id) {
+    this.dispatch(constants.UPDATE_NODE_DATA, { data_id: data_id });
+  },
+  saveScore: function(score) {
+    this.dispatch(constants.SAVE_SCORE);
+    ScoreClient.createScore(score, function(data) {
+      this.dispatch(constants.SAVE_SCORE_SUCCESS, { score: data });
+    }.bind(this), function(error) {
+      this.dispatch(constants.SAVE_SCORE_FAIL);
+    }.bind(this));
+  },
 };

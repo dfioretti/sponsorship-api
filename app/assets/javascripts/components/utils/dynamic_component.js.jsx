@@ -32,10 +32,12 @@ var DynamicComponent = React.createClass({
           this.props.component.view === 'barChart') {
       componentStyle="chart-view";
     }
+    /*
+    <Link to={editLink} className="expand-handle"></Link>
+    */
     return (
       <div id={componentStyle} className="dashboard-module">
         <div className="top">
-          <Link to={editLink} className="expand-handle"></Link>
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.component.name}</div>
         </div>

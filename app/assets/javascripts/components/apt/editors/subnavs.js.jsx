@@ -11,6 +11,10 @@ var EditorSubNav = React.createClass({
     this.getFlux().actions.newComponent();
   },
   handleSaveClick: function() {
+    if (this.props.handleSave !== null) {
+      this.props.handleSave();
+      return;
+    }
     if (this.getStateFromFlux().id !== null) {
       this.getFlux().actions.updateComponent();
     }

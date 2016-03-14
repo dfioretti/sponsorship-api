@@ -8,13 +8,11 @@ var AppSidebar = React.createClass({
     return {};
   },
   getStateFromFlux: function() {
-    return flux.store("ComponentEditorStore").getState();
+    return this.getFlux().store("ComponentEditorStore").getState();
   },
-
   toggleMenu: function() {
     $("#app-menu").slideToggle(250);
   },
-
   renderTopMenu: function() {
     return (
       <div className="sidebar-top-menu">
@@ -40,7 +38,7 @@ var AppSidebar = React.createClass({
               <li>
                 Components
                 <ul>
-                  <Link to="/apt/editor">
+                  <Link to="/apt/editor_component">
                     <li>
                       &nbsp;&nbsp;- Create
                     </li>
@@ -82,10 +80,17 @@ var AppSidebar = React.createClass({
     }
   },
   renderContent: function() {
+    console.log(this.props.view);
     if (this.props.view === "dashboard") {
       return (
         <div className="context-menu">
           <DashboardContextMenu />
+        </div>
+      );
+    } else if (this.props.view === "score") {
+      return (
+        <div className="context-menu">
+          <ScoreEditContextMenu />
         </div>
       );
     }

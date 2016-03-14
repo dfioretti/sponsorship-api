@@ -1,7 +1,7 @@
 var RouteHandler = ReactRouter.RouteHandler,
   Link = ReactRouter.Link;
 
-var Editor = React.createClass({
+var EditorComponent = React.createClass({
   mixins: [FluxMixin],
   getInitialState: function() {
     return {};
@@ -10,7 +10,7 @@ var Editor = React.createClass({
     /**
      * Load the component into the editor for update
      */
-    if (this.props.params) {
+    if (this.props.params.id) {
       var editComponent = this.props.flux.store("ComponentsStore").getComponent(this.props.params.id);
       this.getFlux().actions.loadComponentUpdate(editComponent);
       this.getFlux().actions.generatePreviewData();
@@ -19,7 +19,7 @@ var Editor = React.createClass({
   render: function() {
     return (
       <div className="editor">
-        <AppSidebar />
+        <AppSidebar view="component" />
         <ComponentEditor />
       </div>
     );

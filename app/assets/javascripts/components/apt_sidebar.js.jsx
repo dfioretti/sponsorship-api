@@ -19,7 +19,6 @@ var AptSidebar = React.createClass({
     )
   },
   toggleMenu: function() {
-    console.log("called");
     $('#collapse-menu').slideToggle(250);
   },
   renderMenu: function() {

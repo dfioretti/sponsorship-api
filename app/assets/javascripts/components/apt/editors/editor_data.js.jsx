@@ -1,4 +1,3 @@
-
 var AddedDataRow = React.createClass({
   mixins: [FluxMixin],
 
@@ -66,7 +65,6 @@ var AddedData = React.createClass({
 
 var EditorData = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
-
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return flux.store("ComponentEditorStore").getState();

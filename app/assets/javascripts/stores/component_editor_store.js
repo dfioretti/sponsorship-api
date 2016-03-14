@@ -67,6 +67,7 @@ var ComponentEditorStore = Fluxxor.createStore({
     };
   },
   loadData: function() {
+    // this is sloppy
     this.startList = AssetsStore.getState().assets;
     this.filteredList = this.startList;
     this.emit("change");

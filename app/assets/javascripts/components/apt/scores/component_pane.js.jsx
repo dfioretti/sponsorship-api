@@ -4,7 +4,7 @@ var ComponentPane = React.createClass({
 
     //var savedModel = this.state.score.score;
     var parent = this.props.parent;
-    parent.noway();
+    //parent.noway();
     this.setState({parent: this.props.parent});
     //$('#score-name').val(this.state.score.name);
     //$('#score-asset-set').val(this.state.score.asset_set_name);

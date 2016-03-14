@@ -47,7 +47,9 @@
 //= require modules/treemap
 //= require modules/heatmap
 //= require us-all
-//= require react_bootstrap
+//= require editable/bootstrap-editable
+//= require editable/rails
+//= require jquery.knob
 
 var pickHex = function(color1, color2, color3, ratio) {
   var newRatio;
