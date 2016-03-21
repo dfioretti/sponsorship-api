@@ -1,7 +1,8 @@
 class Api::V1::Apt::ScoresController < ApplicationController
 
   def index
-    render json: {scores: Score.all.order(name: :asc)}
+    @scores = Score.all
+    render json: @scores
   end
 
   def show

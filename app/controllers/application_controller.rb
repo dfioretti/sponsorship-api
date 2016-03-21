@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     @location_path = "/#{params[:path]}"
   end
 
+  def index
+#    render :file => 'client/index.html'
+  end
+
   def score_builder
   end
 

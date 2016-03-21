@@ -1,5 +1,10 @@
 class Datum < ActiveRecord::Base
-
+  def self.move_icon
+    Datum.all.each do |d|
+      d.icon = "/images/#{d.icon}"
+      d.save
+    end
+  end
   def self.make_up_data
     fb = [
       "facebook_fans",

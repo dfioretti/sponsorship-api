@@ -38,7 +38,7 @@ Rails.application.routes.draw do
       get '/sign_upload' => 's3#sign_upload'
     end
   end
-  get '/score_builder' => 'application#score_builder'
+  #get '/score_builder' => 'application#score_builder'
   root 'application#app'
   get '/*path' => 'application#app'
 end

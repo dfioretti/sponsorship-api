@@ -83,6 +83,12 @@ class CustomComponent < ActiveRecord::Base
         labels.push(i.month.ago.strftime("%m/%d/%y"))
         i = i - 3
       end
+    else
+      i = 6
+      6.times do
+        labels.push(i.week.ago.strftime("%m/%d/%y"))
+        i = i - 1
+      end
     end
     return labels
   end

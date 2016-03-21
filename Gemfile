@@ -23,6 +23,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'react-rails', '~> 1.4.0'
 gem 'react-router-rails', github: 'dkan/react-router-rails'
 gem 'sass-rails', '~> 5.0'
+gem 'rack-cors', :require => 'rack/cors'
+
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-lodash', '~> 4.0'
