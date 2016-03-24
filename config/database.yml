@@ -77,5 +77,5 @@ test:
 # You can use this database configuration with:
 
 production:
-  url: "postgres://dtvtubmkxqffvr:rOHwZuTWVmFxg70uh-u5Fo4xRX@ec2-54-225-223-40.compute-1.amazonaws.com:5432/daqhm8ms2suij2"
-  #url: <%= ENV['DATABASE_URL'] %>
+  #url: "postgres://dtvtubmkxqffvr:rOHwZuTWVmFxg70uh-u5Fo4xRX@ec2-54-225-223-40.compute-1.amazonaws.com:5432/daqhm8ms2suij2"
+  url: <%= ENV['DATABASE_URL'] %>
