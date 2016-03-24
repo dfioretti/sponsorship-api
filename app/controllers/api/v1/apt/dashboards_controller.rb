@@ -25,7 +25,7 @@ class Api::V1::Apt::DashboardsController < ApplicationController
 
   private
   def dashboard_params
-    params.require(:dashboard).permit(:company_id, :kind, :item_id, :name).tap do |whitelisted|
+    params.require(:dashboard).permit(:id, :state, :company_id, :kind, :item_id, :name).tap do |whitelisted|
       whitelisted[:state] = params[:dashboard][:state]
     end
   end

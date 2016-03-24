@@ -28,6 +28,7 @@ var ScoreEditor = React.createClass({
     } else {
       this.getFlux().actions.saveScore(score);
     }
+    this.getFlux().action.loadData();
   },
   render: function() {
     return (

@@ -40,6 +40,7 @@ class CustomComponent < ActiveRecord::Base
     data = Hash.new
     data['entity'] = entity['name']
     data['entity_icon'] = "/images/#{entity['entity_id']}.jpg"
+    data['entity_id'] = entity['entity_id']
     data['metric'] = metric['point']
     data['source'] = metric['source']
     data['metric_icon'] = metric['point_image']
@@ -54,6 +55,7 @@ class CustomComponent < ActiveRecord::Base
     data['entity_icon'] = entity['entity_image']
     data['metric'] = metric['point']
     data['source'] = metric['source']
+    data['entity_id'] = entity['entity_id']
     data['metric_icon'] = metric['point_image']
     data['values'] = []
     6.times do |i|
