@@ -1,4 +1,10 @@
 class Asset < ActiveRecord::Base
+  def self.move_images
+    Asset.all.each do |a|
+      a.image = "/images/properties/#{a.id}.jpg"
+      a.save
+    end
+  end
 
   def self.setup_assets
     Asset.delete_all
