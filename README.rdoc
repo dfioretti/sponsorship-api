@@ -1,3 +1,0 @@
-== Teneo Early Warning Dashboard
-
-ReactJS App with base Ruby on Rails Server
