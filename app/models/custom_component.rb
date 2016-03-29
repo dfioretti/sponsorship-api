@@ -45,7 +45,7 @@ class CustomComponent < ActiveRecord::Base
     data['entity_id'] = entity['entity_id']
     data['metric'] = metric['point']
     data['source'] = metric['source']
-    data['metric_id'] = Datum.find_by_point(metric['point']).id
+    data['score_id'] = Datum.find_by_point(metric['point']).score_id
     data['metric_icon'] = metric['point_image']
     data['value'] = rand(75..95)
     return data
