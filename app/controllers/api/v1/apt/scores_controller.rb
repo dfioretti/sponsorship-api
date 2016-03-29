@@ -17,7 +17,8 @@ class Api::V1::Apt::ScoresController < ApplicationController
       :source => "native",
       :point => @score.name,
       :kind => "derived",
-      :icon => "/images/icons/native.png"
+      :icon => "/images/icons/native.png",
+      :score_id => @score.id
       ).save
       render json: @score
     else

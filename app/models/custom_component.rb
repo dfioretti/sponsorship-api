@@ -24,8 +24,11 @@ class CustomComponent < ActiveRecord::Base
         end
       when 'valueList', 'dataList'
         self.model['data'].each do |d|
-          Rails.logger.debug(d.inspect)
           state['data'].push(CustomComponent.data_for_entity_metric(d['entity'], d['metric']))
+        end
+      when 'scoreView'
+        self.model['data'].each do |d|
+          state['data'].push(CustomComponent.data_for_score_metric(d['entity'], d['metric']))
         end
       end
     end
@@ -33,6 +36,19 @@ class CustomComponent < ActiveRecord::Base
     if save
       self.save
     end
+  end
+
+  def self.data_for_score_metric(entity, metric)
+    data = Hash.new
+    data['entity'] = entity['name']
+    data['entity_icon'] = "images/#{entity['entity_id']}.jpg"
+    data['entity_id'] = entity['entity_id']
+    data['metric'] = metric['point']
+    data['source'] = metric['source']
+    data['metric_id'] = Datum.find_by_point(metric['point']).id
+    data['metric_icon'] = metric['point_image']
+    data['value'] = rand(75..95)
+    return data
   end
 
   # Mock data for a list component
