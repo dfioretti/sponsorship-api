@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330235413) do
+ActiveRecord::Schema.define(version: 20160331133502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 20160330235413) do
     t.string   "image"
     t.text     "thumb"
     t.boolean  "owned",                 default: false
+    t.boolean  "active",                default: true
+    t.string   "entity_key"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -129,7 +131,7 @@ ActiveRecord::Schema.define(version: 20160330235413) do
   end
 
   create_table "metrics", force: :cascade do |t|
-    t.string   "entity_id"
+    t.string   "entity_key"
     t.string   "entity_type"
     t.string   "source"
     t.string   "metric"

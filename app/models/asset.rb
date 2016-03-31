@@ -1,9 +1,66 @@
 class Asset < ActiveRecord::Base
+  has_many :metrics, :primary_key => 'entity_key', :foreign_key => 'entity_key'
   def self.move_images
     Asset.all.each do |a|
       a.image = "/images/properties/#{a.id}.jpg"
       a.save
     end
+  end
+
+  def self.load_profiles
+		Spreadsheet.client_encoding = 'UTF-8'
+		book = Spreadsheet.open Rails.root.join('import', 'raw_data.xls')
+		sheet = book.worksheet 4
+		sheet.each 1 do |row|
+			a = Asset.where(:entity_key => row[0])
+      if a != nil?
+  			a.first.description = row[15]
+  			a.first.save
+      end
+		end
+	end
+  def self.create_st_louis
+    Asset.new(
+      :name => "St. Louis Blues",
+      :scope => "Regional",
+      :category => "Sports Team",
+      :entity_key => "st._louis_blues",
+      :active => false,
+    ).save
+    Asset.new(
+      :name => "St. Louis Cardinals",
+      :scope => "Regional",
+      :category => "Sports Team",
+      :entity_key => "st._louis_cardinals",
+      :active => false,
+    ).save
+  end
+  def self.jets
+    Asset.new(
+      :name => "Winnipeg Jets",
+      :scope => "Regional",
+      :category => "Sports Team",
+      :entity_key => "winnipeg_jets",
+      :active => false,
+    ).save
+  end
+  def self.pelicans
+    Asset.new(
+      :name => "New Orleans Pelicans",
+      :scope => "Regional",
+      :category => "Sports Team",
+      :entity_key => "new_orleans_pelicans",
+      :active => false,
+    ).save
+  end
+  def self.create_rams
+    Asset.new(
+      :name => "Los Angeles Rams",
+      :scope => "Regional",
+      :category => "Sports Team",
+      :entity_key => "los_angeles_rams",
+      :active => false,
+    ).save
   end
 
   def self.setup_assets

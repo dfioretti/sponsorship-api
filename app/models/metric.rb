@@ -1,4 +1,5 @@
 class Metric < ActiveRecord::Base
+	belongs_to :asset
 
 	def self.load_scarborough_data
 		Spreadsheet.client_encoding = 'UTF-8'

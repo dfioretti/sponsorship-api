@@ -1,6 +1,6 @@
 class Api::V1::AssetsController < ApplicationController
   def index
-    @assets = Asset.order("name ASC").all
-    render json: @assets
+    @assets = Asset.where(:active => true).order("name ASC")
+    render json: @assets, :include => :metrics
   end
 end
