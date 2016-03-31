@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160329144752) do
+ActiveRecord::Schema.define(version: 20160330235413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,11 +111,12 @@ ActiveRecord::Schema.define(version: 20160329144752) do
     t.string   "point"
     t.decimal  "value"
     t.date     "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "kind"
     t.string   "icon"
     t.integer  "score_id"
+    t.boolean  "active",     default: false
   end
 
   create_table "insights", force: :cascade do |t|
@@ -125,6 +126,17 @@ ActiveRecord::Schema.define(version: 20160329144752) do
     t.text     "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.string   "entity_id"
+    t.string   "entity_type"
+    t.string   "source"
+    t.string   "metric"
+    t.decimal  "value"
+    t.string   "icon"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "notes", force: :cascade do |t|
