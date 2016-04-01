@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         get '/teneo_api' => 'teneo_api#get'
       end
 
+      resources :twitter, only: [:index]
       namespace :apt do
         namespace :asset do
           resources :mock_data, only: [:index]
