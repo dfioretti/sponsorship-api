@@ -1,7 +1,7 @@
-class CalculateScoreJob < ActiveJob::Base
-	queue_as :score
+class CalculateScoreJob
+	extend Resque::Plugins::Heroku
 
-	def perform(score)
+	def self.perform(score)
 		ScoreEngine.calculate_score(score)
 	end
 end
