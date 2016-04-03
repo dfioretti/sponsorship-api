@@ -1,4 +1,3 @@
-if Rails.env == 'production'
-  uri = URI.parse(ENV["REDISTOGO_URL"])
-  Resque.redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+if ENV["REDISCLOUD_URL"]
+  $redis = Resque.redis = Redis.new(:url => ENV["REDISCLOUD_URL"])
 end

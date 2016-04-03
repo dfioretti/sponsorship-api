@@ -14,12 +14,12 @@ gem 'typhoeus'
 gem 'uglifier', '>= 1.3.0'
 gem 'spreadsheet'
 gem 'twitter'
-gem 'que'
-#gem 'sidekiq'
-#gem 'resque', '~>1.22.0'
-#gem 'resque-heroku'
-gem 'redis'
-gem 'resque', require: 'resque/server'
+
+# queue tasks
+gem 'resque', '~> 1.24.1'
+gem 'unicorn', '~> 4.6.2'
+
+# cross origin API
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do

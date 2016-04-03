@@ -34,8 +34,9 @@ class ScoreEngine
 	# Entry point for ActiveJob async calculations.
 	#
 	# @param [Score] score: the score model
-	def self.calculate_score(score)
-		engine = ScoreEngine.new(score.id)
+	def self.calculate_score( score_id )
+		score = Score.find( score_id )
+		engine = ScoreEngine.new( score_id )
 		scores = engine.calculate_scores
 		metric_name = score.name.split(" ").join("_").downcase
 		scores.keys.each do |key|

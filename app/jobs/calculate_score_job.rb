@@ -1,7 +1,9 @@
 class CalculateScoreJob
-	@queue = :score
-	
-	def self.perform(score)
-		ScoreEngine.calculate_score(score)
+	@queue = :scores
+
+	def self.perform(score_id)
+		Rails.logger.debug("XXXWTF #{score_id}")
+		puts "#{score_id} XXX"
+		ScoreEngine.calculate_score(score_id)
 	end
 end
