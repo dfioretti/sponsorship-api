@@ -20,6 +20,7 @@ class Api::V1::Apt::ScoresController < ApplicationController
       :icon => "/images/icons/native.png",
       :score_id => @score.id
       ).save
+      CalculateScoreJob.new(@score).enqueue()
       render json: @score
     else
       render json: {errors: @score.errors.full_messages}, status: :bad_request
@@ -27,20 +28,13 @@ class Api::V1::Apt::ScoresController < ApplicationController
   end
 
   def new
-    #@score = Score.new(:user_id => current_user.id,
-  #                     :company_id => 999,
-#                       :asset_set => 1)#
-    #if @score.save
-    #  render json: @score
-    #else
-    #  render json: {errors: @score.errors.full_messages}, status: :bad_request
-    #nd
   end
 
 
   def update
     @score  = Score.find(params[:id])
     if @score.update_attributes(score_params)
+      CalculateScoreJob.new(@score).enqueue()
       render json: @score
     else
       render json: {errors: @score.errors.full_messages}, status: :bad_request

@@ -1,3 +1,22 @@
+# ScoreEngine: Calculates normalized scores from user defined score models.
+#
+# Scores are built bottom up starting with raw data points.  Data at each node is
+# normalied againts the set using z-scores.  Parent nodes aggregate their weighted
+# children.  The root node (Score) is scaled using ranking.
+#
+# == Concerns:
+#
+# * Class method ScoreEngine.cache_z_scores precaclulates z-scores for all
+#  	known data points.  This needs to be reexcuted if new data is added or changed.
+# 	Also the cache normalizes against the entire set - this needs to be upgraded
+# 	when we expand the asset types and data sources are no longer consistent.
+#
+# * Only SUM aggregation function has been implemented.  Other aggregations
+#   need to be completed (AVG, DIV, SUB, MULT)
+#
+# * During traversal all scores and data are stored in the normalize hash.  This
+#  	could get scary as the data set grows.  Delete after processing if needed.
+#
 class ScoreEngine
 	attr_accessor :score, :nodes, :tree
 
@@ -6,14 +25,34 @@ class ScoreEngine
 	# @param [Int] score_id: the idea of the model to score
 	# @return [ScoreEngine] the ScoreEngine instance
 	def initialize( score_id )
-		@score = Score.find(score_id)
+		@score = Score.find( score_id )
 		@nodes = @score.score['nodeDataArray']
 		@tree = build_score_tree
 	end
 
-	def self.test_score
-		s = ScoreEngine.new(25)
-		s.in_order_traversal
+	# Calculates and saves scores for a specified score model.
+	# Entry point for ActiveJob async calculations.
+	#
+	# @param [Score] score: the score model
+	def self.calculate_score(score)
+		engine = ScoreEngine.new(score.id)
+		scores = engine.calculate_scores
+		metric_name = score.name.split(" ").join("_").downcase
+		scores.keys.each do |key|
+			metric = Metric.where(:entity_key => key, :metric => metric_name).first
+			if metric.nil?
+				Metric.new(
+					:entity_key => key,
+					:source => score,
+					:metric => metric_name,
+					:value => scores[key][1],
+					:icon => '/metrics/score.png'
+				).save
+			else
+				metric.valye = scores[key][1]
+				metric.save
+			end
+		end
 	end
 
 	# Extract relevant data from model to build
@@ -21,7 +60,7 @@ class ScoreEngine
 	#
 	# @param [Hash] n: the node to build
 	# @return [Hash] tree node
-	def build_node_from_model(n)
+	def build_node_from_model( n )
 		return {
 			'id' => n['key'].to_i,
 			'parent_id' => n['parent'].to_i,
@@ -56,8 +95,6 @@ class ScoreEngine
 		return root_node
 	end
 
-
-
 	# Scores a leaf node as defined in the scoring model.  Currently assumes
 	# that all raw metrics have a pre-calculated norm_value saved on the
 	# metric.  See: self.cache_z_scores
@@ -65,7 +102,7 @@ class ScoreEngine
 	# @param [Hash] node: the score model leaf 'value' node
 	# @param [Hash] normalized: the current set of normalized score points
 	# @return [Hash] updated normalized
-	def score_base_node(node, normalized)
+	def score_base_node( node, normalized )
 		Asset.where(:active => true).each do |a|
 			metric = a.metrics.where(:metric => node['metric']).first
 			entity_hash = normalized[a.entity_key]
@@ -83,7 +120,7 @@ class ScoreEngine
 	# @param [Hash] node: the parent node
 	# @param [Hash] normalized: cached normalizations for aggregation
 	# @return [Hash] updated normalized
-	def score_aggregate_node(node, normalized)
+	def score_aggregate_node( node, normalized )
 		aggregation = Hash.new
 		case node['operation']
 		when 'SUM'
@@ -100,7 +137,7 @@ class ScoreEngine
 	#
 	# @param [Hash] aggregation: set of aggregated child scores
 	# @return [Hash] z-scores for the aggregation
-	def z_score(aggregation)
+	def z_score( aggregation )
 		z_scores = Hash.new
 		mean = aggregation.values.sum / aggregation.values.size.to_f
 		stdev = ScoreEngine.standard_deviation(mean, aggregation.values)
@@ -115,7 +152,7 @@ class ScoreEngine
 	# @param [Hash] node: the node whose children to aggregate
 	# @param [Hash] normalized: child values cache
 	# @return [Hash] aggregated node value
-	def sum_aggregation(node, normalized)
+	def sum_aggregation( node, normalized )
 		aggregation = Hash.new
 		normalized.keys.each do |entity|
 			sum = 0
@@ -137,7 +174,7 @@ class ScoreEngine
 	# @param [Hash] node: the node to score
 	# @param [Hash] normalized: current set of normalized score points
 	# @return [Hash] updated normalized cache for traversal
-	def score_node(node, normalized)
+	def score_node( node, normalized )
 		if node['parent_id'] == 0
 			normalized = rank_scale_root(node, normalized)
 		elsif node['children'].length == 0
@@ -153,7 +190,7 @@ class ScoreEngine
 	# @param [Hash] node: the root node
 	# @param [Hash] normalized cached data hash
 	# @return [Hash] updated data hash
-	def rank_scale_root(node, normalized)
+	def rank_scale_root( node, normalized )
 		unranked_score = sum_aggregation(node, normalized)
 		rank_list = unranked_score.values.sort.uniq
 
@@ -168,74 +205,24 @@ class ScoreEngine
 	# @param [Hash] node: the current tree node
 	# @param [Hash] normalized: normalized data hash
 	# @return [Hash] finalized data hash
-	def traverse(node, normalized)
+	def traverse( node, normalized )
 		node['children'].each do |c|
 			traverse(c, normalized)
 		end
 		normalized = score_node(node, normalized)
 	end
 
-
 	# Traversal wrapper.
 	#
 	# @return [] description of returned object
 	def calculate_scores
-		out = traverse(@tree, Hash.new)
-		return out[0]
+		traverse(@tree, Hash.new)
 	end
 
-	def get_tree
-		return @tree
-	end
-
-	def self.passion_score
-		social_reach = Hash.new
-		avidity = Hash.new
-
-		# calculate tier 2
-		Asset.where(:active => true).each do |a|
-			fb_reach = 0.25 * a.metrics.where(:metric => 'facebook_likes').first.norm_value
-			tw_reach = 0.5 * a.metrics.where(:metric => 'twitter_followers').first.norm_value
-			ins_reach = 0.25 * a.metrics.where(:metric => 'instagram_followers').first.norm_value
-			social_reach[a.entity_key] = (fb_reach + ins_reach + tw_reach)
-
-			avid = 0.7 * a.metrics.where(:metric => 'avid_fan_index').first.norm_value
-			casual = 0.3 * a.metrics.where(:metric => 'casual_fan_index').first.norm_value
-			avidity[a.entity_key] = (avid + casual)
-		end
-
-		avid_mean = avidity.values.sum / avidity.values.size.to_f
-		avid_stdev = ScoreEngine.standard_deviation(avid_mean, avidity.values)
-		social_mean = social_reach.values.sum / social_reach.values.size.to_f
-		social_stdev = ScoreEngine.standard_deviation(social_mean, social_reach.values)
-
-		# calculate root
-		derived_z = Hash.new
-		social_reach.keys.each do |asset|
-			avid_z = ScoreEngine.z_score(avidity[asset], avid_mean, avid_stdev)
-			social_z = ScoreEngine.z_score(social_reach[asset], social_mean, social_stdev)
-			derived_z[asset] = (0.4 * avid_z) + (0.6 * social_z)
-		end
-
-		# normalize root
-		rank = Hash.new
-		sorted_z = derived_z.values.sort.uniq
-		derived_z.keys.each do |k|
-			rank[k] = (sorted_z.index(derived_z[k]) + 1) / sorted_z.size.to_f
-		end
-		rank.keys.each do |r|
-			Metric.new(
-				:entity_key => r,
-				:source => "score",
-				:metric => 'passion_score',
-				:value => rank[r],
-				:icon => '/metrics/score.png'
-			).save
-		end
-		return rank
-	end
-
-	# calculate and save norm_value for all data points
+	# Calculate & cache z-scores for all metrics to speed up
+	# score calculations.  Must be executed whenever new data added.
+	#
+	# @return nil
 	def self.cache_z_scores
 		Metric.pluck(:metric).uniq.each do |m|
 			values = Metric.where(:metric => m).pluck(:value)
@@ -248,7 +235,12 @@ class ScoreEngine
 		end
 	end
 
-	def self.standard_deviation(mean, list)
+	# Calculates the standard deviation.
+	#
+	# @param [Float] mean: the mean
+	# @param [Array] list: list of values in the set
+	# @return [Float] the standard deviation
+	def self.standard_deviation( mean, list )
 		tmp = []
 		list.each do |i|
 			tmp.push((i-mean) ** 2)
@@ -256,7 +248,14 @@ class ScoreEngine
 		Math.sqrt(tmp.sum / tmp.size.to_f)
 	end
 
-	def self.z_score(val, mean, stdev)
+	# Calculates the z-score.
+	#
+	# @param [Float] val: the value to normalize
+	# @param [Float] mean: the mean
+	# @param [Float] stdev: the standard deviation
+	# @return [Float] the val z-score
+	def self.z_score( val, mean, stdev )
 		(val - mean) / stdev
 	end
+
 end
