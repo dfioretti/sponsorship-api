@@ -20,8 +20,6 @@ class Api::V1::Apt::ScoresController < ApplicationController
       :icon => "/images/icons/native.png",
       :score_id => @score.id
       ).save
-      #CalculateScoreJob.perform_later(@score)
-      #CalculateScoreJob.new(@score).enqueue
       Resque.enqueue(CalculateScoreJob, @score.id)
       render json: @score
     else
@@ -36,8 +34,6 @@ class Api::V1::Apt::ScoresController < ApplicationController
   def update
     @score  = Score.find(params[:id])
     if @score.update_attributes(score_params)
-      #CalculateScoreJob.new(@score).enqueue
-      #CalculateScoreJob.perform_later(@score)
       Resque.enqueue(CalculateScoreJob, @score.id)
       render json: @score
     else
