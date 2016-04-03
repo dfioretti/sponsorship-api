@@ -1,4 +1,8 @@
 require 'resque/tasks'
+task 'resque:setup' => :environment
+=begin
+
+require 'resque/tasks'
 require 'resque/scheduler/tasks'
 
 namespace :resque do
@@ -7,3 +11,4 @@ namespace :resque do
 		require 'resque-scheduler'
 	end
 end
+=end
