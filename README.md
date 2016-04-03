@@ -9,7 +9,7 @@ The sponsorship-client runs on port :3000, so we have the API server set to run 
 
 ```
 bundle install
-rails server -p 400
+rails server -p 4000
 ```
 
 ##Production Deploy
