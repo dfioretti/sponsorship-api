@@ -31,7 +31,7 @@ Rails.application.routes.draw do
         resources :asset_sets, only: [:index, :new, :show, :update]
       end
 
-      resources :assets, only: [:index]
+      resources :assets, only: [:index, :show]
       resources :notes, only: [:index, :create]
       resources :insights, only: [:index, :create]
       resources :companies, only: [:index]

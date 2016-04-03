@@ -62,7 +62,7 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   # cheating for now, should create something else
   def index
-    @components = CustomComponent.all
+    @components = CustomComponent.where(:active => true)
     render json: @components
   end
 

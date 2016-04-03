@@ -40,18 +40,16 @@ class ScoreEngine
 		metric_name = score.name.split(" ").join("_").downcase
 		scores.keys.each do |key|
 			metric = Metric.where(:entity_key => key, :metric => metric_name).first
-			if metric.nil?
-				Metric.new(
-					:entity_key => key,
-					:source => score,
-					:metric => metric_name,
-					:value => scores[key][1],
-					:icon => '/metrics/score.png'
-				).save
-			else
-				metric.valye = scores[key][1]
-				metric.save
+			if not metric.nil?
+				metric.delete
 			end
+			Metric.new(
+				:entity_key => key,
+				:source => score,
+				:metric => metric_name,
+				:value => scores[key][1],
+				:icon => '/metrics/score.png'
+			).save
 		end
 	end
 
@@ -235,6 +233,19 @@ class ScoreEngine
 		end
 	end
 
+	# Cache the rank for all of the current metrics
+	#
+	# @return [nil]
+	def self.cach_metric_rank
+		Metric.pluck(:metric).uniq.each do |m|
+			values = Metric.where(:metric => m).pluck(:norm_value)
+			Metric.where(:metric => m).each do |mm|
+				mm.rank = ScoreEngine.rank(mm.norm_value, values)
+				mm.save
+			end
+		end
+	end
+
 	# Calculates the standard deviation.
 	#
 	# @param [Float] mean: the mean
@@ -246,6 +257,16 @@ class ScoreEngine
 			tmp.push((i-mean) ** 2)
 		end
 		Math.sqrt(tmp.sum / tmp.size.to_f)
+	end
+
+	# Determine rank for each metric
+	#
+	# @param [Decimal] metric: the metric to rank
+	# @param [Array] list: the list to rank against
+	# @return [Decimal] the ranked metric
+	def self.rank( metric, list )
+		rank_list = list.sort.uniq
+		((rank_list.index(metric) + 1) / rank_list.size.to_f)
 	end
 
 	# Calculates the z-score.
