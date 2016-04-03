@@ -14,6 +14,7 @@ gem 'typhoeus'
 gem 'uglifier', '>= 1.3.0'
 gem 'spreadsheet'
 gem 'twitter'
+gem 'rubytree'
 
 # Asset libraries
 #gem 'jquery-rails'
