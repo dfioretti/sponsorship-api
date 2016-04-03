@@ -16,7 +16,9 @@ gem 'spreadsheet'
 gem 'twitter'
 #gem 'sidekiq'
 #gem 'resque', '~>1.22.0'
-gem 'resque-heroku'
+#gem 'resque-heroku'
+gem 'redis'
+gem 'resque', require: 'resque/server'
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
