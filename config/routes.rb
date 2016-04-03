@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       namespace :apt do
         namespace :asset do
           resources :mock_data, only: [:index]
-          resources :dashboards, only: [:show, :update]
+          #resources :dashboards, only: [:show, :update]
         end
         # may not need this route below
         get '/components/data/:id' => 'components#data'
