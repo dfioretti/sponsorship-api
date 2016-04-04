@@ -1,4 +1,5 @@
 class Dashboard < ActiveRecord::Base
+  has_many :metrics, :primary_key => 'kind', :foreign_key => 'entity_key'
   belongs_to :user
   belongs_to :company
 

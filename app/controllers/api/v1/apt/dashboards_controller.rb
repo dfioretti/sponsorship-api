@@ -12,7 +12,7 @@ class Api::V1::Apt::DashboardsController < ApplicationController
   def index
     if params.has_key?(:kind)
       @dashboard = Dashboard.where(:kind => params[:kind]).first
-      render json: @dashboard
+      render json: @dashboard, :include => :metrics
     else
       @dashboards = Dashboard.all
       render json: @dashboards

@@ -46,7 +46,7 @@ class ScoreEngine
 			end
 			Metric.new(
 				:entity_key => key,
-				:source => score,
+				:source => 'score',
 				:metric => metric_name,
 				:value => scores[key][1],
 				:icon => '/metrics/score.png'
@@ -213,7 +213,7 @@ class ScoreEngine
 
 	# Traversal wrapper.
 	#
-	# @return [] description of returned object
+	# @return [Hash] computed data set
 	def calculate_scores
 		traverse(@tree, Hash.new)
 	end
@@ -245,6 +245,32 @@ class ScoreEngine
 				mm.save
 			end
 		end
+	end
+
+	# Cache the porfolio score for owned assets
+	#		mean = aggregation.values.sum / aggregation.values.size.to_f
+
+	# @return [nil]
+	def self.cache_portoflio_score
+		sum = 0
+		count = 0
+		Metric.where(:metric => 'passion_score').each do |m|
+			sum += m.value
+			count += 1
+		end
+		average = sum / count.to_f
+		metric = Metric.where(:entity_key => 'portfolio', :metric => 'portfolio_passion_score').first
+		if not metric.nil?
+			metric.delete
+		end
+		Metric.new(
+			:entity_key => 'portfolio',
+			:entity_type => 'portfolio',
+			:source => 'score',
+			:value => average,
+			:metric => 'portfolio_passion_score',
+			:icon => '/metrics/score.png'
+		).save
 	end
 
 	# Calculates the standard deviation.
