@@ -18,6 +18,7 @@ gem 'twitter'
 # queue tasks
 gem 'resque', '~> 1.24.1'
 gem 'unicorn', '~> 4.6.2'
+gem 'redis'
 
 # cross origin API
 gem 'rack-cors', :require => 'rack/cors'

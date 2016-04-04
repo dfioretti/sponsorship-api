@@ -222,6 +222,7 @@ DEPENDENCIES
   puma
   rack-cors
   rails (= 4.2.4)
+  redis
   resque (~> 1.24.1)
   sdoc (~> 0.4.0)
   spreadsheet
