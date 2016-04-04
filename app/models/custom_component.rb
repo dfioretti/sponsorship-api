@@ -3,6 +3,7 @@ class CustomComponent < ActiveRecord::Base
 
 
   def cache_view_data(save = true)
+    puts "cache! #{self.inspect}"
     state = Hash.new
     state['title'] = self.name
     state['type'] = self.view
@@ -39,43 +40,56 @@ class CustomComponent < ActiveRecord::Base
   end
 
   def self.data_for_score_metric(entity, metric)
+    metric_value = Metric.where(:entity_key => entity['entity_key'], :metric => metric['point']).first
     data = Hash.new
     data['entity'] = entity['name']
     data['entity_icon'] = "images/#{entity['entity_id']}.jpg"
     data['entity_id'] = entity['entity_id']
+    data['entity_key'] = entity['entity_key']
     data['metric'] = metric['point']
     data['source'] = metric['source']
     data['score_id'] = Datum.find_by_point(metric['point']).score_id
     data['metric_icon'] = metric['point_image']
-    data['value'] = rand(75..95)
+    data['value'] = metric_value.value
     return data
   end
 
-  # Mock data for a list component
   def self.data_for_entity_metric(entity, metric)
+    metric_value = Metric.where(:entity_key => entity['entity_key'], :metric => metric['point']).first
     data = Hash.new
     data['entity'] = entity['name']
     data['entity_icon'] = "/images/#{entity['entity_id']}.jpg"
     data['entity_id'] = entity['entity_id']
+    data['entity_key'] = entity['entity_key']
     data['metric'] = metric['point']
     data['source'] = metric['source']
     data['metric_icon'] = metric['point_image']
-    data['value'] = rand(75..95)
+    data['value'] = metric_value.value
     return data
   end
 
-  # Mock data for a series component
   def self.series_for_entity_metric(entity, metric)
+    metric_value = Metric.where(:entity_key => entity['entity_key'], :metric => metric['point']).first
+    puts "!!! #{metric_value.inspect} #{entity.inspect} #{metric.inspect}"
     data = Hash.new
     data['entity'] = entity['name']
     data['entity_icon'] = entity['entity_image']
     data['metric'] = metric['point']
     data['source'] = metric['source']
+    data['entity_key'] = metric['entity_key']
     data['entity_id'] = entity['entity_id']
     data['metric_icon'] = metric['point_image']
     data['values'] = []
+    up = true
     6.times do |i|
-      data['values'].push(rand(76..95))
+      if data['values'].length == 0
+        data['values'].push(metric_value.value)
+      elsif up
+        data['values'].push(data['values'][data['values'].length - 1] * 1.3)
+      else
+        data['values'].push(data['values'][data['values'].length - 1] * 0.9)
+      end
+      up = !up
     end
     return data
   end

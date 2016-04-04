@@ -10,8 +10,13 @@ class Api::V1::Apt::DashboardsController < ApplicationController
   end
 
   def index
-    @dashboards = Dashboard.all
-    render json: @dashboards
+    if params.has_key?(:kind)
+      @dashboard = Dashboard.where(:kind => params[:kind]).first
+      render json: @dashboard
+    else
+      @dashboards = Dashboard.all
+      render json: @dashboards
+    end
   end
 
   def update
