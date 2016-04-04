@@ -22,6 +22,7 @@ gem 'redis'
 
 # cross origin API
 gem 'rack-cors', :require => 'rack/cors'
+gem 'newrelic_rpm'
 
 group :development, :test do
   gem 'byebug'
