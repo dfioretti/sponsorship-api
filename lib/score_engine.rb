@@ -4,18 +4,22 @@
 # normalied againts the set using z-scores.  Parent nodes aggregate their weighted
 # children.  The root node (Score) is scaled using ranking.
 #
-# == Concerns:
+# == Notes:
 #
 # * Class method ScoreEngine.cache_z_scores precaclulates z-scores for all
-#  	known data points.  This needs to be reexcuted if new data is added or changed.
+#  	known data points.  This needs to be re-excuted if new data is added or changed.
 # 	Also the cache normalizes against the entire set - this needs to be upgraded
 # 	when we expand the asset types and data sources are no longer consistent.
 #
-# * Only SUM aggregation function has been implemented.  Other aggregations
-#   need to be completed (AVG, DIV, SUB, MULT)
+# * Aggregate functions have been implemented, but there is no validation for order
+#  	execution.   i.e. what will be made the divisor / first node for subtraction
+# 	is based on insertion order, but will not be accurate if nodes are deleted/added via drag/drop.
 #
 # * During traversal all scores and data are stored in the normalize hash.  This
-#  	could get scary as the data set grows.  Delete after processing if needed.
+#  	could get scary as the data set grows [ SIZE = N(entities) * N(nodes) ]
+#
+#   Quickfix = null out sets after processed.
+#
 #
 class ScoreEngine
 	attr_accessor :score, :nodes, :tree
@@ -119,17 +123,27 @@ class ScoreEngine
 	# @param [Hash] node: the parent node
 	# @param [Hash] normalized: cached normalizations for aggregation
 	# @return [Hash] updated normalized
-	def score_aggregate_node( node, normalized )
+	def score_aggregate_node( node, normalized, z_score = true )
 		aggregation = Hash.new
 		case node['operation']
 		when 'SUM'
-			aggregation = sum_aggregation(node, normalized)
+			aggregation = sum_aggregation( node, normalized )
+		when 'DIVIDE'
+			aggregation = divide_aggregation( node, normalized )
+		when 'DIFFERENCE'
+			aggregation = subtract_aggregation( node, normalied )
+		when 'MULTIPLY'
+			aggregation = multiply_aggregation( node, normalied )
 		end
-		z_scores = z_score(aggregation)
-		normalized.keys.each do |key|
-			normalized[key][node['id']] = node['weight'] * z_scores[key]
+		if z_score
+			z_scores = z_score(aggregation)
+			normalized.keys.each do |key|
+				normalized[key][node['id']] = node['weight'] * z_scores[key]
+			end
+			normalized
+		else
+			aggregation
 		end
-		normalized
 	end
 
 	# Calculates the z-scores for a set of values.
@@ -167,6 +181,84 @@ class ScoreEngine
 		aggregation
 	end
 
+	# Executes a multiplication aggregation of normalized child values.
+	#
+	# @param [Hash] node: the node whose children to aggregate
+	# @param [Hash] normalized: child values cache
+	# @return [Hash] aggregated node value
+	def multiply_aggregation( node, normalized )
+		aggregation = Hash.new
+		normalized.keys.each do |entity|
+			multiplicand = 0
+			node['children'].each do |child|
+				entity_hash = normalized[entity]
+				if entity_hash.nil?
+					entity_hash = Hash.new
+				end
+				if multiplicand == 0
+					multiplicand = entity_hash[child['id']]
+				else
+					multiplicand *= entity_hash[child['id']]
+				end
+			end
+			aggregation[entity] = multiplicand
+		end
+		aggregation
+	end
+
+	# Executes a subtraction aggregation of normalized child values.
+	#
+	# @param [Hash] node: the node whose children to aggregate
+	# @param [Hash] normalized: child values cache
+	# @return [Hash] aggregated node value
+	def subtract_aggregation( node, normalized )
+		aggregation = Hash.new
+		normalized.keys.each do |entity|
+			difference = 0
+			node['children'].each do |child|
+				entity_hash = normalized[entity]
+				if entity_hash.nil?
+					entity_hash = Hash.new
+				end
+				if difference == 0
+					difference = entity_hash[child['id']]
+				else
+					difference -= entity_hash[child['id']]
+				end
+			end
+			aggregation[entity] = difference
+		end
+		aggregation
+	end
+
+
+	# Executes a division aggregation of normalized child values.
+	#
+	# @param [Hash] node: the node whose children to aggregate
+	# @param [Hash] normalized: child values cache
+	# @return [Hash] aggregated node value
+	def divide_aggregation( node, normalized )
+		aggregation = Hash.new
+		normalized.keys.each do |entity|
+			quotient = 0
+			node['children'].each do |child|
+				entity_hash = normalized[entity]
+				if entity_hash.nil?
+					entity_hash = Hash.new
+				end
+				if quotient == 0
+					quotient = entity_hash[child['id']]
+				else
+					quotient = ( quotient / entity_hash[child['id']] )
+				end
+			end
+			aggregation[entity] = quotient
+		end
+		aggregation
+	end
+
+
+
 	# Normalizes and weights a node for aggregation during
 	# score tree traversal.
 	#
@@ -175,11 +267,11 @@ class ScoreEngine
 	# @return [Hash] updated normalized cache for traversal
 	def score_node( node, normalized )
 		if node['parent_id'] == 0
-			normalized = rank_scale_root(node, normalized)
+			normalized = rank_scale_root( node, normalized )
 		elsif node['children'].length == 0
-			normalized = score_base_node(node, normalized)
+			normalized = score_base_node( node, normalized )
 		else
-			normalized = score_aggregate_node(node, normalized)
+			normalized = score_aggregate_node( node, normalized )
 		end
 		normalized
 	end
@@ -187,14 +279,14 @@ class ScoreEngine
 	# Normalizes the root score node score.
 	#
 	# @param [Hash] node: the root node
-	# @param [Hash] normalized cached data hash
+	# @param [Hash] normalized: cached data hash
 	# @return [Hash] updated data hash
 	def rank_scale_root( node, normalized )
-		unranked_score = sum_aggregation(node, normalized)
+		unranked_score = score_aggregate_node( node, normalized, false )
 		rank_list = unranked_score.values.sort.uniq
 
 		unranked_score.keys.each do |key|
-			normalized[key][node['id']] = (rank_list.index(unranked_score[key]) + 1) / rank_list.size.to_f
+			normalized[key][node['id']] = ( rank_list.index( unranked_score[key] ) + 1 ) / rank_list.size.to_f
 		end
 		normalized
 	end
@@ -206,16 +298,16 @@ class ScoreEngine
 	# @return [Hash] finalized data hash
 	def traverse( node, normalized )
 		node['children'].each do |c|
-			traverse(c, normalized)
+			traverse( c, normalized )
 		end
-		normalized = score_node(node, normalized)
+		normalized = score_node( node, normalized )
 	end
 
 	# Traversal wrapper.
 	#
 	# @return [Hash] computed data set
 	def calculate_scores
-		traverse(@tree, Hash.new)
+		traverse( @tree, Hash.new )
 	end
 
 	# Calculate & cache z-scores for all metrics to speed up
@@ -248,29 +340,45 @@ class ScoreEngine
 	end
 
 	# Cache the porfolio score for owned assets
-	#		mean = aggregation.values.sum / aggregation.values.size.to_f
-
+ 	#
+	# @param [String] metric_name: the metric to cache
 	# @return [nil]
-	def self.cache_portoflio_score
+	def self.cache_portfolio_score( metric_name )
 		sum = 0
 		count = 0
-		Metric.where(:metric => 'passion_score').each do |m|
-			sum += m.value
+		Asset.where( :active => true, :owned => true ).each do |a|
+			puts "Assee: #{a.name}"
+			metric = a.metrics.where( :metric => metric_name ).first
+			sum += metric.value
 			count += 1
 		end
 		average = sum / count.to_f
-		metric = Metric.where(:entity_key => 'portfolio', :metric => 'portfolio_passion_score').first
-		if not metric.nil?
-			metric.delete
+		portfolio_score = Metric.where(:entity_key => 'portfolio', :metric => "portfolio_#{metric_name}").first
+		if not portfolio_score.nil?
+			portfolio_score.delete
 		end
 		Metric.new(
 			:entity_key => 'portfolio',
 			:entity_type => 'portfolio',
 			:source => 'score',
 			:value => average,
-			:metric => 'portfolio_passion_score',
+			:metric => "portfolio_#{metric_name}",
 			:icon => '/metrics/score.png'
 		).save
+	end
+
+	# Cache the portfolio performnace score for owned assets
+	#
+	# @return [nil]
+	def self.cache_portfolio_performance_score
+		ScoreEngine.cache_portfolio_score( 'performance_score' )
+	end
+
+	# Cache the portfolio passion score for owned assets.
+	#
+	# @return [nil]
+	def self.cache_portfolio_passion_score
+		ScoreEngine.cache_portfolio_score( 'passion_score' )
 	end
 
 	# Calculates the standard deviation.
@@ -281,9 +389,9 @@ class ScoreEngine
 	def self.standard_deviation( mean, list )
 		tmp = []
 		list.each do |i|
-			tmp.push((i-mean) ** 2)
+			tmp.push( ( i-mean ) ** 2 )
 		end
-		Math.sqrt(tmp.sum / tmp.size.to_f)
+		Math.sqrt( tmp.sum / tmp.size.to_f )
 	end
 
 	# Determine rank for each metric
@@ -293,7 +401,7 @@ class ScoreEngine
 	# @return [Decimal] the ranked metric
 	def self.rank( metric, list )
 		rank_list = list.sort.uniq
-		((rank_list.index(metric) + 1) / rank_list.size.to_f)
+		( ( rank_list.index( metric ) + 1 ) / rank_list.size.to_f )
 	end
 
 	# Calculates the z-score.
@@ -303,7 +411,7 @@ class ScoreEngine
 	# @param [Float] stdev: the standard deviation
 	# @return [Float] the val z-score
 	def self.z_score( val, mean, stdev )
-		(val - mean) / stdev
+		( val - mean ) / stdev
 	end
 
 end
