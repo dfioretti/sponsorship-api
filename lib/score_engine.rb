@@ -18,7 +18,7 @@
 # * During traversal all scores and data are stored in the normalize hash.  This
 #  	could get scary as the data set grows [ SIZE = N(entities) * N(nodes) ]
 #
-#   Quickfix = null out sets after processed.
+#   Quickfix = null out sets after processed. 
 #
 #
 class ScoreEngine
@@ -131,9 +131,9 @@ class ScoreEngine
 		when 'DIVIDE'
 			aggregation = divide_aggregation( node, normalized )
 		when 'DIFFERENCE'
-			aggregation = subtract_aggregation( node, normalied )
+			aggregation = subtract_aggregation( node, normalized )
 		when 'MULTIPLY'
-			aggregation = multiply_aggregation( node, normalied )
+			aggregation = multiply_aggregation( node, normalized )
 		end
 		if z_score
 			z_scores = z_score(aggregation)
