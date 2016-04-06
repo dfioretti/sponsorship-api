@@ -19,6 +19,7 @@ class Asset < ActiveRecord::Base
       end
 		end
 	end
+
   def self.create_st_louis
     Asset.new(
       :name => "St. Louis Blues",

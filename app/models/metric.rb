@@ -181,6 +181,23 @@ class Metric < ActiveRecord::Base
 		end
 	end
 
+	def self.add_lat_long
+		Spreadsheet.client_encoding = 'UTF-8'
+		book = Spreadsheet.open Rails.root.join('import', 'raw_data.xls')
+		# key, name, lat, long
+		sheet = book.worksheet 4
+		sheet.each do |row|
+			asset = Asset.where(:entity_key => row[0]).first
+			if asset.nil?
+				puts "FACK: #{row[0]}"
+			else
+				asset.latitude = row[3]
+				asset.longitude = row[4]
+				asset.save
+			end
+		end
+	end
+
 	def self.import_all_data
 		Metric.delete_all
 		Metric.load_forbes
