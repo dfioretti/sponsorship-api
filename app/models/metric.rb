@@ -37,6 +37,44 @@ class Metric < ActiveRecord::Base
 			).save
 		end
 	end
+	def self.load_fanbase_numbers
+		Metric.where(:metric => 'casual_fan_number').delete_all
+		Metric.where(:metric => 'avid_fan_number').delete_all
+
+		Spreadsheet.client_encoding = 'UTF-8'
+		book = Spreadsheet.open Rails.root.join('import', 'raw_data.xls')
+		sheet = book.worksheet 3
+		sheet.each 1 do |row|
+			i = 1
+			Metric.new(
+				:entity_key => row[0],
+				:entity_type => 'asset',
+				:source => 'scarborough',
+				:metric => 'casual_fan_number',
+				:value => row[7],
+				:icon => '/metrics/scarborough.png'
+			).save
+			Metric.new(
+				:entity_key => row[0],
+				:entity_type => 'asset',
+				:source => 'scarborough',
+				:metric => 'avid_fan_number',
+				:value => row[8],
+				:icon => '/metrics/scarborough.png'
+			).save
+			i += 1
+		end
+	end
+
+	def self.add_datum_for( key )
+		m = Metric.where(:metric => key).first
+		Datum.new(
+			:source => m.source,
+			:point => m.metric,
+			:icon => m.icon,
+		).save
+	end
+
 	def self.load_attendance
 		Spreadsheet.client_encoding = 'UTF-8'
 		book = Spreadsheet.open Rails.root.join('import', 'raw_data.xls')
@@ -180,6 +218,7 @@ class Metric < ActiveRecord::Base
 			end
 		end
 	end
+
 
 	def self.add_lat_long
 		Spreadsheet.client_encoding = 'UTF-8'
