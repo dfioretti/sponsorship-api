@@ -18,7 +18,8 @@
 # * During traversal all scores and data are stored in the normalize hash.  This
 #  	could get scary as the data set grows [ SIZE = N(entities) * N(nodes) ]
 #
-#   Quickfix = null out sets after processed. 
+#   Quickfix = null out sets after processed.
+#
 #
 #
 class ScoreEngine
