@@ -113,6 +113,7 @@ class ScoreEngine
 			if entity_hash.nil?
 				entity_hash = Hash.new
 			end
+			puts "!!!: #{node}, #{metric} #{a.name}"
 			entity_hash[node['id']] = node['weight'] * metric.norm_value
 			normalized[a.entity_key] = entity_hash
 		end

@@ -20,7 +20,7 @@ class Metric < ActiveRecord::Base
 			end
 			metric = row[0].downcase.split(" ").join("_")
 			Metric.new(
-				:entity_id => entity,
+				:entity_key => entity,
 				:entity_type => 'state',
 				:source => 'scarborough',
 				:metric => "#{metric}_pop",
@@ -28,7 +28,7 @@ class Metric < ActiveRecord::Base
 				:icon => 'icons/scarborough.png'
 			).save
 			Metric.new(
-				:entity_id => entity,
+				:entity_key => entity,
 				:entity_type => 'state',
 				:source => 'scarborough',
 				:metric => "#{metric}_percent",
@@ -81,7 +81,7 @@ class Metric < ActiveRecord::Base
 		sheet = book.worksheet 2
 		sheet.each do |row|
 			Metric.new(
-				:entity_id => row[0],
+				:entity_key => row[0],
 				:entity_type => 'asset',
 				:source => 'espn',
 				:metric => 'home_games',
@@ -89,7 +89,7 @@ class Metric < ActiveRecord::Base
 				:icon => '/metrics/espn.png'
 			).save
 			Metric.new(
-				:entity_id => row[0],
+				:entity_key => row[0],
 				:entity_type => 'asset',
 				:source => 'espn',
 				:metric => 'total_attendance',
@@ -97,7 +97,7 @@ class Metric < ActiveRecord::Base
 				:icon => '/metrics/espn.png'
 			).save
 			Metric.new(
-				:entity_id => row[0],
+				:entity_key => row[0],
 				:entity_type => 'asset',
 				:source => 'espn',
 				:metric => 'average_attendance',
@@ -105,7 +105,7 @@ class Metric < ActiveRecord::Base
 				:icon => '/metrics/espn.png'
 			).save
 			Metric.new(
-				:entity_id => row[0],
+				:entity_key => row[0],
 				:entity_type => 'asset',
 				:source => 'espn',
 				:metric => 'attendance_percentage',
@@ -128,7 +128,7 @@ class Metric < ActiveRecord::Base
 			headings.each do |h|
 				if h.include? "twitter"
 					Metric.new(
-						:entity_id => row[0],
+						:entity_key => row[0],
 						:entity_type => 'asset',
 						:source => 'twitter',
 						:metric => h,
@@ -137,7 +137,7 @@ class Metric < ActiveRecord::Base
 					).save
 				elsif h.include? "facebook"
 					Metric.new(
-						:entity_id => row[0],
+						:entity_key => row[0],
 						:entity_type => 'asset',
 						:source => 'facebook',
 						:metric => h,
@@ -146,7 +146,7 @@ class Metric < ActiveRecord::Base
 					).save
 				elsif h.include? "google"
 					Metric.new(
-						:entity_id => row[0],
+						:entity_key => row[0],
 						:entity_type => 'asset',
 						:source => 'google',
 						:metric => h,
@@ -155,7 +155,7 @@ class Metric < ActiveRecord::Base
 					).save
 				elsif h.include? "instagram"
 					Metric.new(
-						:entity_id => row[0],
+						:entity_key => row[0],
 						:entity_type => 'asset',
 						:source => 'instagram',
 						:metric => h,
@@ -164,7 +164,7 @@ class Metric < ActiveRecord::Base
 					).save
 				else
 					Metric.new(
-						:entity_id => row[0],
+						:entity_key => row[0],
 						:entity_type => 'asset',
 						:source => 'mvp_index',
 						:metric => h,
@@ -186,7 +186,7 @@ class Metric < ActiveRecord::Base
 			i = 1
 			headings.each do |h|
 				Metric.new(
-					:entity_id => row[0],
+					:entity_key => row[0],
 					:entity_type => 'asset',
 					:source => 'scarborough',
 					:metric => h,
@@ -207,7 +207,7 @@ class Metric < ActiveRecord::Base
 			i = 1
 			headings.each do |h|
 				Metric.new(
-					:entity_id => row[0],
+					:entity_key => row[0],
 					:entity_type => 'asset',
 					:source => 'team',
 					:metric => h,
@@ -245,8 +245,18 @@ class Metric < ActiveRecord::Base
 		Metric.load_attendance
 	end
 
+	def self.reload_env
+		Metric.import_all_data
+		ScoreEngine.cache_z_scores
+		ScoreEngine.cach_metric_rank
+		ScoreEngine.calculate_score(25)
+		ScoreEngine.calculate_score(39)
+		ScoreEngine.cache_portfolio_passion_score
+		ScoreEngine.cache_portfolio_performance_score
+
+	end
 	def self.add_active_to_data
-		metrics = Metric.where(:entity_id => 'denver_broncos')
+		metrics = Metric.where(:entity_key => 'denver_broncos')
 		metrics.each do |m|
 			Datum.new(
 				:source => m.source,
