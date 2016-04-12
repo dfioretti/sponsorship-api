@@ -7,5 +7,5 @@ class Helper
 	def self.dekeyify(key)
 		return key.split("_").join(" ").titleize
 	end
-	
+
 end

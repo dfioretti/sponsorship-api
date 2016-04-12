@@ -1,4 +1,6 @@
 class Api::V1::AssetsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @assets = Asset.where(:active => true).order("name ASC")
     render json: @assets

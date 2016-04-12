@@ -9,19 +9,14 @@ class ApplicationController < ActionController::Base
   # Load entire react js app.
 
   def app
-    render json: {load: true}
+    puts "@@!!!! #{logger.info} #{request.env}"
+    render json: {app_load: true}
     #@location_path = "/#{params[:path]}"
   end
 
   def index
-    render json: {load: true}
+    render json: {index_load: true}
 #    render :file => 'client/index.html'
-  end
-
-  def score_builder
-  end
-
-  def asset_select
   end
 
   protected
@@ -29,6 +24,10 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up).push(:name)
     devise_parameter_sanitizer.for(:account_update).push(:name, :image)
+  end
+
+  def user_not_authorized
+    render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 
 end
