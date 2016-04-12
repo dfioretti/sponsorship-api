@@ -4,33 +4,14 @@ Rails.application.routes.draw do
 
   namespace :api, :defaults => { :format => :json } do
     namespace :v1 do
-      namespace :ews do
-        resources :dashboards, only: [:show, :update]
-        get '/teneo_api' => 'teneo_api#get'
-      end
-
-      namespace :fifa do
-        resources :dashboards, only: [:show, :update]
-        get '/teneo_api' => 'teneo_api#get'
-      end
-
       resources :twitter, only: [:index]
-      namespace :apt do
-        namespace :asset do
-          resources :mock_data, only: [:index]
-          #resources :dashboards, only: [:show, :update]
-        end
-        # may not need this route below
-        get '/components/data/:id' => 'components#data'
-        # may not need ^
-        resources :dashboards, only: [:create, :show, :update, :index]
-        resources :data, only: [:index]
-        resources :cards, only: [:index, :new, :show, :update]
-        resources :components, only: [:show, :new, :update, :index, :create]
-        resources :scores, only: [:index, :new, :show, :update, :create]
-        resources :asset_sets, only: [:index, :new, :show, :update]
-      end
-
+      resources :mock_data, only: [:index]
+      get '/components/data/:id' => 'components#data'
+      resources :dashboards, only: [:create, :show, :update, :index]
+      resources :data, only: [:index]
+      resources :cards, only: [:index, :new, :show, :update]
+      resources :components, only: [:show, :new, :update, :index, :create]
+      resources :scores, only: [:index, :new, :show, :update, :create]
       resources :assets, only: [:index, :show]
       resources :notes, only: [:index, :create]
       resources :insights, only: [:index, :create]
@@ -39,7 +20,6 @@ Rails.application.routes.draw do
       get '/sign_upload' => 's3#sign_upload'
     end
   end
-  #get '/score_builder' => 'application#score_builder'
   root 'application#app'
   get '/*path' => 'application#app'
 end

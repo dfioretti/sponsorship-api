@@ -1,13 +1,11 @@
 class Api::V1::UsersController < ApplicationController
-  def show
-    puts "@@!!!! #{logger.info} #{request.env}"
+  before_action :authenticate_user!
 
+  def show
     render json: { user: current_user }
   end
 
   def index
-    puts "@@!!!! #{logger.info} #{request.env}"
-
     if current_user.has_permission( 'admin' )
       render json: { users: User.all }
     else
