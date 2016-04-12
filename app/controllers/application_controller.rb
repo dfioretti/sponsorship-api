@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   # Load entire react js app.
 
   def app
-    puts "@@!!!! #{logger.info} #{request.env}"
     render json: {app_load: true}
     #@location_path = "/#{params[:path]}"
   end
