@@ -25,8 +25,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update).push(:name, :image)
   end
 
-  def user_not_authorized
-    render json: { error: 'Unauthorized' }, status: :unauthorized
-  end
+  #def user_not_authorized
+  #  render json: { error: 'Unauthorized' }, status: :unauthorized
+  #end
 
 end
