@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
   # Load entire react js app.
 
   def app
-    render json: {load: true}
+    #render json: {load: true}
+    render :file => 'public/index.html'
     #@location_path = "/#{params[:path]}"
   end
 
