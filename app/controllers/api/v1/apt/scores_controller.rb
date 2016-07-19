@@ -20,7 +20,7 @@ class Api::V1::Apt::ScoresController < ApplicationController
       :icon => "/images/icons/native.png",
       :score_id => @score.id
       ).save
-      Resque.enqueue(CalculateScoreJob, @score.id)
+      ScoreWorker.perform_async(@score.id)
       render json: @score
     else
       render json: {errors: @score.errors.full_messages}, status: :bad_request
@@ -34,7 +34,7 @@ class Api::V1::Apt::ScoresController < ApplicationController
   def update
     @score  = Score.find(params[:id])
     if @score.update_attributes(score_params)
-      Resque.enqueue(CalculateScoreJob, @score.id)
+      ScoreWorker.perform_async(@score.id)
       render json: @score
     else
       render json: {errors: @score.errors.full_messages}, status: :bad_request

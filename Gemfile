@@ -19,7 +19,9 @@ gem 'apartment'
 # queue tasks
 gem 'resque', '~> 1.24.1'
 gem 'unicorn', '~> 4.6.2'
+gem 'sinatra', :require => false
 gem 'redis'
+gem 'apartment-sidekiq'
 
 # cross origin API
 gem 'rack-cors', :require => 'rack/cors'
