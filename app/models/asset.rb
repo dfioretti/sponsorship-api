@@ -1,5 +1,6 @@
 class Asset < ActiveRecord::Base
   has_many :metrics, :primary_key => 'entity_key', :foreign_key => 'entity_key'
+  has_many :historicals, :primary_key => 'entity_key', :foreign_key => 'entity_key'
   def self.move_images
     Asset.all.each do |a|
       a.image = "/images/properties/#{a.id}.jpg"

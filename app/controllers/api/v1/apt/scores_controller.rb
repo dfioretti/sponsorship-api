@@ -15,10 +15,11 @@ class Api::V1::Apt::ScoresController < ApplicationController
     if @score.save
       Datum.new(
       :source => "native",
-      :point => @score.name,
+      :point => @score.name.split(' ').join('_').downcase,
       :kind => "derived",
       :icon => "/images/icons/native.png",
-      :score_id => @score.id
+      :score_id => @score.id,
+      :active => true
       ).save
       ScoreWorker.perform_async(@score.id)
       render json: @score

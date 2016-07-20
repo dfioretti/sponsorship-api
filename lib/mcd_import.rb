@@ -1,5 +1,179 @@
 class McdImport
 
+  def self.generate(start, entity, metric, values)
+    h = Historical.new
+    h.entity_key = entity
+    h.metric = metric
+    h.data = Hash.new
+    values.each do |v|
+      h.data[start] = v
+      start += 1
+    end
+    h.save
+  end
+
+  def self.load_historical_nhl_nfl
+    att = [497561	,497166	,498633	,498864	,493449	,496287	]
+    fci = [523.2,	557.18	,608.64	,577.42	,596.76	,601.2]	
+    tp = [93.55	,101.55	,110.91	,103.6	,108.44	,108.44	]
+    pay = [120065819	,101032032	,126358124	,125949632	,113902499	,110914091	]
+    win = [0.688	,0.5	,0.625	,0.5	,0.313	,0.375	]
+    val = [1067000000	,1093000000	,1190000000	,1252000000	,1700000000	,2450000000	]
+    rev = [254000000	,266000000	,286000000	,298000000	,309000000	,352000000	]
+    inc = [37300000	,43400000	,27000000	,63200000	,57100000	,85700000		]
+    McdImport.generate(2010, 'chicago_bears', 'attendance', att)
+    McdImport.generate(2010, 'chicago_bears', 'fci', fci)
+    McdImport.generate(2010, 'chicago_bears', 'ticket_price', tp)
+    McdImport.generate(2010, 'chicago_bears', 'payroll', pay)
+    McdImport.generate(2010, 'chicago_bears', 'winning', win)
+    McdImport.generate(2010, 'chicago_bears', 'value', val)
+    McdImport.generate(2010, 'chicago_bears', 'revenue', rev)
+    McdImport.generate(2010, 'chicago_bears', 'income', inc)
+    att = [854267	,878356	,882874	,522619	,927545	,892532	]
+    fci = [312.38	,319.21	,350.58	,367.38	,396.03	,437.8	,463.2]
+    tp = [46.78209459,	55.39	,55.72	,62.88	,72.95	,78.8]	
+    pay = [62502857	,69490000	,69282500	,60425000	,73122500	,80850000	]
+    win = [0.634146341	,0.536585366	,0.548780488	,0.75	,0.56097561	,0.585365854	]
+    val = [258000000	,300000000	,306000000	,350000000	,625000000	,925000000	]
+    rev = [108000000,	120000000	,118000000	,125000000	,115000000	,182000000	]
+    inc = [20900000	,17600000	,8700000	,20500000	,25600000	,44800000]
+    McdImport.generate(2009, 'chicago_blackhawks', 'attendance', att)
+    McdImport.generate(2009, 'chicago_blackhawks', 'fci', fci)
+    McdImport.generate(2010, 'chicago_blackhawks', 'ticket_price', tp)
+    McdImport.generate(2010, 'chicago_blackhawks', 'payroll', pay)
+    McdImport.generate(2009, 'chicago_blackhawks', 'winning', win)
+    McdImport.generate(2010, 'chicago_blackhawks', 'value', val)
+    McdImport.generate(2010, 'chicago_blackhawks', 'revenue', rev)
+    McdImport.generate(2010, 'chicago_blackhawks', 'income', inc)
+
+  end
+  def self.load_historicals_teams
+    att = [3062973, 3017966, 2882756, 2642682, 2652113, 2959812]
+    fci = [329.74	,305.6	,300.29	,298.2	,304.64	,300.73	]
+    tp = [52.56	,46.9	,46.3	,44.55	,44.16	,44.81	]
+    pay = [146609000	,125047329	,88197033	,104150726	,89007857	,119006885	]
+    win = [0.463	,0.438	,0.377	,0.407	,0.451	,0.599	]
+    val = [726000000	,773000000	,879000000	,1000000000	,1200000000	,1800000000	]
+    rev = [246000000	,25000000	,266000000	,274000000	,266000000	,302000000	]
+    inc = [25500000	,23400000	,28100000	,32100000	,27300000	,73300000]
+
+    McdImport.generate(2010, 'chicago_cubs', 'attendance', att)
+    McdImport.generate(2010, 'chicago_cubs', 'fci', fci)
+    McdImport.generate(2010, 'chicago_cubs', 'ticket_price', tp)
+    McdImport.generate(2010, 'chicago_cubs', 'payroll', pay)
+    McdImport.generate(2010, 'chicago_cubs', 'winning', win)
+    McdImport.generate(2010, 'chicago_cubs', 'value', val)
+    McdImport.generate(2010, 'chicago_cubs', 'revenue', rev)
+    McdImport.generate(2010, 'chicago_cubs', 'income', inc)
+    att = [2194378	,2001117	,1965955	,1768413	,1650821	,1755810	]
+    fci = [249.6,	258.68	,222.98	,210.18	,210.18	,208.18	]
+    tp = [38.65	,40.67	,29	,26.05	,26.05	,26.05	]
+    pay = [105530000	,127789000	,96919500	,124065277	,91159254	,115238678	]
+    win = [0.543	,0.488	,0.525	,0.389	,0.451	,0.469	]
+    val = [466000000	,526000000	,600000000	,692000000	,695000000	,975000000	]
+    rev = [194000000,	210000000	,214000000	,216000000	,210000000	,227000000	]
+    inc = [26400000	,27600000	,10700000	,22900000	,27000000	,31900000]
+    McdImport.generate(2010, 'chicago_white_sox', 'attendance', att)
+    McdImport.generate(2010, 'chicago_white_sox', 'fci', fci)
+    McdImport.generate(2010, 'chicago_white_sox', 'ticket_price', tp)
+    McdImport.generate(2010, 'chicago_white_sox', 'payroll', pay)
+    McdImport.generate(2010, 'chicago_white_sox', 'winning', win)
+    McdImport.generate(2010, 'chicago_white_sox', 'value', val)
+    McdImport.generate(2010, 'chicago_white_sox', 'revenue', rev)
+    McdImport.generate(2010, 'chicago_white_sox', 'income', inc)
+
+  end
+  def self.load_historicals_bears
+    h = Historical.new
+    h.entity_key = 'chicago_bears'
+    h.metric = 'attendance'
+    h.data = Hash.new
+    h.data[2010] = 497561
+    h.data[2011] = 497166
+    h.data[2012] = 498633
+    h.data[2013] = 498864
+    h.data[2014] = 493449
+    h.data[2015] = 496287
+    h.save
+
+    h = h.dup
+    h.metric = 'fci'
+    h.data = Hash.new
+    h.data[2010] = 523.2
+    h.data[2011] = 557.18
+    h.data[2012] = 608.64
+    h.data[2013] = 577.42
+    h.data[2014] = 596.42
+    h.data[2015] = 601.2
+    h.save
+
+    h = h.dup
+    h.metric = "ticket_price"
+    h.data = Hash.new
+    h.data[2010] = 93.55
+    h.data[2011] = 101.55
+    h.data[2012] = 110.91
+    h.data[2013] = 103.6
+    h.data[2014] = 108.44
+    h.data[2015] = 108.44
+    h.save
+
+    h = h.dup
+    h.metric = 'payroll'
+    h.data = Hash.new
+    h.data[2010] = 120065819
+    h.data[2011] = 101032032
+    h.data[2012] = 126358124
+    h.data[2013] = 125949632
+    h.data[2014] = 113902499
+    h.data[2015] = 110914091
+    h.save
+
+    h = h.dup
+    h.metric = 'winning'
+    h.data = Hash.new
+    h.data[2010] = 0.688
+    h.data[2011] = 0.5
+    h.data[2012] = 0.625
+    h.data[2013] = 0.5
+    h.data[2014] = 0.313
+    h.data[2015] = 0.375
+    h.save
+
+    h = h.dup
+    h.metric = 'value'
+    h.data = Hash.new
+    h.data[2010] = 1067000000
+    h.data[2011] = 1093000000
+    h.data[2012] = 1190000000
+    h.data[2013] = 1252000000
+    h.data[2014] = 1700000000
+    h.data[2015] = 2450000000
+    h.save
+
+    h = h.dup
+    h.metric = 'revenue'
+    h.data = Hash.new
+    h.data[2010] = 254000000
+    h.data[2011] = 266000000
+    h.data[2012] = 286000000
+    h.data[2013] = 298000000
+    h.data[2014] = 309000000
+    h.data[2015] = 352000000
+    h.save
+
+    h = h.dup
+    h.metric = 'income'
+    h.data = Hash.new
+    h.data[2010] = 37300000
+    h.data[2011] = 43400000
+    h.data[2012] = 27000000
+    h.data[2013] = 63200000
+    h.data[2014] = 57100000
+    h.data[2015] = 85700000
+    h.save
+
+  end
 
   def self.port_metrics(metrics)
     metrics.each do |m|

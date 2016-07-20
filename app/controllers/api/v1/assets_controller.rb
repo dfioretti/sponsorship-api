@@ -6,6 +6,6 @@ class Api::V1::AssetsController < ApplicationController
 
   def show
     @asset = Asset.find(params[:id])
-    render json: @asset, :include => :metrics
+    render json: @asset, :include => [ :metrics, :historicals ]
   end
 end
