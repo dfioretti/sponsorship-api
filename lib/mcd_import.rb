@@ -12,6 +12,26 @@ class McdImport
     h.save
   end
 
+  def self.load_bulls
+    att = [849760	,893462	,731326	,890370	,875091	,632146	]
+    fci = [389	,365	,393.98	,426.6	,456.6	,477.32	]
+    tp = [64.25	,64.25	,68.37	,71.9	,77.65	,82.33 ]
+    pay = [69219401,	53658187	,68904547	,74258006	,71043080	,66881435]
+    win = [0.5,	0.756,	0.758	,0.549	,0.585	,0.61]
+    val = [511000000	,600000000	,800000000	,1000000000	,2000000000	,2300000000]
+    rev = [169000000	,185000000	,162000000	,195000000	,201000000	,228000000]
+    inc = [51300000	,59400000	,34200000	,52200000	,65300000	,67600000]
+    McdImport.generate(2010, 'chicago_bulls', 'attendance', att)
+    McdImport.generate(2009, 'chicago_bulls', 'fci', fci)
+    McdImport.generate(2009, 'chicago_bulls', 'ticket_price', tp)
+    McdImport.generate(2010, 'chicago_bulls', 'payroll', pay)
+    McdImport.generate(2009, 'chicago_bulls', 'winning', win)
+    McdImport.generate(2010, 'chicago_bulls', 'value', val)
+    McdImport.generate(2010, 'chicago_bulls', 'revenue', rev)
+    McdImport.generate(2010, 'chicago_bulls', 'income', inc)
+
+  end
+
   def self.load_historical_nhl_nfl
     att = [497561	,497166	,498633	,498864	,493449	,496287	]
     fci = [523.2,	557.18	,608.64	,577.42	,596.76	,601.2]	
