@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160720020806) do
+ActiveRecord::Schema.define(version: 20160720184104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,11 +92,13 @@ ActiveRecord::Schema.define(version: 20160720020806) do
     t.string   "interval"
     t.integer  "asset_set_id"
     t.json     "data"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.json     "model"
     t.json     "state"
     t.boolean  "active",       default: true
+    t.string   "icon",         default: "metric"
+    t.string   "label",        default: "metric"
   end
 
   create_table "dashboards", force: :cascade do |t|

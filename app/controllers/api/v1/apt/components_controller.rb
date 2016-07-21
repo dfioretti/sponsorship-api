@@ -73,7 +73,7 @@ class Api::V1::Apt::ComponentsController < ApplicationController
 
   private
   def component_params
-    params.require(:component).permit(:name, :view, :interval).tap do |whitelisted|
+    params.require(:component).permit(:name, :view, :interval, :icon, :label).tap do |whitelisted|
       whitelisted[:model] = params[:component][:model]
     end
   end

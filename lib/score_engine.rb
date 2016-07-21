@@ -24,6 +24,15 @@
 #
 class ScoreEngine
 	attr_accessor :score, :nodes, :tree
+    
+    def self.recalculate_scores_for_tenant(tenant)
+      Apartment::Tenant.switch! tenant
+      Score.order(id: :asc).each do |score|
+        if score.id != 22
+          ScoreEngine.calculate_score(score.id)
+        end
+      end
+    end
 
 	# Constructor, initialize score model data.
 	#
@@ -331,7 +340,7 @@ class ScoreEngine
 	# Cache the rank for all of the current metrics
 	#
 	# @return [nil]
-	def self.cach_metric_rank
+	def self.cache_metric_rank
 		Metric.pluck(:metric).uniq.each do |m|
 			values = Metric.where(:metric => m).pluck(:norm_value)
 			Metric.where(:metric => m).each do |mm|

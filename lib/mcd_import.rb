@@ -12,6 +12,39 @@ class McdImport
     h.save
   end
 
+  def self.load_more(start)
+    book = Spreadsheet.open Rails.root.join('import', 'trend.xls')
+    sheet = book.worksheet 0
+    fire = {}
+
+    x = 1
+    while x < 61
+      fire[sheet[0, x]] = sheet[start, x]
+      x += 1
+    end
+
+    keys = fire.keys
+    values = fire.values
+
+    clean = Hash.new
+
+    (0..keys.length - 1).each do |i|
+      puts "wtf #{i} #{keys} #{values}"
+      toks = keys[i].strip.split('_')
+      toks.delete_at(0)
+      key = toks.join("_")
+      if clean.has_key?(key)
+        clean[key].push(values[i])
+      else
+        clean[key] = []
+        clean[key].push(values[i])
+      end
+    end
+    puts clean
+    return clean
+
+  end
+
   def self.load_bulls
     att = [849760	,893462	,731326	,890370	,875091	,632146	]
     fci = [389	,365	,393.98	,426.6	,456.6	,477.32	]
