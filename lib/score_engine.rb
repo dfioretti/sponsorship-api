@@ -69,6 +69,13 @@ class ScoreEngine
 				:icon => '/metrics/score.png'
 			).save
 		end
+        # hacky - queue up the aggregate score after any other score changes
+        if score_id != 22
+          ScoreEngine.calculate_score(22)
+        end
+        Pusher.trigger('score_engine', 'score_updated_event', {
+           message: "#{score.name} updated!"
+        })
 	end
 
 	# Extract relevant data from model to build
@@ -263,6 +270,7 @@ class ScoreEngine
 				if quotient == 0
 					quotient = entity_hash[child['id']]
 				else
+                    puts "???: #{quotient} #{entity_hash[child['id']]}"
 					quotient = ( quotient / entity_hash[child['id']] )
 				end
 			end

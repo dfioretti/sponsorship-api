@@ -27,6 +27,7 @@ gem 'apartment-sidekiq'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'newrelic_rpm'
 gem 'rollbar', '~> 2.8.3'
+gem 'pusher'
 
 group :development, :test do
   gem 'byebug'
