@@ -2,7 +2,7 @@ class Api::V1::Apt::ScoresController < ApplicationController
 
   def index
     @scores = Score.all
-    render json: @scores
+    render json: @scores, :include => [ :data ]
   end
 
   def show
@@ -36,6 +36,12 @@ class Api::V1::Apt::ScoresController < ApplicationController
     @score  = Score.find(params[:id])
     if @score.update_attributes(score_params)
       ScoreWorker.perform_async(@score.id)
+      Datum.where('score_id = ? AND kind != ?', @score.id, 'derived').update_all(score_id: nil)
+      @score.score['nodeDataArray'].each do |node|
+        if node['mode'] == 'value'
+          Datum.where('point = ?', node['dataname']).update_all(score_id: @score.id)
+        end
+      end
       render json: @score
     else
       render json: {errors: @score.errors.full_messages}, status: :bad_request

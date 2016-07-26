@@ -1,4 +1,5 @@
 class Score < ActiveRecord::Base
+  has_many :data, :primary_key => 'id', :foreign_key => 'score_id'
 
   def self.setup_scores
     Score.delete_all
