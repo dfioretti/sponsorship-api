@@ -66,6 +66,8 @@ class ScoreEngine
 				:icon => '/metrics/score.png'
 			).save
 		end
+        ScoreEngine.cache_z_scores
+        ScoreEngine.cache_metric_rank
 	end
 
 	# Extract relevant data from model to build
