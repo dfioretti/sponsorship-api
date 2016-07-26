@@ -45,6 +45,24 @@ class McdImport
 
   end
 
+  def self.create_wal
+    # 2015 from http://www.chicagobusiness.com/article/20151214/BLOGS04/151219936/chicago-sports-fan-bases-in-2015
+    # and coke fand base for others
+    entities = ['chicago_cubs', 'chicago_bears', 'chicago_bulls', 'chicago_white_sox', 'chicago_blackhawks', 'chicago_fire', 'chicago_sky', 'illinois_ncaaf', 'illinois_ncaab', 'northwestern_ncaaf', 'northwestern_ncaab']
+    wal = [0.44, 0.58, 0.45, 0.37, 0.49, 0.073, 0.03, 0.114, 0.107, 0.096, 0.072]
+    
+    (0..11).each do |i|
+      Metric.new(
+        :entity_key => entities[i],
+        :entity_type => 'asset',
+        :source => 'scarborough',
+        :metric => 'wal_percent',
+        :value => wal[i],
+        :icon => '/metrics/scarborough.png'
+      ).save
+    end
+
+  end
   def self.load_bulls
     att = [849760	,893462	,731326	,890370	,875091	,632146	]
     fci = [389	,365	,393.98	,426.6	,456.6	,477.32	]
