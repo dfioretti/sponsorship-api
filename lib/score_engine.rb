@@ -49,10 +49,13 @@ class ScoreEngine
 	#
 	# @param [Score] score: the score model
 	def self.calculate_score( score_id )
+        ScoreEngine.cache_z_scores
+        ScoreEngine.cache_metric_rank
 		score = Score.find( score_id )
 		engine = ScoreEngine.new( score_id )
 		scores = engine.calculate_scores
 		metric_name = score.name.split(" ").join("_").downcase
+ 
 		scores.keys.each do |key|
 			metric = Metric.where(:entity_key => key, :metric => metric_name).first
 			if not metric.nil?
@@ -66,8 +69,6 @@ class ScoreEngine
 				:icon => '/metrics/score.png'
 			).save
 		end
-        ScoreEngine.cache_z_scores
-        ScoreEngine.cache_metric_rank
 	end
 
 	# Extract relevant data from model to build
@@ -124,7 +125,7 @@ class ScoreEngine
 			if entity_hash.nil?
 				entity_hash = Hash.new
 			end
-			puts "!!!: #{node}, #{metric} #{a.name}"
+			puts "!!!: #{node}, #{metric.inspect} #{a.name}"
 			entity_hash[node['id']] = node['weight'] * metric.norm_value
 			normalized[a.entity_key] = entity_hash
 		end
