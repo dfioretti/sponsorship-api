@@ -71,6 +71,8 @@ class ScoreEngine
     end
     # hacky - queue up the aggregate score after any other score changes
     if score_id != 22
+      ScoreEngine.cache_z_scores(score)
+      ScoreEngine.cache_metric_rank(score)
       ScoreWorker.perform_async(22)
     end
     Pusher.trigger('score_engine', 'score_updated_event', {
@@ -344,6 +346,7 @@ class ScoreEngine
       metrics = ScoreEngine.metrics_for_score(score)
     end
     metrics.each do |m|
+      puts "!!! #{m}"
       values = Metric.where(:metric => m).pluck(:value)
       mean = values.sum / values.size.to_f
       stdev = ScoreEngine.standard_deviation(mean, values)
@@ -361,6 +364,7 @@ class ScoreEngine
         metrics.push(n['dataname'])
       end
     end
+    metrics.push(score[:name].downcase.split(" ").join("_"))
     return metrics
   end
 
