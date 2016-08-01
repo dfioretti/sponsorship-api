@@ -370,7 +370,7 @@ class ScoreEngine
   def self.cache_metric_rank( score = nil )
     metrics = []
     if score.nil?
-      metrics = Metric.pluc(:metric).uniq
+      metrics = Metric.pluck(:metric).uniq
     else
       metrics = ScoreEngine.metrics_for_score(score)
     end
